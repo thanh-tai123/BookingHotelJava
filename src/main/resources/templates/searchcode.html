@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Nhập BookCode</title>
+</head>
+<body>
+    <h1>Nhập BookCode</h1>
+    <form action="#" th:action="@{/search/book}" method="post">
+        <label for="bookCode">BookCode:</label>
+        <input type="text" id="bookCode" name="bookCode" required />
+        <button type="submit">Tìm kiếm</button>
+    </form>
+</body>
+</html>

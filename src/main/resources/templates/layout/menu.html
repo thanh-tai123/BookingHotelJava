@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu Dọc</title>
+    <style>
+      body {
+    display: flex;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.menu-item {
+    width: 100%;
+}
+
+.menu-link {
+    display: block;
+    padding: 10px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+    cursor: pointer;
+}
+
+.submenu {
+    display: none; /* Ban đầu ẩn menu con */
+    padding-left: 20px;
+    font-size: 0.9em;
+}
+
+.submenu a {
+    display: block;
+    padding: 5px;
+    text-decoration: none;
+    color: #666;
+}
+
+.language-switch a {
+    margin: 5px;
+    text-decoration: none;
+    color: #333;
+    font-size: 0.9em;
+}
+
+.menu-link:hover,
+.submenu a:hover {
+    color: #007bff;
+}
+
+      
+    </style>
+</head>
+<body>
+    <!-- Navbar dạng menu dọc với menu con trượt -->
+    <nav class="sidebar" th:fragment="navbar">
+        <div class="menu-item">
+            <a href="#" class="menu-link" onclick="toggleSubmenu('home-submenu')">Home</a>
+            <div id="home-submenu" class="submenu">
+                <a th:href="@{/product/home}">Trang Chủ</a>
+                <a th:href="@{/product/news}">Tin tức</a>
+                <a th:href="@{/admin/confirmroom}">Xác nhận phòng</a>
+            </div>
+        </div>
+
+        <div class="menu-item">
+            <a href="#" class="menu-link" onclick="toggleSubmenu('about-submenu')">About Us</a>
+            <div id="about-submenu" class="submenu">
+                <a th:href="@{/product/about}">Về chúng tôi</a>
+                <a th:href="@{/product/team}">Đội ngũ</a>
+            </div>
+        </div>
+
+        <div class="menu-item">
+            <a href="#" class="menu-link" onclick="toggleSubmenu('contact-submenu')">Contact Us</a>
+            <div id="contact-submenu" class="submenu">
+                <a th:href="@{/validation/form}">Liên hệ</a>
+                <a th:href="@{/validation/support}">Hỗ trợ</a>
+            </div>
+        </div>
+
+        <hr>
+        <div class="language-switch">
+            <a href="?lang=vi">TV</a>
+            <a href="?lang=en">EN</a>
+            <a href="?lang=ja">TN</a>
+        </div>
+    </nav>
+
+    <script>
+        function toggleSubmenu(id) {
+            // Đóng tất cả các menu con
+            var submenus = document.querySelectorAll('.submenu');
+            submenus.forEach(function(submenu) {
+                if (submenu.id !== id) {
+                    submenu.style.display = 'none';
+                }
+            });
+
+            // Mở menu con được chọn
+            var selectedSubmenu = document.getElementById(id);
+            selectedSubmenu.style.display = 
+                selectedSubmenu.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
+</body>
+</html>

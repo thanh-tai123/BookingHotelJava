@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+       * {
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #2E3A45;
+    color: #FFF;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.submenu {
+    list-style-type: none;
+    padding-left: 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.submenu li {
+    padding: 5px 0;
+    font-size: 14px;
+}
+
+.main-content {
+    margin-left: 250px; /* Đẩy nội dung chính sang bên phải */
+    padding: 20px;
+    width: calc(100% - 250px); /* Chiếm phần còn lại của màn hình */
+    height: 100vh;
+    overflow-y: auto;
+}
+    a{
+        text-decoration: none;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <ul class="menu">
+                <li>
+                    <div class="menu-item" onclick="toggleSubMenu('submenu1')">
+                        <span>Dashboard</span>
+                        <span class="icon">&#x25BC;</span>
+                    </div>
+                    <ul id="submenu1" class="submenu">
+                        <li><a th:href="@{/admin}" onclick="loadContent('/admin')">Overview</a></li>
+                        <li><a href="#analytics">Analytics</a></li>
+                        <li><a href="#reports">Reports</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="menu-item" onclick="toggleSubMenu('submenu2')">
+                        <span>Users</span>
+                        <span class="icon">&#x25BC;</span>
+                    </div>
+                    <ul id="submenu2" class="submenu">
+                        <li>All Users</li>
+                        <li>Add New</li>
+                        <li>Settings</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="main-content">
+          Hi main
+        </div>
+    </div>
+    
+    <script>
+
+function toggleSubMenu(id) {
+    const submenu = document.getElementById(id);
+    if (submenu.style.maxHeight) {
+        submenu.style.maxHeight = null;
+    } else {
+        submenu.style.maxHeight = submenu.scrollHeight + "px";
+    }
+}
+
+function loadContent(url) {
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
+            document.querySelector('.main-content').innerHTML = data;
+        })
+        .catch(error => console.error('Error loading content:', error));
+}
+
+    </script>
+</body>
+</html>

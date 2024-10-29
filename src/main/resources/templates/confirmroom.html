@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+     <link rel="stylesheet" href="../static/CSS/common.css" />
+     <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
+    <style>
+       /*  body {
+            font-family: 'Arial', sans-serif;
+        }
+        .card {
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            margin: 20px auto;
+            
+        }
+        .card img {
+            width: 100%;
+            height: auto;
+        }
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-top: 15px;
+            text-align: center;
+        }
+        .card-text {
+            font-size: 1rem;
+            text-align: center;
+            margin: 10px 0;
+        }
+        .card-icons {
+            text-align: center;
+            margin: 10px 0;
+        }
+        .card-icons i {
+            margin: 0 5px;
+        }
+        .btn-custom {
+            background-color: #b59d5b;
+            color: white;
+            border: none;
+            width: 100%;
+            margin: 5px 0;
+            padding: 10px;
+            font-size: 1rem;
+        }
+        .btn-custom:hover {
+            background-color: #a48c4a;
+        }
+ */
+    </style>
+</head>
+<body>
+
+<div th:replace="/access/navadmin :: html"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4" th:each="r : ${rooms}">
+                <div class="card">
+                    <a th:href="@{/admin/{id}(id=${r.id})}">
+                        <img th:src="${r.img}" alt="Luxury hotel room with a large bed, modern decor, and a spacious layout" />
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${r.kieuphong}"></h5>
+                        <h5 class="card-title" th:text="${r.hotel.chinhanh}"></h5>
+                        <p class="card-text" th:text="${r.mota}"></p>
+                        <p class="card-text">
+                            2 khách | 45m2
+                        </p>
+                        <div class="card-icons">
+                            <i class="fas fa-bed"></i>
+                            <i class="fas fa-wifi"></i>
+                            <i class="fas fa-tv"></i>
+                            <i class="fas fa-utensils"></i>
+                            <i class="fas fa-coffee"></i>
+                            <i class="fas fa-bath"></i>
+                        </div>
+                         <a th:href="@{/admin/{id}(id=${r.id})}">
+                        <button class="btn btn-custom">XEM CHI TIẾT</button>
+                        </a>
+                      <!--   <a th:href="'/room/room-details/' + ${room.id}">
+                         <button class="btn btn-custom" >ĐẶT CHỖ</button>
+                         </a> -->
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="/access/footer :: body"></div>
+</body>
+</html>
+
+
+<!--   <table border="1">
+        <tr>
+            <th>Image</th>
+            <th>Description</th>
+            <th>Branch</th>
+        </tr>
+        <tr th:each="r : ${rooms}">
+            <td><a th:href="@{/room/{id}(id=${r.id})}"><img th:src="${r.img}" alt="Room Image" style="width:100px;height:100px;"/></a></td>
+            <td th:text="${r.mota}"></td>
+            <td th:text="${r.hotel.chinhanh}"></td>
+        </tr>
+    </table> -->

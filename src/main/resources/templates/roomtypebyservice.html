@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book</title>
+    <!-- Include AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <!-- Include the AngularJS controller script -->
+    
+</head>
+<body>
+  
+
+<div th:replace="/access/navadmin :: html"></div>
+<div ng-controller="RoomTypeController">
+    <h2>Assign Services to Room Type</h2>
+
+    <!-- Combo box chọn RoomType -->
+    <label for="roomType">Select Room Type:</label>
+    <select id="roomType" ng-model="selectedRoomType" ng-options="roomType.name for roomType in roomTypes">
+        <option value="">-- Select Room Type --</option>
+    </select>
+
+    <!-- Checkbox chọn Services -->
+    <h3>Select Services:</h3>
+    <div ng-repeat="service in services">
+        <input type="checkbox" ng-model="service.selected" ng-change="toggleServiceSelection(service)">
+        {{ service.name }}
+    </div>
+
+    <button ng-click="assignServices()">Assign Services</button>
+</div>
+<script >
+var app = angular.module('app', []);
+
+app.service('RoomTypeService', function($http) {
+    // Lấy tất cả RoomTypes
+    this.getRoomTypes = function() {
+        return $http.get('http://localhost:8081/api/roomtype');
+    };
+
+    // Lấy tất cả Services
+    this.getServices = function() {
+        return $http.get('http://localhost:8081/api/services');
+    };
+
+    // Cập nhật dịch vụ cho một RoomType
+    this.assignServices = function(roomTypeId, serviceIds) {
+        return $http.post('http://localhost:8081/api/' + roomTypeId + '/services', serviceIds);
+    };
+});
+app.controller('RoomTypeController', function($scope, RoomTypeService) {
+    $scope.roomTypes = [];
+    $scope.services = [];
+    $scope.selectedRoomType = null;
+    $scope.selectedServices = [];
+
+    // Load RoomTypes
+    RoomTypeService.getRoomTypes().then(function(response) {
+        $scope.roomTypes = response.data;
+    });
+
+    // Load Services
+    RoomTypeService.getServices().then(function(response) {
+        $scope.services = response.data;
+    });
+
+    // Cập nhật dịch vụ cho RoomType
+ // Cập nhật dịch vụ cho RoomType
+    $scope.assignServices = function() {
+        // Lấy các serviceId được chọn
+        $scope.selectedServices = $scope.services.filter(service => service.selected); // Lọc các dịch vụ được chọn
+        let serviceIds = $scope.selectedServices.map(service => service.id); // Lấy mảng ID dịch vụ
+
+        console.log('Selected Room Type ID:', $scope.selectedRoomType.id);
+        console.log('Service IDs:', serviceIds); // In ra các serviceId
+
+        // Kiểm tra xem serviceIds có giá trị không
+        if (serviceIds.length === 0) {
+            alert("Please select at least one service."); // Thông báo nếu không có dịch vụ nào được chọn
+            return; // Dừng lại nếu không có dịch vụ nào
+        }
+
+        // Gọi hàm để gán dịch vụ
+        RoomTypeService.assignServices($scope.selectedRoomType.id, serviceIds).then(function(response) {
+            alert("Services assigned successfully!");
+        }, function(error) {
+            alert("Failed to assign services! " + error.data.error);
+        });
+    };
+
+
+});
+
+</script>
+</body>
+</html>

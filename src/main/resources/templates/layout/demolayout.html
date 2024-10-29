@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+th:fragment="dynamic(view)">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+</head>
+<body>
+<!--  <a th:href="@{/home}" >Home</a><br>
+	<img th:src="@{/img/logo-small.png}">
+ -->
+	<!-- <nav th:replace="~{/layout/menu.html}"></nav> -->
+	<nav th:insert="~{/layout/menu.html :: html}"></nav>
+	<!-- <span th:utext="${mess}"></span>
+	  <ul th:object="${sv}">
+        <li th:text="*{name}"></li>
+        <li th:text="*{marks}"></li>
+        <li th:text="*{contact.email}"></li>
+    </ul> -->
+    <main th:replace="${view}"></main>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Books</title>
+</head>
+<body>
+    <h1>User Books</h1>
+
+    <div th:each="book : ${books}">
+        <h2>Book Code: <span th:text="${book.bookCode}"></span></h2>
+        <p><strong>Created On:</strong> <span th:text="${#dates.format(book.createDate, 'yyyy-MM-dd HH:mm')}"></span></p>
+        
+        <h3>Book Details</h3>
+        <div th:each="detail : ${book.bookDetails}">
+            <p><strong>Room ID:</strong> <span th:text="${detail.roomid}"></span></p>
+            <p><strong>Total:</strong> <span th:text="${detail.total}"></span></p>
+            <p><strong>Check-in:</strong> <span th:text="${#dates.format(detail.checkin, 'yyyy-MM-dd')}"></span></p>
+            <p><strong>Check-out:</strong> <span th:text="${#dates.format(detail.checkout, 'yyyy-MM-dd')}"></span></p>
+            <p><strong>Adults:</strong> <span th:text="${detail.adult}"></span></p>
+            <p><strong>Children:</strong> <span th:text="${detail.children}"></span></p>
+            <p><strong>Payment Method:</strong> <span th:text="${detail.paymentMethod}"></span></p>
+            <p><strong>Payment Status:</strong> <span th:text="${detail.paymentStatus}"></span></p>
+            <hr>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking Details</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
+</head>
+<body ng-controller="BookingDetailsController">
+
+<div>
+    <h1>Booking Details</h1>
+    <p><strong>User:</strong> {{ userName }} ({{ userEmail }})</p>
+    <h2>Room Details</h2>
+    <div ng-repeat="room in roomDetails">
+        <p><strong>Room ID:</strong> {{ room.roomId }}</p>
+        <p><strong>Price:</strong> {{ room.price }}</p>
+        <p><strong>Check-in:</strong> {{ room.checkin | date:'yyyy-MM-dd' }}</p>
+        <p><strong>Check-out:</strong> {{ room.checkout | date:'yyyy-MM-dd' }}</p>
+        <p><strong>Total:</strong> {{ room.total }}</p>
+        <p><strong>Adults:</strong> {{ room.adult }}</p>
+        <p><strong>Children:</strong> {{ room.children }}</p>
+        <p><strong>Payment Method:</strong> {{ room.paymentMethod }}</p>
+        <p><strong>Payment Status:</strong> {{ room.paymentStatus }}</p>
+        <hr>
+    </div>
+</div>
+
+<script>
+// Initialize AngularJS app
+var app = angular.module('app', ['ngRoute']);
+
+// Configure routes
+app.config(function($routeProvider) {
+    $routeProvider
+        .when('/search/bookdetail', {
+            templateUrl: 'bookdetail.html',
+            controller: 'BookingDetailsController'
+        })
+        .otherwise({
+            redirectTo: '/' // Default route if needed
+        });
+});
+
+// Controller for Booking Details
+app.controller('BookingDetailsController', function($scope, $location) {
+    // Retrieve booking data from URL
+    const bookingData = $location.search().bookingData;
+
+    if (bookingData) {
+        // Decode and parse the JSON string
+        $scope.bookingData = JSON.parse(decodeURIComponent(bookingData));
+        $scope.userName = $scope.bookingData.userName;  // Get user name
+        $scope.userEmail = $scope.bookingData.userEmail; // Get user email
+        $scope.roomDetails = $scope.bookingData.roomDetails; // Get room details
+    } else {
+        console.log("No booking data found.");
+    }
+});
+</script>
+
+</body>
+</html>

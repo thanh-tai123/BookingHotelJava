@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book</title>
+    <!-- Include AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <!-- Include the AngularJS controller script -->
+    <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
+</head>
+
+<body >
+
+<div th:replace="/access/navadmin :: html"></div>
+<div ng-controller="RoomController">
+    <h1>{{ isEditing ? 'Edit Room' : 'Add Room' }}</h1>
+   <form ng-submit="isEditing ? saveUpdatedRoom() : addRoom()">
+   
+        <input value="{{user.id}}" ng-model="room.staffid" type="hidden">
+        Name: <input value="{{user.name}}" disabled>
+        
+        <label>Hotel Branch:</label>
+        <select ng-model="selectedHotel" ng-options="hotel.chinhanh for hotel in hotels" ng-change="updateHotelDetails()">
+            <option value="">Select a branch</option>
+        </select>
+        
+        <label>Address:</label>
+        <input type="text" ng-model="room.hotel.diachi" disabled />
+        <input ng-model="room.hotelId" type="hidden" />
+
+        <label>Image:</label>
+        <input type="file" file-model="room.img" ng-required="!isEditing" />
+
+        <label>Room Number:</label>
+        <input type="number" ng-model="room.sophong" required />
+        
+        <label>Room Type:</label>
+        <select ng-model="selectedRoomType" ng-options="roomtype as roomtype.name for roomtype in roomTypes" ng-change="updateRoomTypeDetails()">
+            <option value="">Select a Room Type</option>
+        </select>
+        <input ng-model="room.roomTypeId" type="hidden" />
+
+        <label>Price:</label>
+        <input type="number" ng-model="room.gia" required />
+
+        <label>Description:</label>
+        <input type="text" ng-model="room.mota" required />
+
+        <input type="hidden" ng-model="room.status" />
+        
+        <button type="submit">{{ isEditing ? 'Update Room' : 'Add Room' }}</button>
+    </form>
+
+    <h2>Rooms List</h2>
+<label for="statusSelect">Filter by Status:</label>
+<select id="statusSelect" ng-model="selectedStatus" ng-change="loadRoomsByStatus(selectedStatus)">
+    <option value="FALSE">Not Confirm</option>
+    <option value="CANCEL">Cancelled</option>
+</select>
+
+<ul>
+    <li ng-repeat="room in rooms">
+        <strong>Room Number:</strong> {{ room.sophong }}<br>
+        <strong>Room Type:</strong> {{ room.roomtype.name }}<br>
+        <strong>Price:</strong> ${{ room.gia }}<br>
+        <strong>Status:</strong> {{ room.status }}<br>
+        <strong>Description:</strong> {{ room.mota }}<br>
+        <button ng-click="editRoom(room)">Edit</button>
+        <button ng-click="deleteRoom(room.id)">Delete</button>
+        <hr>
+    </li>
+</ul>
+    
+</div>
+
+<script>
+angular.module('app', [])
+.controller('RoomController', ['$scope', '$http', function($scope, $http) {
+    $scope.room = {
+        status: 'FALSE' // Default value
+    };
+    $scope.rooms = [];
+    $scope.hotels = [];
+    $scope.selectedHotel = null;
+    $scope.selectedStatus = 'FALSE';
+    $scope.isEditing = false
+  
+        $scope.loadRoomsByStatus = function(status) {
+            $http.get(`http://localhost:8081/api/status/${status}`)
+                .then(function(response) {
+                    $scope.rooms = response.data; // Assign fetched rooms to scope
+                }, function(error) {
+                    console.error('Error fetching rooms:', error);
+                });
+        }; 
+        $scope.loadRoomsByStatus($scope.selectedStatus);
+    $http.get('http://localhost:8081/api/user-info')
+        .then(function(response) {
+            $scope.user = response.data;
+            $scope.room.staffid = $scope.user.id;
+        }, function(error) {
+            console.error('Error fetching user info:', error);
+        });
+
+    // Fetch hotels info
+    $http.get('http://localhost:8081/api/hotels')
+        .then(function(response) {
+            $scope.hotels = response.data;
+        }, function(error) {
+            console.error('Error fetching hotels:', error);
+        });
+    $scope.editRoom = function(room) {
+        $scope.room = angular.copy(room); // Copy room data to form
+        $scope.isEditing = true; // Set editing flag
+        $scope.selectedHotel = room.hotelId; // Set selected hotel
+        $scope.selectedRoomType = room.roomTypeId; // Set selected room type
+    };
+
+    $scope.saveUpdatedRoom = function() {
+    	 var formData = new FormData();
+    	    formData.append('hotelid', $scope.room.hotelId);
+    	    formData.append('sophong', $scope.room.sophong);
+    	    formData.append('roomtypeid', $scope.room.roomTypeId);
+    	    formData.append('gia', $scope.room.gia);
+    	    formData.append('mota', $scope.room.mota);
+    	    formData.append('status', $scope.room.status);
+    	    formData.append('staffid', $scope.room.staffid);
+
+    	    // Thêm img nếu có
+    	    if ($scope.room.img) {
+    	        formData.append('img', $scope.room.img);
+    	    }
+
+    	    $http.put(`http://localhost:8081/api/update-room/${$scope.room.id}`, formData, {
+    	        headers: { 'Content-Type': undefined },
+    	        transformRequest: angular.identity
+    	    }).then(function(response) {
+    	        alert('Room updated successfully!');
+    	        $scope.loadRoomsByStatus($scope.selectedStatus); // Refresh the rooms list
+    	        $scope.resetForm(); // Reset form after update
+    	    }, function(error) {
+    	        console.error('Error updating room:', error);
+    	        alert('Error updating room: ' + error.data);
+    	    });
+    };
+
+
+    $scope.deleteRoom = function(roomId) {
+        if (confirm('Are you sure you want to delete this room?')) {
+            $http.delete(`http://localhost:8081/api/delete-room/${roomId}`)
+                .then(function(response) {
+                    alert('Room deleted successfully!');
+                    $scope.loadRoomsByStatus($scope.selectedStatus); // Refresh the rooms list
+                }, function(error) {
+                    console.error('Error deleting room:', error);
+                    alert('Error deleting room: ' + error.data);
+                });
+        }
+    };
+
+    
+    $scope.resetForm = function() {
+        $scope.room = {};
+        $scope.isEditing = false; // Reset editing flag
+        $scope.selectedHotel = null;
+        $scope.selectedRoomType = null;
+    };
+
+    $scope.updateHotelDetails = function() {
+        if ($scope.selectedHotel) {
+            $scope.room.hotelId = $scope.selectedHotel.id;
+            $scope.room.hotel = $scope.selectedHotel;
+        } else {
+            $scope.room.hotelId = null;
+            $scope.room.hotel = {};
+        }
+    };
+
+    
+    $http.get('http://localhost:8081/api/roomtype')
+    .then(function(response) {
+        $scope.roomTypes = response.data;
+    }, function(error) {
+        console.error('Error fetching hotels:', error);
+    });
+
+$scope.updateRoomTypeDetails = function() {
+    if ($scope.selectedRoomType) {
+        $scope.room.roomTypeId = $scope.selectedRoomType.id;
+        $scope.room.RoomType = $scope.selectedRoomType;
+    } else {
+        $scope.room.roomTypeId = null;
+        $scope.room.RoomType = {};
+    }
+};
+
+
+    $scope.addRoom = function() {
+        if (!$scope.room.staffid) {
+            alert('User info not loaded yet.');
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append('hotelid', $scope.room.hotelId);
+        formData.append('sophong', $scope.room.sophong);
+        formData.append('roomtypeid', $scope.room.roomTypeId);
+        formData.append('gia', $scope.room.gia);
+        formData.append('mota', $scope.room.mota);
+        formData.append('status', $scope.room.status);
+        formData.append('note', $scope.room.note || '');
+        formData.append('staffid', $scope.room.staffid);
+        formData.append('img', $scope.room.img);
+
+        $http.post('http://localhost:8081/api/add-room', formData, {
+            headers: {'Content-Type': undefined},
+            transformRequest: angular.identity
+        }).then(function(response) {
+            console.log('Room added successfully:', response.data);
+            alert(response.data.message);
+        }, function(error) {
+            console.error('Error adding room:', error);
+            alert('Error adding room: ' + JSON.stringify(error.data));
+        });
+    };
+}])
+.directive('fileModel', ['$parse', function($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+
+            element.bind('change', function() {
+                scope.$apply(function() {
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);
+</script>
+
+
+ </body>
+ </html>

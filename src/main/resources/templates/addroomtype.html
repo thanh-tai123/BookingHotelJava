@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book</title>
+    <!-- Include AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <!-- Include the AngularJS controller script -->
+    
+</head>
+
+<body >
+
+<div th:replace="/access/navadmin :: html"></div>
+<div ng-controller="RoomTypeController">
+    <h2>Add Room Type</h2>
+    <form ng-submit="addRoomType()">
+        <label>Name:</label>
+        <input type="text" ng-model="roomType.name" required />
+
+        <label>Description:</label>
+        <input type="text" ng-model="roomType.description" required />
+
+        <button type="submit">Add Room Type</button>
+    </form>
+</div>
+<script>
+var app = angular.module('app', []);
+app.controller('RoomTypeController', function($scope, $http) {
+    $scope.roomType = {
+        name: '',
+        description: ''
+    };
+
+    $scope.addRoomType = function() {
+        $http.post('http://localhost:8081/api/add/roomtype', $scope.roomType)
+            .then(function(response) {
+                console.log('Room Type added successfully:', response.data);
+                // Clear the form after successful submission
+                $scope.roomType = {
+                    name: '',
+                    description: ''
+                };
+            }, function(error) {
+                console.error('Error adding Room Type:', error);
+            });
+    };
+});
+
+</script>
+</body>
