@@ -19,6 +19,20 @@
         position: relative;
         left: 200px;
     }
+    .btn-google {
+        background-color: #f44248; 
+        color: white; /* Màu chữ mặc định */
+        transition: background-color 0.3s; /* Hiệu ứng chuyển tiếp */
+    }
+
+    .btn-google:hover {
+        background-color: red; /* Màu nền khi hover */
+    }
+
+    /* Nếu cần, bạn cũng có thể thay đổi màu chữ khi hover */
+    .btn-google:hover {
+        color: white; /* Màu chữ khi hover */
+    }
 </style>
 <body>
 
@@ -42,7 +56,7 @@
                             Remember Me?
                         </label>
                     </div>
-                    <a href="/forgot-password" class="text-primary">Forgot Password?</a>
+                    <a href="/account/forgot-password" class="text-primary">Forgot Password?</a>
                 </div>
                 <div class="d-grid">
                     <input type="submit" class="btn btn-primary" value="Login">
@@ -59,7 +73,7 @@
                 <div class="text-center mt-3">
                     You don't have account? <a th:href="@{/account/register}" class="text-primary">Register</a>
                 </div>
-                <a href="/regenerate-otp">Verify</a>
+              
             </form>
         </div>
     </div>

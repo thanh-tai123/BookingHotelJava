@@ -10,13 +10,17 @@ import com.poly.repository.UserRepo;
 import com.poly.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +83,7 @@ public class AccountController {
 
 	    return "info";
 	}
+	
 	@RequestMapping("/register")
 	public String register() {
 		return "account/register";
@@ -100,11 +105,59 @@ public class AccountController {
 		return "access/error";
 	}
 
-	@PostMapping("/handle-register")
-	public String handleRegister(@ModelAttribute RegisterDto registerDto) {
-		userRepo.save(User.builder().name(registerDto.getName())
-				.password(passwordEncoder.encode(registerDto.getPassword())).email(registerDto.getEmail()).phone(registerDto.getPhone()).build());
-		return "redirect:login";
-	}
+//	@PostMapping("/handle-register")
+//	public String handleRegister(@ModelAttribute RegisterDto registerDto) {
+//		userRepo.save(User.builder().name(registerDto.getName())
+//				.password(passwordEncoder.encode(registerDto.getPassword())).email(registerDto.getEmail()).phone(registerDto.getPhone()).build());
+//		return "redirect:login";
+//	}
+	 @PostMapping("/handle-register")
+	    public String register(@ModelAttribute RegisterDto registerDto) {
+	        userService.register(registerDto);
+	        return "redirect:/account/login"; // Sau khi đăng ký, chuyển hướng người dùng đến trang đăng nhập
+	    }
+	 @GetMapping("/verify-account")
+	    public String showVerifyAccountForm(@RequestParam String email, @RequestParam String otp, Model model) {
+		 String result = userService.verifyAccount(email, otp);
+	        model.addAttribute("email", email);
+	        return "verifyAccount";
+	    }
+//	 @GetMapping("/verify-account")
+//	    public String showVerifyAccountForm() {
+//	        return "verifyAccount";
+//	    }
+	    @PostMapping("/verify-account")
+	    public ResponseEntity<String> verifyAccount(@RequestParam String email, @RequestParam String otp) {
+	        String result = userService.verifyAccount(email, otp);
+	       
+	        return new ResponseEntity<>(result, HttpStatus.OK);
+	    }
+	    @GetMapping("/regenerate-otp")
+	    public String showRegenerateOtpForm() {
+	        return "regenerateOtp";
+	    }
 
+	    @PostMapping("/regenerate-otp")
+	    public ResponseEntity<String> regenerateOtp(@RequestParam String email) {
+	        String result = userService.regenerateOtp(email);
+	        return new ResponseEntity<>(result, HttpStatus.OK);
+	    }
+	    @RequestMapping("/forgot-password")
+	    public String showForgotForm() {
+	        return "forgot-password";
+	    }
+	
+	    @RequestMapping("/set-password")
+	    public String showSetPasswordForm(@RequestParam String email,Model model) {
+	    	 model.addAttribute("email", email);
+	    	return "set-password";
+	    }
+	    @PostMapping("/forgot-password")
+	    public ResponseEntity<String> forgotPassword(@RequestParam String email){
+	    	return new ResponseEntity<>(userService.forgotPassword(email),HttpStatus.OK);
+	    }
+	    @PostMapping("/set-password")
+	    public ResponseEntity<String> setPassword(@RequestParam String email, @RequestParam String newPassword){
+	    	return new ResponseEntity<>(userService.setPassword(email, newPassword),HttpStatus.OK);
+	    }
 }

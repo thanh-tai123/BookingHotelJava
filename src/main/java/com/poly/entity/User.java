@@ -10,7 +10,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,6 +33,10 @@ public class User {
   private String email;
   private String image;
   private String phone;
+  private Boolean activated;
+	  private LocalDateTime otpGeneratedTime;
+	  private String otp;
+
   @JsonIgnore
   private String password;
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
