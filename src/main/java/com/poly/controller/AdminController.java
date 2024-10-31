@@ -28,6 +28,7 @@ public class AdminController {
   public String index(Model model) {
     model.addAttribute("user", new User());
     model.addAttribute("users", userRepo.findAll());
+      System.out.println("hehe");
     return "admin/index";
   }
   @PreAuthorize("hasAuthority('ADMIN')")
