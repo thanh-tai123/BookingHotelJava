@@ -24,7 +24,7 @@ private int hotelid;
  private RoomStatus status = RoomStatus.FALSE;
 // private String note;
 private int staffid;
-private int roomtypeid;
+private Integer roomtypeid;
 
  // Getters and setters
 }
