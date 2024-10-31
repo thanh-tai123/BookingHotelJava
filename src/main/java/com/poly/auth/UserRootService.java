@@ -17,13 +17,24 @@ public class UserRootService implements UserDetailsService {
     this.userRepo = userRepo;
   }
 
-  public UserDetails loadUserByUsername(String email)
-      throws UsernameNotFoundException {
-    User user = userRepo.findByEmail(email)
-        .orElseThrow(() ->
-            new UsernameNotFoundException("User not found with email : " + email)
-        );
+//  public UserDetails loadUserByUsername(String email)
+//      throws UsernameNotFoundException {
+//    User user = userRepo.findByEmail(email)
+//        .orElseThrow(() ->
+//            new UsernameNotFoundException("User not found with email : " + email)
+//        );
+//
+//    return UserRoot.create(user);
+//  }
+  public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+	    User user = userRepo.findByEmail(email).orElseThrow(() ->
+	        new UsernameNotFoundException("User not found with email: " + email)
+	    );
 
-    return UserRoot.create(user);
-  }
+	    if (!user.getActivated()) {
+	        throw new UsernameNotFoundException("User account is not activated: " + email);
+	    }
+
+	    return UserRoot.create(user); // Giả sử UserRoot.create trả về UserDetails
+	}
 }
