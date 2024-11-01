@@ -154,30 +154,27 @@
     <input type="hidden" name="txtSubject" value="Thông tin phòng đã đặt"/>
     
     <!-- Gán nội dung email -->
-    <textarea name="txtContent" style="display: none;">
-        Chi tiết đặt phòng:
-        <br/>
-        Book Code: <span th:text="${book.bookCode}"></span>
-        <br/>
-        Ngày tạo: <span th:text="${#dates.format(book.createDate, 'yyyy-MM-dd HH:mm:ss')}"></span>
-        <br/>
-        <br/>
-        Chi tiết:
-        <br/>
-        <span th:each="detail : ${bookDetails}">
-            ID: <span th:text="${detail.id}"></span>, 
-            ID Phòng: <span th:text="${detail.roomid}"></span>, 
-            Tổng: <span th:text="${detail.total}"></span>, 
-            Giá: <span th:text="${detail.price}"></span>, 
-            Checkin: <span th:text="${#dates.format(detail.checkin, 'yyyy-MM-dd HH:mm:ss')}"></span>, 
-            Checkout: <span th:text="${#dates.format(detail.checkout, 'yyyy-MM-dd HH:mm:ss')}"></span>, 
-            Người lớn: <span th:text="${detail.adult}"></span>, 
-            Trẻ em: <span th:text="${detail.children}"></span>, 
-            Phương thức thanh toán: <span th:text="${detail.paymentMethod}"></span>, 
-            Trạng thái thanh toán: <span th:text="${detail.paymentStatus}"></span>
-            <br/>
-        </span>
-    </textarea>
+   <textarea name="txtContent" style="display: none;">
+    Chi tiết đặt phòng:
+    Book Code: [[${book.bookCode}]]
+    Ngày tạo: [[${#dates.format(book.createDate, 'yyyy-MM-dd HH:mm:ss')}]]
+    
+    Chi tiết:
+    <th:block th:each="detail : ${bookDetails}">
+        - ID: [[${detail.id}]], 
+        ID Phòng: [[${detail.roomid}]], 
+        Tổng: [[${detail.total}]], 
+        Giá: [[${detail.price}]], 
+        Checkin: [[${#dates.format(detail.checkin, 'yyyy-MM-dd HH:mm:ss')}]], 
+        Checkout: [[${#dates.format(detail.checkout, 'yyyy-MM-dd HH:mm:ss')}]], 
+        Người lớn: [[${detail.adult}]], 
+        Trẻ em: [[${detail.children}]], 
+        Phương thức thanh toán: [[${detail.paymentMethod}]], 
+        Trạng thái thanh toán: [[${detail.paymentStatus}]]
+        &#10; <!-- Line break for new detail -->
+    </th:block>
+</textarea>
+
     
     <button type="submit">Gửi Email</button>
 </form>
