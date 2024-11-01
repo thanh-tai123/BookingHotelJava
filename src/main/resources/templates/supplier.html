@@ -62,7 +62,10 @@
 <ul>
     <li ng-repeat="room in rooms">
         <strong>Room Number:</strong> {{ room.sophong }}<br>
-        <strong>Room Type:</strong> {{ room.roomtype.name }}<br>
+        <strong>Img:</strong> <img ng-src="{{ room.img }}" alt="Room Image" style="height: 100px;width: 100px"/><br>
+        <strong>Room Type:</strong> {{ room.roomType.name }}<br>
+         <strong>Hotel Name:</strong> {{ room.hotelid.chinhanh }}<br> <!-- This should work -->
+        <!-- Ensure you are using hotel.diachi -->
         <strong>Price:</strong> ${{ room.gia }}<br>
         <strong>Status:</strong> {{ room.status }}<br>
         <strong>Description:</strong> {{ room.mota }}<br>

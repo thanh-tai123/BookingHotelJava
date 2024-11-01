@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.poly.dto.BookingRequest;
+import com.poly.dto.RoomDTO;
 import com.poly.dto.RoomRequest;
 import com.poly.entity.BookDetail;
 import com.poly.entity.BookResponse;
@@ -64,9 +65,9 @@ public class RoomRestController {
     }
 
     @GetMapping("/status/{status}")
-    public ResponseEntity<List<Room>> getRoomsByStatus(@PathVariable RoomStatus status) {
-        List<Room> rooms = roomService.getRoomsByStatus(status);
-        return ResponseEntity.ok(rooms);
+    public ResponseEntity<List<RoomDTO>> getRoomsByStatus(@PathVariable RoomStatus status) {
+        List<RoomDTO> roomDTOs = roomService.getRoomsByStatus(status);
+        return ResponseEntity.ok(roomDTOs);
     }
 //    @PostMapping("/add-room")
 //    public ResponseEntity<String> addRoom(@RequestBody RoomRequest roomRequest) {

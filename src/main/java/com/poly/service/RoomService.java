@@ -1,12 +1,16 @@
 package com.poly.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.poly.dto.HotelDTO;
+import com.poly.dto.RoomDTO;
 import com.poly.dto.RoomRequest;
+import com.poly.dto.RoomTypeDTO;
 import com.poly.entity.Hotel;
 import com.poly.entity.Room;
 import com.poly.entity.RoomType;
@@ -70,9 +74,9 @@ public class RoomService {
         }
         return false; // Phòng không tồn tại
     }
-    public List<Room> getRoomsByStatus(RoomStatus status) {
-        return roomRepository.findByStatus(status);
-    }
+//    public List<Room> getRoomsByStatus(RoomStatus status) {
+//        return roomRepository.findByStatus(status);
+//    }
     public void addRoom(RoomRequest roomRequest, MultipartFile img) {
         Hotel hotel = hotelRepository.findById(roomRequest.getHotelid())
                 .orElseThrow(() -> new RuntimeException("Hotel not found"));
@@ -91,5 +95,46 @@ public class RoomService {
         room.setStaffid(roomRequest.getStaffid());
         room.setRoomtype(roomtype);
         roomRepository.save(room);
+    }
+    
+    public List<RoomDTO> getRoomsByStatus(RoomStatus status) {
+        List<RoomDTO> roomDTOs = new ArrayList<>();
+        List<Room> rooms = roomRepository.findByStatus(status);
+
+        for (Room room : rooms) {
+            RoomDTO roomDTO = new RoomDTO();
+            roomDTO.setId(room.getId());
+         
+            roomDTO.setImg(room.getImg());
+            roomDTO.setSophong(room.getSophong());
+            roomDTO.setGia(room.getGia());
+            roomDTO.setMota(room.getMota());
+            roomDTO.setStatus(room.getStatus());
+            roomDTO.setNote(room.getNote());
+            roomDTO.setStaffid(room.getStaffid());
+
+            // Fetch hotel details
+            Hotel hotel = room.getHotel();
+            if (hotel != null) {
+                HotelDTO hotelDTO = new HotelDTO();
+                hotelDTO.setId(hotel.getId());
+                hotelDTO.setChinhanh(hotel.getChinhanh());
+                hotelDTO.setDiachi(hotel.getDiachi());
+                roomDTO.setHotelid(hotelDTO); // Set the hotel details in RoomDTO
+            }
+
+            // Fetch room type details
+            RoomType roomType = room.getRoomtype();
+            if (roomType != null) {
+                RoomTypeDTO roomTypeDTO = new RoomTypeDTO();
+                roomTypeDTO.setId(roomType.getId());
+                roomTypeDTO.setName(roomType.getName());
+                roomDTO.setRoomType(roomTypeDTO);
+            }
+
+            roomDTOs.add(roomDTO);
+        }
+
+        return roomDTOs;
     }
 }
