@@ -10,6 +10,7 @@ import com.poly.util._enum.RoomStatus;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,8 @@ public class AdminController {
     private RoomRepository roomRepo;
     @Autowired
     private RoleService roleService;
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping("")
@@ -55,7 +58,7 @@ public class AdminController {
         // Lay user old
         User oleUser = this.userRepo.findById(user.getId()).get();
 
-        user.setPassword(oleUser.getPassword());
+        user.setPassword(this.passwordEncoder.encode(oleUser.getPassword()));
         user.setPhone(oleUser.getPhone());
 
         this.userRepo.save(user);
