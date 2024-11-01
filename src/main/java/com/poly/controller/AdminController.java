@@ -55,12 +55,6 @@ public class AdminController {
     @PostMapping("/save")
     public String saveUser(@ModelAttribute(name = "user") User user, RedirectAttributes redirectAttributes
     ) {
-        // Lay user old
-        User oleUser = this.userRepo.findById(user.getId()).get();
-
-        user.setPassword(this.passwordEncoder.encode(oleUser.getPassword()));
-        user.setPhone(oleUser.getPhone());
-
         this.userRepo.save(user);
         return "redirect:/admin";
     }
