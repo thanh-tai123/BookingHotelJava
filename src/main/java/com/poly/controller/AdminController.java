@@ -89,4 +89,11 @@ public class AdminController {
    
     return "dashboard";
   }
+  
+  @PreAuthorize("hasAuthority('ADMIN')")
+  @RequestMapping("/add/service")
+  public String roomservice(Model model) {
+   
+    return "addservice";
+  }
 }

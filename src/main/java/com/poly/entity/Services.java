@@ -19,12 +19,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 @Entity
-@Table
+@Table(name="service")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Service {
+public class Services {
 	  @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Integer id;
