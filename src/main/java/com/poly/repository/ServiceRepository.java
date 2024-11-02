@@ -2,9 +2,9 @@ package com.poly.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.poly.entity.Service;
+import com.poly.entity.Services;
 
 
 
-public interface ServiceRepository extends JpaRepository<Service, Integer> {
+public interface ServiceRepository extends JpaRepository<Services, Integer> {
 }

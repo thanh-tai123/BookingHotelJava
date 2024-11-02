@@ -33,7 +33,7 @@ public class RoomTypeByService {
 	  @ManyToOne
 	    @JoinColumn(name = "serviceid")
 	  @JsonBackReference
-	    private Service myService; 
+	    private Services myService; 
 	    //private Integer serviceid;
 
 		

@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.poly.dto.RoomTypeDTO;
+
+import com.poly.dto.RoomTypeServiceSummaryDTO;
 import com.poly.entity.RoomType;
 import com.poly.entity.RoomTypeByService;
-import com.poly.entity.Service;
+import com.poly.entity.Services;
 import com.poly.repository.RoomTypeByServiceRepository;
 import com.poly.repository.RoomTypeRepository;
 import com.poly.repository.ServiceRepository;
@@ -61,10 +63,10 @@ public class RoomTypeRestController {
         }
 
         // Tìm kiếm các dịch vụ từ cơ sở dữ liệu
-        List<Service> services = serviceRepository.findAllById(serviceIds);
+        List<Services> services = serviceRepository.findAllById(serviceIds);
         
         // Thêm các dịch vụ mới
-        for (Service service : services) {
+        for (Services service : services) {
             RoomTypeByService roomTypeByService = new RoomTypeByService();
             roomTypeByService.setMyroomType(roomTypeId);
             roomTypeByService.setMyService(service); // Gán service đúng
@@ -86,5 +88,18 @@ public class RoomTypeRestController {
     public ResponseEntity<Void> deleteRoomType(@PathVariable Integer id) {
         roomTypeService.deleteRoomType(id);
         return ResponseEntity.noContent().build();
+    }
+    
+    @GetMapping("/roomtype/services/summaries")
+    public ResponseEntity<List<RoomTypeServiceSummaryDTO>> getRoomTypeServiceSummaries() {
+        List<RoomTypeServiceSummaryDTO> summaries = roomTypeService.getRoomTypeServiceSummaries();
+        return ResponseEntity.ok(summaries);
+    }
+   
+
+    @GetMapping("/roomtype/{roomTypeId}/services")
+    public ResponseEntity<List<Services>> getServicesByRoomType(@PathVariable Integer roomTypeId) {
+        List<Services> services = roomTypeService.getServicesByRoomType(roomTypeId);
+        return ResponseEntity.ok(services);
     }
 }

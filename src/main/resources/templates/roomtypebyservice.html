@@ -15,83 +15,120 @@
 <div th:replace="/access/navadmin :: html"></div>
 <div ng-controller="RoomTypeController">
     <h2>Assign Services to Room Type</h2>
-
-    <!-- Combo box chọn RoomType -->
     <label for="roomType">Select Room Type:</label>
-    <select id="roomType" ng-model="selectedRoomType" ng-options="roomType.name for roomType in roomTypes">
+    <select id="roomType" ng-model="selectedRoomType" ng-options="roomType.name for roomType in roomTypes track by roomType.id">
         <option value="">-- Select Room Type --</option>
     </select>
-
-    <!-- Checkbox chọn Services -->
     <h3>Select Services:</h3>
     <div ng-repeat="service in services">
-        <input type="checkbox" ng-model="service.selected" ng-change="toggleServiceSelection(service)">
+        <input type="checkbox" ng-model="service.selected" ng-disabled="service.assigned">
         {{ service.name }}
     </div>
+  
+    
+    <button ng-click="removeServices()">Remove Selected Services</button>
+    <h2>Room Type Service Summaries</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Room Type</th>
+                <th>Services</th>
+                <th>Count</th>
+             
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="summary in roomTypeServiceSummaries">
+                <td>{{ summary.roomTypeName }}</td>
+                <td>{{ summary.services.join(', ') }}</td>
+                <td>{{ summary.serviceCount }}</td>
+               
+            </tr>
+        </tbody>
+    </table>
 
     <button ng-click="assignServices()">Assign Services</button>
 </div>
+
 <script >
 var app = angular.module('app', []);
 
 app.service('RoomTypeService', function($http) {
-    // Lấy tất cả RoomTypes
     this.getRoomTypes = function() {
         return $http.get('http://localhost:8081/api/roomtype');
     };
-
-    // Lấy tất cả Services
     this.getServices = function() {
         return $http.get('http://localhost:8081/api/services');
     };
-
-    // Cập nhật dịch vụ cho một RoomType
+    this.getServicesByRoomType = function(roomTypeId) {
+        return $http.get('http://localhost:8081/api/roomtype/' + roomTypeId + '/services');
+    };
     this.assignServices = function(roomTypeId, serviceIds) {
         return $http.post('http://localhost:8081/api/' + roomTypeId + '/services', serviceIds);
     };
+    this.getRoomTypeServiceSummaries = function() {
+        return $http.get('http://localhost:8081/api/roomtype/services/summaries');
+    };
+    
 });
+
 app.controller('RoomTypeController', function($scope, RoomTypeService) {
     $scope.roomTypes = [];
     $scope.services = [];
     $scope.selectedRoomType = null;
     $scope.selectedServices = [];
+    $scope.roomTypeServiceSummaries = [];
+    $scope.editingService = null;
 
-    // Load RoomTypes
     RoomTypeService.getRoomTypes().then(function(response) {
         $scope.roomTypes = response.data;
     });
 
-    // Load Services
     RoomTypeService.getServices().then(function(response) {
         $scope.services = response.data;
     });
 
-    // Cập nhật dịch vụ cho RoomType
- // Cập nhật dịch vụ cho RoomType
+    $scope.$watch('selectedRoomType', function(newVal) {
+        if (newVal) {
+            RoomTypeService.getServicesByRoomType(newVal.id).then(function(response) {
+                $scope.services.forEach(function(service) {
+                    service.selected = false;
+                    service.assigned = response.data.some(function(assignedService) {
+                        return assignedService.id === service.id;
+                    });
+                });
+            });
+        }
+    });
+
+    RoomTypeService.getRoomTypeServiceSummaries().then(function(response) {
+        $scope.roomTypeServiceSummaries = response.data;
+    }, function(error) {
+        console.error('Error fetching room type service summaries:', error);
+    });
+
     $scope.assignServices = function() {
-        // Lấy các serviceId được chọn
-        $scope.selectedServices = $scope.services.filter(service => service.selected); // Lọc các dịch vụ được chọn
-        let serviceIds = $scope.selectedServices.map(service => service.id); // Lấy mảng ID dịch vụ
+        $scope.selectedServices = $scope.services.filter(service => service.selected && !service.assigned);
+        let serviceIds = $scope.selectedServices.map(service => service.id);
 
-        console.log('Selected Room Type ID:', $scope.selectedRoomType.id);
-        console.log('Service IDs:', serviceIds); // In ra các serviceId
-
-        // Kiểm tra xem serviceIds có giá trị không
         if (serviceIds.length === 0) {
-            alert("Please select at least one service."); // Thông báo nếu không có dịch vụ nào được chọn
-            return; // Dừng lại nếu không có dịch vụ nào
+            alert("Please select at least one service.");
+            return;
         }
 
-        // Gọi hàm để gán dịch vụ
         RoomTypeService.assignServices($scope.selectedRoomType.id, serviceIds).then(function(response) {
             alert("Services assigned successfully!");
+            RoomTypeService.getRoomTypeServiceSummaries().then(function(response) {
+                $scope.roomTypeServiceSummaries = response.data;
+            });
         }, function(error) {
             alert("Failed to assign services! " + error.data.error);
         });
     };
-
-
+    
+  
 });
+
 
 </script>
 </body>

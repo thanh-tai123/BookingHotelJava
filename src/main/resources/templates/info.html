@@ -46,6 +46,7 @@
             <th>Phone</th>
             <th>Role</th>
              <th th:if="${user.roleString.contains('ADMIN')}">Admin</th>
+               <th th:if="${user.roleString.contains('SUPPLIER')}">Staff</th>
             <th>Img</th>
         </tr>
     </thead>
@@ -59,6 +60,9 @@
             <td th:text="${user.roleString}"></td>
            <td th:if="${user.roleString.contains('ADMIN')}">
                 <a  th:href="@{/admin}">Trang Admin</a>
+            </td>
+             <td th:if="${user.roleString.contains('SUPPLIER')}">
+                <a  th:href="@{/supplier}">Trang Staff</a>
             </td>
             <td><img th:src="${user.image}" alt="User Image" class="imginfo"/></td>
         </tr>
