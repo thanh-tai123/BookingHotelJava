@@ -12,368 +12,559 @@
     <!-- Include Date Range Picker -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <style>
+        .room-details {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .room-image {
+            height: 250px;
+            width: 270px;
+            margin-right: 15px;
+            border-radius: 4px;
+            margin-left: 20px;
+            object-fit: cover;
+        }
+
+        .label {
+            font-weight: bold;
+        }
+        .user-inputs {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .user-input, .date-input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+
+        .user-input:focus, .date-input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .available-rooms {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .room-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .room-info {
+            margin-left: 20px;
+            flex: 1;
+            height: 200px;
+
+        }
+
+        .user-inputs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .number-input, .payment-select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .book-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .book-button:hover {
+            background-color: #0056b3;
+        }
+
+        .book-button:active {
+            background-color: #004080;
+        }
+        .booked-dates {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .booked-dates li {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+
+
+        .checkbox{
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            margin: 100px;
+        }
+
+
+
+
+    </style>
 </head>
 <div th:replace="/access/nav :: html"></div>
-        <!-- Date Range Picker -->
-   <!--   Check-in: 
-      <input type="date" ng-model="booking.checkin">
-      
-      Checkout: 
-      <input type="date" ng-model="booking.checkout">  -->
+<!-- Date Range Picker -->
+<!--   Check-in:
+   <input type="date" ng-model="booking.checkin">
+
+   Checkout:
+   <input type="date" ng-model="booking.checkout">  -->
 <body ng-controller="RoomDetailsController">
-    <h1>Book</h1>
-    <div>
-     <img ng-src="{{roomDetails.img}}" alt="Room Image" style="height: 250px; width: 270px;"/>
-        <p><strong>ID ROOM:</strong> {{roomDetails.id}}</p>
-        <p><strong>Room Number:</strong> {{roomDetails.sophong}}</p>
-        <p><strong>Room Type:</strong> {{roomDetails.kieuphong}}</p>
-        <p><strong>Price:</strong> ${{roomDetails.gia}}</p>
-        <p><strong>Description:</strong> {{roomDetails.mota}}</p>
-        Id: <input value="{{user.id}}">
-        Name: <input value="{{user.name}}">
-
-
-       <label>Check-in:</label>
-    <input type="date" ng-model="booking.checkin" ng-change="onDateChange()">
-
-    <label>Checkout:</label>
-    <input type="date" ng-model="booking.checkout" ng-change="onDateChange()">
-      <p><strong>Total:</strong> ${{ totalAmount }}</p>
-          <h2>Available Rooms</h2>
-        <ul>
-            <li ng-repeat="room in availableRooms">
-            	<img ng-src="{{room.img}}" width="80" height="80">
-            	ID ROOM: {{room.id}}
-                Room Number: {{room.sophong}}, Price: ${{room.gia}}
-                Room Type: {{room.kieuphong}}
-                 <input type="checkbox" ng-click="toggleRoomSelection(room)">
-      
-            </li>
-        </ul> 
-        Adult:
-        <input type="number" min="1" max="2" ng-model="booking.adult">
-        
-        Children:
-        <input type="number" min="1" max="2" ng-model="booking.children">
-         <label>Payment Method:</label>
-        <select ng-model="booking.paymentMethod">
-            <option value="cash">Cash</option>
-            <option value="transfer">Bank Transfer</option>
-        </select>
-      <p><strong>Total:</strong> ${{ total }}</p>
-      
-        <button ng-click="bookRoom()">Book</button>
-
-        <!-- List of Booked Dates -->
-        <h2>Booked Dates</h2>
-        <ul>
-            <li ng-repeat="booking in bookedDates | filter: isFutureCheckout">
-                Check-in: {{booking.checkin}}, Check-out: {{booking.checkout}}
-            </li>
-        </ul>
+<h1>Book</h1>
+<div>
+    <div class="room-details">
+        <img ng-src="{{roomDetails.img}}" alt="Room Image" class="room-image" />
+        <div class="room-info">
+            <p><strong>ID ROOM:</strong> {{roomDetails.id}}</p>
+            <p><strong>Room Number:</strong> {{roomDetails.sophong}}</p>
+            <p><strong>Room Type:</strong> {{roomDetails.kieuphong}}</p>
+            <p><strong>Price:</strong> ${{roomDetails.gia}}</p>
+            <p><strong>Description:</strong> {{roomDetails.mota}}</p>
+        </div>
     </div>
-    
-  <script>
-  
-angular.module('app', [])
-.controller('RoomDetailsController', ['$scope', '$http', '$window', function($scope, $http, $window) {
-    $scope.roomDetails = {}; // Initialize empty object for room details
-    $scope.booking = { paymentMethod: 'cash' }; // Initialize with default payment method
-   // $scope.booking = { paymentMethod: 'cash', adult: 1, children: 0 }; 
-    $scope.user = {};
-    $scope.bookedDates = [];
-    $scope.availableRooms = [];
-    $scope.totalAmount = 0;
-    $scope.availableRooms = [];
-    $scope.selectedRooms = [];
-    // Get the room ID from the current URL
-    const roomId = $window.location.pathname.split('/').pop(); // Gets the last part of the URL
-    const apiUrl = `http://localhost:8081/api/get-room-details?roomId=${roomId}`;
-    $scope.onDateChange = function() {
-        $scope.loadAvailableRooms(); // Load available rooms based on selected dates
-        $scope.calculateTotalAmount(); // Calculate the total amount based on selected dates
-    };
-    // Fetch room details from API
-    
 
-    $http({
-        method: 'GET',
-        url: 'http://localhost:8081/api/user-info'
-    }).then(function successCallback(response) {
-        $scope.user = response.data; // Assign API data to scope
-    }, function errorCallback(response) {
-        console.error('Error fetching user info:', response);
-    });
-   
-  /*   $scope.bookRoom = function() {
-        const bookings = $scope.selectedRooms.map(room => ({
-            Userid: $scope.user.id,
-            roomid: room.id,
-            price: room.gia,
-            checkin: $scope.booking.checkin,
-            checkout: $scope.booking.checkout,
-            adult: $scope.booking.adult,
-            children: $scope.booking.children,
-            paymentMethod: $scope.booking.paymentMethod
-        }));
 
-        if (bookings.length === 0) {
-            alert("No valid rooms to book.");
-            return;
-        }
 
-        bookings.forEach(bookingData => {
-            console.log("Sending booking data:", JSON.stringify(bookingData));
-            $http.post('http://localhost:8081/api/book-room', bookingData, {
-                headers: { 'Content-Type': 'application/json' }
-            })
-            .then(response => {
-                console.log('Booking successful:', response.data);
-                alert(response.data);
-                $scope.loadBookedDates(); // Load booked dates
-            })
-            .catch(error => {
-                console.error('Error booking room:', error);
-                const errorMessage = error.data && error.data.error ? error.data.error : "An unknown error occurred.";
-                alert("Error booking room: " + errorMessage);
-            });
-        });
-    }; */
+    <div class="user-inputs">
+        <div class="input-group">
+            <label for="userId">Id:</label>
+            <input type="text" id="userId" value="{{user.id}}" class="user-input">
+        </div>
+        <div class="input-group">
+            <label for="userName">Name:</label>
+            <input type="text" id="userName" value="{{user.name}}" class="user-input">
+        </div>
+        <div class="input-group">
+            <label for="checkin">Check-in:</label>
+            <input type="date" id="checkin" ng-model="booking.checkin" ng-change="onDateChange()" class="date-input">
+        </div>
+        <div class="input-group">
+            <label for="checkout">Checkout:</label>
+            <input type="date" id="checkout" ng-model="booking.checkout" ng-change="onDateChange()" class="date-input">
+        </div>
+    </div>
+    <p><strong>Total:</strong> ${{ totalAmount }}</p>
 
-    $http({
-        method: 'GET',
-        url: apiUrl
-    }).then(function successCallback(response) {
-        $scope.roomDetails = response.data; // Assign API data to scope
-    }, function errorCallback(response) {
-        console.error('Error fetching room details:', response);
-    });
-    $scope.calculateTotalAmount = function() {
-        if ($scope.booking.checkin && $scope.booking.checkout) {
-            const checkinDate = new Date($scope.booking.checkin);
-            const checkoutDate = new Date($scope.booking.checkout);
-            const daysBetween = (checkoutDate - checkinDate) / (1000 * 3600 * 24);
 
-            if (daysBetween > 0 && $scope.selectedRooms.length > 0) {
-                // Calculate total based on selected rooms
-                $scope.totalAmount = $scope.selectedRooms.reduce((total, room) => {
-                    return total + (daysBetween * room.gia);
-                }, 0);
-            } else {
-                $scope.totalAmount = 0; // No rooms selected or invalid dates
-            }
-        } else {
-            $scope.totalAmount = 0; // No check-in or check-out dates
-        }
-    };
+    <h2>Available Rooms</h2>
+    <ul class="available-rooms">
+        <li ng-repeat="room in availableRooms" class="room-item">
+            <img ng-src="{{room.img}}" width="80" height="80">
 
-      $scope.toggleRoomSelection = function(room) {
-        const index = $scope.selectedRooms.findIndex(selectedRoom => selectedRoom.id === room.id);
-        const checkinDate = new Date($scope.booking.checkin);
-        const checkoutDate = new Date($scope.booking.checkout);
-        const daysBetween = (checkoutDate - checkinDate) / (1000 * 3600 * 24);
+            <div class="room-info">
+                <p><strong>ID ROOM:</strong> {{room.id}}</p>
+                <p><strong>Room Number:</strong> {{room.sophong}}</p>
+                <p><strong>Price:</strong> ${{room.gia}}</p>
+                <p><strong>Room Type:</strong> {{room.kieuphong}}</p>
+            </div>
+            <input type="checkbox" class="checkbox" ng-click="toggleRoomSelection(room)">
 
-        if (daysBetween > 0) {
-            if (index === -1) {
-                $scope.selectedRooms.push(room); // Add the room if not already selected
-            } else {
-                $scope.selectedRooms.splice(index, 1); // Remove if already selected
-            }
-        }
+        </li>
+    </ul>
 
-        $scope.calculateTotalAmount(); // Recalculate the total after selecting or deselecting
-    };  
-  /*   $scope.toggleRoomSelection = function(room) {
-        const index = $scope.selectedRooms.indexOf(room);
-        if (index > -1) {
-            $scope.selectedRooms.splice(index, 1);
-        } else {
-            $scope.selectedRooms.push(room);
-        }
-    }; */
-    $scope.loadAvailableRooms = function() {
-        if ($scope.booking.checkin && $scope.booking.checkout) {
-            const checkin = new Date($scope.booking.checkin).toISOString().slice(0, 10);
-            const checkout = new Date($scope.booking.checkout).toISOString().slice(0, 10);
+    <div class="user-inputs">
+        <div class="input-group">
+            <label for="adultCount">Adult:</label>
+            <input type="number" id="adultCount" min="1" max="2" ng-model="booking.adult" class="number-input">
+        </div>
+        <div class="input-group">
+            <label for="childrenCount">Children:</label>
+            <input type="number" id="childrenCount" min="0" max="2" ng-model="booking.children" class="number-input">
+        </div>
+        <div class="input-group">
+            <label for="paymentMethod">Payment Method:</label>
+            <select id="paymentMethod" ng-model="booking.paymentMethod" class="payment-select">
+                <option value="cash">Cash</option>
+                <option value="transfer">Bank Transfer</option>
+            </select>
+        </div>
+    </div>
+
+    <p><strong>Total:</strong> ${{ total }}</p>
+
+    <button ng-click="bookRoom()" class="book-button">Book</button>
+
+    <!-- List of Booked Dates -->
+    <h2>Booked Dates</h2>
+    <ul class="booked-dates">
+        <li ng-repeat="booking in bookedDates | filter: isFutureCheckout">
+            Check-in: {{booking.checkin}}, Check-out: {{booking.checkout}}
+        </li>
+    </ul>
+
+</div>
+
+<script>
+
+    angular.module('app', [])
+        .controller('RoomDetailsController', ['$scope', '$http', '$window', function($scope, $http, $window) {
+            $scope.roomDetails = {}; // Initialize empty object for room details
+            $scope.booking = { paymentMethod: 'cash' }; // Initialize with default payment method
+            // $scope.booking = { paymentMethod: 'cash', adult: 1, children: 0 };
+            $scope.user = {};
+            $scope.bookedDates = [];
+            $scope.availableRooms = [];
+            $scope.totalAmount = 0;
+            $scope.availableRooms = [];
+            $scope.selectedRooms = [];
+            // Get the room ID from the current URL
+            const roomId = $window.location.pathname.split('/').pop(); // Gets the last part of the URL
+            const apiUrl = `http://localhost:8081/api/get-room-details?roomId=${roomId}`;
+            $scope.onDateChange = function() {
+                $scope.loadAvailableRooms(); // Load available rooms based on selected dates
+                $scope.calculateTotalAmount(); // Calculate the total amount based on selected dates
+            };
+            // Fetch room details from API
+
 
             $http({
                 method: 'GET',
-                url: `http://localhost:8081/api/get-available-rooms?checkin=${checkin}&checkout=${checkout}`
+                url: 'http://localhost:8081/api/user-info'
             }).then(function successCallback(response) {
-                console.log("Available rooms:", response.data);
-                $scope.availableRooms = response.data;
+                $scope.user = response.data; // Assign API data to scope
             }, function errorCallback(response) {
-                console.error('Error fetching available rooms:', response);
+                console.error('Error fetching user info:', response);
             });
-        }
-    };
 
-    $scope.loadBookedDates = function() {
-        $http({
-            method: 'GET',
-            url: `http://localhost:8081/api/get-bookings?roomId=${roomId}`
-        }).then(function successCallback(response) {
-            $scope.bookedDates = response.data; // Assign booked dates to scope
-        }, function errorCallback(response) {
-            console.error('Error fetching booked dates:', response);
-        });
-    };
+            /*   $scope.bookRoom = function() {
+                  const bookings = $scope.selectedRooms.map(room => ({
+                      Userid: $scope.user.id,
+                      roomid: room.id,
+                      price: room.gia,
+                      checkin: $scope.booking.checkin,
+                      checkout: $scope.booking.checkout,
+                      adult: $scope.booking.adult,
+                      children: $scope.booking.children,
+                      paymentMethod: $scope.booking.paymentMethod
+                  }));
 
-    $scope.validateBookingDates = function(checkin, checkout) {
-        const today = new Date();
-        const checkinDate = new Date(checkin);
-        const checkoutDate = new Date(checkout);
+                  if (bookings.length === 0) {
+                      alert("No valid rooms to book.");
+                      return;
+                  }
 
-        // Check if dates are in the past
-        if (checkinDate < today || checkoutDate < today) {
-            alert("Check-in and check-out dates cannot be in the past.");
-            return false;
-        }
-        if (checkoutDate < checkinDate) {
-            alert("Check-out date cannot be earlier than check-in date.");
-            return false;
-        }
-        // Check for date overlap with existing bookings
-        for (let booking of $scope.bookedDates) {
-            const bookedCheckin = new Date(booking.checkin);
-            const bookedCheckout = new Date(booking.checkout);
+                  bookings.forEach(bookingData => {
+                      console.log("Sending booking data:", JSON.stringify(bookingData));
+                      $http.post('http://localhost:8081/api/book-room', bookingData, {
+                          headers: { 'Content-Type': 'application/json' }
+                      })
+                      .then(response => {
+                          console.log('Booking successful:', response.data);
+                          alert(response.data);
+                          $scope.loadBookedDates(); // Load booked dates
+                      })
+                      .catch(error => {
+                          console.error('Error booking room:', error);
+                          const errorMessage = error.data && error.data.error ? error.data.error : "An unknown error occurred.";
+                          alert("Error booking room: " + errorMessage);
+                      });
+                  });
+              }; */
 
-            if ((checkinDate >= bookedCheckin && checkinDate < bookedCheckout) ||
-                (checkoutDate > bookedCheckin && checkoutDate <= bookedCheckout) ||
-                (checkinDate <= bookedCheckin && checkoutDate >= bookedCheckout)) {
-                alert("The selected dates overlap with an existing booking.");
-                return false;
-            }
-        }
+            $http({
+                method: 'GET',
+                url: apiUrl
+            }).then(function successCallback(response) {
+                $scope.roomDetails = response.data; // Assign API data to scope
+            }, function errorCallback(response) {
+                console.error('Error fetching room details:', response);
+            });
 
-        return true;
-    };
+            $scope.calculateTotalAmount = function() {
+                if ($scope.booking.checkin && $scope.booking.checkout) {
+                    const checkinDate = new Date($scope.booking.checkin);
+                    const checkoutDate = new Date($scope.booking.checkout);
+                    const daysBetween = (checkoutDate - checkinDate) / (1000 * 3600 * 24);
 
-    // Function to book room
-    $scope.bookRoom = function() {
-    // Validate booking dates
-    if (!$scope.validateBookingDates($scope.booking.checkin, $scope.booking.checkout)) {
-        return;
-    }
-
-    // Check if any rooms are selected
-    if ($scope.selectedRooms.length === 0) {
-        alert('Please select at least one room to book.');
-        return; // Exit the function if no rooms are selected
-    }
-
-    const checkinDate = new Date(Date.UTC(
-            $scope.booking.checkin.getFullYear(),
-            $scope.booking.checkin.getMonth(),
-            $scope.booking.checkin.getDate()
-        ));
-
-    const checkoutDate = new Date(Date.UTC(
-            $scope.booking.checkout.getFullYear(),
-            $scope.booking.checkout.getMonth(),
-            $scope.booking.checkout.getDate()
-        ));
-
-    const bookingData = {
-        Userid: $scope.user.id,
-        roomid: $scope.selectedRooms.map(room => room.id), // Get selected room IDs
-        price: $scope.roomDetails.gia,
-        checkin: checkinDate.toISOString().split('T')[0],
-        checkout: checkoutDate.toISOString().split('T')[0],
-        adult: $scope.booking.adult,
-        children: $scope.booking.children,
-        paymentMethod: $scope.booking.paymentMethod
-    };
-
-    // Calculate total amount
-    const timeDifference = checkoutDate.getTime() - checkinDate.getTime();
-    const daysBetween = timeDifference / (1000 * 3600 * 24);
-    const totalAmount = daysBetween * $scope.roomDetails.gia; // This can be adjusted based on selected rooms
-    $scope.totalAmount = totalAmount;
-
-    // Proceed with booking based on payment method
-    if (bookingData.paymentMethod === 'cash') {
-        // Save booking directly for cash payments
-           bookingData.paymentStatus = 'Not payment'; 
-        $http({
-            method: 'POST',
-            url: 'http://localhost:8081/api/book-room',
-            data: bookingData,
-            transformResponse: [function (data) {
-                return data; // Handle the response as text
-            }]
-        }).then(function successCallback(response) {
-            console.log('Booking successful:', response.data);
-            alert(response.data);
-         
-            $scope.loadBookedDates();
-         
-        }, function errorCallback(response) {
-            console.error('Error booking room:', response);
-            alert('Error booking room: ' + response.data);
-        });
-    } else if (bookingData.paymentMethod === 'transfer') {
-        // Save booking details in the database for bank transfer
-         bookingData.paymentStatus = 'pending'; 
-        $http({
-            method: 'POST',
-            url: 'http://localhost:8081/api/book-room',
-            data: bookingData,
-            transformResponse: [function (data) {
-                return data; // Handle the response
-            }]
-        }).then(function successCallback(response) {
-            console.log('Booking successful:', response.data);
-            alert(response.data);
-            const paymentUrl = `http://localhost:8081/pay?total=${totalAmount}`;
-                $window.location.href = paymentUrl;
-            
-            $scope.loadBookedDates();
-        }, function errorCallback(response) {
-            console.error('Error booking room:', response);
-            alert('Error booking room: ' + response.data);
-        });
-    }
-};
-  
-    function checkPaymentStatus(bookingId) {
-        // Giả sử bạn sử dụng setInterval để kiểm tra trạng thái
-        const interval = setInterval(() => {
-            $http.get(`http://localhost:8081/api/check-payment-status/${bookingId}`)
-                .then(function(statusResponse) {
-                    if (statusResponse.data.status === 'success') {
-                        // Cập nhật trạng thái thanh toán thành công
-                        updatePaymentStatus(bookingId, 'successfully');
-                        clearInterval(interval); // Dừng kiểm tra
+                    if (daysBetween > 0 && $scope.selectedRooms.length > 0) {
+                        // Calculate total based on selected rooms
+                        $scope.totalAmount = $scope.selectedRooms.reduce((total, room) => {
+                            return total + (daysBetween * room.gia);
+                        }, 0);
+                    } else {
+                        $scope.totalAmount = 0; // No rooms selected or invalid dates
                     }
-                })
-                .catch(function(error) {
-                    console.error('Error checking payment status:', error);
+                } else {
+                    $scope.totalAmount = 0; // No check-in or check-out dates
+                }
+            };
+
+            $scope.toggleRoomSelection = function(room) {
+                const index = $scope.selectedRooms.findIndex(selectedRoom => selectedRoom.id === room.id);
+                const checkinDate = new Date($scope.booking.checkin);
+                const checkoutDate = new Date($scope.booking.checkout);
+                const daysBetween = (checkoutDate - checkinDate) / (1000 * 3600 * 24);
+
+                if (daysBetween > 0) {
+                    if (index === -1) {
+                        $scope.selectedRooms.push(room); // Add the room if not already selected
+                    } else {
+                        $scope.selectedRooms.splice(index, 1); // Remove if already selected
+                    }
+                }
+
+                $scope.calculateTotalAmount(); // Recalculate the total after selecting or deselecting
+            };
+            /*   $scope.toggleRoomSelection = function(room) {
+                  const index = $scope.selectedRooms.indexOf(room);
+                  if (index > -1) {
+                      $scope.selectedRooms.splice(index, 1);
+                  } else {
+                      $scope.selectedRooms.push(room);
+                  }
+              }; */
+            $scope.loadAvailableRooms = function() {
+                if ($scope.booking.checkin && $scope.booking.checkout) {
+                    const checkin = new Date($scope.booking.checkin).toISOString().slice(0, 10);
+                    const checkout = new Date($scope.booking.checkout).toISOString().slice(0, 10);
+
+                    $http({
+                        method: 'GET',
+                        url: `http://localhost:8081/api/get-available-rooms?checkin=${checkin}&checkout=${checkout}`
+                    }).then(function successCallback(response) {
+                        console.log("Available rooms:", response.data);
+                        $scope.availableRooms = response.data;
+                    }, function errorCallback(response) {
+                        console.error('Error fetching available rooms:', response);
+                    });
+                }
+            };
+
+            $scope.loadBookedDates = function() {
+                $http({
+                    method: 'GET',
+                    url: `http://localhost:8081/api/get-bookings?roomId=${roomId}`
+                }).then(function successCallback(response) {
+                    $scope.bookedDates = response.data; // Assign booked dates to scope
+                }, function errorCallback(response) {
+                    console.error('Error fetching booked dates:', response);
                 });
-        }, 5000); // Kiểm tra mỗi 5 giây
-    }
+            };
 
-    // Hàm cập nhật trạng thái thanh toán
-    function updatePaymentStatus(bookingId, status) {
-        $http.put(`http://localhost:8081/api/update-payment-status/${bookingId}`, { paymentStatus: status })
-            .then(function(updateResponse) {
-                console.log('Payment status updated:', updateResponse.data);
-            })
-            .catch(function(error) {
-                console.error('Error updating payment status:', error);
-            });
-    }
-    $scope.isFutureCheckout = function(booking) {
-        const today = new Date();
-        const checkoutDate = new Date(booking.checkout);
-        return checkoutDate >= today;
-    };
+            $scope.validateBookingDates = function(checkin, checkout) {
+                const today = new Date();
+                const checkinDate = new Date(checkin);
+                const checkoutDate = new Date(checkout);
 
-    $scope.loadBookedDates();
-}]);
+                // Check if dates are in the past
+                if (checkinDate < today || checkoutDate < today) {
+                    alert("Check-in and check-out dates cannot be in the past.");
+                    return false;
+                }
+                if (checkoutDate <= checkinDate) {
+                    alert("Check-out date cannot be earlier or same than check-in date.");
+                    return false;
+                }
+
+                // Kiểm tra số lượng người
+                const adults = $scope.booking.adult || 0;
+                const children = $scope.booking.children || 0;
+                if (adults + children <= 0) {
+                    alert("Số lượng người không được bằng 0.");
+                    return false;
+                }
+                // Check for date overlap with existing bookings
+                for (let booking of $scope.bookedDates) {
+                    const bookedCheckin = new Date(booking.checkin);
+                    const bookedCheckout = new Date(booking.checkout);
+
+                    if ((checkinDate >= bookedCheckin && checkinDate < bookedCheckout) ||
+                        (checkoutDate > bookedCheckin && checkoutDate <= bookedCheckout) ||
+                        (checkinDate <= bookedCheckin && checkoutDate >= bookedCheckout)) {
+
+                        alert(`The selected dates overlap with an existing booking.\nOverlapping booking:\nCheck-in: ${booking.checkin}, Check-out: ${booking.checkout}`);
+
+                        return false;
+                    }
+                }
+
+
+                return true;
+            };
+
+            // Function to book room
+            $scope.bookRoom = function() {
+                // Validate booking dates
+                if (!$scope.validateBookingDates($scope.booking.checkin, $scope.booking.checkout)) {
+                    return;
+                }
+
+                // Check if any rooms are selected
+                if ($scope.selectedRooms.length === 0) {
+                    alert('Please select at least one room to book.');
+                    return; // Exit the function if no rooms are selected
+                }
+
+                const checkinDate = new Date(Date.UTC(
+                    $scope.booking.checkin.getFullYear(),
+                    $scope.booking.checkin.getMonth(),
+                    $scope.booking.checkin.getDate()
+                ));
+
+                const checkoutDate = new Date(Date.UTC(
+                    $scope.booking.checkout.getFullYear(),
+                    $scope.booking.checkout.getMonth(),
+                    $scope.booking.checkout.getDate()
+                ));
+
+                const bookingData = {
+                    Userid: $scope.user.id,
+                    roomid: $scope.selectedRooms.map(room => room.id), // Get selected room IDs
+                    price: $scope.roomDetails.gia,
+                    checkin: checkinDate.toISOString().split('T')[0],
+                    checkout: checkoutDate.toISOString().split('T')[0],
+                    adult: $scope.booking.adult,
+                    children: $scope.booking.children,
+                    paymentMethod: $scope.booking.paymentMethod
+                };
+
+                // Calculate total amount
+                const timeDifference = checkoutDate.getTime() - checkinDate.getTime();
+                const daysBetween = timeDifference / (1000 * 3600 * 24);
+                const totalAmount = daysBetween * $scope.roomDetails.gia; // This can be adjusted based on selected rooms
+                $scope.totalAmount = totalAmount;
+
+                // Proceed with booking based on payment method
+                if (bookingData.paymentMethod === 'cash') {
+                    // Save booking directly for cash payments
+                    bookingData.paymentStatus = 'Not payment';
+                    $http({
+                        method: 'POST',
+                        url: 'http://localhost:8081/api/book-room',
+                        data: bookingData,
+                        transformResponse: [function (data) {
+                            return data; // Handle the response as text
+                        }]
+                    }).then(function successCallback(response) {
+                        console.log('Booking successful:', response.data);
+                        alert(response.data);
+
+                        $scope.loadBookedDates();
+
+                    }, function errorCallback(response) {
+                        console.error('Error booking room:', response);
+                        alert('Error booking room: ' + response.data);
+                    });
+                } else if (bookingData.paymentMethod === 'transfer') {
+                    // Save booking details in the database for bank transfer
+                    bookingData.paymentStatus = 'pending';
+                    $http({
+                        method: 'POST',
+                        url: 'http://localhost:8081/api/book-room',
+                        data: bookingData,
+                        transformResponse: [function (data) {
+                            return data; // Handle the response
+                        }]
+                    }).then(function successCallback(response) {
+                        console.log('Booking successful:', response.data);
+                        alert(response.data);
+                        const paymentUrl = `http://localhost:8081/pay?total=${totalAmount}`;
+                        $window.location.href = paymentUrl;
+
+                        $scope.loadBookedDates();
+                    }, function errorCallback(response) {
+                        console.error('Error booking room:', response);
+                        alert('Error booking room: ' + response.data);
+                    });
+                }
+            };
+
+            function checkPaymentStatus(bookingId) {
+                // Giả sử bạn sử dụng setInterval để kiểm tra trạng thái
+                const interval = setInterval(() => {
+                    $http.get(`http://localhost:8081/api/check-payment-status/${bookingId}`)
+                        .then(function(statusResponse) {
+                            if (statusResponse.data.status === 'success') {
+                                // Cập nhật trạng thái thanh toán thành công
+                                updatePaymentStatus(bookingId, 'successfully');
+                                clearInterval(interval); // Dừng kiểm tra
+                            }
+                        })
+                        .catch(function(error) {
+                            console.error('Error checking payment status:', error);
+                        });
+                }, 5000); // Kiểm tra mỗi 5 giây
+            }
+
+            // Hàm cập nhật trạng thái thanh toán
+            function updatePaymentStatus(bookingId, status) {
+                $http.put(`http://localhost:8081/api/update-payment-status/${bookingId}`, { paymentStatus: status })
+                    .then(function(updateResponse) {
+                        console.log('Payment status updated:', updateResponse.data);
+                    })
+                    .catch(function(error) {
+                        console.error('Error updating payment status:', error);
+                    });
+            }
+            $scope.isFutureCheckout = function(booking) {
+                const today = new Date();
+                const checkoutDate = new Date(booking.checkout);
+                return checkoutDate >= today;
+            };
+
+            $scope.loadBookedDates();
+        }]);
 
 </script>
-  
-    
+
+
 </body>
 </html>

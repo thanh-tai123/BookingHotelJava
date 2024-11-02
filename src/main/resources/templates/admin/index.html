@@ -1,37 +1,43 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
 </head>
 <body>
 
-
-
 <div th:replace="/access/navadmin :: html"></div>
-
-<table border="1">
+<br>
+<table class="table">
+    <thead class="table-dark">
     <tr>
-        <th>id</th>
-        <th>name</th>
-        <th>email</th>
-        <th>phone</th>
-        <th>roles</th>
-        <th>type account</th>
-        <th>image</th>
-        <th>edit</th>
+        <th scope="col">ID</th>
+        <th scope="col">NAME</th>
+        <th scope="col">EMAIL</th>
+        <th scope="col">PHONE</th>
+        <th scope="col">ROLES</th>
+        <th scope="col">TYPE ACCOUNT</th>
+        <th scope="col">IMAGE</th>
+        <th scope="col">EDIT</th>
     </tr>
+    </thead>
+    <tbody>
     <tr th:each="u : ${users}">
         <td th:text="${u.id}"></td>
         <td th:text="${u.name}"></td>
         <td th:text="${u.email}"></td>
-         <td th:text="${u.phone}"></td>
+        <td th:text="${u.phone}"></td>
         <td th:text="${u.roleString}"></td>
         <td th:text="${u.authType}"></td>
         <td><img th:src="${u.image}" width="50" height="50" alt=""></td>
-        <td>edit</td>
+        <td>
+            <a th:href="@{'admin/edit/' + ${u.id}}" title="Edit role user">
+                <i class="fa-solid fa-pen-to-square fa-2xl"></i>
+            </a>
+        </td>
     </tr>
+    </tbody>
 </table>
 </body>
 </html>
