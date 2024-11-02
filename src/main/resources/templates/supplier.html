@@ -9,69 +9,184 @@
     <!-- Include the AngularJS controller script -->
     <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
 </head>
+<style>
+.room-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 900px; /* Chiều rộng tối đa của form */
+    margin: 20px auto; /* Canh giữa form */
+    padding: 20px;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
 
+.form-row {
+    display: flex; /* Sắp xếp các trường theo hàng ngang */
+    justify-content: space-between; /* Khoảng cách đều giữa các trường */
+    margin-bottom: 15px; /* Khoảng cách giữa các hàng */
+}
+
+.form-group {
+    flex: 1; /* Mỗi trường chiếm 1 phần trong hàng */
+    margin-right: 10px; /* Khoảng cách bên phải của mỗi trường */
+}
+
+.form-group:last-child {
+    margin-right: 0; /* Không có khoảng cách bên phải cho trường cuối cùng */
+}
+
+.room-form label {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.room-form input, .room-form select {
+    margin-top: 5px;
+    padding: 10px; /* Tăng padding cho các trường nhập */
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    width: 100%; /* Chiếm toàn bộ chiều rộng của ô */
+    box-sizing: border-box; /* Đảm bảo padding không làm tăng chiều rộng của ô */
+}
+
+.room-form button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%; /* Nút chiếm toàn bộ chiều rộng */
+}
+
+.room-form button:hover {
+    background-color: #45a049;
+}
+.rooms-table {
+    width: 100%; /* Chiều rộng của bảng */
+    border-collapse: collapse; /* Gộp các đường viền */
+}
+
+.rooms-table th, .rooms-table td {
+    border: 1px solid #dddddd; /* Đường viền cho ô */
+    text-align: left; /* Căn trái cho chữ */
+    padding: 8px; /* Khoảng cách trong ô */
+}
+
+.rooms-table th {
+    background-color: #f2f2f2; /* Màu nền cho hàng tiêu đề */
+}
+
+.rooms-table tr:nth-child(even) {
+    background-color: #f9f9f9; /* Màu nền cho hàng chẵn */
+}
+
+.rooms-table tr:hover {
+    background-color: #f1f1f1; /* Màu nền khi hover */
+}
+</style>
 <body >
 
 <div th:replace="/access/navadmin :: html"></div>
 <div ng-controller="RoomController">
     <h1>{{ isEditing ? 'Edit Room' : 'Add Room' }}</h1>
-   <form ng-submit="isEditing ? saveUpdatedRoom() : addRoom()">
+   <form ng-submit="isEditing ? saveUpdatedRoom() : addRoom()" class="room-form">
    
-        <input value="{{user.id}}" ng-model="room.staffid" type="hidden">
-        Name: <input value="{{user.name}}" disabled>
-        
-        <label>Hotel Branch:</label>
-        <select ng-model="selectedHotel" ng-options="hotel.chinhanh for hotel in hotels" ng-change="updateHotelDetails()">
-            <option value="">Select a branch</option>
-        </select>
-        
-        <label>Address:</label>
-        <input type="text" ng-model="room.hotel.diachi" disabled />
-        <input ng-model="room.hotelId" type="hidden" />
 
-        <label>Image:</label>
-        <input type="file" file-model="room.img" ng-required="!isEditing" />
+    <div class="form-row">
+        <div class="form-group">
+           
+            <input value="{{user.id}}" ng-model="room.staffid" type="hidden">
+    <label>Name:</label>
+    <input value="{{user.name}}" disabled />
+            
+            <input type="hidden" ng-model="room.status" ng-required="true" />
+        </div>
+        
+        <div class="form-group">
+         <label>Hotel Branch:</label>
+            <select ng-model="selectedHotel" ng-options="hotel.chinhanh for hotel in hotels" ng-change="updateHotelDetails()">
+                <option value="">Select a branch</option>
+            </select>
+           <p ng-if="isEditing">Selected Hotel: {{ room.hotelid.chinhanh }}</p>
+        </div>
 
+        <div class="form-group">
+           
+             <label>Room Type:</label>
+            <select ng-model="selectedRoomType" ng-options="roomtype as roomtype.name for roomtype in roomTypes" ng-change="updateRoomTypeDetails()">
+                <option value="">Select a Room Type</option>
+            </select>
+            <p ng-if="isEditing">Selected Room Type: {{ room.roomType.name }}</p>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label>Image:</label>
+            <input type="file" file-model="room.img" ng-required="!isEditing" />
+            <img ng-if="isEditing" ng-src="{{ room.img }}" alt="Room Image" style="height: 100px; width: 100px;" />
+        </div>
+
+        <div class="form-group">
         <label>Room Number:</label>
-        <input type="number" ng-model="room.sophong" required />
-        
-        <label>Room Type:</label>
-        <select ng-model="selectedRoomType" ng-options="roomtype as roomtype.name for roomtype in roomTypes" ng-change="updateRoomTypeDetails()">
-            <option value="">Select a Room Type</option>
-        </select>
-        <input ng-model="room.roomTypeId" type="hidden" />
+            <input type="number" ng-model="room.sophong" required />
+          
+        </div>
 
-        <label>Price:</label>
-        <input type="number" ng-model="room.gia" required />
+        <div class="form-group">
+               <label>Price:</label>
+            <input type="number" ng-model="room.gia" required />
+        </div>
+    </div>
 
-        <label>Description:</label>
-        <input type="text" ng-model="room.mota" required />
+    <div class="form-row">
+        <div class="form-group">
+            <label>Description:</label>
+            <input type="text" ng-model="room.mota" required />
+        </div>
+    </div>
 
-        <input type="hidden" ng-model="room.status" />
-        
-        <button type="submit">{{ isEditing ? 'Update Room' : 'Add Room' }}</button>
-    </form>
-
-    <h2>Rooms List</h2>
+    <button type="submit">{{ isEditing ? 'Update Room' : 'Add Room' }}</button>
+</form>
+   <h2>Rooms List</h2>
 <label for="statusSelect">Filter by Status:</label>
 <select id="statusSelect" ng-model="selectedStatus" ng-change="loadRoomsByStatus(selectedStatus)">
     <option value="FALSE">Not Confirm</option>
     <option value="CANCEL">Cancelled</option>
 </select>
 
-<ul>
-    <li ng-repeat="room in rooms">
-        <strong>Room Number:</strong> {{ room.sophong }}<br>
-        <strong>Room Type:</strong> {{ room.roomtype.name }}<br>
-        <strong>Price:</strong> ${{ room.gia }}<br>
-        <strong>Status:</strong> {{ room.status }}<br>
-        <strong>Description:</strong> {{ room.mota }}<br>
-        <button ng-click="editRoom(room)">Edit</button>
-        <button ng-click="deleteRoom(room.id)">Delete</button>
-        <hr>
-    </li>
-</ul>
-    
+<table class="rooms-table">
+    <thead>
+        <tr>
+            <th>Room Number</th>
+            <th>Image</th>
+            <th>Room Type</th>
+            <th>Hotel Name</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="room in rooms">
+            <td>{{ room.sophong }}</td>
+            <td><img ng-src="{{ room.img }}" alt="Room Image" style="height: 100px;width: 100px"/></td>
+            <td>{{ room.roomType.name }}</td>
+            <td>{{ room.hotelid.chinhanh }}</td>
+            <td>${{ room.gia }}</td>
+            <td>{{ room.status }}</td>
+            <td>{{ room.mota }}</td>
+            <td>
+                <button ng-click="editRoom(room)">Edit</button>
+                <button ng-click="deleteRoom(room.id)">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
 </div>
 
 <script>
@@ -110,12 +225,7 @@ angular.module('app', [])
         }, function(error) {
             console.error('Error fetching hotels:', error);
         });
-    $scope.editRoom = function(room) {
-        $scope.room = angular.copy(room); // Copy room data to form
-        $scope.isEditing = true; // Set editing flag
-        $scope.selectedHotel = room.hotelId; // Set selected hotel
-        $scope.selectedRoomType = room.roomTypeId; // Set selected room type
-    };
+   
 
     $scope.saveUpdatedRoom = function() {
     	 var formData = new FormData();
@@ -141,20 +251,21 @@ angular.module('app', [])
     	        $scope.resetForm(); // Reset form after update
     	    }, function(error) {
     	        console.error('Error updating room:', error);
-    	        alert('Error updating room: ' + error.data);
+    	        alert('Error updating room: chọn lại hotel và roomtype');
     	    });
     };
 
 
     $scope.deleteRoom = function(roomId) {
         if (confirm('Are you sure you want to delete this room?')) {
+            console.log('Attempting to delete room with ID:', roomId); // Log ID
             $http.delete(`http://localhost:8081/api/delete-room/${roomId}`)
                 .then(function(response) {
                     alert('Room deleted successfully!');
                     $scope.loadRoomsByStatus($scope.selectedStatus); // Refresh the rooms list
                 }, function(error) {
                     console.error('Error deleting room:', error);
-                    alert('Error deleting room: ' + error.data);
+                    alert('Error deleting room: You have not permission');
                 });
         }
     };
@@ -185,15 +296,21 @@ angular.module('app', [])
         console.error('Error fetching hotels:', error);
     });
 
-$scope.updateRoomTypeDetails = function() {
-    if ($scope.selectedRoomType) {
-        $scope.room.roomTypeId = $scope.selectedRoomType.id;
-        $scope.room.RoomType = $scope.selectedRoomType;
-    } else {
-        $scope.room.roomTypeId = null;
-        $scope.room.RoomType = {};
-    }
-};
+    $scope.updateRoomTypeDetails = function() {
+        if ($scope.selectedRoomType) {
+            $scope.room.roomTypeId = $scope.selectedRoomType.id; // Cập nhật ID loại phòng
+            $scope.room.roomType = $scope.selectedRoomType; // Cập nhật thông tin loại phòng
+        } else {
+            $scope.room.roomTypeId = null; // Đặt lại nếu không có lựa chọn
+            $scope.room.roomType = {}; // Đặt lại đối tượng loại phòng
+        }
+    };
+    $scope.editRoom = function(room) {
+        $scope.room = angular.copy(room); // Sao chép dữ liệu của phòng vào form
+        $scope.isEditing = true; // Đặt cờ chỉnh sửa
+        $scope.selectedHotel = room.hotelId; // Đặt khách sạn đã chọn
+        $scope.selectedRoomType = room.roomTypeId; // Đặt loại phòng đã chọn
+    };
 
 
     $scope.addRoom = function() {
@@ -219,6 +336,8 @@ $scope.updateRoomTypeDetails = function() {
         }).then(function(response) {
             console.log('Room added successfully:', response.data);
             alert(response.data.message);
+            $scope.loadRoomsByStatus($scope.selectedStatus); 
+            $scope.resetForm();
         }, function(error) {
             console.error('Error adding room:', error);
             alert('Error adding room: ' + JSON.stringify(error.data));

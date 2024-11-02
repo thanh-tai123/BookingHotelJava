@@ -1,6 +1,6 @@
 package com.poly.dto;
 
-import java.util.Date;
+import java.util.List;
 
 import com.poly.util._enum.RoomStatus;
 
@@ -13,10 +13,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RoomTypeDTO {
-	 private Integer id;
-    private String name;
-    private String description;
+public class RoomTypeServiceSummaryDTO {
+	private String roomTypeName;
+    private List<String> services;
+    private long serviceCount;
 
-    // Getters and Setters
 }

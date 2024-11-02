@@ -1,0 +1,17 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Verify Account</title>
+</head>
+<body>
+ <h2>Verify Account</h2>
+    <form th:action="@{/account/verify-account}" method="post">
+     <!--   Email: <input type="text" name="email"><br> -->
+         Email: <input type="text" name="email" th:value="${email}" disabled><br>  
+        OTP: <input type="text" name="otp"><br>
+        <input type="submit" value="Verify">
+    </form>
+</body>
+</html>
