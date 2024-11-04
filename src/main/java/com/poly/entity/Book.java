@@ -30,6 +30,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table
@@ -43,6 +44,7 @@ public class Book {
 	    private Integer id;
 	  @Column(name = "book_code")
 	  private String bookCode;
+	  @ToString.Exclude
 		  @ManyToOne
 		    @JoinColumn(name = "Userid", nullable = false)
 		    @JsonBackReference
@@ -50,7 +52,7 @@ public class Book {
 	    @Column(name = "create_date")
 	    @Temporal(TemporalType.TIMESTAMP)
 	    private Date createDate;
-	    
+	    @ToString.Exclude
 	    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	    private Set<BookDetail> bookDetails ; // Primary collection
 	    

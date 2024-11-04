@@ -55,6 +55,20 @@
 <body>
 <div th:replace="/access/nav :: html"></div>
     <div class="container">
+    <form action="#" th:action="@{/room/filter}" method="get">
+    <div class="form-group">
+        <label for="roomtype">Loại phòng:</label>
+        <select id="roomtype" name="roomtype" class="form-control">
+            <option value="">Tất cả</option>
+            <option value="Single">Single</option>
+            <option value="Double">Double</option>
+            <option value="Luxury">Luxury</option>
+            <!-- Thêm các loại phòng khác nếu có -->
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Lọc</button>
+</form>
+    
         <div class="row">
             <div class="col-md-4" th:each="r : ${rooms}">
                 <div class="card">
