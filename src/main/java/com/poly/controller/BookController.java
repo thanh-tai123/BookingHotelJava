@@ -1,9 +1,16 @@
 package com.poly.controller;
 
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,10 +58,24 @@ public class BookController {
 //    }
 
     @GetMapping("/bookcode")
-    public String showBookForm() {
+    public String showBookForm(Model model) {
+    	model.addAttribute("bookCode", "");
         return "searchBookCode"; // Tên của view Thymeleaf
     }
 
+    @GetMapping("/getbook")
+    public String getBook(@RequestParam("bookCode") String bookCode, Model model) {
+        Book book = bookRepository.findByBookCode(bookCode);
+        List<BookDetail> details = bookDetailRepository.findByBook_BookCode(bookCode);// Tìm Book theo bookCode
+        if (book != null) {
+            model.addAttribute("book", book);
+            model.addAttribute("bookDetails", details);
+        } else {
+            model.addAttribute("error", "Không tìm thấy Book với BookCode: " + bookCode);
+        }
+        model.addAttribute("bookCode", bookCode);
+        return "searchBookCode"; // Tên của view hiển thị thông tin Book
+    }
     @PostMapping("/book")
     public String getBookInfo(@RequestParam("bookCode") String bookCode, Model model) {
         Book book = bookRepository.findByBookCode(bookCode);
@@ -65,6 +86,7 @@ public class BookController {
         } else {
             model.addAttribute("error", "Không tìm thấy Book với BookCode: " + bookCode);
         }
+        model.addAttribute("bookCode", bookCode);
         return "searchBookCode"; // Tên của view hiển thị thông tin Book
     }
     @GetMapping("/user/books")
@@ -77,5 +99,64 @@ public class BookController {
     public String showBookDetail() {
         return "bookdetail"; // Tên của view Thymeleaf
     }
+    
+    
+    
+	/* -----ADMIN, STAFF UPDATE BOOKDETAILSTATUS */
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/admin/bookcode")
+    public String showAdminBookForm(Model model) {
+    	model.addAttribute("bookCode", "");
+        return "admin/searchBookCode"; // Tên của view Thymeleaf
+    }
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/admin/getbook")
+    public String getAdminBook(@RequestParam("bookCode") String bookCode, Model model) {
+        Book book = bookRepository.findByBookCode(bookCode);
+        List<BookDetail> details = bookDetailRepository.findByBook_BookCode(bookCode);// Tìm Book theo bookCode
+        if (book != null) {
+            model.addAttribute("book", book);
+            model.addAttribute("bookDetails", details);
+        } else {
+            model.addAttribute("error", "Không tìm thấy Book với BookCode: " + bookCode);
+        }
+        model.addAttribute("bookCode", bookCode);
+        return "/admin/searchBookCode"; // Tên của view hiển thị thông tin Book
+    }
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/admin/book")
+    public String getAdminBookInfo(@RequestParam("bookCode") String bookCode, Model model) {
+        Book book = bookRepository.findByBookCode(bookCode);
+        List<BookDetail> details = bookDetailRepository.findByBook_BookCode(bookCode);// Tìm Book theo bookCode
+        if (book != null) {
+            model.addAttribute("book", book);
+            model.addAttribute("bookDetails", details);
+        } else {
+            model.addAttribute("error", "Không tìm thấy Book với BookCode: " + bookCode);
+        }
+        model.addAttribute("bookCode", bookCode);
+        return "/admin/searchBookCode"; // Tên của view hiển thị thông tin Book
+    }
+    @PostMapping("/updateStatus")
+    public String updateStatus(@RequestParam("detailId") Integer detailId,
+                               @RequestParam("status") String status,
+                               @RequestParam("bookCode") String bookCode,
+                               @AuthenticationPrincipal UserDetails currentUser, // Lấy thông tin người dùng hiện tại
+                               Model model) {
+        Optional<BookDetail> optionalBookDetail = bookDetailRepository.findById(detailId);
+        if (optionalBookDetail.isPresent()) {
+            BookDetail bookDetail = optionalBookDetail.get();
+            bookDetail.setBookDetailStatus(status);
+            bookDetail.setUpdatedBy(currentUser.getUsername()); // Lưu người cập nhật
+            bookDetail.setUpdatedAt(new Date()); // Lưu thời gian cập nhật
+            bookDetailRepository.save(bookDetail);
+            model.addAttribute("message", "Trạng thái phòng đã được cập nhật");
+        } else {
+            model.addAttribute("error", "Không tìm thấy chi tiết đặt phòng");
+        }
+        return "redirect:/search/admin/getbook?bookCode=" + bookCode;// Truyền bookCode trong URL redirect
+    }
+
+
 }
 

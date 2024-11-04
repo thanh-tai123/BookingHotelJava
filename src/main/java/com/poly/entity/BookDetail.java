@@ -1,6 +1,7 @@
 package com.poly.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -43,6 +44,9 @@ public class BookDetail {
     private Integer children;
     private String paymentMethod;
     private String paymentStatus;
+    private String bookDetailStatus;
+    private String updatedBy;
+    private Date updatedAt;
     @ManyToOne
     @JoinColumn(name = "bookid", insertable = false, updatable = false)
     private Book book;
