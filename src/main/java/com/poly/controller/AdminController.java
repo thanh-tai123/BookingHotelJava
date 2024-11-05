@@ -2,10 +2,14 @@ package com.poly.controller;
 
 import com.poly.entity.Role;
 import com.poly.entity.Room;
+import com.poly.entity.RoomType;
+import com.poly.entity.Services;
 import com.poly.entity.User;
 import com.poly.repository.RoomRepository;
+import com.poly.repository.RoomTypeRepository;
 import com.poly.repository.UserRepo;
 import com.poly.service.RoleService;
+import com.poly.service.ServiceService;
 import com.poly.util._enum.RoomStatus;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +32,10 @@ public class AdminController {
     private RoomRepository roomRepo;
     @Autowired
     private RoleService roleService;
+    @Autowired 
+    private RoomTypeRepository roomTypeRepo;
+    @Autowired
+    private ServiceService serviceService;
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
 
@@ -128,6 +136,36 @@ public class AdminController {
   public String roomservice(Model model) {
    
     return "addservice";
+  }
+  
+  @PreAuthorize("hasAuthority('ADMIN')")
+  @RequestMapping("/roomtypes")
+  public String listRoomTypes(Model model) {
+      List<RoomType> roomTypes = this.roomTypeRepo.findAll();
+      model.addAttribute("roomTypes", roomTypes);
+      return "roomtypeandservice/index";
+  }
+
+  @PreAuthorize("hasAuthority('ADMIN')")
+  @RequestMapping("/editRoomType/{id}")
+  public String showEditRoomType(@PathVariable(name = "id") Integer id, Model model) {
+      RoomType roomType = this.roomTypeRepo.findById(id).orElse(null);
+
+      if (roomType == null) {
+          return "redirect:/admin/roomtypes";
+      }
+
+      List<Services> services = this.serviceService.findAll();
+
+      model.addAttribute("roomType", roomType);
+      model.addAttribute("services", services);
+
+      return "roomtypeandservice/Edit_RoomType";
+  }
+  @PostMapping("/saveRoomType")
+  public String saveRoomType(@ModelAttribute(name = "roomType") RoomType roomType) {
+      this.roomTypeRepo.save(roomType);
+      return "redirect:/admin/roomtypes";
   }
 
 }
