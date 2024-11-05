@@ -11,8 +11,7 @@
 <br>
 
 <div>
-
-   <form th:action="@{/admin/saveRoomType}" method="post" style="max-width:700px; margin: 0 auto" th:object="${roomType}" enctype="multipart/form-data">
+<form th:action="@{/admin/saveRoomType}" method="post" style="max-width:700px; margin: 0 auto" th:object="${roomType}" enctype="multipart/form-data">
     <input type="hidden" th:field="*{id}">
     <div class="border border-secondary rounded p-3">
 
@@ -34,7 +33,8 @@
             <label class="col-sm-4 col-form-label">Services:</label>
             <div class="col-sm-8">
                 <th:block th:each="service : ${services}">
-                    <input type="checkbox" th:field="*{services}" th:text="${service.name}" th:value="${service.id}"/>
+                    <input type="checkbox" name="serviceIds" th:value="${service.id}" 
+                           th:checked="${selectedServices.contains(service.id)}"/> <span th:text="${service.name}"></span>
                     <br>
                 </th:block>
             </div>
@@ -46,6 +46,8 @@
         </div>
     </div>
 </form>
+
+   
    
 
 </div>

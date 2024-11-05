@@ -1,10 +1,12 @@
 package com.poly.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ import com.poly.entity.RoomTypeByService;
 import com.poly.entity.Services;
 import com.poly.repository.RoomTypeByServiceRepository;
 import com.poly.repository.RoomTypeRepository;
+import com.poly.repository.ServiceRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class RoomTypeService {
@@ -25,6 +30,8 @@ public class RoomTypeService {
     private RoomTypeRepository roomTypeRepository;
     @Autowired
     private RoomTypeByServiceRepository roomTypeByServiceRepository;
+    @Autowired
+    private ServiceRepository serviceRepository;
     
     public RoomType createRoomType(RoomTypeDTO roomTypeDTO) {
         RoomType roomType = new RoomType();
@@ -91,6 +98,52 @@ public class RoomTypeService {
                 .map(RoomTypeByService::getMyService)
                 .collect(Collectors.toList());
     }
+    public RoomType findById(Integer id) {
+        return roomTypeRepository.findById(id).orElse(null);
+    }
 
+    
+    public void updateRoomTypeServices(RoomType roomType, List<Integer> serviceIds) {
+        // Lấy RoomType từ database nếu đã tồn tại
+        RoomType existingRoomType = roomTypeRepository.findById(roomType.getId()).orElseThrow(() -> new RuntimeException("RoomType not found"));
+        System.out.println(existingRoomType.toString());
+        // Lấy danh sách RoomTypeByService hiện tại
+        List<RoomTypeByService> existingServices = existingRoomType.getServices();
+
+        // Tạo danh sách các dịch vụ mới cần thêm vào
+        Set<Services> newServices = serviceIds != null ? serviceIds.stream()
+                                              .map(id -> serviceRepository.findById(id).orElseThrow(() -> new RuntimeException("Service not found")))
+                                              .collect(Collectors.toSet()) : Collections.emptySet();
+
+        // Kiểm tra và thêm các dịch vụ mới nếu chưa tồn tại
+        for (Services newService : newServices) {
+            boolean exists = existingServices.stream()
+                                             .anyMatch(existingService -> existingService.getMyService().getId().equals(newService.getId()));
+            if (!exists) {
+                RoomTypeByService roomTypeByService = new RoomTypeByService();
+                roomTypeByService.setMyroomType(existingRoomType);
+                roomTypeByService.setMyService(newService);
+                roomTypeByServiceRepository.save(roomTypeByService);
+            }
+        }
+
+        // Kiểm tra và xóa các dịch vụ không còn được chọn
+        for (RoomTypeByService existingService : existingServices) {
+            boolean stillSelected = newServices.stream()
+                                               .anyMatch(newService -> newService.getId().equals(existingService.getMyService().getId()));
+            if (!stillSelected) {
+                // Chỉ xóa nếu thực thể tồn tại
+                if (roomTypeByServiceRepository.existsById(existingService.getId())) {
+                    roomTypeByServiceRepository.delete(existingService);
+                }
+            }
+        }
+
+        // Cập nhật RoomType
+        existingRoomType.setName(roomType.getName());
+        existingRoomType.setDescription(roomType.getDescription());
+
+        roomTypeRepository.save(existingRoomType);
+    }
     
 }

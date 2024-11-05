@@ -6,9 +6,12 @@ import com.poly.entity.RoomType;
 import com.poly.entity.Services;
 import com.poly.entity.User;
 import com.poly.repository.RoomRepository;
+import com.poly.repository.RoomTypeByServiceRepository;
 import com.poly.repository.RoomTypeRepository;
+import com.poly.repository.ServiceRepository;
 import com.poly.repository.UserRepo;
 import com.poly.service.RoleService;
+import com.poly.service.RoomTypeService;
 import com.poly.service.ServiceService;
 import com.poly.util._enum.RoomStatus;
 
@@ -21,6 +24,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
@@ -31,41 +36,23 @@ public class AdminController {
     @Autowired
     private RoomRepository roomRepo;
     @Autowired
+    private ServiceRepository serviceRepo;
+    @Autowired
     private RoleService roleService;
     @Autowired 
     private RoomTypeRepository roomTypeRepo;
     @Autowired
+    private RoomTypeByServiceRepository roomtypebyServiceRepo;
+    @Autowired
     private ServiceService serviceService;
+    @Autowired
+    private RoomTypeService roomTypeService;
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
 
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @RequestMapping("")
-    public String index(Model model) {
-        model.addAttribute("user", new User());
-        model.addAttribute("users", userRepo.findAll());
-        return "admin/index";
-    }
+    
 
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @RequestMapping("/edit/{id}")
-    public String showEditRoleUser(@PathVariable(name = "id") Long id, Model model, RedirectAttributes redirectAttributes) {
-        User user = this.userRepo.findById(id).get();
-
-        List<Role> roles = this.roleService.findAll();
-
-        model.addAttribute("user", user);
-        model.addAttribute("roles", roles);
-
-        return "admin/Edit_User";
-    }
-
-    @PostMapping("/save")
-    public String saveUser(@ModelAttribute(name = "user") User user, RedirectAttributes redirectAttributes
-    ) {
-        this.userRepo.save(user);
-        return "redirect:/admin";
-    }
+   
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping("revenue")
@@ -138,33 +125,66 @@ public class AdminController {
     return "addservice";
   }
   
+  
+  
+  ////////
   @PreAuthorize("hasAuthority('ADMIN')")
-  @RequestMapping("/roomtypes")
-  public String listRoomTypes(Model model) {
-      List<RoomType> roomTypes = this.roomTypeRepo.findAll();
-      model.addAttribute("roomTypes", roomTypes);
+  @RequestMapping("")
+  public String index(Model model) {
+      model.addAttribute("user", new User());
+      model.addAttribute("users", userRepo.findAll());
+      return "admin/index";
+  }
+
+  @PreAuthorize("hasAuthority('ADMIN')")
+  @RequestMapping("/edit/{id}")
+  public String showEditRoleUser(@PathVariable(name = "id") Long id, Model model, RedirectAttributes redirectAttributes) {
+      User user = this.userRepo.findById(id).get();
+
+      List<Role> roles = this.roleService.findAll();
+
+      model.addAttribute("user", user);
+      model.addAttribute("roles", roles);
+
+      return "admin/Edit_User";
+  }
+  @PostMapping("/save")
+  public String saveUser(@ModelAttribute(name = "user") User user, RedirectAttributes redirectAttributes
+  ) {
+      this.userRepo.save(user);
+      return "redirect:/admin";
+  }
+  //////
+  
+  @PreAuthorize("hasAuthority('ADMIN')")
+  @RequestMapping("roomtypes")
+  public String indexroomtype(Model model) {
+      model.addAttribute("roomType", new RoomType());
+      model.addAttribute("roomTypes", roomTypeRepo.findAll());
       return "roomtypeandservice/index";
   }
 
   @PreAuthorize("hasAuthority('ADMIN')")
   @RequestMapping("/editRoomType/{id}")
-  public String showEditRoomType(@PathVariable(name = "id") Integer id, Model model) {
-      RoomType roomType = this.roomTypeRepo.findById(id).orElse(null);
-
-      if (roomType == null) {
-          return "redirect:/admin/roomtypes";
-      }
-
-      List<Services> services = this.serviceService.findAll();
-
+  public String showEditRoomType(@PathVariable(name = "id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+      RoomType roomType = roomTypeRepo.findById(id).orElseThrow(() -> new RuntimeException("RoomType not found"));
+      List<Services> services = serviceRepo.findAll();
+      Set<Integer> selectedServices = roomType.getServices().stream()
+                                              .map(rts -> rts.getMyService().getId())
+                                              .collect(Collectors.toSet());
+      
+      
       model.addAttribute("roomType", roomType);
       model.addAttribute("services", services);
+      model.addAttribute("selectedServices", selectedServices);
 
       return "roomtypeandservice/Edit_RoomType";
   }
+
+
   @PostMapping("/saveRoomType")
-  public String saveRoomType(@ModelAttribute(name = "roomType") RoomType roomType) {
-      this.roomTypeRepo.save(roomType);
+  public String saveRoomType(@ModelAttribute(name = "roomType") RoomType roomType, @RequestParam(name = "serviceIds", required = false) List<Integer> serviceIds) {
+      roomTypeService.updateRoomTypeServices(roomType, serviceIds);
       return "redirect:/admin/roomtypes";
   }
 

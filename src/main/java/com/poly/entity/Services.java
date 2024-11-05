@@ -18,6 +18,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 @Entity
 @Table(name="service")
 @Data
@@ -32,6 +33,7 @@ public class Services {
 	  	private String description;
 	  	 @OneToMany(mappedBy = "myService") 
 	  	 @JsonManagedReference
+	  	@ToString.Exclude
 	     private List<RoomTypeByService> services;
 
 		/*
