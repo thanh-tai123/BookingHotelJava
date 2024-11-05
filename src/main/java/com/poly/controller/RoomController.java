@@ -32,8 +32,8 @@ public class RoomController {
 	  private RoomRepository roomRepo;
 	  @Autowired
 	    private RoomService roomService;
-	 @Autowired
-	 private RoomService roomService;
+//	 @Autowired
+//	 private RoomService roomService;
 	@Autowired
 	private ViewRoomRepository viewRoomRepository;
 	@RequestMapping("")
