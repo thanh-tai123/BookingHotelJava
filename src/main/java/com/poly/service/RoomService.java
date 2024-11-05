@@ -137,4 +137,13 @@ public class RoomService {
 
         return roomDTOs;
     }
+    
+    public List<Room> findByRoomType(String roomtype) {
+        return roomRepository.findByRoomtype_Name(roomtype);
+    }
+
+    public List<Room> findAll() {
+        return roomRepository.findAll();
+    }
+	
 }

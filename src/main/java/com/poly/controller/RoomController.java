@@ -18,6 +18,7 @@ import com.poly.entity.Room;
 import com.poly.entity.RoomTypeByService;
 import com.poly.repository.ProductRepo;
 import com.poly.repository.RoomRepository;
+import com.poly.service.RoomService;
 import com.poly.util._enum.RoomStatus;
 
 @Controller
@@ -25,6 +26,8 @@ import com.poly.util._enum.RoomStatus;
 public class RoomController {
 	 @Autowired
 	  private RoomRepository roomRepo;
+	  @Autowired
+	    private RoomService roomService;
 	 @RequestMapping("")
 	    public String index(Model model) {
 	        // Fetch only rooms with status TRUE
@@ -59,7 +62,7 @@ public class RoomController {
 		 * // This should point to your AngularJS app's main HTML file }
 		 */
 	  
-	  @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+	  @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('SUPPLIER') or hasAuthority('MOD')")
 	    @GetMapping("/room-details/{roomId}")
 	    public String showRoomDetails(@PathVariable Integer roomId, Model model) {
 	        model.addAttribute("roomId", roomId); // Pass roomId to Thymeleaf view
@@ -70,5 +73,16 @@ public class RoomController {
 	        // Fetch only rooms with status TRUE
 	       
 	        return "display";
+	    }
+	    @GetMapping("/filter")
+	    public String listRooms(@RequestParam(required = false) String roomtype, Model model) {
+	        List<Room> rooms;
+	        if (roomtype != null && !roomtype.isEmpty()) {
+	            rooms = roomService.findByRoomType(roomtype);
+	        } else {
+	            rooms = roomService.findAll();
+	        }
+	        model.addAttribute("rooms", rooms);
+	        return "room";
 	    }
 }

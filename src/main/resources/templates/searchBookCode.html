@@ -88,7 +88,7 @@
 <h1>Nhập BookCode</h1>
     <form action="#" th:action="@{/search/book}" method="post">
         <label for="bookCode">BookCode:</label>
-        <input type="text" id="bookCode" name="bookCode" required />
+        <input type="text" id="bookCode" name="bookCode" th:value="${bookCode}" required />
         <button type="submit">Tìm kiếm</button>
     </form>
      <h1>Thông Tin Book</h1>
@@ -125,6 +125,7 @@
                 <th>Trẻ em</th>
                 <th>Phương thức thanh toán</th>
                 <th>Trạng thái thanh toán</th>
+                 <th>Trạng thái phòng</th>
             </tr>
         </thead>
         <tbody th:with="content='Chi tiết đặt phòng:\n'">
@@ -139,9 +140,10 @@
                 <td th:text="${detail.children}"></td>
                 <td th:text="${detail.paymentMethod}"></td>
                 <td th:text="${detail.paymentStatus}"></td>
+                 <td th:text="${detail.BookDetailStatus}"></td>
 
                 <!-- Xây dựng nội dung cho txtContent -->
-                <td th:with="content=${content} + 'ID: ' + ${detail.id} + ', ID Phòng: ' + ${detail.roomid} + ', Tổng: ' + ${detail.total} + ', Giá: ' + ${detail.price} + ', Checkin: ' + ${#dates.format(detail.checkin, 'yyyy-MM-dd HH:mm:ss')} + ', Checkout: ' + ${#dates.format(detail.checkout, 'yyyy-MM-dd HH:mm:ss')} + ', Người lớn: ' + ${detail.adult} + ', Trẻ em: ' + ${detail.children} + ', Phương thức thanh toán: ' + ${detail.paymentMethod} + ', Trạng thái thanh toán: ' + ${detail.paymentStatus} + '\n'">
+                <td th:with="content=${content} + 'ID: ' + ${detail.id} + ', ID Phòng: ' + ${detail.roomid} + ', Tổng: ' + ${detail.total} + ', Giá: ' + ${detail.price} + ', Checkin: ' + ${#dates.format(detail.checkin, 'yyyy-MM-dd HH:mm:ss')} + ', Checkout: ' + ${#dates.format(detail.checkout, 'yyyy-MM-dd HH:mm:ss')} + ', Người lớn: ' + ${detail.adult} + ', Trẻ em: ' + ${detail.children} + ', Phương thức thanh toán: ' + ${detail.paymentMethod} + ', Trạng thái thanh toán: ' + ${detail.paymentStatus} + ', Trạng thái phòng: ' +${detail.BookDetailStatus}+'\n'">
                 </td>
             </tr>
         </tbody>
@@ -171,7 +173,8 @@
         Trẻ em: [[${detail.children}]], 
         Phương thức thanh toán: [[${detail.paymentMethod}]], 
         Trạng thái thanh toán: [[${detail.paymentStatus}]]
-        &#10; <!-- Line break for new detail -->
+        Trạng thái phòng: [[${detail.BookDetailStatus}]]
+        &#10; <------------------------------------>
     </th:block>
 </textarea>
 
