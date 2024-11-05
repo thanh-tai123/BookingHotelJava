@@ -1,12 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>Payment Status</title>
+    <link rel="stylesheet" href="/path/to/your/styles.css"> <!-- Include your styles if needed -->
 </head>
 <body>
-<div th:replace="/access/nav :: html"></div>
-payment successfully
-<div th:replace="/access/footer :: body"></div>
+    <div th:replace="/access/nav :: html"></div>
+
+    <div class="payment-success">
+        <h1>Payment Successful!</h1>
+        <p>Thank you for your payment. Your booking has been confirmed.</p>
+        <p>Your booking ID is: <span th:text="${Id}"></span></p> <!-- Displaying the booking ID dynamically if needed -->
+        <a th:href="@{/room}">Go to Home</a> <!-- Link to redirect back to home or another page -->
+    </div>
+
+    <div th:replace="/access/footer :: body"></div>
 </body>
 </html>

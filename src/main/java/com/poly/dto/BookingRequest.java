@@ -29,6 +29,7 @@ public class BookingRequest {
     private float total;
     private String paymentMethod;
     private String paymentStatus;
+    private String bookDetailStatus;
     private List<RoomRequest> rooms = new ArrayList<>(); 
     // Getters and Setters
 }

@@ -3,9 +3,12 @@ package com.poly.controller;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +21,7 @@ import com.poly.entity.Room;
 import com.poly.entity.RoomTypeByService;
 import com.poly.repository.ProductRepo;
 import com.poly.repository.RoomRepository;
+import com.poly.service.BookingService;
 import com.poly.service.RoomService;
 import com.poly.util._enum.RoomStatus;
 
@@ -28,6 +32,8 @@ public class RoomController {
 	  private RoomRepository roomRepo;
 	  @Autowired
 	    private RoomService roomService;
+	  @Autowired
+	    private BookingService bookingService;
 	 @RequestMapping("")
 	    public String index(Model model) {
 	        // Fetch only rooms with status TRUE
@@ -74,6 +80,30 @@ public class RoomController {
 	       
 	        return "display";
 	    }
+//	  @GetMapping("/displaypayment")
+//	  public ResponseEntity<String> displayPaymentStatus(@RequestParam Map<String, String> params) {
+//	      String vnp_ResponseCode = params.get("vnp_ResponseCode");
+//	      String bookingIdStr = params.get("vnp_TxnRef"); // Check if "vnp_TxnRef" is the correct parameter name for VNPay
+//
+//	      if ("00".equals(vnp_ResponseCode)) { // '00' indicates success
+//	          try {
+//	              Integer bookingId = Integer.parseInt(bookingIdStr);
+//	              bookingService.updatePaymentStatus(bookingId, "success");
+//
+//	              return ResponseEntity.ok("<div class='payment-success'>" +
+//	                                       "<h1>Payment Successful!</h1>" +
+//	                                       "<p>Thank you for your payment. Your booking is confirmed.</p>" +
+//	                                       "<a href='/room'>Go to Home</a>" +
+//	                                       "</div>");
+//	          } catch (NumberFormatException e) {
+//	              return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid booking ID format.");
+//	          }
+//	      } else {
+//	          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Payment failed. Please try again.");
+//	      }
+//	  }
+
+
 	    @GetMapping("/filter")
 	    public String listRooms(@RequestParam(required = false) String roomtype, Model model) {
 	        List<Room> rooms;

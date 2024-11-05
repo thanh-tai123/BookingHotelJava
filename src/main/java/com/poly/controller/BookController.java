@@ -137,7 +137,8 @@ public class BookController {
         model.addAttribute("bookCode", bookCode);
         return "/admin/searchBookCode"; // Tên của view hiển thị thông tin Book
     }
-    @PostMapping("/updateStatus")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/admin/updateStatus")
     public String updateStatus(@RequestParam("detailId") Integer detailId,
                                @RequestParam("status") String status,
                                @RequestParam("bookCode") String bookCode,

@@ -1,5 +1,6 @@
 package com.poly.rescontroller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,10 @@ import com.poly.entity.MailInfo;
 import com.poly.service.BookDetailService;
 import com.poly.service.BookingService;
 import com.poly.service.MailerService;
+import com.poly.service.PayOSService;
 import com.poly.service.UserService;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api")
@@ -32,6 +36,8 @@ public class BookingController {
 	  @Autowired
 	  private MailerService mailer;  // MailerService là loại của mailer, thay đổi nếu cần
 
+	    @Autowired
+	    private PayOSService payOSService;
     @Autowired 
     private BookingService bookingService;
     @Autowired
@@ -52,5 +58,26 @@ public class BookingController {
     public List<BookDetail> getBookings(@RequestParam("roomId") Long roomId) {
         return bookdetail.getBookingsByRoomid(roomId);
     }
+//    @PostMapping("/book-room")
+//    public ResponseEntity<String> bookRoom(@RequestBody BookingRequest bookingRequest) {
+//        try {
+//            bookingService.bookRoom(bookingRequest);z
+//
+//            if ("transfer".equalsIgnoreCase(bookingRequest.getPaymentMethod())) {
+//                String paymentUrl = payOSService.createPayment(bookingRequest.getTotal());
+//                return ResponseEntity.ok(paymentUrl);
+//            } else {
+//                return ResponseEntity.ok("Booking successful with cash payment");
+//            }
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error booking room: " + e.getMessage());
+//        }
+//    }
+
+//    @GetMapping("/pay")
+//    public void pay(@RequestParam double total, HttpServletResponse response) throws IOException {
+//        String paymentUrl = payOSService.createPayment(total);
+//        response.sendRedirect(paymentUrl);
+//    }
 }
 

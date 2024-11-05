@@ -147,10 +147,10 @@
                     <input type="hidden" name="detailId" th:value="${detail.id}" />
                     <input type="hidden" name="bookCode" th:value="${bookCode}" /> <!-- Hidden input để giữ giá trị bookCode -->
                     <select name="status">
-                        <option value="notcheckin" th:selected="${detail.bookDetailStatus == 'notcheckin'}">Not Checkin</option>
-                        <option value="check-in" th:selected="${detail.bookDetailStatus == 'check-in'}">Check-in</option>
-                        <option value="checkout" th:selected="${detail.bookDetailStatus == 'checkout'}">Checkout</option>
-                        <option value="cancel" th:selected="${detail.bookDetailStatus == 'cancel'}">Cancel</option>
+                        <option value="NotCheckIn" th:selected="${detail.bookDetailStatus == 'NotCheckIn'}">Not CheckIn</option>
+                        <option value="CheckIn" th:selected="${detail.bookDetailStatus == 'Checkin'}">Check-in</option>
+                        <option value="CheckOut" th:selected="${detail.bookDetailStatus == 'Checkout'}">Checkout</option>
+                        <option value="Cancel" th:selected="${detail.bookDetailStatus == 'Cancel'}">Cancel</option>
                     </select>
                     <button type="submit">Cập nhật</button>
                 </form>
