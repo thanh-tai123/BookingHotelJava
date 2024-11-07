@@ -77,14 +77,14 @@ public class RoomController {
 
 		List<RoomTypeByService> services = room.getRoomtype().getServices();
 
-		roomService.viewRoomDetails(id, userId);
-
-		int totalVisits = roomService.getVisitCount(id);
+//		roomService.viewRoomDetails(id, userId);
+//
+//		int totalVisits = roomService.getVisitCount(id);
 
 		// Thêm thông tin vào model
 		model.addAttribute("room", room);
 		model.addAttribute("services", services);
-		model.addAttribute("visitCount", totalVisits);
+//		model.addAttribute("visitCount", totalVisits);
 		return "roomdetailversion"; // Trả về mẫu Thymeleaf
 	}
 

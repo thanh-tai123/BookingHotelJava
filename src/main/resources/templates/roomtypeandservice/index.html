@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
+</head>
+<body>
+
+<div th:replace="~{/access/navadmin :: html}"></div>
+<br>
+<table class="table">
+    <thead class="table-dark">
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">NAME</th>
+        <th scope="col">DESCRIPTION</th>
+        <th scope="col">SERVICES</th>
+        <th scope="col">EDIT</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="rt : ${roomTypes}">
+        <td th:text="${rt.id}"></td>
+        <td th:text="${rt.name}"></td>
+        <td th:text="${rt.description}"></td>
+        <td>
+            <ul>
+                <li th:each="service : ${rt.services}" th:text="${service.myService.name}"></li>
+            </ul>
+        </td>
+        <td>
+            <a th:href="@{'/admin/editRoomType/' + ${rt.id}}" title="Edit RoomType">
+                <i class="fa-solid fa-pen-to-square fa-2xl"></i>
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
