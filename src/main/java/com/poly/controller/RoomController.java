@@ -35,26 +35,20 @@ public class RoomController {
 
 	@Autowired
 	private ViewRoomRepository viewRoomRepository;
-	@RequestMapping("")
-	public String index(Model model) {
-		// Fetch only rooms with status TRUE
-		List<Room> rooms = roomRepo.findByStatus(RoomStatus.TRUE);
+	 @RequestMapping("")
+	    public String index(Model model) {
+	        List<Room> rooms = roomRepo.findByStatus(RoomStatus.TRUE);
+	        Map<Integer, Integer> visitCounts = new HashMap<>();
 
-		// Tạo một Map để lưu số lần truy cập cho từng phòng
-		Map<Integer, Integer> visitCounts = new HashMap<>();
+	        for (Room room : rooms) {
+	            int visitCount = viewRoomRepository.getTotalVisitCountByRoomId(room.getId());
+	            visitCounts.put(room.getId(), visitCount);
+	        }
 
-		// Lặp qua danh sách phòng để lấy số lượt truy cập
-		for (Room room : rooms) {
-			int visitCount = viewRoomRepository.getTotalVisitCountByRoomId(room.getId());
-			visitCounts.put(room.getId(), visitCount);
-		}
-
-		// Thêm danh sách phòng và số lượt truy cập vào model
-		model.addAttribute("rooms", rooms);
-		model.addAttribute("visitCounts", visitCounts); // Thêm số lần truy cập vào model
-
-		return "room"; // Trả về mẫu Thymeleaf
-	}
+	        model.addAttribute("rooms", rooms);
+	        model.addAttribute("visitCounts", visitCounts);
+	        return "room";
+	    }
 	 @RequestMapping("/search")
 	 public String searchAvailableRooms(
 	     @RequestParam int hotelId, 
@@ -69,28 +63,26 @@ public class RoomController {
 	     return "room";
 	 }
 
-	@RequestMapping("/{id}")
-	public String detail(@PathVariable int id, Model model) {
-		Integer userId = getCurrentUserId();
+	 @RequestMapping("/{id}")
+	    public String detail(@PathVariable int id, Model model) {
+	        Integer userId = getCurrentUserId();
 
-		Room room = roomRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid room Id:" + id));
+	        Room room = roomRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid room Id:" + id));
+	        List<RoomTypeByService> services = room.getRoomtype().getServices();
 
-		List<RoomTypeByService> services = room.getRoomtype().getServices();
+	        roomService.viewRoomDetails(id, userId);
+	        int totalVisits = roomService.getVisitCount(id);
 
-//		roomService.viewRoomDetails(id, userId);
-//
-//		int totalVisits = roomService.getVisitCount(id);
+	        model.addAttribute("room", room);
+	        model.addAttribute("services", services);
+	        model.addAttribute("visitCount", totalVisits);
+	        return "roomdetailversion";
+	    }
 
-		// Thêm thông tin vào model
-		model.addAttribute("room", room);
-		model.addAttribute("services", services);
-//		model.addAttribute("visitCount", totalVisits);
-		return "roomdetailversion"; // Trả về mẫu Thymeleaf
-	}
-
-	private Integer getCurrentUserId() {
-		return 1;
-	}
+	    private Integer getCurrentUserId() {
+	        // Implement this method to get the current user's ID
+	        return 1;
+	    }
 
 
 	/*
