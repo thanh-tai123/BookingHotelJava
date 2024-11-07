@@ -19,6 +19,7 @@ import com.poly.dto.BookingResponse;
 import com.poly.dto.RoomRequest;
 import com.poly.entity.BookDetail;
 import com.poly.entity.MailInfo;
+import com.poly.entity.Room;
 import com.poly.service.BookDetailService;
 import com.poly.service.BookingService;
 import com.poly.service.MailerService;
@@ -49,7 +50,7 @@ public class BookingController {
 //    }
 
     @GetMapping("/get-bookings")
-    public List<BookDetail> getBookings(@RequestParam("roomId") Long roomId) {
+    public List<BookDetail> getBookings(@RequestParam("roomId") Room roomId) {
         return bookdetail.getBookingsByRoomid(roomId);
     }
 }

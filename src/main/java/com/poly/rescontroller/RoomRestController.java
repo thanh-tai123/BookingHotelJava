@@ -115,7 +115,7 @@ public class RoomRestController {
 
         // Get the list of busy room IDs
         List<Integer> busyRoomIds = conflictingBookings.stream()
-                .map(BookDetail::getRoomid)
+                .map(bookDetail -> bookDetail.getRoom().getId())
                 .collect(Collectors.toList());
 
         // Filter available rooms

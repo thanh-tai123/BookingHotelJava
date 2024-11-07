@@ -32,8 +32,7 @@ public class RoomController {
 	  private RoomRepository roomRepo;
 	  @Autowired
 	    private RoomService roomService;
-//	 @Autowired
-//	 private RoomService roomService;
+
 	@Autowired
 	private ViewRoomRepository viewRoomRepository;
 	@RequestMapping("")
@@ -119,7 +118,20 @@ public class RoomController {
 	        } else {
 	            rooms = roomService.findAll();
 	        }
+
+	        // Tạo một Map để lưu số lần truy cập cho từng phòng
+	        Map<Integer, Integer> visitCounts = new HashMap<>();
+
+	        // Lặp qua danh sách phòng để lấy số lượt truy cập
+	        for (Room room : rooms) {
+	            int visitCount = viewRoomRepository.getTotalVisitCountByRoomId(room.getId());
+	            visitCounts.put(room.getId(), visitCount);
+	        }
+
+	        // Thêm danh sách phòng và số lượt truy cập vào model
 	        model.addAttribute("rooms", rooms);
-	        return "room";
+	        model.addAttribute("visitCounts", visitCounts); // Thêm số lần truy cập vào model
+
+	        return "room"; // Trả về mẫu Thymeleaf
 	    }
 }

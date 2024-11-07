@@ -1,5 +1,6 @@
 package com.poly.controller;
 
+import com.poly.entity.Hotel;
 import com.poly.entity.Role;
 import com.poly.entity.Room;
 import com.poly.entity.RoomType;
@@ -10,6 +11,7 @@ import com.poly.repository.RoomTypeByServiceRepository;
 import com.poly.repository.RoomTypeRepository;
 import com.poly.repository.ServiceRepository;
 import com.poly.repository.UserRepo;
+import com.poly.service.HotelService;
 import com.poly.service.RoleService;
 import com.poly.service.RoomTypeService;
 import com.poly.service.ServiceService;
@@ -49,6 +51,8 @@ public class AdminController {
     private RoomTypeService roomTypeService;
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private HotelService hotelService;
 
     
 
@@ -78,10 +82,11 @@ public class AdminController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/confirm")
-    public String confirmRoom(@RequestParam("id") int roomId) {
+    public String confirmRoom(@RequestParam("id") int roomId, @RequestParam("note") String note) {
         Room room = roomRepo.findById(roomId).orElse(null);
         if (room != null) {
             room.setStatus(RoomStatus.TRUE); // Update status to TRUE
+            room.setNote(note); // Save note
             roomRepo.save(room); // Save changes to the database
         }
         return "redirect:/room"; // Redirect back to the room list
@@ -89,15 +94,15 @@ public class AdminController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/cancel")
-    public String cancelRoom(@RequestParam("id") int roomId) {
+    public String cancelRoom(@RequestParam("id") int roomId, @RequestParam("note") String note) {
         Room room = roomRepo.findById(roomId).orElse(null);
         if (room != null) {
-            room.setStatus(RoomStatus.CANCEL); // Update status to TRUE
+            room.setStatus(RoomStatus.CANCEL); // Update status to CANCEL
+            room.setNote(note); // Save note
             roomRepo.save(room); // Save changes to the database
         }
         return "redirect:/admin/confirmroom"; // Redirect back to the room list
     }
-
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping("/add/roomtype")
     public String roomtype(Model model) {
@@ -112,12 +117,7 @@ public class AdminController {
 
         return "dashboard";
     }
-  @PreAuthorize("hasAuthority('ADMIN')")
-  @RequestMapping("/add/service")
-  public String roomservice(Model model) {
-   
-    return "addservice";
-  }
+
   
   
   
@@ -182,4 +182,50 @@ public class AdminController {
       return "redirect:/admin/roomtypes";
   }
 
+
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping("/add/service")
+    public String roomservice(Model model) {
+
+        return "addservice";
+    }
+
+    //Them chi nhanh
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping("/show-chinhanh")
+    public String showChinhanh(Model model) {
+        List<Hotel> hotels = this.hotelService.getAllHotels();
+        model.addAttribute("hotels", hotels);
+        return "admin/chi_nhanh_hotel";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping("/show-add-chinhanh")
+    public String showAddChinhanh() {
+        return "admin/add_chinhanh";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping("/save-chinhanh")
+    public String saveChiNhanh(@ModelAttribute Hotel hotel, Model model) {
+        this.hotelService.saveHotel(hotel);
+        return "redirect:/admin/show-chinhanh";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping("/show-edit-chinhanh/{id}")
+    public String showEditChiNhanh(@PathVariable(name = "id") Integer id,
+                                   Model model) {
+        Hotel hotel = this.hotelService.getHotelById(id);
+        model.addAttribute("hotel", hotel);
+        return "admin/Edit_ChiNhanh_Hotel";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping("/update-chinhanh")
+    public String updateChiNhanh(@ModelAttribute Hotel hotel, Model model) {
+        this.hotelService.updateHotel(hotel);
+        return "redirect:/admin/show-chinhanh";
+    }
 }
