@@ -4,9 +4,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,8 +33,11 @@ public class BookDetail {
 	private Float total;
     private Integer bookid;
 //    private Integer booklist;
-    private Integer roomid;
-
+//    private Integer roomid;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference
+    @JoinColumn(name = "roomid", referencedColumnName = "id", nullable = false)
+    private Room room;
     private Float price;
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "UTC")
     private Date checkin;

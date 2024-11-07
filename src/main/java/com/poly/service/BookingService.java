@@ -56,7 +56,7 @@ public class BookingService {
                 BookDetail bookDetail = new BookDetail();
                 bookDetail.setBookid(savedBook.getId());
 //                bookDetail.setBooklist(savedBook.getId());
-                bookDetail.setRoomid(room.getId());
+                bookDetail.setRoom(room);
                 bookDetail.setPrice(room.getGia());
                 bookDetail.setCheckin(request.getCheckin());
                 bookDetail.setCheckout(request.getCheckout());

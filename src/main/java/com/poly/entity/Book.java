@@ -123,10 +123,10 @@ public class Book {
 	private String bookCode;
 
 	@ManyToOne
-	@JoinColumn(name = "Userid", nullable = false)
-	@JsonBackReference
-	@ToString.Exclude // Loại trừ thuộc tính user khỏi toString()
-	private User user;
+	  @JsonBackReference
+	@ToString.Exclude
+    @JoinColumn(name = "Userid", referencedColumnName = "id", nullable = false)
+    private User user;
 
 	@Column(name = "create_date")
 	@Temporal(TemporalType.TIMESTAMP)

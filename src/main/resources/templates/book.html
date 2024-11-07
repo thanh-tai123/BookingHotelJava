@@ -497,9 +497,9 @@
                     }).then(function successCallback(response) {
                         console.log('Booking successful:', response.data);
                         alert(response.data);
-
+                        $window.location.href ="http://localhost:8081/account/info";
                         $scope.loadBookedDates();
-
+						
                     }, function errorCallback(response) {
                         console.error('Error booking room:', response);
                         alert('Error booking room: ' + response.data);
@@ -519,7 +519,7 @@
                         alert(response.data);
                         const paymentUrl = `http://localhost:8081/pay?total=${totalAmount}`;
                         $window.location.href = paymentUrl;
-
+						
                         $scope.loadBookedDates();
                     }, function errorCallback(response) {
                         console.error('Error booking room:', response);
