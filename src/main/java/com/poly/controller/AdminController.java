@@ -87,10 +87,11 @@ public class AdminController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/confirm")
-    public String confirmRoom(@RequestParam("id") int roomId) {
+    public String confirmRoom(@RequestParam("id") int roomId, @RequestParam("note") String note) {
         Room room = roomRepo.findById(roomId).orElse(null);
         if (room != null) {
             room.setStatus(RoomStatus.TRUE); // Update status to TRUE
+            room.setNote(note); // Save note
             roomRepo.save(room); // Save changes to the database
         }
         return "redirect:/room"; // Redirect back to the room list
@@ -98,15 +99,15 @@ public class AdminController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/cancel")
-    public String cancelRoom(@RequestParam("id") int roomId) {
+    public String cancelRoom(@RequestParam("id") int roomId, @RequestParam("note") String note) {
         Room room = roomRepo.findById(roomId).orElse(null);
         if (room != null) {
-            room.setStatus(RoomStatus.CANCEL); // Update status to TRUE
+            room.setStatus(RoomStatus.CANCEL); // Update status to CANCEL
+            room.setNote(note); // Save note
             roomRepo.save(room); // Save changes to the database
         }
         return "redirect:/admin/confirmroom"; // Redirect back to the room list
     }
-
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping("/add/roomtype")
     public String roomtype(Model model) {

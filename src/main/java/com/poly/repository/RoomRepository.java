@@ -3,6 +3,7 @@ package com.poly.repository;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,11 +16,11 @@ import com.poly.util._enum.RoomStatus;
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Integer>{
 	 List<Room> findByStatus(RoomStatus status);
-	 
+	 Optional<Room> findById(int id);
 	 @Query("SELECT r FROM Room r WHERE r.hotel.id = :hotelId " +
 		       "AND r.status = :status " +
 		       "AND r.id NOT IN (" +
-		       "    SELECT bd.roomid FROM BookDetail bd " +
+		       "    SELECT bd.room.id FROM BookDetail bd " +
 		       "    WHERE bd.checkin < :checkout AND bd.checkout > :checkin" +
 		       ")")
 		List<Room> findAvailableRooms(

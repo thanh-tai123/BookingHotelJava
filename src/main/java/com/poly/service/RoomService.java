@@ -61,7 +61,7 @@ public class RoomService {
         room.setKieuphong(roomRequest.getKieuphong());
         room.setGia(roomRequest.getGia());
         room.setMota(roomRequest.getMota());
-        room.setStatus(roomRequest.getStatus());
+        room.setStatus(RoomStatus.FALSE);
         // room.setNote(roomRequest.getNote()); // nếu có trường ghi chú
         room.setStaffid(roomRequest.getStaffid());
         room.setRoomtype(roomtype);

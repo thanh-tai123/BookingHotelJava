@@ -156,6 +156,7 @@
 <select id="statusSelect" ng-model="selectedStatus" ng-change="loadRoomsByStatus(selectedStatus)">
     <option value="FALSE">Not Confirm</option>
     <option value="CANCEL">Cancelled</option>
+      <option value="TRUE">Confirm</option>
 </select>
 
 <table class="rooms-table">
@@ -168,6 +169,7 @@
             <th>Price</th>
             <th>Status</th>
             <th>Description</th>
+             <th>Note</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -180,6 +182,7 @@
             <td>${{ room.gia }}</td>
             <td>{{ room.status }}</td>
             <td>{{ room.mota }}</td>
+              <td>{{ room.note }}</td>
             <td>
                 <button ng-click="editRoom(room)">Edit</button>
                 <button ng-click="deleteRoom(room.id)">Delete</button>

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -66,6 +67,8 @@ public class AccountController {
 
 	        // Fetch the books associated with the user
 	        List<Book> books = user.getBooks(); // Assuming getBooks() is defined
+	        books.sort(Comparator.comparing(Book::getCreateDate).reversed());
+	        model.addAttribute("books", books);
 	        model.addAttribute("books", books);
 	        
 	        // Fetch detailed information for each book

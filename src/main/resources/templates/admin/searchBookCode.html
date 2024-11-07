@@ -111,8 +111,8 @@
    <table>
     <thead>
         <tr>
-            <th>ID</th>
-            <th>ID Phòng</th>
+            <th>Số phòng</th>
+            <th>Kiểu phòng</th>
             <th>Tổng</th>
             <th>Giá</th>
             <th>Checkin</th>
@@ -129,8 +129,8 @@
     </thead>
     <tbody>
         <tr th:each="detail : ${bookDetails}">
-            <td th:text="${detail.id}"></td>
-            <td th:text="${detail.roomid}"></td>
+             <td th:text="${detail.room.sophong}"></td>
+                    <td th:text="${detail.room.roomtype.name}"></td>
             <td th:text="${detail.total}"></td>
             <td th:text="${detail.price}"></td>
             <td th:text="${#dates.format(detail.checkin, 'yyyy-MM-dd HH:mm:ss')}"></td>

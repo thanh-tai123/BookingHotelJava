@@ -115,8 +115,9 @@
     <table>
         <thead>
             <tr>
-                <th>ID</th>
-                <th>ID Phòng</th>
+              
+                  <th>Số Phòng</th>
+                   <th>Kiểu Phòng</th>
                 <th>Tổng</th>
                 <th>Giá</th>
                 <th>Checkin</th>
@@ -130,8 +131,9 @@
         </thead>
         <tbody th:with="content='Chi tiết đặt phòng:\n'">
             <tr th:each="detail : ${bookDetails}">
-                <td th:text="${detail.id}"></td>
-                <td th:text="${detail.roomid}"></td>
+              
+                  <td th:text="${detail.room.sophong}"></td>
+                    <td th:text="${detail.room.roomtype.name}"></td>
                 <td th:text="${detail.total}"></td>
                 <td th:text="${detail.price}"></td>
                 <td th:text="${#dates.format(detail.checkin, 'yyyy-MM-dd HH:mm:ss')}"></td>
@@ -143,8 +145,8 @@
                  <td th:text="${detail.BookDetailStatus}"></td>
 
                 <!-- Xây dựng nội dung cho txtContent -->
-                <td th:with="content=${content} + 'ID: ' + ${detail.id} + ', ID Phòng: ' + ${detail.roomid} + ', Tổng: ' + ${detail.total} + ', Giá: ' + ${detail.price} + ', Checkin: ' + ${#dates.format(detail.checkin, 'yyyy-MM-dd HH:mm:ss')} + ', Checkout: ' + ${#dates.format(detail.checkout, 'yyyy-MM-dd HH:mm:ss')} + ', Người lớn: ' + ${detail.adult} + ', Trẻ em: ' + ${detail.children} + ', Phương thức thanh toán: ' + ${detail.paymentMethod} + ', Trạng thái thanh toán: ' + ${detail.paymentStatus} + ', Trạng thái phòng: ' +${detail.BookDetailStatus}+'\n'">
-                </td>
+                 <td th:with="content=${content} + 'ID: ' + ${detail.id} + ', ID Phòng: ' + ${detail.room.id} + ', Tổng: ' + ${detail.total} + ', Giá: ' + ${detail.price} + ', Checkin: ' + ${#dates.format(detail.checkin, 'yyyy-MM-dd HH:mm:ss')} + ', Checkout: ' + ${#dates.format(detail.checkout, 'yyyy-MM-dd HH:mm:ss')} + ', Người lớn: ' + ${detail.adult} + ', Trẻ em: ' + ${detail.children} + ', Phương thức thanh toán: ' + ${detail.paymentMethod} + ', Trạng thái thanh toán: ' + ${detail.paymentStatus} + ', Trạng thái phòng: ' + ${detail.BookDetailStatus} + '\n'">
+        </td>
             </tr>
         </tbody>
     </table>
@@ -163,8 +165,8 @@
     
     Chi tiết:
     <th:block th:each="detail : ${bookDetails}">
-        - ID: [[${detail.id}]], 
-        ID Phòng: [[${detail.roomid}]], 
+        Số phòng: [[${detail.room.sophong}]],
+        Kiểu phòng: [[${detail.room.roomtype.name}]],
         Tổng: [[${detail.total}]], 
         Giá: [[${detail.price}]], 
         Checkin: [[${#dates.format(detail.checkin, 'yyyy-MM-dd HH:mm:ss')}]], 

@@ -9,7 +9,7 @@
  <h2>Verify Account</h2>
     <form th:action="@{/account/verify-account}" method="post">
      <!--   Email: <input type="text" name="email"><br> -->
-         Email: <input type="text" name="email" th:value="${email}" disabled><br>  
+         Email: <input type="text" name="email" th:value="${email}"><br>  
         OTP: <input type="text" name="otp"><br>
         <input type="submit" value="Verify">
     </form>
