@@ -1,10 +1,12 @@
 package com.poly.controller;
 
+import com.poly.entity.Hotel;
 import com.poly.entity.Role;
 import com.poly.entity.Room;
 import com.poly.entity.User;
 import com.poly.repository.RoomRepository;
 import com.poly.repository.UserRepo;
+import com.poly.service.HotelService;
 import com.poly.service.RoleService;
 import com.poly.util._enum.RoomStatus;
 
@@ -30,6 +32,8 @@ public class AdminController {
     private RoleService roleService;
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private HotelService hotelService;
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping("")
@@ -123,11 +127,49 @@ public class AdminController {
 
         return "dashboard";
     }
-  @PreAuthorize("hasAuthority('ADMIN')")
-  @RequestMapping("/add/service")
-  public String roomservice(Model model) {
-   
-    return "addservice";
-  }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping("/add/service")
+    public String roomservice(Model model) {
+
+        return "addservice";
+    }
+
+    //Them chi nhanh
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping("/show-chinhanh")
+    public String showChinhanh(Model model) {
+        List<Hotel> hotels = this.hotelService.getAllHotels();
+        model.addAttribute("hotels", hotels);
+        return "admin/chi_nhanh_hotel";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping("/show-add-chinhanh")
+    public String showAddChinhanh() {
+        return "admin/add_chinhanh";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping("/save-chinhanh")
+    public String saveChiNhanh(@ModelAttribute Hotel hotel, Model model) {
+        this.hotelService.saveHotel(hotel);
+        return "redirect:/admin/show-chinhanh";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping("/show-edit-chinhanh/{id}")
+    public String showEditChiNhanh(@PathVariable(name = "id") Integer id,
+                                   Model model) {
+        Hotel hotel = this.hotelService.getHotelById(id);
+        model.addAttribute("hotel", hotel);
+        return "admin/Edit_ChiNhanh_Hotel";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping("/update-chinhanh")
+    public String updateChiNhanh(@ModelAttribute Hotel hotel, Model model) {
+        this.hotelService.updateHotel(hotel);
+        return "redirect:/admin/show-chinhanh";
+    }
 }

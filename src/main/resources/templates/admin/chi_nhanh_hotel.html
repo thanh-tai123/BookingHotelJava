@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi Nhanh Hotel</title>
+    <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
+</head>
+<body>
+
+<div th:replace="~{/access/navadmin :: html}"></div>
+<br>
+<p class="ml-10">
+    <a th:href="@{/admin/show-add-chinhanh}">
+        <i class="fa-solid fa-circle-plus fa-2xl"></i>
+    </a>
+</p>
+<table class="table">
+    <thead class="table-dark">
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Chi Nhanh</th>
+        <th scope="col">Dia Chi</th>
+        <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="hotel : ${hotels}">
+        <td th:text="${hotel.id}"></td>
+        <td th:text="${hotel.chinhanh}"></td>
+        <td th:text="${hotel.diachi}"></td>
+        <td>
+            <a th:href="@{'/admin/show-edit-chinhanh/' + ${hotel.id}}" title="Edit chi nhanh hotel">
+                <i class="fa-solid fa-pen-to-square fa-2xl"></i>
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
