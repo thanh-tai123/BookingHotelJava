@@ -102,7 +102,7 @@ public class RoomTypeService {
         return roomTypeRepository.findById(id).orElse(null);
     }
 
-    
+    @Transactional
     public void updateRoomTypeServices(RoomType roomType, List<Integer> serviceIds) {
         // Lấy RoomType từ database nếu đã tồn tại
         RoomType existingRoomType = roomTypeRepository.findById(roomType.getId()).orElseThrow(() -> new RuntimeException("RoomType not found"));
