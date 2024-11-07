@@ -3,6 +3,7 @@ package com.poly.service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -107,6 +108,7 @@ public class RoomTypeService {
         // Lấy RoomType từ database nếu đã tồn tại
         RoomType existingRoomType = roomTypeRepository.findById(roomType.getId()).orElseThrow(() -> new RuntimeException("RoomType not found"));
         System.out.println(existingRoomType.toString());
+        
         // Lấy danh sách RoomTypeByService hiện tại
         List<RoomTypeByService> existingServices = existingRoomType.getServices();
 
@@ -128,13 +130,16 @@ public class RoomTypeService {
         }
 
         // Kiểm tra và xóa các dịch vụ không còn được chọn
-        for (RoomTypeByService existingService : existingServices) {
+        Iterator<RoomTypeByService> iterator = existingServices.iterator();
+        while (iterator.hasNext()) {
+            RoomTypeByService existingService = iterator.next();
             boolean stillSelected = newServices.stream()
                                                .anyMatch(newService -> newService.getId().equals(existingService.getMyService().getId()));
             if (!stillSelected) {
                 // Chỉ xóa nếu thực thể tồn tại
                 if (roomTypeByServiceRepository.existsById(existingService.getId())) {
                     roomTypeByServiceRepository.delete(existingService);
+                    iterator.remove(); // Xóa khỏi danh sách hiện tại để tránh xung đột
                 }
             }
         }
@@ -145,5 +150,4 @@ public class RoomTypeService {
 
         roomTypeRepository.save(existingRoomType);
     }
-    
 }

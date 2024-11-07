@@ -105,12 +105,6 @@ public class AdminController {
         return "addroomtype";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @RequestMapping("/by/roomtype")
-    public String roomtypebyservice(Model model) {
-
-        return "roomtypebyservice";
-    }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping("/dashboard")
