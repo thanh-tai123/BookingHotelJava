@@ -155,9 +155,10 @@ public class RoomService {
         List<ViewRoom> existingVisits = viewRoomRepository.findByRoomIdAndUserId(roomId, userId);
 
         if (existingVisits.isEmpty()) {
+            Room room = roomRepository.findById(roomId).orElseThrow(null);
             ViewRoom newVisit = new ViewRoom();
             newVisit.setUserId(userId);
-            newVisit.setRoomId(roomId);
+            newVisit.setRoom(room);
             newVisit.setVisitCount(1);
             newVisit.setVisitDate(new Date());
             viewRoomRepository.save(newVisit);
