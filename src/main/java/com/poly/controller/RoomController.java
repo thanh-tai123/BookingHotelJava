@@ -40,16 +40,16 @@ public class RoomController {
 		// Fetch only rooms with status TRUE
 		List<Room> rooms = roomRepo.findByStatus(RoomStatus.TRUE);
 
-		// Tạo một Map để lưu số lần truy cập cho từng phòng
+	
 		Map<Integer, Integer> visitCounts = new HashMap<>();
 
-		// Lặp qua danh sách phòng để lấy số lượt truy cập
+	
 		for (Room room : rooms) {
 			int visitCount = viewRoomRepository.getTotalVisitCountByRoomId(room.getId());
 			visitCounts.put(room.getId(), visitCount);
 		}
 
-		// Thêm danh sách phòng và số lượt truy cập vào model
+		
 		model.addAttribute("rooms", rooms);
 		model.addAttribute("visitCounts", visitCounts); // Thêm số lần truy cập vào model
 
