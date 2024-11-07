@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
+<head>
+    <title>Nhập BookCode</title>
+     <style>
+        
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #4cae4c;
+        }
+
+        h2, h3 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="/access/navadmin :: html"></div>
+<h1>Nhập BookCode</h1>
+<form action="#" th:action="@{/search/admin/book}" method="post">
+    <label for="bookCode">BookCode:</label>
+    <input type="text" id="bookCode" name="bookCode" th:value="${bookCode}" required />
+    <button type="submit">Tìm kiếm</button>
+</form>
+<h1>Thông Tin Book</h1>
+
+<div th:if="${error}">
+    <p th:text="${error}"></p>
+</div>
+
+<div>
+    <h2>Book Code: <span th:text="${book.bookCode}"></span></h2>
+    <h3>Thông tin chi tiết:</h3>
+    <ul>
+        <li>ID: <span th:text="${book.id}"></span></li>
+        <li>Ngày tạo: <span th:text="${#dates.format(book.createDate, 'yyyy-MM-dd HH:mm:ss')}"></span></li>
+        <li>Người dùng: <span th:text="${book.user.name}"></span></li>
+        <li>Email: <span name="txtTo" th:text="${book.user.email}"></span></li>
+    </ul>
+
+    <h3>Chi tiết Book:</h3>
+   <table>
+    <thead>
+        <tr>
+            <th>Số phòng</th>
+            <th>Kiểu phòng</th>
+            <th>Tổng</th>
+            <th>Giá</th>
+            <th>Checkin</th>
+            <th>Checkout</th>
+            <th>Người lớn</th>
+            <th>Trẻ em</th>
+            <th>Phương thức thanh toán</th>
+            <th>Trạng thái thanh toán</th>
+            <th>Trạng thái phòng</th>
+            <th>Người cập nhật</th>
+            <th>Thời gian cập nhật</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="detail : ${bookDetails}">
+             <td th:text="${detail.room.sophong}"></td>
+                    <td th:text="${detail.room.roomtype.name}"></td>
+            <td th:text="${detail.total}"></td>
+            <td th:text="${detail.price}"></td>
+            <td th:text="${#dates.format(detail.checkin, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${#dates.format(detail.checkout, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${detail.adult}"></td>
+            <td th:text="${detail.children}"></td>
+            <td th:text="${detail.paymentMethod}"></td>
+            <td th:text="${detail.paymentStatus}"></td>
+            <td th:text="${detail.bookDetailStatus}"></td>
+            <td th:text="${detail.updatedBy}"></td> <!-- Hiển thị người cập nhật -->
+            <td th:text="${#dates.format(detail.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></td> <!-- Hiển thị thời gian cập nhật -->
+            <td>
+                <form th:action="@{/search/admin/updateStatus}" method="post">
+                    <input type="hidden" name="detailId" th:value="${detail.id}" />
+                    <input type="hidden" name="bookCode" th:value="${bookCode}" /> <!-- Hidden input để giữ giá trị bookCode -->
+                    <select name="status">
+                        <option value="notcheckin" th:selected="${detail.bookDetailStatus == 'notcheckin'}">Not Checkin</option>
+                        <option value="check-in" th:selected="${detail.bookDetailStatus == 'check-in'}">Check-in</option>
+                        <option value="checkout" th:selected="${detail.bookDetailStatus == 'checkout'}">Checkout</option>
+                        <option value="cancel" th:selected="${detail.bookDetailStatus == 'cancel'}">Cancel</option>
+                    </select>
+                    <button type="submit">Cập nhật</button>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
+   
+</div>
+
+
+<form th:action="@{/mailer/send}" method="post">
+    <input name="txtTo" th:value="${book.user.email}"/>
+    <input type="hidden" name="txtCC" th:value="${book.user.email}"/>
+    <input type="hidden" name="txtSubject" value="Thông tin phòng đã đặt"/>
+    
+    <!-- Gán nội dung email -->
+   <textarea name="txtContent" style="display: none;">
+    Chi tiết đặt phòng:
+    Book Code: [[${book.bookCode}]]
+    Ngày tạo: [[${#dates.format(book.createDate, 'yyyy-MM-dd HH:mm:ss')}]]
+    
+    Chi tiết:
+    <th:block th:each="detail : ${bookDetails}">
+        - ID: [[${detail.id}]], 
+        ID Phòng: [[${detail.roomid}]], 
+        Tổng: [[${detail.total}]], 
+        Giá: [[${detail.price}]], 
+        Checkin: [[${#dates.format(detail.checkin, 'yyyy-MM-dd HH:mm:ss')}]], 
+        Checkout: [[${#dates.format(detail.checkout, 'yyyy-MM-dd HH:mm:ss')}]], 
+        Người lớn: [[${detail.adult}]], 
+        Trẻ em: [[${detail.children}]], 
+        Phương thức thanh toán: [[${detail.paymentMethod}]], 
+        Trạng thái thanh toán: [[${detail.paymentStatus}]]
+        Trạng thái phòng: [[${detail.BookDetailStatus}]]
+        &#10; <------------------------------------>
+    </th:block>
+</textarea>
+
+    
+    <button type="submit">Gửi Email</button>
+</form>
+
+</body>
+</html>

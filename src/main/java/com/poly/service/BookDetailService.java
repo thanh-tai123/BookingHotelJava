@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.poly.entity.BookDetail;
+import com.poly.entity.Room;
 import com.poly.repository.BookDetailRepository;
 
 @Service
@@ -29,7 +30,7 @@ public class BookDetailService {
                 .collect(Collectors.toList());
     }
     
-    public List<BookDetail> getBookingsByRoomid(Long roomid) {
-        return bookDetailRepository.findByRoomid(roomid);
+    public List<BookDetail> getBookingsByRoomid(Room room) {
+        return bookDetailRepository.findByRoom(room);
     }
 }

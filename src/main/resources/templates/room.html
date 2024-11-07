@@ -13,7 +13,7 @@
             border: 1px solid #e0e0e0;
             padding: 20px;
             margin: 20px auto;
-            
+
         }
         .card img {
             width: 100%;
@@ -55,6 +55,20 @@
 <body>
 <div th:replace="/access/nav :: html"></div>
     <div class="container">
+    <form action="#" th:action="@{/room/filter}" method="get">
+    <div class="form-group">
+        <label for="roomtype">Loại phòng:</label>
+        <select id="roomtype" name="roomtype" class="form-control">
+            <option value="">Tất cả</option>
+            <option value="Single">Single</option>
+            <option value="Double">Double</option>
+            <option value="Luxury">Luxury</option>
+            <!-- Thêm các loại phòng khác nếu có -->
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Lọc</button>
+</form>
+    
         <div class="row">
             <div class="col-md-4" th:each="r : ${rooms}">
                 <div class="card">
@@ -62,9 +76,12 @@
                         <img th:src="${r.img}" alt="Luxury hotel room with a large bed, modern decor, and a spacious layout" />
                     </a>
                     <div class="card-body">
+                        <p class=" card-text fas fa-eye"> <span th:text="${visitCounts[r.id]}">0</span></p>
+
                         <h5 class="card-title" th:text="${r.roomtype.name}"></h5>
                         <h5 class="card-title" th:text="${r.hotel.chinhanh}"></h5>
                         <p class="card-text" th:text="${r.mota}"></p>
+
                         <p class="card-text">
                             2 khách | 45m2
                         </p>
@@ -76,7 +93,8 @@
                             <i class="fas fa-coffee"></i>
                             <i class="fas fa-bath"></i>
                         </div>
-                         <a th:href="@{/room/{id}(id=${r.id})}">
+
+                        <a th:href="@{/room/{id}(id=${r.id})}">
                         <button class="btn btn-custom">XEM CHI TIẾT</button>
                         </a>
                       <!--   <a th:href="'/room/room-details/' + ${room.id}">

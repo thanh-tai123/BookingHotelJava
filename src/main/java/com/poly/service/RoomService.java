@@ -1,8 +1,11 @@
 package com.poly.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import com.poly.entity.ViewRoom;
+import com.poly.repository.ViewRoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,6 +32,8 @@ public class RoomService {
     private RoomRepository roomRepository;
     @Autowired
     private AwsS3Service awsS3Service;
+    @Autowired
+    private ViewRoomRepository viewRoomRepository;
 
     public Room findById(int id) {
         return roomRepository.findById(id).orElse(null);
@@ -56,7 +61,7 @@ public class RoomService {
         room.setKieuphong(roomRequest.getKieuphong());
         room.setGia(roomRequest.getGia());
         room.setMota(roomRequest.getMota());
-        room.setStatus(roomRequest.getStatus());
+        room.setStatus(RoomStatus.FALSE);
         // room.setNote(roomRequest.getNote()); // nếu có trường ghi chú
         room.setStaffid(roomRequest.getStaffid());
         room.setRoomtype(roomtype);
@@ -137,4 +142,32 @@ public class RoomService {
 
         return roomDTOs;
     }
+    
+    public List<Room> findByRoomType(String roomtype) {
+        return roomRepository.findByRoomtype_Name(roomtype);
+    }
+
+    public List<Room> findAll() {
+        return roomRepository.findAll();
+    }
+
+    public void viewRoomDetails(int roomId, Integer userId) {
+        List<ViewRoom> existingVisits = viewRoomRepository.findByRoomIdAndUserId(roomId, userId);
+
+        if (existingVisits.isEmpty()) {
+            ViewRoom newVisit = new ViewRoom();
+            newVisit.setUserId(userId);
+            newVisit.setRoomId(roomId);
+            newVisit.setVisitCount(1);
+            newVisit.setVisitDate(new Date());
+            viewRoomRepository.save(newVisit);
+        } else {
+            viewRoomRepository.incrementVisitCount(roomId, userId);
+        }
+    }
+
+    public int getVisitCount(int roomId) {
+        return viewRoomRepository.getTotalVisitCountByRoomId(roomId);
+    }
+
 }

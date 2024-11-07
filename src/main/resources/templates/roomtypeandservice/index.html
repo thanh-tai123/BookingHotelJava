@@ -14,30 +14,29 @@
     <tr>
         <th scope="col">ID</th>
         <th scope="col">NAME</th>
-        <th scope="col">EMAIL</th>
-        <th scope="col">PHONE</th>
-        <th scope="col">ROLES</th>
-        <th scope="col">TYPE ACCOUNT</th>
-        <th scope="col">IMAGE</th>
+        <th scope="col">DESCRIPTION</th>
+        <th scope="col">SERVICES</th>
         <th scope="col">EDIT</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="u : ${users}">
-        <td th:text="${u.id}"></td>
-        <td th:text="${u.name}"></td>
-        <td th:text="${u.email}"></td>
-        <td th:text="${u.phone}"></td>
-        <td th:text="${u.roleString}"></td>
-        <td th:text="${u.authType}"></td>
-        <td><img th:src="${u.image}" width="50" height="50" alt=""></td>
+    <tr th:each="rt : ${roomTypes}">
+        <td th:text="${rt.id}"></td>
+        <td th:text="${rt.name}"></td>
+        <td th:text="${rt.description}"></td>
         <td>
-            <a th:href="@{'admin/edit/' + ${u.id}}" title="Edit role user">
+            <ul>
+                <li th:each="service : ${rt.services}" th:text="${service.myService.name}"></li>
+            </ul>
+        </td>
+        <td>
+            <a th:href="@{'/admin/editRoomType/' + ${rt.id}}" title="Edit RoomType">
                 <i class="fa-solid fa-pen-to-square fa-2xl"></i>
             </a>
         </td>
     </tr>
     </tbody>
 </table>
+
 </body>
 </html>

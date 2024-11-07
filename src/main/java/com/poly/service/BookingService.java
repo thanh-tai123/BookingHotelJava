@@ -6,6 +6,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,7 @@ public class BookingService {
                 BookDetail bookDetail = new BookDetail();
                 bookDetail.setBookid(savedBook.getId());
 //                bookDetail.setBooklist(savedBook.getId());
-                bookDetail.setRoomid(room.getId());
+                bookDetail.setRoom(room);
                 bookDetail.setPrice(room.getGia());
                 bookDetail.setCheckin(request.getCheckin());
                 bookDetail.setCheckout(request.getCheckout());
