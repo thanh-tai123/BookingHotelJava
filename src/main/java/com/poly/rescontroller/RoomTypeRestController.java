@@ -44,7 +44,7 @@ public class RoomTypeRestController {
     private ServiceRepository serviceRepository;
     @Autowired
     private RoomTypeByServiceRepository roomTypeByServiceRepository;
-    @GetMapping("/roomtype")
+    @GetMapping("/roomtypes")
     public List<RoomType> getAllRoomType() {
         return roomtyepeRepository.findAll();
     }
