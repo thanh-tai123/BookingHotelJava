@@ -69,7 +69,7 @@ public class BookingService {
                 bookDetail.setChildren(request.getChildren());
                 bookDetail.setPaymentMethod(request.getPaymentMethod());
                 bookDetail.setPaymentStatus(request.getPaymentStatus());
-
+                bookDetail.setBookDetailStatus(request.getBookDetailStatus());
                 bookDetailRepository.save(bookDetail);
             } catch (Exception e) {
                 System.out.println("Error saving BookDetail for roomId " + roomId + ": " + e.getMessage());

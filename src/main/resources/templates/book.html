@@ -233,8 +233,8 @@
         <div class="input-group">
             <label for="paymentMethod">Payment Method:</label>
             <select id="paymentMethod" ng-model="booking.paymentMethod" class="payment-select">
-                <option value="cash">Cash</option>
-                <option value="transfer">Bank Transfer</option>
+                <option value="Cash">Cash</option>
+                <option value="Card">Card</option>
             </select>
         </div>
     </div>
@@ -487,6 +487,7 @@
                 if (bookingData.paymentMethod === 'cash') {
                     // Save booking directly for cash payments
                     bookingData.paymentStatus = 'Not payment';
+                    bookingData.bookDetailStatus = 'NotCheckIn';
                     $http({
                         method: 'POST',
                         url: 'http://localhost:8081/api/book-room',
@@ -506,7 +507,8 @@
                     });
                 } else if (bookingData.paymentMethod === 'transfer') {
                     // Save booking details in the database for bank transfer
-                    bookingData.paymentStatus = 'pending';
+                    bookingData.paymentStatus = 'Success';
+                    bookingData.bookDetailStatus = 'NotCheckIn';
                     $http({
                         method: 'POST',
                         url: 'http://localhost:8081/payment/book-room',
