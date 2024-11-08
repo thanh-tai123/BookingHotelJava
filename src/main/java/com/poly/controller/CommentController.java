@@ -33,6 +33,7 @@ public class CommentController {
                              @RequestParam String content, 
                              @RequestParam int rating, 
                              @AuthenticationPrincipal UserDetails currentUser) {
+    	
         Room room = roomRepository.findById(roomId).orElseThrow(() -> new IllegalArgumentException("Invalid room Id:" + roomId));
         Comment comment = new Comment();
         comment.setRoom(room);

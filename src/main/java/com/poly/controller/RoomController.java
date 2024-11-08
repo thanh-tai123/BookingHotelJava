@@ -51,16 +51,25 @@ public class RoomController {
 	    }
 	 @RequestMapping("/search")
 	 public String searchAvailableRooms(
-	     @RequestParam int hotelId, 
-	     @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkin, 
-	     @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkout,
-	     Model model) {
-	     
-		 List<Room> availableRooms = roomRepo.findAvailableRooms(hotelId, checkin, checkout, RoomStatus.TRUE);
+	      @RequestParam int hotelId, 
+	      @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkin, 
+	      @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkout,
+	      Model model) {
+	      
+	      List<Room> availableRooms = roomRepo.findAvailableRooms(hotelId, checkin, checkout, RoomStatus.TRUE);
 
-	     
-	     model.addAttribute("rooms", availableRooms);
-	     return "room";
+	      // Ví dụ dữ liệu visitCounts
+	      Map<Integer, Integer> visitCounts = new HashMap<>();
+	      for (Room room : availableRooms) {
+	          // Giả sử bạn có một phương thức để lấy số lượt xem của phòng
+	    	  int visitCount = viewRoomRepository.getTotalVisitCountByRoomId(room.getId());
+	          visitCounts.put(room.getId(), visitCount);
+	      }
+
+	      model.addAttribute("rooms", availableRooms);
+	      model.addAttribute("visitCounts", visitCounts);  // Thêm visitCounts vào model
+
+	      return "room";
 	 }
 
 	 @RequestMapping("/{id}")

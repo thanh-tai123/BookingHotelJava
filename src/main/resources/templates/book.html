@@ -509,7 +509,7 @@
                     bookingData.paymentStatus = 'pending';
                     $http({
                         method: 'POST',
-                        url: 'http://localhost:8081/api/book-room',
+                        url: 'http://localhost:8081/payment/book-room',
                         data: bookingData,
                         transformResponse: [function (data) {
                             return data; // Handle the response
@@ -517,8 +517,9 @@
                     }).then(function successCallback(response) {
                         console.log('Booking successful:', response.data);
                         alert(response.data);
-                        const paymentUrl = `http://localhost:8081/pay?total=${totalAmount}`;
-                        $window.location.href = paymentUrl;
+                        $window.location.href = `http://localhost:8081/${response.data}`;
+                       /*  const paymentUrl = `http://localhost:8081/pay?total=${totalAmount}`;
+                        $window.location.href = paymentUrl; */
 						
                         $scope.loadBookedDates();
                     }, function errorCallback(response) {
