@@ -292,7 +292,7 @@ angular.module('app', [])
     };
 
     
-    $http.get('http://localhost:8081/api/roomtype')
+    $http.get('http://localhost:8081/api/roomtypes')
     .then(function(response) {
         $scope.roomTypes = response.data;
     }, function(error) {
