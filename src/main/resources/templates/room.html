@@ -3,125 +3,250 @@
 <head>
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-     <link rel="stylesheet" href="../static/CSS/common.css" />
-     <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
+    <link rel="stylesheet" href="../static/CSS/common.css" />
+    <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
     <style>
-       /*  body {
-            font-family: 'Arial', sans-serif;
-        }
-        .card {
-            border: 1px solid #e0e0e0;
+        /* Thêm khoảng cách và căn chỉnh cho form */
+        .search-form {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px; /* Thêm khoảng cách giữa các phần tử */
             padding: 20px;
-            margin: 20px auto;
-
         }
+
+        /* Thêm một số điều chỉnh cho các input và select */
+        .search-form input, .search-form select {
+            width: 200px;
+            padding: 10px;
+        }
+
+        /* Chỉnh cho nút tìm kiếm đẹp hơn */
+        .search-form button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .search-form button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Chỉnh cho card phòng */
+        .card {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
         .card img {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
             width: 100%;
             height: auto;
         }
+
+        .card-body {
+            padding: 15px;
+        }
+
         .card-title {
             font-size: 1.25rem;
             font-weight: bold;
-            margin-top: 15px;
-            text-align: center;
+            margin-top: 10px;
         }
+
         .card-text {
             font-size: 1rem;
-            text-align: center;
-            margin: 10px 0;
+            color: #555;
         }
-        .card-icons {
-            text-align: center;
-            margin: 10px 0;
-        }
+
         .card-icons i {
-            margin: 0 5px;
+            margin-right: 5px;
+            color: #007bff;
         }
+
         .btn-custom {
             background-color: #b59d5b;
             color: white;
             border: none;
             width: 100%;
-            margin: 5px 0;
+            margin-top: 10px;
             padding: 10px;
             font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
         }
+
         .btn-custom:hover {
             background-color: #a48c4a;
         }
- */
+
+        .container {
+            padding: 30px;
+        }
+        .search-form input, .search-form select {
+            height: 40px;  /* Chỉnh chiều cao cho đồng nhất */
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .search-form label {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        /* Thêm một chút căn chỉnh cho các phần tử trong form */
+        .search-form .form-control {
+            width: 200px; /* Giới hạn chiều rộng cho đồng nhất */
+        }
+
+        /* Đảm bảo nút tìm kiếm có chiều cao đồng nhất với input/select */
+        .search-form button {
+            padding: 10px 20px;
+            font-size: 16px;
+            height: 40px; /* Đảm bảo nút có chiều cao đồng nhất */
+            border-radius: 5px;
+        }
+        .search-form {
+            display: flex;
+            justify-content: center; /* Căn giữa nội dung */
+            align-items: center;
+            gap: 20px; /* Khoảng cách giữa các ô nhập và nút */
+            flex-wrap: wrap; /* Cho phép các phần tử xuống dòng khi không đủ không gian */
+            max-width: 1200px; /* Giới hạn chiều rộng để không bị quá rộng */
+            margin: 0 auto; /* Căn giữa form */
+        }
+
+        .search-form .form-group {
+            margin-bottom: 0;
+            width: 250px; /* Đảm bảo các ô có chiều rộng đồng đều */
+        }
+
+        .search-form .form-control {
+            width: 100%; /* Đảm bảo ô nhập chiếm toàn bộ chiều rộng của form-group */
+        }
+
+        .search-form button {
+            height: 40px;
+            padding: 0 20px;
+            font-size: 16px;
+            align-self: end;
+        }
+
     </style>
 </head>
 <body>
 <div th:replace="/access/nav :: html"></div>
-    <div class="container">
-    <form action="#" th:action="@{/room/filter}" method="get">
-    <div class="form-group">
-        <label for="roomtype">Loại phòng:</label>
-        <select id="roomtype" name="roomtype" class="form-control">
-            <option value="">Tất cả</option>
-            <option value="Single">Single</option>
-            <option value="Double">Double</option>
-            <option value="Luxury">Luxury</option>
-            <!-- Thêm các loại phòng khác nếu có -->
-        </select>
+<div class="container">
+    <!-- Form tìm kiếm -->
+    <div class="search-form">
+        <form action="/room/search" method="get" class="w-100">
+            <div class="d-flex flex-wrap justify-content-center gap-3">
+                <div class="form-group">
+                    <label for="hotelId">Branch:</label>
+                    <select name="hotelId" required class="form-control">
+                        <option th:each="branch : ${branches}" th:value="${branch.id}" th:text="${branch.chinhanh}">Branch Name - Branch Address</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="checkin">Check-in Date:</label>
+                    <input type="date" name="checkin" required class="form-control"
+                           th:value="${checkin != null ? #dates.format(checkin, 'yyyy-MM-dd') : ''}">
+                </div>
+
+                <div class="form-group">
+                    <label for="checkout">Check-out Date:</label>
+                    <input type="date" name="checkout" required class="form-control"
+                           th:value="${checkout != null ? #dates.format(checkout, 'yyyy-MM-dd') : ''}">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
     </div>
-    <button type="submit" class="btn btn-primary">Lọc</button>
-</form>
-    
-        <div class="row">
-            <div class="col-md-4" th:each="r : ${rooms}">
-                <div class="card">
-                    <a th:href="@{/room/{id}(id=${r.id})}">
-                        <img th:src="${r.img}" alt="Luxury hotel room with a large bed, modern decor, and a spacious layout" />
-                    </a>
-                    <div class="card-body">
-                        <p class=" card-text fas fa-eye"> <span th:text="${visitCounts[r.id]}">0</span></p>
 
-                        <h5 class="card-title" th:text="${r.roomtype.name}"></h5>
-                        <h5 class="card-title" th:text="${r.hotel.chinhanh}"></h5>
-                        <p class="card-text" th:text="${r.mota}"></p>
 
-                        <p class="card-text">
-                            2 khách | 45m2
-                        </p>
-                        <div class="card-icons">
-                            <i class="fas fa-bed"></i>
-                            <i class="fas fa-wifi"></i>
-                            <i class="fas fa-tv"></i>
-                            <i class="fas fa-utensils"></i>
-                            <i class="fas fa-coffee"></i>
-                            <i class="fas fa-bath"></i>
-                        </div>
 
-                        <a th:href="@{/room/{id}(id=${r.id})}">
-                        <button class="btn btn-custom">XEM CHI TIẾT</button>
-                        </a>
-                      <!--   <a th:href="'/room/room-details/' + ${room.id}">
-                         <button class="btn btn-custom" >ĐẶT CHỖ</button>
-                         </a> -->
-                        <a th:href="@{/room/room-details/{id}(id=${r.id})}">
-                        <button class="btn btn-custom">ĐẶT CHỖ</button>
-                        </a>
+    <!-- Bộ lọc loại phòng -->
+    <form action="#" th:action="@{/room/filter}" method="get" id="filterForm">
+        <div class="form-group mb-3">
+            <label for="roomtype">Loại phòng:</label>
+            <select id="roomtype" name="roomtype" class="form-control">
+                <option value="">Tất cả</option>
+                <option th:each="roomType : ${roomTypes}" th:value="${roomType.name}" th:text="${roomType.name}" th:selected="${roomType.name == roomtype}"></option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Lọc</button>
+    </form>
+
+    <script>
+        // Khi form được gửi, nếu "Tất cả" được chọn (roomtype là rỗng), loại bỏ tham số "roomtype"
+        document.getElementById('filterForm').addEventListener('submit', function(event) {
+            var roomtypeValue = document.getElementById('roomtype').value;
+            if (roomtypeValue === '') {
+                var url = new URL(window.location.href);
+                url.searchParams.delete('roomtype');
+                window.location.href = url.toString();
+                event.preventDefault();
+            }
+        });
+    </script>
+
+    <!-- Hiển thị thông báo nếu không có phòng -->
+    <div th:if="${message != null}">
+        <div class="alert alert-warning" role="alert">
+            <span th:text="${message}"></span>
+        </div>
+    </div>
+
+    <!-- Hiển thị các phòng -->
+    <div class="row">
+        <div class="col-md-4" th:each="r : ${rooms}">
+            <div class="card">
+                <a th:href="@{/room/{id}(id=${r.id})}">
+                    <img th:src="${r.img}" alt="Luxury hotel room with a large bed, modern decor, and a spacious layout" />
+                </a>
+                <div class="card-body">
+                    <p class="card-text fas fa-eye"> <span th:text="${visitCounts[r.id]}">0</span></p>
+
+                    <h5 class="card-title" th:text="${r.roomtype.name}"></h5>
+                    <h5 class="card-title" th:text="${r.hotel.chinhanh}"></h5>
+                    <p class="card-text" th:text="${r.mota}"></p>
+
+                    <p class="card-text">2 khách | 45m2</p>
+                    <div class="card-icons">
+                        <i class="fas fa-bed"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-tv"></i>
+                        <i class="fas fa-utensils"></i>
+                        <i class="fas fa-coffee"></i>
+                        <i class="fas fa-bath"></i>
                     </div>
+
+                    <a th:href="@{/room/{id}(id=${r.id})}">
+                        <button class="btn btn-custom">XEM CHI TIẾT</button>
+                    </a>
+
+                    <a th:href="@{/room/room-details/{id}(id=${r.id})}">
+                        <button class="btn btn-custom">ĐẶT CHỖ</button>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-    <div th:replace="/access/footer :: body"></div>
+</div>
+<div th:replace="/access/footer :: body"></div>
 </body>
 </html>
-
-
-<!--   <table border="1">
-        <tr>
-            <th>Image</th>
-            <th>Description</th>
-            <th>Branch</th>
-        </tr>
-        <tr th:each="r : ${rooms}">
-            <td><a th:href="@{/room/{id}(id=${r.id})}"><img th:src="${r.img}" alt="Room Image" style="width:100px;height:100px;"/></a></td>
-            <td th:text="${r.mota}"></td>
-            <td th:text="${r.hotel.chinhanh}"></td>
-        </tr>
-    </table> -->

@@ -29,4 +29,10 @@ public class HotelService {
         hotel.setRooms(hotelOld.getRooms());
         return this.hotelRepository.save(hotel);
     }
+    public List<Hotel> getAllBranches() {
+        return hotelRepository.findAll();
+
+    }
+
+
 }
