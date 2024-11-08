@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RoomDTO {
 	private int id;
+	private String roomCode;
     private HotelDTO hotelid;
     private int roomtypeid;
     private String img;

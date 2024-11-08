@@ -91,6 +91,7 @@ public class RoomService {
         Room room = new Room();
         room.setHotel(hotel);
         room.setImg(imageUrl);
+        room.generateRoomCode();
         room.setSophong(roomRequest.getSophong());
         room.setKieuphong(roomRequest.getKieuphong());
         room.setGia(roomRequest.getGia());
@@ -109,7 +110,7 @@ public class RoomService {
         for (Room room : rooms) {
             RoomDTO roomDTO = new RoomDTO();
             roomDTO.setId(room.getId());
-         
+            roomDTO.setRoomCode(room.getRoomCode());
             roomDTO.setImg(room.getImg());
             roomDTO.setSophong(room.getSophong());
             roomDTO.setGia(room.getGia());
