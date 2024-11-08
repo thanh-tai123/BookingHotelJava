@@ -127,7 +127,7 @@
             <th>Hành động</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody th:with="content='Chi tiết đặt phòng:\n'">
         <tr th:each="detail : ${bookDetails}">
              <td th:text="${detail.room.sophong}"></td>
                     <td th:text="${detail.room.roomtype.name}"></td>
@@ -155,6 +155,8 @@
                     <button type="submit">Cập nhật</button>
                 </form>
             </td>
+            <td th:with="content=${content} + 'ID: ' + ${detail.id} + ', ID Phòng: ' + ${detail.room.id} + ', Tổng: ' + ${detail.total} + ', Giá: ' + ${detail.price} + ', Checkin: ' + ${#dates.format(detail.checkin, 'yyyy-MM-dd HH:mm:ss')} + ', Checkout: ' + ${#dates.format(detail.checkout, 'yyyy-MM-dd HH:mm:ss')} + ', Người lớn: ' + ${detail.adult} + ', Trẻ em: ' + ${detail.children} + ', Phương thức thanh toán: ' + ${detail.paymentMethod} + ', Trạng thái thanh toán: ' + ${detail.paymentStatus} + ', Trạng thái phòng: ' + ${detail.bookDetailStatus} + ', Người cập nhật: ' + ${detail.updatedBy} + ', Thời gian cập nhật: ' + ${#dates.format(detail.updatedAt, 'yyyy-MM-dd HH:mm:ss')} + '\n'">
+            </td>
         </tr>
     </tbody>
 </table>
@@ -175,8 +177,8 @@
     
     Chi tiết:
     <th:block th:each="detail : ${bookDetails}">
-        - ID: [[${detail.id}]], 
-        ID Phòng: [[${detail.roomid}]], 
+      
+        Số phòng Phòng: [[${detail.room.sophong}]], 
         Tổng: [[${detail.total}]], 
         Giá: [[${detail.price}]], 
         Checkin: [[${#dates.format(detail.checkin, 'yyyy-MM-dd HH:mm:ss')}]], 
@@ -186,7 +188,9 @@
         Phương thức thanh toán: [[${detail.paymentMethod}]], 
         Trạng thái thanh toán: [[${detail.paymentStatus}]]
         Trạng thái phòng: [[${detail.BookDetailStatus}]]
-        &#10; <------------------------------------>
+        Người cập nhật: [[${detail.updatedBy}]], 
+        Thời gian cập nhật: [[${#dates.format(detail.updatedAt, 'yyyy-MM-dd HH:mm:ss')}]]
+              &#10; <------------------------------------>
     </th:block>
 </textarea>
 
