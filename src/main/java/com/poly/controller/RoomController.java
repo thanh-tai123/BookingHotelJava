@@ -40,6 +40,7 @@ public class RoomController {
 	private HotelService hotelService;
 	@Autowired
 	private ViewRoomRepository viewRoomRepository;
+
 	@Autowired
 	private RoomTypeService roomTypeService; // Dịch vụ để lấy danh sách loại phòng
 
@@ -92,10 +93,13 @@ public class RoomController {
 	}
 
 
-	@RequestMapping("/{id}")
-	public String detail(@PathVariable int id, Model model) {
-		Integer userId = getCurrentUserId();
 
+	 @RequestMapping("/{id}")
+	    public String detail(@PathVariable int id, Model model) {
+	        Integer userId = getCurrentUserId();
+
+
+	      
 		Room room = roomRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid room Id:" + id));
 		List<RoomTypeByService> services = room.getRoomtype().getServices();
 
@@ -112,6 +116,7 @@ public class RoomController {
 		// Implement this method to get the current user's ID
 		return 1;
 	}
+
 
 
 	/*

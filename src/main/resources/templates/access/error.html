@@ -1,11 +1,353 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        .bg {
+            background-image: url('https://lavelasaigon.com/wp-content/uploads/2022/10/main-banner.png');
+            height: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+        }
+        
+        
+        .bg1{
+            border-radius: 20px;
+            width: 500px;
+        }
+        h5{
+            padding-top: 10px;
+        }
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .navbar {
+            background-color: transparent;
+            transition: background-color 0.5s ease;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+
+        }
+        UL{
+            margin-left: 70px;
+        }
+
+        .navbar.scrolled {
+            background-color: black;
+        }
+
+        .navbar-brand img {
+            height: 50px;
+            
+        }
+
+        .navbar-nav .nav-link {
+            color: white;
+            font-size: 14px;
+            margin-right: 20px;
+            margin-left: 70px;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #d4af37;
+        }
+
+        .navbar-nav .form-select1 {
+
+            background-color: #333;
+            color: #d4af37;
+            border: 3px solid #d4af37;
+            padding: 10px 10px;
+            border-radius: 10px;
+            margin-right: 80px;
+            margin-left: 70px;
+        }
+
+
+        .navbar-nav .form-select {
+
+            background-color: #333;
+            color: #d4af37;
+            border: 3px solid #d4af37;
+            padding: 7px 10px;
+            border-radius: 10px;
+            width: 70px;
+         
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+        }
+
+        .footer {
+            padding: 20px 0;
+
+        }
+
+        .footer .col {
+            margin-bottom: 20px;
+
+        }
+
+        .footer p {
+            text-align: left;
+            padding-left: 25px;
+
+
+
+
+        }
+
+        .footer h5 {
+            text-align: left;
+            margin-bottom: 30px;
+            margin-top: 30px;
+            padding-left: 25px;
+
+
+
+        }
+
+        .footer a {
+            color: #fff;
+            text-decoration: none;
+
+        }
+
+        .footer a:hover {
+            text-decoration: none;
+        }
+
+        .footer-bottom p {
+            border-top: 1px solid #444;
+            padding-top: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .footer-bottom img {
+            width: 50px;
+            height: auto;
+        }
+        .btn-reserve {
+            background-color: #333;
+            color: #d4af37;
+            border: 1px solid #d4af37;
+            padding: 5px 10px;
+            margin-right: 500px;
+            
+        }
+
+        .btn-reserve:hover {
+            background-color: #d4af37;
+            color: black;
+        }
+    </style>
+    <script>
+          window.addEventListener('scroll', function () {
+            var navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
 </head>
 <body>
-<div th:replace="/access/nav :: nav"></div>
-ERROR: ${error}
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img alt="Hotel logo" height="50"
+                    src="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" width="50" />
+            </a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                    <button class="btn btn-reserve" type="button" style="margin-right: 30px;">
+                        GIỮ CHỖ NGAY
+                    </button>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            PHÒNG &amp; SUITES
+                        </a>
+                    </li>
+
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            TRA CỨU PHÒNG
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <select class="form-select1" id="validationCustom03" required>
+                            <option selected disabled value="">Thông tin</option>
+                            <option>Đăng nhập</option>
+                            <option>Đăng xuất</option>
+                        </select>
+                    </li>
+
+                    <li class="nav-item">
+                        <select class="form-select" id="validationCustom04" required>
+                            <option selected disabled value="">VN</option>
+                            <option>EN</option>
+                            <option>JP</option>
+                        </select>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+    <div class="bg">
+    
+        
+<div th:if="${error}" class="bg1 bg-black bg-opacity-50 p-8 rounded-lg text-center">
+    <h5 th:text="${error}" class="text-white text-3xl font-bold mb-4"></h5> <!-- Hiển thị thông báo lỗi -->
+</div>
+  
+</div>
+
+<div class="container footer">
+    <div class="row text-center">
+        <div class="col-md-3">
+            <h5>
+                LA VELA SAIGON HOTEL
+            </h5>
+            <p>
+                280 Nam Kỳ Khởi Nghĩa, Phường 8, Quận
+            </p>
+            <p>3, Thành phố Hồ Chí Minh, Việt Nam
+
+            </p>
+            <p>
+                Điện thoại: +84 (0) 28 3622 2280
+            </p>
+            <p>
+                Email: lavelahotel@lavelasaigon.com
+            </p>
+        </div>
+        <div class="col-md-3">
+            <h5>
+                VỀ CHÚNG TÔI
+            </h5>
+            <p>
+                <a href="#">
+                    ABOUT LA VELA SAIGON
+                </a>
+            </p>
+            <p>
+                <a href="#">
+                    CAREER
+                </a>
+            </p>
+            <p>
+                <a href="#">
+                    CONTACT US
+                </a>
+            </p>
+        </div>
+        <div class="col-md-3">
+            <h5>
+                HƯỚNG DẪN
+            </h5>
+            <p>
+                <a href="#">
+                    MAKE A RESERVATION
+                </a>
+            </p>
+            <p>
+                <a href="#">
+                    ROOMS
+                </a>
+            </p>
+            <p>
+                <a href="#">
+                    PLAN AN EVENT
+                </a>
+            </p>
+            <p>
+                <a href="#">
+                    REQUEST AN INVOICE
+                </a>
+            </p>
+        </div>
+        <div class="col-md-3">
+            <h5>
+                GIỮ LIÊN LẠC
+            </h5>
+            <p>
+                <a href="#">
+                    MAKE A RESERVATION
+                </a>
+            </p>
+            <p>
+                <a href="#">
+                    ROOMS
+                </a>
+            </p>
+            <p>
+                <a href="#">
+                    PLAN AN EVENT
+                </a>
+            </p>
+            <p>
+                <a href="#">
+                    REQUEST AN INVOICE
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>
+            © 2022 | Privacy Policy | Made with passion by Lg Marketing Team | This website is using cookies
+        </p>
+
+        <div class="row">
+            <a class="navbar-brand" href="#">
+                <img
+                    src="https://lavelasaigon.com/wp-content/themes/lavela/assets/images/footer-logo--ecosystem.png">
+            </a>
+            <div class="col-md-6 text-center">
+                <a href="#"> <img alt="La Vela Saigon Hotel Logo" height="200"
+                        src="https://lavelasaigon.com/wp-content/themes/lavela/assets/images/logo-esytem-hue.png"
+                        width="200" />
+                    <div class="hotel-name">
+                </a>
+            </div>
+        </div>
+        <div class="col-md-6 text-center">
+            <a href="#"> <img alt="La Vela Hue Hotel Logo" height="200"
+                    src="https://lavelasaigon.com/wp-content/themes/lavela/assets/images/logo-esytem-hcm.png"
+                    width="160" />
+                <div class="hotel-name">
+            </a>
+        </div>
+    </div>
+</div>
+</div>
+</div>
 
 </body>
 </html>

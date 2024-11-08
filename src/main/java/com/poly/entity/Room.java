@@ -57,4 +57,8 @@ public class Room {
 	    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	    @JsonManagedReference
 	    private List<BookDetail> bookDetails;
+	    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	    @JsonManagedReference
+	    private List<Comment> comments;
+
 }
