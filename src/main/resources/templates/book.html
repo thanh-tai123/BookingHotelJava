@@ -233,8 +233,8 @@
         <div class="input-group">
             <label for="paymentMethod">Payment Method:</label>
             <select id="paymentMethod" ng-model="booking.paymentMethod" class="payment-select">
-                <option value="Cash">Cash</option>
-                <option value="Card">Card</option>
+                <option value="cash">Cash</option>
+                <option value="transfer">Bank Transfer</option>
             </select>
         </div>
     </div>
@@ -507,7 +507,7 @@
                     });
                 } else if (bookingData.paymentMethod === 'transfer') {
                     // Save booking details in the database for bank transfer
-                    bookingData.paymentStatus = 'Success';
+                    bookingData.paymentStatus = 'pending';
                     bookingData.bookDetailStatus = 'NotCheckIn';
                     $http({
                         method: 'POST',
