@@ -4,12 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,11 +21,11 @@ public class Hotel {
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private int id;
 
-
-	    private String chinhanh;
-	    private String diachi;
+        private String chinhanh;
+		private String diachi;
 	    @OneToMany(mappedBy = "hotel")
 	    @JsonManagedReference
 	    private List<Room> rooms;
+
 
 }
