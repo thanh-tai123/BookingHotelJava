@@ -101,7 +101,7 @@
     <h2>Book Code: <span th:text="${book.bookCode}"></span></h2>
     <h3>Thông tin chi tiết:</h3>
     <ul>
-        <li>ID: <span th:text="${book.id}"></span></li>
+        <li>Mã khách hàng: <span th:text="${book.user.userCode}"></span></li>
         <li>Ngày tạo: <span th:text="${#dates.format(book.createDate, 'yyyy-MM-dd HH:mm:ss')}"></span></li>
         <li>Người dùng: <span th:text="${book.user.name}"></span></li>
         <li>Email: <span name="txtTo" th:text="${book.user.email}"></span></li>

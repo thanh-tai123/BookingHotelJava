@@ -77,6 +77,7 @@ public class SecurityConfig {
       config.addAllowedOrigin("http://localhost:5500/index.html");
       config.addAllowedHeader("*");
       config.addAllowedMethod("*");
+      
       source.registerCorsConfiguration("/**", config);
       return new CorsFilter();
   }

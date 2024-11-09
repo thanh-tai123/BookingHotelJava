@@ -162,6 +162,7 @@
 <table class="rooms-table">
     <thead>
         <tr>
+          <th>Room Code</th>
             <th>Room Number</th>
             <th>Image</th>
             <th>Room Type</th>
@@ -175,6 +176,7 @@
     </thead>
     <tbody>
         <tr ng-repeat="room in rooms">
+         <td>{{ room.roomCode }}</td>
             <td>{{ room.sophong }}</td>
             <td><img ng-src="{{ room.img }}" alt="Room Image" style="height: 100px;width: 100px"/></td>
             <td>{{ room.roomType.name }}</td>

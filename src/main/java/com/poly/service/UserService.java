@@ -50,6 +50,7 @@ public class UserService {
 		      throw new RuntimeException("Unable to send otp please try again");
 		    }
 		    User Account = new User();
+		    Account.generateUserCode();
 		    Account.setName(registerDto.getName());
 		    Account.setEmail(registerDto.getEmail());
 		    Account.setPhone(registerDto.getPhone());

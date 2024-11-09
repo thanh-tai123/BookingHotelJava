@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RoomDTO {
 	private int id;
+	private String roomCode;
     private HotelDTO hotelid;
     private int roomtypeid;
     private String img;
@@ -23,5 +24,5 @@ public class RoomDTO {
     private String mota;
     private RoomStatus status;
     private String note;
-    private int staffid;
+    private UserDTO staffid;
 }

@@ -40,23 +40,22 @@
 <table>
     <thead>
         <tr>
+        	<th>Code</th>
             <th>Name</th>
             <th>Email</th>
-          
             <th>Phone</th>
             <th>Role</th>
-             <th th:if="${user.roleString.contains('ADMIN')}">Admin</th>
-               <th th:if="${user.roleString.contains('SUPPLIER')}">Staff</th>
+            <th th:if="${user.roleString.contains('ADMIN')}">Admin</th>
+             <th th:if="${user.roleString.contains('SUPPLIER')}">Staff</th>
             <th>Img</th>
         </tr>
     </thead>
     <tbody>
         <tr>
+        	 <td th:text="${user.userCode}"></td>
             <td th:text="${user.name}"></td>
             <td th:text="${user.email}"></td>
-            
             <td th:text="${user.phone}"></td>
-         
             <td th:text="${user.roleString}"></td>
            <td th:if="${user.roleString.contains('ADMIN')}">
                 <a  th:href="@{/admin}">Trang Admin</a>
