@@ -54,13 +54,15 @@
     
     </div>
     <div class="col-md-8">
+     <h2 th:text="${room.roomCode}">
+     </h2>
      <h2 th:text="${room.roomtype.name}">
      </h2>
      <h5 th:text="${room.sophong}">
      </h5>
        <h5 th:text="${room.hotel.chinhanh}"></h5>
        <h5 th:text="${room.hotel.diachi}"></h5>
-         <h5 th:text="${room.staffid}"></h5>
+         <h5 th:text="${room.user.staffid}"></h5>
      <p>
       <i class="fas fa-user">
       </i>

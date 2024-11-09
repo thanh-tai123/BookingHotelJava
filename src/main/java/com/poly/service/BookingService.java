@@ -69,13 +69,51 @@ public class BookingService {
                 bookDetail.setChildren(request.getChildren());
                 bookDetail.setPaymentMethod(request.getPaymentMethod());
                 bookDetail.setPaymentStatus(request.getPaymentStatus());
-
+                bookDetail.setBookDetailStatus(request.getBookDetailStatus());
                 bookDetailRepository.save(bookDetail);
             } catch (Exception e) {
                 System.out.println("Error saving BookDetail for roomId " + roomId + ": " + e.getMessage());
             }
         }
 
+    }
+    
+    public Book PaybookRoom(BookingRequest request) {
+        User user = userRepository.findById(request.getUserid())
+            .orElseThrow(() -> new RuntimeException("User not found with id " + request.getUserid()));
+
+        Book book = new Book();
+        book.setUser(user);
+        book.setCreateDate(new Date());
+        book.generateBookCode();
+        Book savedBook = bookRepository.save(book);
+
+        float totalAmount = 0;
+        for (Integer roomId : request.getRoomid()) {
+            Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new RuntimeException("Room not found with id " + roomId));
+
+            BookDetail bookDetail = new BookDetail();
+            bookDetail.setBookid(savedBook.getId());
+            bookDetail.setRoom(room);
+            bookDetail.setPrice(room.getGia());
+            bookDetail.setCheckin(request.getCheckin());
+            bookDetail.setCheckout(request.getCheckout());
+
+            long differenceInMillis = request.getCheckout().getTime() - request.getCheckin().getTime();
+            long daysBetween = differenceInMillis / (1000 * 60 * 60 * 24);
+            float calculatedTotal = daysBetween * room.getGia();
+            bookDetail.setTotal(calculatedTotal);
+            totalAmount += calculatedTotal;
+            bookDetail.setAdult(request.getAdult());
+            bookDetail.setChildren(request.getChildren());
+            bookDetail.setPaymentMethod(request.getPaymentMethod());
+            bookDetail.setPaymentStatus(request.getPaymentStatus());
+
+            bookDetailRepository.save(bookDetail);
+        }
+
+        return savedBook;
     }
 //    public BookingResponse bookRoom(BookingRequest request) {
 //        User user = userRepository.findById(request.getUserid())

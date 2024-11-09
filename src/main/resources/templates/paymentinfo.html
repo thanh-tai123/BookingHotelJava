@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Kết quả thanh toán</title>
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+</head>
+<body>
+    <h1>Kết quả thanh toán</h1>
+    <div>
+        <p>Thanh toán thành công!</p>
+        <p>Liên kết thanh toán: <a th:href="${paymentUrl}" th:text="${paymentUrl}"></a></p>
+        <div>
+           <canvas id="qrcode"></canvas>
+           
+        </div>
+    </div>
+     <script th:inline="javascript">
+    var qr = new QRious({
+        element: document.getElementById('qrcode'),
+        value: /*[[${qrCodeUrl}]]*/,
+        size: 200 
+    });
+</script>
+</body>
+</html>

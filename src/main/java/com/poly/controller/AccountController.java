@@ -105,7 +105,7 @@ public class AccountController {
 	@RequestMapping("/login/failure")
 	public String handleLoginFailure(Model model) {
 		model.addAttribute("error", "Email or password is not true");
-		return "access/error";
+		return "account/login";
 	}
 
 //	@PostMapping("/handle-register")

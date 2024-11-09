@@ -13,7 +13,7 @@ import com.poly.entity.Room;
 
 @Repository
 public interface BookDetailRepository extends JpaRepository<BookDetail, Integer> {
-	
+	 List<BookDetail> findByBookid(Integer bookId);
 	 @Query("SELECT MONTH(b.checkin) AS month, SUM(b.total) AS revenue FROM BookDetail b GROUP BY MONTH(b.checkin)")
 	    List<Object[]> findMonthlyRevenue();
 	    
