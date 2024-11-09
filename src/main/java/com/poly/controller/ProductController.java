@@ -16,7 +16,7 @@ import java.util.List;
 public class ProductController {
 	@GetMapping("/home")
 	public String home() {
-		return "home/home";
+		return "dashboard/index";
 	}
 	@GetMapping("/about")
 	public String about() {
