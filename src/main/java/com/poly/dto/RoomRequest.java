@@ -23,7 +23,7 @@ private int hotelid;
  private String mota;
  private RoomStatus status = RoomStatus.FALSE;
 // private String note;
-private int staffid;
+private Long staffid;
 private Integer roomtypeid;
 
  // Getters and setters

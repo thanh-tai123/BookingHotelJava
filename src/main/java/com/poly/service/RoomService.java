@@ -14,12 +14,15 @@ import com.poly.dto.HotelDTO;
 import com.poly.dto.RoomDTO;
 import com.poly.dto.RoomRequest;
 import com.poly.dto.RoomTypeDTO;
+import com.poly.dto.UserDTO;
 import com.poly.entity.Hotel;
 import com.poly.entity.Room;
 import com.poly.entity.RoomType;
+import com.poly.entity.User;
 import com.poly.repository.HotelRepository;
 import com.poly.repository.RoomRepository;
 import com.poly.repository.RoomTypeRepository;
+import com.poly.repository.UserRepo;
 import com.poly.util._enum.RoomStatus;
 
 @Service
@@ -34,7 +37,8 @@ public class RoomService {
     private AwsS3Service awsS3Service;
     @Autowired
     private ViewRoomRepository viewRoomRepository;
-
+    @Autowired
+    private UserRepo userRepository;
     public Room findById(int id) {
         return roomRepository.findById(id).orElse(null);
     }
@@ -49,6 +53,9 @@ public class RoomService {
         RoomType roomtype = roomtypeRepository.findById(roomRequest.getRoomtypeid())
                 .orElseThrow(() -> new RuntimeException("RoomType not found"));
 
+        User user = userRepository.findById(roomRequest.getStaffid())
+                .orElseThrow(() -> new RuntimeException("RoomType not found"));
+        
         // Cập nhật ảnh nếu có ảnh mới
         if (img != null && !img.isEmpty()) {
             String imageUrl = awsS3Service.saveImageToS3(img);
@@ -58,12 +65,12 @@ public class RoomService {
         // Cập nhật các thuộc tính khác của room
         room.setHotel(hotel);
         room.setSophong(roomRequest.getSophong());
-        room.setKieuphong(roomRequest.getKieuphong());
+//        room.setKieuphong(roomRequest.getKieuphong());
         room.setGia(roomRequest.getGia());
         room.setMota(roomRequest.getMota());
         room.setStatus(RoomStatus.FALSE);
         // room.setNote(roomRequest.getNote()); // nếu có trường ghi chú
-        room.setStaffid(roomRequest.getStaffid());
+        room.setUser(user);
         room.setRoomtype(roomtype);
 
         // Lưu lại thông tin phòng sau khi cập nhật
@@ -87,18 +94,22 @@ public class RoomService {
                 .orElseThrow(() -> new RuntimeException("Hotel not found"));
         RoomType roomtype = roomtypeRepository.findById(roomRequest.getRoomtypeid())
                 .orElseThrow(() -> new RuntimeException("RoomType not found"));
+        
+        User user = userRepository.findById(roomRequest.getStaffid())
+                .orElseThrow(() -> new RuntimeException("RoomType not found"));
+        
         String imageUrl = awsS3Service.saveImageToS3(img);
         Room room = new Room();
         room.setHotel(hotel);
         room.setImg(imageUrl);
         room.generateRoomCode();
         room.setSophong(roomRequest.getSophong());
-        room.setKieuphong(roomRequest.getKieuphong());
+      //  room.setKieuphong(roomRequest.getKieuphong());
         room.setGia(roomRequest.getGia());
         room.setMota(roomRequest.getMota());
         room.setStatus(roomRequest.getStatus());
        // room.setNote(roomRequest.getNote());
-        room.setStaffid(roomRequest.getStaffid());
+        room.setUser(user);
         room.setRoomtype(roomtype);
         roomRepository.save(room);
     }
@@ -117,7 +128,7 @@ public class RoomService {
             roomDTO.setMota(room.getMota());
             roomDTO.setStatus(room.getStatus());
             roomDTO.setNote(room.getNote());
-            roomDTO.setStaffid(room.getStaffid());
+           
 
             // Fetch hotel details
             Hotel hotel = room.getHotel();
@@ -128,7 +139,15 @@ public class RoomService {
                 hotelDTO.setDiachi(hotel.getDiachi());
                 roomDTO.setHotelid(hotelDTO); // Set the hotel details in RoomDTO
             }
-
+            
+            User user = room.getUser();
+            if (user != null) {
+                UserDTO userDTO = new UserDTO();
+                userDTO.setId(user.getId());
+                userDTO.setName(user.getName());
+                userDTO.setEmail(user.getEmail());
+                roomDTO.setStaffid(userDTO);
+            }
             // Fetch room type details
             RoomType roomType = room.getRoomtype();
             if (roomType != null) {

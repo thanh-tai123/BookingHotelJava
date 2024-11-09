@@ -25,6 +25,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table
@@ -55,7 +56,12 @@ public class Room {
 	    @Enumerated(EnumType.STRING)
 	    private RoomStatus status = RoomStatus.FALSE;
 	    private String note;
-	    private int staffid;
+//	    private int staffid;
+	    @ManyToOne
+		  @JsonBackReference
+		@ToString.Exclude
+	    @JoinColumn(name = "staffid", referencedColumnName = "id", nullable = false)
+	    private User user;
 	    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	    @JsonManagedReference
 	    private List<BookDetail> bookDetails;

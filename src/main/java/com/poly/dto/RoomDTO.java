@@ -24,5 +24,5 @@ public class RoomDTO {
     private String mota;
     private RoomStatus status;
     private String note;
-    private int staffid;
+    private UserDTO staffid;
 }
