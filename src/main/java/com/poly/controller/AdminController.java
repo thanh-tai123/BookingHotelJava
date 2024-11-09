@@ -4,6 +4,7 @@ import com.poly.entity.Hotel;
 import com.poly.entity.Role;
 import com.poly.entity.Room;
 import com.poly.entity.RoomType;
+import com.poly.entity.RoomTypeByService;
 import com.poly.entity.Services;
 import com.poly.entity.User;
 import com.poly.repository.RoomRepository;
@@ -76,6 +77,8 @@ public class AdminController {
     @RequestMapping("/{id}")
     public String detail(@PathVariable int id, Model model) {
         Room room = roomRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid room Id:" + id));
+    	List<RoomTypeByService> services = room.getRoomtype().getServices();
+    	model.addAttribute("services", services);
         model.addAttribute("room", room);
         return "roomdetail";
     }

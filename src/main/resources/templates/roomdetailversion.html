@@ -110,19 +110,27 @@ select {
     
     </div>
     <div class="col-md-8">
+    Mã phòng:
     <h2 th:text="${room.roomCode}">
      </h2>
+    Kiểu phòng:
      <h2 th:text="${room.roomtype.name}">
      </h2>
+     Số phòng:
      <h5 th:text="${room.sophong}">
      </h5>
+     Mô tả:
       <h5 th:text="${room.mota}">
      </h5>
+     Khu vực:
        <h5 th:text="${room.hotel.chinhanh}"></h5>
+       Địa chỉ cụ thể:
        <h5 th:text="${room.hotel.diachi}"></h5>
+       Dịch vụ khác
 <ul>
     <li th:each="service : ${services}" th:text="${service.myService.name}"></li>
 </ul>
+Dịch vụ chung
      <p>
      
       <i class="fas fa-user">
@@ -192,10 +200,11 @@ select {
      </a>
     </div>
     <div class="col-md-4 text-end">
+  
      <p  th:text="${room.gia}">
      
      
-     </p>
+     </p>  VND
      <p>
       Cost for 1 night, 2 guests
      </p>
