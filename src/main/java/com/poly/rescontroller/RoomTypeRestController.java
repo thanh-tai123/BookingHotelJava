@@ -55,26 +55,7 @@ public class RoomTypeRestController {
     }
     
  // Thay đổi kiểu dữ liệu của serviceIds thành List<Integer> để nhận các ID
-    @PostMapping("/{roomTypeId}/services")
-    public ResponseEntity<?> assignServicesToRoomType(@PathVariable RoomType roomTypeId, @RequestBody List<Integer> serviceIds) {
-        // Kiểm tra các serviceIds trước khi lưu
-        if (serviceIds == null || serviceIds.isEmpty()) {
-            return ResponseEntity.badRequest().body(Collections.singletonMap("error", "No services provided"));
-        }
-
-        // Tìm kiếm các dịch vụ từ cơ sở dữ liệu
-        List<Services> services = serviceRepository.findAllById(serviceIds);
-        
-        // Thêm các dịch vụ mới
-        for (Services service : services) {
-            RoomTypeByService roomTypeByService = new RoomTypeByService();
-            roomTypeByService.setMyroomType(roomTypeId);
-            roomTypeByService.setMyService(service); // Gán service đúng
-            roomTypeByServiceRepository.save(roomTypeByService);
-        }
-
-        return ResponseEntity.ok(Collections.singletonMap("message", "Services assigned successfully"));
-    }
+   
     @GetMapping("/roomtypes")
     public List<RoomTypeDTO> getAllRoomTypes() {
         return roomTypeService.getAllRoomTypes();
@@ -90,16 +71,5 @@ public class RoomTypeRestController {
         return ResponseEntity.noContent().build();
     }
     
-    @GetMapping("/roomtype/services/summaries")
-    public ResponseEntity<List<RoomTypeServiceSummaryDTO>> getRoomTypeServiceSummaries() {
-        List<RoomTypeServiceSummaryDTO> summaries = roomTypeService.getRoomTypeServiceSummaries();
-        return ResponseEntity.ok(summaries);
-    }
    
-
-    @GetMapping("/roomtype/{roomTypeId}/services")
-    public ResponseEntity<List<Services>> getServicesByRoomType(@PathVariable Integer roomTypeId) {
-        List<Services> services = roomTypeService.getServicesByRoomType(roomTypeId);
-        return ResponseEntity.ok(services);
-    }
 }
