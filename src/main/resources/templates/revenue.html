@@ -1,77 +1,141 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="revenueApp">
+<html lang="en" ng-app="revenueApp" ng-controller="RevenueController">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Revenue Chart</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Revenue and Room Count Charts</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .chart-container {
+            width: 100%;
+            display: inline-block;
+            vertical-align: top;
+            margin: 40px;
+           /*  margin-left:100px; */
+        }
+        canvas {
+            max-width: 100%;
+            height: 500px;
+            
+        }
+    </style>
 </head>
+<body>
+  <div th:replace="/layout/menudoc :: html"></div>
+    <div class="container">
+        <h1 class="text-center">Revenue and Room Count Charts</h1>
+        <div class="row" style="margin-left:100px">
+            <div class="col-md-6">
+                <h3>Revenue Chart</h3>
+                <select ng-model="selectedYearRevenue" ng-change="getRevenueData(selectedYearRevenue)" ng-options="year for year in years"></select>
+                <div class="chart-container">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h3>Room Count Chart</h3>
+                <select ng-model="selectedYearRoomCount" ng-change="getRoomCountData(selectedYearRoomCount)" ng-options="year for year in years"></select>
+                <div class="chart-container">
+                    <canvas id="roomCountChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div th:replace="/access/navadmin :: html"></div>
-<body ng-controller="RevenueController">
-    <canvas id="revenueChart" width="40" height="10"></canvas>
-      <canvas id="roomCountChart" width="40" height="10"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         var app = angular.module('revenueApp', []);
-
         app.controller('RevenueController', function($scope, $http) {
-            $http.get('/api/revenue').then(function(response) {
-                var data = response.data;
-                var labels = data.map(item => `Month ${item.month}`);
+            $scope.years = Array.from({length: 12}, (_, i) => 2019 + i);
+
+            var revenueChart = new Chart(document.getElementById('revenueChart').getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Revenue',
+                        data: [],
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            var roomCountChart = new Chart(document.getElementById('roomCountChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Room Count',
+                        data: [],
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            $scope.getRevenueData = function(year) {
+                $http.get('/api/revenue', { params: { year: year } })
+                    .then(function(response) {
+                        $scope.updateRevenueChart(response.data);
+                    })
+                    .catch(function(error) {
+                        console.error("Error loading revenue data:", error);
+                    });
+            };
+
+            $scope.updateRevenueChart = function(data) {
+                var labels = data.map(item => item.month);
                 var revenues = data.map(item => item.revenue);
 
-                var ctx = document.getElementById('revenueChart').getContext('2d');
-                var revenueChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Monthly Revenue',
-                            data: revenues,
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-            });
-            $http.get('/api/roomCount').then(function(response) {
-                var data = response.data;
-                var labels = data.map(item => `Month ${item.month}`);
+                revenueChart.data.labels = labels;
+                revenueChart.data.datasets[0].data = revenues;
+                revenueChart.update();
+            };
+
+            $scope.getRoomCountData = function(year) {
+                $http.get('/api/roomcount', { params: { year: year } })
+                    .then(function(response) {
+                        $scope.updateRoomCountChart(response.data);
+                    })
+                    .catch(function(error) {
+                        console.error("Error loading room count data:", error);
+                    });
+            };
+
+            $scope.updateRoomCountChart = function(data) {
+                var labels = data.map(item => item.month);
                 var roomCounts = data.map(item => item.roomCount);
 
-                var ctx = document.getElementById('roomCountChart').getContext('2d');
-                var roomCountChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Monthly Room Count',
-                            data: roomCounts,
-                            backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                            borderColor: 'rgba(153, 102, 255, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-            });
+                roomCountChart.data.labels = labels;
+                roomCountChart.data.datasets[0].data = roomCounts;
+                roomCountChart.update();
+            };
+
+            // Load initial data for the current year
+            var currentYear = new Date().getFullYear();
+            $scope.selectedYearRevenue = currentYear;
+            $scope.selectedYearRoomCount = currentYear;
+            $scope.getRevenueData(currentYear);
+            $scope.getRoomCountData(currentYear);
         });
-      
     </script>
 </body>
 </html>
