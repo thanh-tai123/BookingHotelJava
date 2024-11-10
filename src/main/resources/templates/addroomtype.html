@@ -134,15 +134,23 @@ app.controller('RoomTypeController', function($scope, $http) {
     };
 
     $scope.addRoomType = function() {
-        $http.post('http://localhost:8081/api/add/roomtype', $scope.roomType)
-            .then(function(response) {
-                console.log('Room Type added successfully:', response.data);
-                $scope.roomTypes.push(response.data); // Thêm vào danh sách
-                $scope.clearForm();
-            }, function(error) {
-                console.error('Error adding Room Type:', error);
-            });
+        $http.post('http://localhost:8081/api/add/roomtype', $scope.roomType, {
+            headers: {
+                'Content-Type': 'application/json' // Đặt tiêu đề Content-Type
+            }
+        })
+        .then(function(response) {
+            console.log('Room Type added successfully:', response.data);
+            $scope.roomTypes.push(response.data); // Thêm vào danh sách
+            $scope.loadRoomTypes();
+          
+            $scope.clearForm(); // Gọi hàm clearForm sau khi thêm thành công
+        }, function(error) {
+            console.error('Error adding Room Type:', error);
+            window.location.reload();
+        });
     };
+
 
     $scope.editRoomType = function(type) {
         $scope.roomType = angular.copy(type); // Sao chép để chỉnh sửa
