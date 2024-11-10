@@ -22,7 +22,26 @@
         .content {
             margin-left: 270px;
             padding: 20px;
-        }
+        }.nav-item .dropdown-menu {
+    display: none;
+}
+
+/* Hiển thị menu khi hover vào li chứa dropdown */
+.nav-item:hover .dropdown-menu {
+    display: block;
+}
+
+/* Tùy chỉnh thêm nếu cần, ví dụ căn chỉnh hoặc kiểu chữ */
+.dropdown-menu {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item:hover {
+    background-color: #e9ecef;
+}
+        
     </style>
 </head>
 <body>
@@ -33,21 +52,21 @@
             <img alt="Hotel logo" height="20" src="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" width="50"/>
         </a>
         <ul class="navbar-nav flex-column">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:href="@{/room}" th:text="#{navbar.phong_va_suites}">
-                    PHÒNG & SUITES
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#" th:text="#{navbar.phong_deluxe}">Phòng Deluxe</a>
-                    <a class="dropdown-item" href="#" th:text="#{navbar.phong_suite}">Phòng Suite</a>
-                    <a class="dropdown-item" href="#" th:text="#{navbar.phong_executive}">Phòng Executive</a>
-                </div>
-            </li>
+             <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" th:href="@{/room}" id="roomDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        PHÒNG &amp; SUITES
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="roomDropdown">
+                        <li><a class="dropdown-item" th:href="@{/room/filter?roomtype=Deluxe}">Phòng Deluxe</a></li>
+                        <li><a class="dropdown-item" th:href="@{/room/filter?roomtype=Suite}">Phòng Suite</a></li>
+                        <li><a class="dropdown-item" th:href="@{/room/filter?roomtype=Double}">Phòng Double</a></li>
+                    </ul>
+                </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/account/info}" th:text="#{navbar.thong_tin}">THÔNG TIN</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/admin/revenue}" th:text="#{navbar.tra_cuu_phong}">THỐNG KÊ</a>
+                <a class="nav-link" th:href="@{/admin/revenue}" >THỐNG KÊ</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/logout}" th:text="#{navbar.dang_xuat}">ĐĂNG XUẤT</a>

@@ -233,4 +233,5 @@ public class AdminController {
     public String menu() {
        return "layout/menudoc";
     }
+   
 }
