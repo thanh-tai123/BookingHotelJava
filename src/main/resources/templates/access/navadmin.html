@@ -251,6 +251,25 @@ body {
     background-color: #f0f0f0;
     color: #333;
 }
+        .nav-item .dropdown-menu {
+    display: none;
+}
+
+/* Hiển thị menu khi hover vào li chứa dropdown */
+.nav-item:hover .dropdown-menu {
+    display: block;
+}
+
+/* Tùy chỉnh thêm nếu cần, ví dụ căn chỉnh hoặc kiểu chữ */
+.dropdown-menu {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item:hover {
+    background-color: #e9ecef;
+}
         
   </style>
  </head>
@@ -263,77 +282,61 @@ body {
     <button><a th:href="@{/room}">room</a></button>
     <button><a th:href="@{/account/info}">info</a></button> -->
     <nav class="navbar navbar-expand-lg">
-        <div class="container">
-         <a class="navbar-brand" href="#">
-          <img alt="Hotel logo" height="20" src="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" width="50"/>
-         </a>
-         <div class="collapse navbar-collapse">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-           <li class="nav-item dropdown">
-                    <a class="nav-link" th:href="@{/room}">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img alt="Hotel logo" height="20" src="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" width="50"/>
+        </a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                 <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" th:href="@{/room}" id="roomDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         PHÒNG &amp; SUITES
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Phòng Deluxe</a></li>
-                        <li><a class="dropdown-item" href="#">Phòng Suite</a></li>
-                        <li><a class="dropdown-item" href="#">Phòng Executive</a></li>
+                    <ul class="dropdown-menu" aria-labelledby="roomDropdown">
+                        <li><a class="dropdown-item" th:href="@{/room/filter?roomtype=Deluxe}">Phòng Deluxe</a></li>
+                        <li><a class="dropdown-item" th:href="@{/room/filter?roomtype=Suite}">Phòng Suite</a></li>
+                        <li><a class="dropdown-item" th:href="@{/room/filter?roomtype=Double}">Phòng Double</a></li>
                     </ul>
                 </li>
-           <li class="nav-item">
-            <a class="nav-link" th:href="@{/logout}">
-             ĐĂNG XUẤT
-            </a>
-           </li>
-           <li class="nav-item">
-            <a class="nav-link" th:href="@{/account/info}">
-             THÔNG TIN
-            </a>
-           </li>
-         <!--   <li class="nav-item">
-            <a class="nav-link" th:href="@{/account/register}">
-            ĐĂNG KÍ
-            </a>
-           </li> -->
-            <li class="nav-item dropdown">
-                    <a class="nav-link" th:href="@{/admin}">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         ADMIN
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu" aria-labelledby="adminDropdown">
                         <li><a class="dropdown-item" th:href="@{/admin/confirmroom}">Xác nhận phòng</a></li>
                         <li><a class="dropdown-item" th:href="@{/admin/add/roomtype}">Tạo kiểu phòng</a></li>
-                         <li><a class="dropdown-item" th:href="@{/admin/add/service}">Tạo dịch vụ</a></li>
-                          <li><a class="dropdown-item" th:href="@{/admin/roomtypes}">Đặt Service vào kiểu phòng</a></li>
-                          <li><a class="dropdown-item" th:href="@{/supplier}">Tạo phòng</a></li>
-                          <li><a class="dropdown-item" th:href="@{/search/admin/bookcode}">Tra cứu phòng</a></li>
-                           <li><a class="dropdown-item" th:href="@{/admin/show-chinhanh}">Tạo chi nhánh mới</a></li>
+                        <li><a class="dropdown-item" th:href="@{/admin/add/service}">Tạo dịch vụ</a></li>
+                        <li><a class="dropdown-item" th:href="@{/admin/roomtypes}">Đặt Service vào kiểu phòng</a></li>
+                        <li><a class="dropdown-item" th:href="@{/supplier}">Tạo phòng</a></li>
+                        <li><a class="dropdown-item" th:href="@{/search/admin/bookcode}">Tra cứu phòng</a></li>
+                        <li><a class="dropdown-item" th:href="@{/admin/show-chinhanh}">Tạo chi nhánh mới</a></li>
                     </ul>
                 </li>
-           <li class="nav-item">
-           <li class="nav-item">
-            <a class="nav-link" th:href="@{/admin/revenue}">
-            THỐNG KÊ
-            </a>
-           </li>
-           <li class="nav-item">
-            <a class="nav-link" th:href="@{/account/login}">
-            ĐĂNG NHẬP
-            </a>
-           </li>
-           <button class="btn btn-reserve" type="button" style="margin-right: 30px;">
-            GIỮ CHỖ NGAY
-           </button>
-           <li class="nav-item">
-            <select class="form-select" id="validationCustom04" required>
-                <option selected disabled value="">VN</option>
-                <option>EN</option>
-                <option>JP</option>
-              </select>
-           </li>
-          </ul> 
-          
-         </div>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/revenue}">THỐNG KÊ</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Tài khoản
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="accountDropdown">
+                        <li><a class="dropdown-item" th:href="@{/account/info}">THÔNG TIN</a></li>
+                        <li><a class="dropdown-item" th:href="@{/logout}">ĐĂNG XUẤT</a></li>
+                        <li><a class="dropdown-item" th:href="@{/account/login}">ĐĂNG NHẬP</a></li>
+                    </ul>
+                </li>
+                <button class="btn btn-reserve" type="button" style="margin-right: 30px;">GIỮ CHỖ NGAY</button>
+                <li class="nav-item">
+                    <select class="form-select" id="validationCustom04" required>
+                        <option selected disabled value="">VN</option>
+                        <option>EN</option>
+                        <option>JP</option>
+                    </select>
+                </li>
+            </ul>
         </div>
-       </nav>
+    </div>
+</nav>
   <div class="hero-section">
    <img alt="Hotel Lobby"  src="https://lavelasaigon.com/wp-content/uploads/2022/10/main-banner.png">
    <div class="hero-text">

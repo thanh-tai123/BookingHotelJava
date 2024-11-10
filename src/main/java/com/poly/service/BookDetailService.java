@@ -17,18 +17,20 @@ public class BookDetailService {
     @Autowired
     private BookDetailRepository bookDetailRepository;
 
-    public List<Map<String, Object>> getMonthlyRevenue() {
-        List<Object[]> results = bookDetailRepository.findMonthlyRevenue();
+    public List<Map<String, Object>> getMonthlyRevenueByYear(Integer year) {
+        List<Object[]> results = bookDetailRepository.findMonthlyRevenueByYear(year);
         return results.stream()
-                .map(result -> Map.of("month", result[0], "revenue", result[1]))
+                .map(result -> Map.of("month", result[1], "revenue", result[2]))
                 .collect(Collectors.toList());
     }
-    public List<Map<String, Object>> getMonthlyRoomCount() {
-        List<Object[]> results = bookDetailRepository.findMonthlyRoomCount();
+
+    public List<Map<String, Object>> getMonthlyRoomCountByYear(Integer year) {
+        List<Object[]> results = bookDetailRepository.findMonthlyRoomCountByYear(year);
         return results.stream()
-                .map(result -> Map.of("month", result[0], "roomCount", result[1]))
+                .map(result -> Map.of("month", result[1], "roomCount", result[2]))
                 .collect(Collectors.toList());
     }
+
     
     public List<BookDetail> getBookingsByRoomid(Room room) {
         return bookDetailRepository.findByRoom(room);

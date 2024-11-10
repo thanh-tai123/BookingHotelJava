@@ -228,4 +228,10 @@ public class AdminController {
         this.hotelService.updateHotel(hotel);
         return "redirect:/admin/show-chinhanh";
     }
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping("/menudoc")
+    public String menu() {
+       return "layout/menudoc";
+    }
+   
 }

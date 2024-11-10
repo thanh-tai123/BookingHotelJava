@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vertical Navbar</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .vertical-navbar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            background-color: #f8f9fa;
+            padding-top: 20px;
+        }
+        .vertical-navbar .nav-link {
+            color: #333;
+        }
+        .vertical-navbar .btn-reserve {
+            margin-left: 15px;
+        }
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+        }.nav-item .dropdown-menu {
+    display: none;
+}
+
+/* Hiển thị menu khi hover vào li chứa dropdown */
+.nav-item:hover .dropdown-menu {
+    display: block;
+}
+
+/* Tùy chỉnh thêm nếu cần, ví dụ căn chỉnh hoặc kiểu chữ */
+.dropdown-menu {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item:hover {
+    background-color: #e9ecef;
+}
+        
+    </style>
+</head>
+<body>
+
+<nav class="vertical-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img alt="Hotel logo" height="20" src="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" width="50"/>
+        </a>
+        <ul class="navbar-nav flex-column">
+             <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" th:href="@{/room}" id="roomDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        PHÒNG &amp; SUITES
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="roomDropdown">
+                        <li><a class="dropdown-item" th:href="@{/room/filter?roomtype=Deluxe}">Phòng Deluxe</a></li>
+                        <li><a class="dropdown-item" th:href="@{/room/filter?roomtype=Suite}">Phòng Suite</a></li>
+                        <li><a class="dropdown-item" th:href="@{/room/filter?roomtype=Double}">Phòng Double</a></li>
+                    </ul>
+                </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/account/info}" th:text="#{navbar.thong_tin}">THÔNG TIN</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/admin/revenue}" >THỐNG KÊ</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/logout}" th:text="#{navbar.dang_xuat}">ĐĂNG XUẤT</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/account/login}" th:text="#{navbar.dang_nhap}">ĐĂNG NHẬP</a>
+            </li>
+            <button class="btn btn-reserve" type="button" style="margin-top: 10px;" th:text="#{navbar.giu_cho_ngay}">GIỮ CHỖ NGAY</button>
+            <li class="nav-item" style="margin-top: 20px;">
+                <select id="languageSelect" onchange="changeLanguage(this)">
+                    <option value="en" th:selected="${#locale.language == 'en'}">English</option>
+                    <option value="vi" th:selected="${#locale.language == 'vi'}">Vietnamese</option>
+                </select>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="content">
+    <!-- Nội dung của bạn sẽ ở đây -->
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function changeLanguage(select) {
+        var lang = select.value;
+        window.location.href = window.location.pathname + '?lang=' + lang;
+    }
+</script>
+
+</body>
+</html>

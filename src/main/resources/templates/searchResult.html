@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search Results</title>
+     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body>
+   <div ng-app="myApp" ng-controller="SearchController">
+    <input type="text" ng-model="email" placeholder="Enter email" />
+    <button ng-click="searchEmail()">Search</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>User Name</th>
+                <th>Email</th>
+                <th>Book Code</th>
+                <th>Payment Method</th>
+                <th>Payment Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="user in users">
+                <td>{{user.username}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.books[0].bookCode}}</td>
+                <td>{{user.books[0].bookDetails[0].paymentMethod}}</td>
+                <td>{{user.books[0].bookDetails[0].paymentStatus}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script >
+var app = angular.module('myApp', []);
+app.controller('SearchController', function($scope, $http) {
+    $scope.searchEmail = function() {
+        $http.get('/api/search?email=' + $scope.email)
+            .then(function(response) {
+                $scope.users = response.data;
+            });
+    };
+});
+
+</script>
+</body>
+</html>
