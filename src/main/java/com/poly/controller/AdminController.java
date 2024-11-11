@@ -61,7 +61,7 @@ public class AdminController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping("revenue")
     public String revenue() {
-        return "revenue";
+        return "dashboard/revenue";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
