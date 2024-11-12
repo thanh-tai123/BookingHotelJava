@@ -32,4 +32,6 @@ public interface RoomRepository extends JpaRepository<Room, Integer>{
 	 @Query("SELECT r FROM Room r WHERE r.id NOT IN :ids AND r.status = :status")
 	 List<Room> findAvailableRoomsExcludingIds(@Param("ids") List<Integer> ids, @Param("status") RoomStatus status);
 	  List<Room> findByRoomtype_Name(String name);
+	  @Query("SELECT r.roomtype.name, COUNT(r) FROM Room r GROUP BY r.roomtype")
+	    List<Object[]> countRoomsByRoomType();
 }

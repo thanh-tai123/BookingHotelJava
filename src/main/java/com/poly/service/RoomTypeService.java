@@ -13,12 +13,14 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.poly.dto.RoomTypeCountDTO;
 import com.poly.dto.RoomTypeDTO;
 
 import com.poly.dto.RoomTypeServiceSummaryDTO;
 import com.poly.entity.RoomType;
 import com.poly.entity.RoomTypeByService;
 import com.poly.entity.Services;
+import com.poly.repository.RoomRepository;
 import com.poly.repository.RoomTypeByServiceRepository;
 import com.poly.repository.RoomTypeRepository;
 import com.poly.repository.ServiceRepository;
@@ -33,6 +35,8 @@ public class RoomTypeService {
     private RoomTypeByServiceRepository roomTypeByServiceRepository;
     @Autowired
     private ServiceRepository serviceRepository;
+    @Autowired
+    private RoomRepository roomRepository;
 
     public RoomType createRoomType(RoomTypeDTO roomTypeDTO) {
         RoomType roomType = new RoomType();
@@ -152,5 +156,14 @@ public class RoomTypeService {
     }
     public List<RoomType> getAllRoomType() {
         return roomTypeRepository.findAll();
+    }
+    
+    public List<RoomTypeCountDTO> getRoomTypeCounts() {
+        List<Object[]> result = roomRepository.countRoomsByRoomType();
+        List<RoomTypeCountDTO> roomTypeCounts = new ArrayList<>();
+        for (Object[] row : result) {
+            roomTypeCounts.add(new RoomTypeCountDTO((String) row[0], (Long) row[1]));
+        }
+        return roomTypeCounts;
     }
 }

@@ -173,6 +173,11 @@ public class RoomController {
 		return "room"; // Trả về mẫu Thymeleaf
 	}
 
-
+	@GetMapping("/room-type-chart")
+    public String getRoomTypeChart(Model model) {
+        Map<String, Long> roomTypeCounts = roomService.getRoomTypeCounts();
+        model.addAttribute("roomTypeCounts", roomTypeCounts);
+        return "roomTypeChart";
+    }
 
 }
