@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Revenue and Room Count Charts</title>
+    <title th:text="#{admin.RevenueAndRoomCountCharts}"></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .chart-container {
@@ -23,17 +23,17 @@
 <body>
   <div th:replace="/layout/menudoc :: html"></div>
     <div class="container">
-        <h1 class="text-center">Revenue and Room Count Charts</h1>
+        <h1 class="text-center" th:text="#{admin.RevenueAndRoomCountCharts}"></h1>
         <div class="row" style="margin-left:100px">
             <div class="col-md-6">
-                <h3>Revenue Chart</h3>
+                <h3 th:text="#{admin.RevenueChart}"></h3>
                 <select ng-model="selectedYearRevenue" ng-change="getRevenueData(selectedYearRevenue)" ng-options="year for year in years"></select>
                 <div class="chart-container">
                     <canvas id="revenueChart"></canvas>
                 </div>
             </div>
             <div class="col-md-6">
-                <h3>Room Count Chart</h3>
+                <h3 th:text="#{admin.RoomCountChart}"></h3>
                 <select ng-model="selectedYearRoomCount" ng-change="getRoomCountData(selectedYearRoomCount)" ng-options="year for year in years"></select>
                 <div class="chart-container">
                     <canvas id="roomCountChart"></canvas>

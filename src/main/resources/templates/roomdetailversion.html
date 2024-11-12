@@ -1,275 +1,291 @@
 <html xmlns:th="http://www.thymeleaf.org">
- <head>
-  <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet"/>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-  <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
-  <style>
-   body {
+<head>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
+    <style>
+        body {
             font-family: Arial, sans-serif;
         }
+
         .room-info {
             margin-top: 20px;
         }
+
         .room-info h5 {
             font-size: 1.25rem;
             font-weight: bold;
         }
+
         .room-info ul {
             padding-left: 20px;
         }
+
         .room-info ul li {
             list-style-type: disc;
         }
+
         .rate-info {
             border-top: 1px solid #ddd;
             padding-top: 20px;
             margin-top: 20px;
         }
+
         .rate-info h6 {
             font-size: 1rem;
             font-weight: bold;
         }
+
         .rate-info .text-success {
             color: #28a745 !important;
         }
+
         .rate-info .text-danger {
             color: #dc3545 !important;
         }
+
         .rate-info .btn {
             background-color: #d4a373;
             color: white;
         }
+
         .rate-info .btn:disabled {
             background-color: #ccc;
         }
-        
-       /*  //comment  */
-       .comments, .add-comment {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
+
+        /*  //comment  */
+        .comments, .add-comment {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
 
 
-.comments p {
-    border-bottom: 1px solid #eee;
-    padding: 10px 0;
-}
+        .comments p {
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+        }
 
-.comments p:last-child {
-    border-bottom: none;
-}
-
-
+        .comments p:last-child {
+            border-bottom: none;
+        }
 
 
-textarea {
-    width: 100%;
-    height: 100px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    resize: none;
-}
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: none;
+        }
 
-select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
 
-.cmtbutton {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
+        .cmtbutton {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
 
-.cmtbutton:hover {
-    background-color: #0056b3;
-}
+        .cmtbutton:hover {
+            background-color: #0056b3;
+        }
 
 
-  </style>
- </head>
- <body>
- <div th:replace="/access/nav :: html"></div>
-  <div class="container">
-   <div class="row room-info">
-    <div class="col-md-4">
-    <img alt="Image of a deluxe twin room with city view" class="img-fluid" height="300" th:src="${room.img}" width="400" />
-    
+    </style>
+</head>
+<body>
+<div th:replace="/access/nav :: html"></div>
+<div class="container">
+    <div class="row room-info">
+        <div class="col-md-4">
+            <img alt="Image of a deluxe twin room with city view" class="img-fluid" height="300" th:src="${room.img}"
+                 width="400"/>
+
+        </div>
+        <div class="col-md-8">
+            <h2 th:text="${room.roomCode}">
+            </h2>
+            <h2 th:text="${room.roomtype.name}">
+            </h2>
+            <h5 th:text="${room.sophong}">
+            </h5>
+            <h5 th:text="${room.mota}">
+            </h5>
+            <h5 th:text="${room.hotel.chinhanh}"></h5>
+            <h5 th:text="${room.hotel.diachi}"></h5>
+            <ul>
+                <li th:each="service : ${services}" th:text="${service.myService.name}"></li>
+            </ul>
+            <p>
+
+                <i class="fas fa-user">
+                </i>
+                Sleeps 2
+                <i class="fas fa-bed">
+                </i>
+                2 Twin beds
+                <i class="fas fa-bath">
+                </i>
+                1 Bathroom
+            </p>
+            <p>
+                28m² • City view • Non-smoking • Air conditioned • Bath • En-suite Bathroom • Hairdryer • Internet
+                Access • Linen and Towels Provided
+            </p>
+            <ul>
+                <li>
+                    Twin beds
+                </li>
+                <li>
+                    Free WIFI access
+                </li>
+                <li>
+                    Bathroom and shower
+                </li>
+                <li>
+                    Led TV with international channels
+                </li>
+                <li>
+                    Mini bar &amp; coffee and tea
+                </li>
+                <li>
+                    Safety box
+                </li>
+                <li>
+                    Free infinity swimming pool
+                </li>
+                <li>
+                    Balcony with City View
+                </li>
+                <li>
+                    Late check-out 13:00 (subject to room availability)
+                </li>
+            </ul>
+            <a href="#" th:text="#{body.LessInfo}">
+                Less info
+            </a>
+        </div>
     </div>
-    <div class="col-md-8">
-    <h2 th:text="${room.roomCode}">
-     </h2>
-     <h2 th:text="${room.roomtype.name}">
-     </h2>
-     <h5 th:text="${room.sophong}">
-     </h5>
-      <h5 th:text="${room.mota}">
-     </h5>
-       <h5 th:text="${room.hotel.chinhanh}"></h5>
-       <h5 th:text="${room.hotel.diachi}"></h5>
-<ul>
-    <li th:each="service : ${services}" th:text="${service.myService.name}"></li>
-</ul>
-     <p>
-     
-      <i class="fas fa-user">
-      </i>
-      Sleeps 2
-      <i class="fas fa-bed">
-      </i>
-      2 Twin beds
-      <i class="fas fa-bath">
-      </i>
-      1 Bathroom
-     </p>
-     <p>
-      28m² • City view • Non-smoking • Air conditioned • Bath • En-suite Bathroom • Hairdryer • Internet Access • Linen and Towels Provided
-     </p>
-     <ul>
-      <li>
-       Twin beds
-      </li>
-      <li>
-       Free WIFI access
-      </li>
-      <li>
-       Bathroom and shower
-      </li>
-      <li>
-       Led TV with international channels
-      </li>
-      <li>
-       Mini bar &amp; coffee and tea
-      </li>
-      <li>
-       Safety box
-      </li>
-      <li>
-       Free infinity swimming pool
-      </li>
-      <li>
-       Balcony with City View
-      </li>
-      <li>
-       Late check-out 13:00 (subject to room availability)
-      </li>
-     </ul>
-     <a href="#">
-      Less info
-     </a>
+    <div class="row rate-info">
+        <div class="col-md-8">
+            <h6 th:text="#{body.StandardRate}">
+            </h6>
+            <p class="text-success">
+                <i class="fas fa-check-circle">
+                </i>
+                <text th:text="#{body.FreeCancellation}"></text>
+            </p>
+            <p class="text-success">
+                <i class="fas fa-check-circle">
+                </i>
+                <text th:text="#{body.BookNowPayLater}"></text>
+            </p>
+            <a href="#" th:text="#{body.LessInfo}">
+
+            </a>
+        </div>
+        <div class="col-md-4 text-end">
+            <p th:text="${room.gia}">
+
+
+            </p>
+            <p>
+                <text th:text="#{body.CostFor}"></text>
+                1
+                <text th:text="#{body.guests}"></text>
+                , 2
+                <text th:text="#{body.night}"></text>
+            </p>
+            <button class="btn" th:text="#{body.select}">
+
+            </button>
+        </div>
     </div>
-   </div>
-   <div class="row rate-info">
-    <div class="col-md-8">
-     <h6>
-      Standard Rate
-     </h6>
-     <p class="text-success">
-      <i class="fas fa-check-circle">
-      </i>
-      Free cancellation!
-     </p>
-     <p class="text-success">
-      <i class="fas fa-check-circle">
-      </i>
-      Book now, pay later
-     </p>
-     <a href="#">
-      More info
-     </a>
+    <div class="row rate-info">
+        <div class="col-md-8">
+            <h6 th:text="#{body.roomOnly}">
+
+            </h6>
+            <p class="text-success">
+                <i class="fas fa-check-circle">
+                </i>
+                <a th:href="'/room/room-details/' + ${room.id}" class="btn btn-success" th:text="#{body.BookNow}">
+
+                </a>
+
+            </p>
+            <p class="text-danger">
+                <i class="fas fa-exclamation-circle">
+                </i>
+                <text th:text="#{body.NonRefundable}"></text>
+            </p>
+            <a href="#" th:text="#{body.MoreInfo}">
+
+            </a>
+        </div>
+        <div class="col-md-4 text-end">
+            <button class="btn" disabled="" th:text="#{body.SoldOut}">
+
+            </button>
+            <button class="btn btn-outline-secondary" th:text="#{body.FindAvailableDate}">
+
+            </button>
+        </div>
     </div>
-    <div class="col-md-4 text-end">
-     <p  th:text="${room.gia}">
-     
-     
-     </p>
-     <p>
-      Cost for 1 night, 2 guests
-     </p>
-     <button class="btn">
-      Select
-     </button>
+
+    <div class="comments">
+        <h2 th:text="#{body.comment}"></h2>
+        <div th:each="comment : ${room.comments}">
+            <div class="comment">
+                <p><strong th:text="${comment.username}"></strong> <span th:text="${comment.rating}"></span> <i
+                        class="fas fa-star"></i> <text th:text="#{body.date}"></text>: <span
+                        th:text="${#dates.format(comment.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+                <p th:text="${comment.content}"></p>
+
+                <hr>
+
+
+            </div>
+        </div>
     </div>
-   </div>
-   <div class="row rate-info">
-    <div class="col-md-8">
-     <h6>
-      ROOM ONLY (BE)
-     </h6>
-     <p class="text-success">
-      <i class="fas fa-check-circle">
-      </i>
-     <a th:href="'/room/room-details/' + ${room.id}" class="btn btn-success">
-    Book now
-</a>
-     
-     </p>
-     <p class="text-danger">
-      <i class="fas fa-exclamation-circle">
-      </i>
-      Non-refundable
-     </p>
-     <a href="#">
-      More info
-     </a>
-    </div>
-    <div class="col-md-4 text-end">
-     <button class="btn" disabled="">
-      Sold out
-     </button>
-     <button class="btn btn-outline-secondary">
-      Find available dates
-     </button>
-    </div>
-   </div>
-   
-     <div class="comments">
-            <h2>Comments</h2>
-<div th:each="comment : ${room.comments}">
-    <div class="comment">
-        <p><strong th:text="${comment.username}"></strong>   <span th:text="${comment.rating}">Rating</span>  <i class="fas fa-star"></i>   Date: <span th:text="${#dates.format(comment.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
-        <p th:text="${comment.content}"></p>
-       
-            <hr>
-            
-        
+    <div class="add-comment">
+        <h2 th:text="#{body.addComment}"></h2>
+        <form th:action="@{/comments/add}" method="post">
+            <input type="hidden" name="roomId" th:value="${room.id}"/>
+            <div class="form-group">
+                <label for="content" th:text="#{body.content}"></label>
+                <textarea name="content" id="content" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="rating" th:text="#{body.ratting}"></label>
+                <select name="rating" id="rating">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <button type="submit" class="cmtbutton" th:text="#{body.submit}"></button>
+        </form>
     </div>
 </div>
-        </div>
-        <div class="add-comment">
-            <h2>Add Comment</h2>
-            <form th:action="@{/comments/add}" method="post">
-                <input type="hidden" name="roomId" th:value="${room.id}" />
-                <div class="form-group">
-                    <label for="content">Content:</label>
-                    <textarea name="content" id="content" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="rating">Rating:</label>
-                    <select name="rating" id="rating">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </div>
-                <button type="submit" class="cmtbutton">Submit</button>
-            </form>
-        </div>
-  </div>
- </body>
+</body>
 </html>

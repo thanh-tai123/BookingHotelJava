@@ -292,26 +292,27 @@
             background-color: #f0f0f0;
             color: #333;
         }
-/* Ẩn menu dropdown mặc định */
-.nav-item .dropdown-menu {
-    display: none;
-}
 
-/* Hiển thị menu khi hover vào li chứa dropdown */
-.nav-item:hover .dropdown-menu {
-    display: block;
-}
+        /* Ẩn menu dropdown mặc định */
+        .nav-item .dropdown-menu {
+            display: none;
+        }
 
-/* Tùy chỉnh thêm nếu cần, ví dụ căn chỉnh hoặc kiểu chữ */
-.dropdown-menu {
-    background-color: #f8f9fa;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+        /* Hiển thị menu khi hover vào li chứa dropdown */
+        .nav-item:hover .dropdown-menu {
+            display: block;
+        }
 
-.dropdown-item:hover {
-    background-color: #e9ecef;
-}
+        /* Tùy chỉnh thêm nếu cần, ví dụ căn chỉnh hoặc kiểu chữ */
+        .dropdown-menu {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-item:hover {
+            background-color: #e9ecef;
+        }
 
     </style>
 </head>
@@ -326,32 +327,44 @@
 <nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <img alt="Hotel logo" height="20" src="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" width="50"/>
+            <img alt="Hotel logo" height="20" src="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png"
+                 width="50"/>
         </a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-               <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" th:href="@{/room}" id="roomDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" th:href="@{/room}" id="roomDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
                         PHÒNG &amp; SUITES
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="roomDropdown">
-                        <li><a class="dropdown-item" th:href="@{/room/filter?roomtype=Deluxe}">Phòng Deluxe</a></li>
-                        <li><a class="dropdown-item" th:href="@{/room/filter?roomtype=Suite}">Phòng Suite</a></li>
-                        <li><a class="dropdown-item" th:href="@{/room/filter?roomtype=Double}">Phòng Double</a></li>
+                        <li><a class="dropdown-item" th:href="@{/room/filter?roomtype=Deluxe}"
+                               th:text="#{navbar.phong_deluxe}"></a></li>
+                        <li><a class="dropdown-item" th:href="@{/room/filter?roomtype=Suite}"
+                               th:text="#{navbar.phong_suite}"></a></li>
+                        <li><a class="dropdown-item" th:href="@{/room/filter?roomtype=Double}"
+                               th:text="#{navbar.phong_va_suites}"></a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/search/bookcode}" th:text="#{navbar.tra_cuu_phong}">TRA CỨU PHÒNG</a>
+                    <a class="nav-link" th:href="@{/search/bookcode}" th:text="#{navbar.tra_cuu_phong}">TRA CỨU
+                        PHÒNG</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Tài khoản</a>
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false" th:text="#{navbar.taikhoan}"></a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" th:href="@{/account/info}" th:text="#{navbar.thong_tin}">THÔNG TIN</a></li>
-                        <li><a class="dropdown-item" th:href="@{/logout}" th:text="#{navbar.dang_xuat}">ĐĂNG XUẤT</a></li>
-                        <li><a class="dropdown-item" th:href="@{/account/login}" th:text="#{navbar.dang_nhap}">ĐĂNG NHẬP</a></li>
+                        <li><a class="dropdown-item" th:href="@{/account/info}" th:text="#{navbar.thong_tin}">THÔNG
+                            TIN</a></li>
+                        <li><a class="dropdown-item" th:href="@{/logout}" th:text="#{navbar.dang_xuat}">ĐĂNG XUẤT</a>
+                        </li>
+                        <li><a class="dropdown-item" th:href="@{/account/login}" th:text="#{navbar.dang_nhap}">ĐĂNG
+                            NHẬP</a></li>
                     </ul>
                 </li>
-                <button class="btn btn-reserve" type="button" style="margin-right: 30px;" th:text="#{navbar.giu_cho_ngay}">GIỮ CHỖ NGAY</button>
+                <button class="btn btn-reserve" type="button" style="margin-right: 30px;"
+                        th:text="#{navbar.giu_cho_ngay}">GIỮ CHỖ NGAY
+                </button>
                 <li class="nav-item">
                     <select id="languageSelect" onchange="changeLanguage(this)">
                         <option value="en" th:selected="${#locale.language == 'en'}">English</option>

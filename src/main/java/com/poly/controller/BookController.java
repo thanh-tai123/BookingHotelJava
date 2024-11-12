@@ -31,7 +31,7 @@ public class BookController {
     @Autowired
     private BookRepository bookRepository; // Giả sử đây là repository của bạn cho Book
     @Autowired
-    private BookDetailRepository bookDetailRepository; 
+    private BookDetailRepository bookDetailRepository;
     @Autowired
     private BookingService bookService;
 //    @GetMapping("")
@@ -59,7 +59,7 @@ public class BookController {
 
     @GetMapping("/bookcode")
     public String showBookForm(Model model) {
-    	model.addAttribute("bookCode", "");
+        model.addAttribute("bookCode", "");
         return "searchBookCode"; // Tên của view Thymeleaf
     }
 
@@ -76,6 +76,7 @@ public class BookController {
         model.addAttribute("bookCode", bookCode);
         return "searchBookCode"; // Tên của view hiển thị thông tin Book
     }
+
     @PostMapping("/book")
     public String getBookInfo(@RequestParam("bookCode") String bookCode, Model model) {
         Book book = bookRepository.findByBookCode(bookCode);
@@ -89,26 +90,28 @@ public class BookController {
         model.addAttribute("bookCode", bookCode);
         return "searchBookCode"; // Tên của view hiển thị thông tin Book
     }
+
     @GetMapping("/user/books")
     public String getUserBooks(@RequestParam("Userid") Long userId, Model model) {
         List<Book> books = bookService.getBooksByUserId(userId);
         model.addAttribute("books", books);
         return "userBooks"; // Thymeleaf template name
     }
+
     @GetMapping("/bookdetail")
     public String showBookDetail() {
         return "bookdetail"; // Tên của view Thymeleaf
     }
-    
-    
-    
-	/* -----ADMIN, STAFF UPDATE BOOKDETAILSTATUS */
+
+
+    /* -----ADMIN, STAFF UPDATE BOOKDETAILSTATUS */
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/admin/bookcode")
     public String showAdminBookForm(Model model) {
-    	model.addAttribute("bookCode", "");
+        model.addAttribute("bookCode", "");
         return "admin/searchBookCode"; // Tên của view Thymeleaf
     }
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/admin/getbook")
     public String getAdminBook(@RequestParam("bookCode") String bookCode, Model model) {
@@ -123,6 +126,7 @@ public class BookController {
         model.addAttribute("bookCode", bookCode);
         return "/admin/searchBookCode"; // Tên của view hiển thị thông tin Book
     }
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/admin/book")
     public String getAdminBookInfo(@RequestParam("bookCode") String bookCode, Model model) {
@@ -137,6 +141,8 @@ public class BookController {
         model.addAttribute("bookCode", bookCode);
         return "/admin/searchBookCode"; // Tên của view hiển thị thông tin Book
     }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/admin/updateStatus")
     public String updateStatus(@RequestParam("detailId") Integer detailId,
                                @RequestParam("status") String status,
