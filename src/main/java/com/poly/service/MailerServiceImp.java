@@ -92,4 +92,5 @@ public class MailerServiceImp implements MailerService {
         message.setText(body);
         sender.send(message);
     }
+	
 }

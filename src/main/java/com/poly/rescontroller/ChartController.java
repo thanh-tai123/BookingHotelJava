@@ -28,4 +28,8 @@ public class ChartController {
     public List<Map<String, Object>> getRoomCountData(@RequestParam Integer year) {
         return bookDetailService.getMonthlyRoomCountByYear(year);
     }
+    @GetMapping("/top-users/{year}/{month}")
+    public  List<Map<String, Object>> getTopUsers(@PathVariable int year, @PathVariable int month) {
+        return bookDetailService.getTopUsersByMonthAndYear(year, month);
+    }
 }

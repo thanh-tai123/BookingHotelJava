@@ -27,4 +27,12 @@ public interface BookDetailRepository extends JpaRepository<BookDetail, Integer>
 	    List<BookDetail> findByBook_BookCode(String bookCode);
 	    List<BookDetail> findByRoom(Room room);
 	    List<BookDetail> findAllByCheckinLessThanEqualAndCheckoutGreaterThanEqual(Date checkout, Date checkin);
+	    
+	    @Query("SELECT b.user.email, COUNT(bd.id) " +
+	            "FROM BookDetail bd " +
+	            "JOIN bd.book b " +
+	            "WHERE YEAR(bd.checkin) = :year AND MONTH(bd.checkin) = :month " +
+	            "GROUP BY b.user.email " +
+	            "ORDER BY COUNT(bd.id) DESC")
+	     List<Object[]> findTopUsersByMonthAndYear(@Param("year") int year, @Param("month") int month);
 }

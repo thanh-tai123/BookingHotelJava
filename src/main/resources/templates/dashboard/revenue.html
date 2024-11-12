@@ -40,6 +40,23 @@
                 </div>
             </div>
         </div>
+        <div>
+   <!-- Dropdown cho chọn năm -->
+<select ng-model="selectedYear" ng-change="getTopUsersData(selectedYear, selectedMonth)" ng-options="year for year in years">
+    <option value="">Chọn năm</option>
+</select>
+
+<!-- Dropdown cho chọn tháng -->
+<select ng-model="selectedMonth" ng-change="getTopUsersData(selectedYear, selectedMonth)" ng-options="month for month in months">
+    <option value="">Chọn tháng</option>
+</select>
+
+<!-- Hiển thị thống kê người đặt phòng nhiều nhất -->
+<h3>Thống kê người đặt phòng nhiều nhất theo tháng trong năm</h3>
+<div ng-repeat="user in topUsers">
+    <p>Email: {{ user.userEmail }} - Tháng: {{ user.month }} - Năm: {{ user.year }} - Số lượng đặt phòng: {{ user.bookingCount }}</p>
+</div>
+
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js"></script>
@@ -135,6 +152,22 @@
             $scope.selectedYearRoomCount = currentYear;
             $scope.getRevenueData(currentYear);
             $scope.getRoomCountData(currentYear);
+            
+            $scope.years = [2022, 2023, 2024, 2025];  // Thêm các năm bạn muốn
+            $scope.months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];  // Các tháng từ 1 đến 12
+
+            // Biến lưu trữ danh sách người dùng có số lượng đặt phòng nhiều nhất
+            $scope.topUsers = [];
+
+            // Hàm lấy dữ liệu người đặt phòng nhiều nhất theo năm và tháng
+            $scope.getTopUsersData = function(year, month) {
+                if (year && month) {
+                    // Gọi API để lấy thống kê người đặt phòng
+                    $http.get('/api/top-users/' + year + '/' + month).then(function(response) {
+                        $scope.topUsers = response.data;
+                    });
+                }
+            };
         });
     </script>
 </body>
