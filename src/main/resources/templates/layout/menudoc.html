@@ -67,7 +67,7 @@
                 <a class="nav-link" th:href="@{/admin}" th:text="#{navbar.thong_tin}">THÔNG TIN</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link dropdown-toggle" th:href="@{/admin/revenue}" >THỐNG KÊ</a>
+                <a class="nav-link dropdown-toggle" href="#" >THỐNG KÊ</a>
                  <ul class="dropdown-menu" aria-labelledby="adminDropdown">
                         <li><a class="dropdown-item" th:href="@{/admin/revenue}">Doanh thu theo biểu đồ</a></li>
                         <li><a class="dropdown-item" th:href="@{/admin/userbybook}">Thông kê lượt đặt phòng</a></li>
@@ -80,6 +80,7 @@
                         ADMIN
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                      <li><a class="dropdown-item" th:href="@{/admin}">Thông tin người dùng</a></li>
                         <li><a class="dropdown-item" th:href="@{/admin/confirmroom}">Xác nhận phòng</a></li>
                         <li><a class="dropdown-item" th:href="@{/admin/add/roomtype}">Tạo kiểu phòng</a></li>
                         <li><a class="dropdown-item" th:href="@{/admin/add/service}">Tạo dịch vụ</a></li>
