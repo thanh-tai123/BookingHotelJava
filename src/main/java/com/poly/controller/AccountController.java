@@ -60,7 +60,7 @@ public class AccountController {
 	    
 	    // Fetch the user
 	    Optional<User> optionalUser = userService.findById(userRoot.getUser().getId());
-	    
+	     
 	    if (optionalUser.isPresent()) {
 	        User user = optionalUser.get();
 	        model.addAttribute("user", user);
