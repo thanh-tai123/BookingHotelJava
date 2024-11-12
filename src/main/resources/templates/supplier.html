@@ -98,7 +98,7 @@
     <div class="form-row">
         <div class="form-group">
            
-            <input value="{{user.id}}" ng-model="room.staffid" type="text">
+            <input value="{{user.id}}" ng-model="user.id" type="text">
     <label>Name:</label>
     <input value="{{user.name}}"  />
             
@@ -111,6 +111,7 @@
                 <option value="">Select a branch</option>
             </select>
            <p ng-if="isEditing">Selected Hotel: {{ room.hotelid.chinhanh }}</p>
+             <p ng-if="isEditing">Selected Hotel: {{ room.hotelid.id }}</p>
         </div>
 
         <div class="form-group">
@@ -120,6 +121,7 @@
                 <option value="">Select a Room Type</option>
             </select>
             <p ng-if="isEditing">Selected Room Type: {{ room.roomType.name }}</p>
+            <p ng-if="isEditing">Selected Room Type: {{ room.roomType.id }}</p>
         </div>
     </div>
 
@@ -250,15 +252,15 @@ angular.module('app', [])
     };
     $scope.saveUpdatedRoom = function() {
         var formData = new FormData();
-        formData.append('hotelid', $scope.room.hotelid);
+        formData.append('hotelid', $scope.room.hotel.id);
         formData.append('sophong', $scope.room.sophong);
-        formData.append('roomtypeid', $scope.room.roomtypeid);
+        formData.append('roomtypeid', $scope.room.roomtype.id);
         formData.append('gia', $scope.room.gia);
         formData.append('mota', $scope.room.mota);
         formData.append('status', $scope.room.status);
 
         // Truyền chỉ id của user vào formData
-        formData.append('staffid', $scope.room.staffid);
+         formData.append('staffid', $scope.user.id);
 
         // Thêm img nếu có
         if ($scope.room.img) {
@@ -362,7 +364,7 @@ angular.module('app', [])
         formData.append('mota', $scope.room.mota);
         formData.append('status', $scope.room.status);
         formData.append('note', $scope.room.note || '');
-        formData.append('staffid', $scope.room.staffid);
+        formData.append('staffid', $scope.user.id);
         formData.append('img', $scope.room.img);
         if ($scope.room.images) {
             for (var i = 0; i < $scope.room.images.length; i++) {
