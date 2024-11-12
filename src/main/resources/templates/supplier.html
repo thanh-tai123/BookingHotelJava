@@ -252,9 +252,9 @@ angular.module('app', [])
     };
     $scope.saveUpdatedRoom = function() {
         var formData = new FormData();
-        formData.append('hotelid', $scope.room.hotel.id);
+        formData.append('hotelid',$scope.room.hotelId);
         formData.append('sophong', $scope.room.sophong);
-        formData.append('roomtypeid', $scope.room.roomtype.id);
+        formData.append('roomtypeid', $scope.room.roomTypeId);
         formData.append('gia', $scope.room.gia);
         formData.append('mota', $scope.room.mota);
         formData.append('status', $scope.room.status);

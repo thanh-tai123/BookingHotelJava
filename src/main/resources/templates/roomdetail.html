@@ -43,6 +43,24 @@
         .rate-info .btn:disabled {
             background-color: #ccc;
         }
+        .image-gallery {
+    display: flex; /* Flexbox for image alignment */
+    flex-wrap: wrap; /* Wrap images to next line */
+    margin-top: 10px; /* Space above the image gallery */
+    padding: 0; /* Remove padding */
+    list-style-type: none; /* Remove bullets */
+}
+
+.image-gallery li {
+    margin: 5px; /* Space around images */
+}
+
+.room-image {
+    height: 100px; /* Fixed height */
+    width: 100px; /* Fixed width */
+    object-fit: cover; /* Cover to maintain aspect ratio */
+    border-radius: 4px; /* Rounded corners for images */
+}
   </style>
  </head>
  <body>
