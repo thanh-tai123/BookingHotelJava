@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.poly.dto.RoomStatisticsDTO;
 import com.poly.entity.Room;
 import com.poly.util._enum.RoomStatus;
 
@@ -34,4 +35,8 @@ public interface RoomRepository extends JpaRepository<Room, Integer>{
 	  List<Room> findByRoomtype_Name(String name);
 	  @Query("SELECT r.roomtype.name, COUNT(r) FROM Room r GROUP BY r.roomtype")
 	    List<Object[]> countRoomsByRoomType();
+	    
+	    
+	    @Query("SELECT r.hotel.chinhanh, COUNT(r) FROM Room r GROUP BY r.hotel.chinhanh")
+	    List<Object[]> countRoomsByBranch();
 }

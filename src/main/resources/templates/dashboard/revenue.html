@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .chart-container {
-            width: 100%;
+            width: 90%;
             display: inline-block;
             vertical-align: top;
             margin: 40px;
@@ -32,7 +32,7 @@
                     <canvas id="revenueChart"></canvas>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6" >
                 <h3>Room Count Chart</h3>
                 <select ng-model="selectedYearRoomCount" ng-change="getRoomCountData(selectedYearRoomCount)" ng-options="year for year in years"></select>
                 <div class="chart-container">
@@ -46,45 +46,17 @@
                      <canvas id="roomTypeChart" ></canvas>
                 </div>
             </div>
+             <div class="col-md-6">
+                <h3>Room Donut Chart</h3>
+               
+                <div class="chart-container">
+                 <canvas id="doughnutChart"></canvas>
+                </div>
+            </div>
             
         </div>
-        <div>
-   <!-- Dropdown cho chọn năm -->
-<select ng-model="selectedYear" ng-change="getTopUsersData(selectedYear, selectedMonth)" ng-options="year for year in years">
-    <option value="">Chọn năm</option>
-</select>
-
-<!-- Dropdown cho chọn tháng -->
-<select ng-model="selectedMonth" ng-change="getTopUsersData(selectedYear, selectedMonth)" ng-options="month for month in months">
-    <option value="">Chọn tháng</option>
-</select>
-
-<!-- Hiển thị thống kê người đặt phòng nhiều nhất -->
-<h3>Thống kê người đặt phòng nhiều nhất theo tháng trong năm</h3>
-<div ng-repeat="user in topUsers">
-    <p>Email: {{ user.userEmail }} - Tháng: {{ user.month }} - Năm: {{ user.year }} - Số lượng đặt phòng: {{ user.bookingCount }}</p>
-</div>
-
-
-
-    </div>
-    
-    <!-- <h1>Room Type Distribution</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Room Type</th>
-                <th>Count</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="roomType in roomTypes">
-                <td>{{ roomType.roomTypeName }}</td>
-                <td>{{ roomType.count }}</td>
-            </tr>
-        </tbody>
-    </table> -->
    
+
 </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -180,21 +152,7 @@
             $scope.getRevenueData(currentYear);
             $scope.getRoomCountData(currentYear);
             
-            $scope.years = [2022, 2023, 2024, 2025];  // Thêm các năm bạn muốn
-            $scope.months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];  // Các tháng từ 1 đến 12
-
-            // Biến lưu trữ danh sách người dùng có số lượng đặt phòng nhiều nhất
-            $scope.topUsers = [];
-
-            // Hàm lấy dữ liệu người đặt phòng nhiều nhất theo năm và tháng
-            $scope.getTopUsersData = function(year, month) {
-                if (year && month) {
-                    // Gọi API để lấy thống kê người đặt phòng
-                    $http.get('/api/top-users/' + year + '/' + month).then(function(response) {
-                        $scope.topUsers = response.data;
-                    });
-                }
-            };
+           
             
             $http.get('/api/counts')
             .then(function(response) {
@@ -244,6 +202,58 @@
             }, function(error) {
                 console.error('Error fetching room type counts:', error);
             });
+            
+          
+            $scope.chartData = {
+                    labels: [],
+                    data: []
+                };
+
+                $http.get('/api/rooms-per-branch')
+                    .then(function(response) {
+                        response.data.forEach(function(item) {
+                            $scope.chartData.labels.push(item.chinhanh);
+                            $scope.chartData.data.push(item.roomCount);
+                        });
+                        $scope.createChart();
+                    });
+
+                $scope.createChart = function() {
+                    var ctx = document.getElementById('doughnutChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: $scope.chartData.labels,
+                            datasets: [{
+                                data: $scope.chartData.data,
+                                backgroundColor: [
+                                    '#FF6384',
+                                    '#36A2EB',
+                                    '#FFCE56',
+                                    '#4BC0C0',
+                                    '#9966FF',
+                                    '#FF9F40'
+                                ],
+                                hoverOffset: 4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                title: {
+                                    display: true,
+                                    
+                                }
+                            }
+                        }
+                    });
+                };
+                
+                
+                
         });
     </script>
 </body>

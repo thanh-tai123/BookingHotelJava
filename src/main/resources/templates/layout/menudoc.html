@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vertical Navbar</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+         <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css}">
     <style>
         .vertical-navbar {
             width: 250px;
@@ -63,14 +64,31 @@
                     </ul>
                 </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/account/info}" th:text="#{navbar.thong_tin}">THÔNG TIN</a>
+                <a class="nav-link" th:href="@{/admin}" th:text="#{navbar.thong_tin}">THÔNG TIN</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/admin/revenue}" >THỐNG KÊ</a>
+                <a class="nav-link dropdown-toggle" th:href="@{/admin/revenue}" >THỐNG KÊ</a>
+                 <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                        <li><a class="dropdown-item" th:href="@{/admin/revenue}">Doanh thu theo biểu đồ</a></li>
+                        <li><a class="dropdown-item" th:href="@{/admin/userbybook}">Thông kê lượt đặt phòng</a></li>
+                        <li><a class="dropdown-item" th:href="@{/admin/compare}">So sánh doanh thu</a></li>
+                       
+                    </ul>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/logout}" th:text="#{navbar.dang_xuat}">ĐĂNG XUẤT</a>
-            </li>
+            <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        ADMIN
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                        <li><a class="dropdown-item" th:href="@{/admin/confirmroom}">Xác nhận phòng</a></li>
+                        <li><a class="dropdown-item" th:href="@{/admin/add/roomtype}">Tạo kiểu phòng</a></li>
+                        <li><a class="dropdown-item" th:href="@{/admin/add/service}">Tạo dịch vụ</a></li>
+                        <li><a class="dropdown-item" th:href="@{/admin/roomtypes}">Đặt Service vào kiểu phòng</a></li>
+                        <li><a class="dropdown-item" th:href="@{/supplier}">Tạo phòng</a></li>
+                        <li><a class="dropdown-item" th:href="@{/search/admin/bookcode}">Tra cứu phòng</a></li>
+                        <li><a class="dropdown-item" th:href="@{/admin/show-chinhanh}">Tạo chi nhánh mới</a></li>
+                    </ul>
+                </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/account/login}" th:text="#{navbar.dang_nhap}">ĐĂNG NHẬP</a>
             </li>

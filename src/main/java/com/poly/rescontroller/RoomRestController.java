@@ -28,6 +28,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.poly.dto.BookingRequest;
 import com.poly.dto.RoomDTO;
 import com.poly.dto.RoomRequest;
+import com.poly.dto.RoomStatisticsDTO;
+import com.poly.dto.RoomTypeCountDTO;
 import com.poly.entity.BookDetail;
 import com.poly.entity.BookResponse;
 import com.poly.entity.Room;
@@ -152,5 +154,11 @@ public class RoomRestController {
            // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("message", "Error deleting room: " + e.getMessage()));
         	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("message", "Error deleting room: You have not permission"));
         }
+    }
+    
+    
+    @GetMapping("/rooms-per-branch")
+    public List<RoomStatisticsDTO> getRoomTypeCounts() {
+        return roomService.getRoomStatistics();
     }
 }

@@ -15,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.poly.dto.HotelDTO;
 import com.poly.dto.RoomDTO;
 import com.poly.dto.RoomRequest;
+import com.poly.dto.RoomStatisticsDTO;
+import com.poly.dto.RoomTypeCountDTO;
 import com.poly.dto.RoomTypeDTO;
 import com.poly.dto.UserDTO;
 import com.poly.entity.Hotel;
@@ -195,5 +197,19 @@ public class RoomService {
         List<Room> rooms = roomRepository.findAll();
         return rooms.stream()
                 .collect(Collectors.groupingBy(room -> room.getRoomtype().getName(), Collectors.counting()));
+    }
+    
+//    public Map<String, Long> getRoomStatistics() {
+//    	List<Room> rooms = roomRepository.findAll();
+//        return rooms.stream()
+//                .collect(Collectors.groupingBy(room -> room.getHotel().getChinhanh(), Collectors.counting()));
+//    }
+    public List<RoomStatisticsDTO> getRoomStatistics() {
+        List<Object[]> result = roomRepository.countRoomsByBranch();
+        List<RoomStatisticsDTO> roomStatusCount = new ArrayList<>();
+        for (Object[] row : result) {
+            roomStatusCount.add(new RoomStatisticsDTO((String) row[0], (Long) row[1]));
+        }
+        return roomStatusCount;
     }
 }

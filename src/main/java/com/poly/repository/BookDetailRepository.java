@@ -15,14 +15,14 @@ import com.poly.entity.Room;
 @Repository
 public interface BookDetailRepository extends JpaRepository<BookDetail, Integer> {
 	 List<BookDetail> findByBookid(Integer bookId);
-	 @Query("SELECT YEAR(b.checkin) AS year, MONTH(b.checkin) AS month, SUM(b.total) AS revenue " +
+	 @Query("SELECT YEAR(b.checkout) AS year, MONTH(b.checkout) AS month, SUM(b.total) AS revenue " +
 		       "FROM BookDetail b " +
-		       "WHERE YEAR(b.checkin) = :year AND b.bookDetailStatus = 'checkout' " +
-		       "GROUP BY YEAR(b.checkin), MONTH(b.checkin)")
+		       "WHERE YEAR(b.checkout) = :year AND b.bookDetailStatus = 'checkout' " +
+		       "GROUP BY YEAR(b.checkout), MONTH(b.checkout)")
 	    List<Object[]> findMonthlyRevenueByYear(@Param("year") Integer year);
 
-	    @Query("SELECT YEAR(b.checkin) AS year, MONTH(b.checkin) AS month, COUNT(b.id) AS roomCount FROM BookDetail b WHERE YEAR(b.checkin) = :year AND b.bookDetailStatus = 'checkout'"
-	    +"GROUP BY YEAR(b.checkin), MONTH(b.checkin)")
+	    @Query("SELECT YEAR(b.checkout) AS year, MONTH(b.checkout) AS month, COUNT(b.id) AS roomCount FROM BookDetail b WHERE YEAR(b.checkout) = :year AND b.bookDetailStatus = 'checkout'"
+	    +"GROUP BY YEAR(b.checkout), MONTH(b.checkout)")
 	    List<Object[]> findMonthlyRoomCountByYear(@Param("year") Integer year);
 	    List<BookDetail> findByBook_BookCode(String bookCode);
 	    List<BookDetail> findByRoom(Room room);
@@ -31,7 +31,7 @@ public interface BookDetailRepository extends JpaRepository<BookDetail, Integer>
 	    @Query("SELECT b.user.email, COUNT(bd.id) " +
 	            "FROM BookDetail bd " +
 	            "JOIN bd.book b " +
-	            "WHERE YEAR(bd.checkin) = :year AND MONTH(bd.checkin) = :month " +
+	            "WHERE YEAR(bd.checkout) = :year AND MONTH(bd.checkout) = :month " +
 	            "GROUP BY b.user.email " +
 	            "ORDER BY COUNT(bd.id) DESC")
 	     List<Object[]> findTopUsersByMonthAndYear(@Param("year") int year, @Param("month") int month);

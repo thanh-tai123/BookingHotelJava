@@ -233,5 +233,14 @@ public class AdminController {
     public String menu() {
        return "layout/menudoc";
     }
-   
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping("/userbybook")
+    public String userbybook() {
+       return "dashboard/userbybook";
+    }
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping("/compare")
+    public String compare() {
+       return "dashboard/compare";
+    }
 }
