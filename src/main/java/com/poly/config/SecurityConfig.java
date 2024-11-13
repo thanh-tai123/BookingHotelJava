@@ -2,6 +2,7 @@ package com.poly.config;
 
 import com.poly.auth.UserRootService;
 import com.poly.auth.OAuthUser.CustomOAuth2UserService;
+import com.poly.auth.OAuthUser.OAuth2AuthenticationSuccessHandler;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,7 +29,8 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 public class SecurityConfig {
   private final UserRootService userRootService;
   private final CustomOAuth2UserService customOAuth2UserService;
-
+  @Autowired
+  private OAuth2AuthenticationSuccessHandler successHandler;
   @Bean
   public BCryptPasswordEncoder getPasswordEncoder() {
     return new BCryptPasswordEncoder();
@@ -47,26 +49,25 @@ public class SecurityConfig {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    return http
-        .csrf(AbstractHttpConfigurer::disable)
-        .authorizeHttpRequests(
-            req -> req
-                .requestMatchers("/admin", "/admin/**", "/account/info","/api/**").authenticated()
-                .anyRequest().permitAll())
-                
-        .formLogin(form -> form
-            .loginPage("/account/login")
-            .usernameParameter("email")
-            .passwordParameter("password")
-            .loginProcessingUrl("/account/login-check")
-            .defaultSuccessUrl("/account/login/success")
-            .failureUrl("/account/login/failure"))
-        .oauth2Login(ou -> ou
-            .authorizationEndpoint(e -> e.baseUri("/oauth2/authorization"))
-            .redirectionEndpoint(e -> e.baseUri("/login/oauth2/code/*"))
-            .userInfoEndpoint(e -> e.userService(customOAuth2UserService)))
-        .exceptionHandling(e -> e.accessDeniedPage("/account/accessDenied"))
-        .build();
+      return http
+          .csrf(AbstractHttpConfigurer::disable)
+          .authorizeHttpRequests(req -> req
+              .requestMatchers("/admin", "/admin/**", "/account/info", "/api/**").authenticated()
+              .anyRequest().permitAll())
+          .formLogin(form -> form
+              .loginPage("/account/login")
+              .usernameParameter("email")
+              .passwordParameter("password")
+              .loginProcessingUrl("/account/login-check")
+              .defaultSuccessUrl("/account/login/success")
+              .failureUrl("/account/login/failure"))
+          .oauth2Login(oauth2 -> oauth2
+              .authorizationEndpoint(e -> e.baseUri("/oauth2/authorization"))
+              .redirectionEndpoint(e -> e.baseUri("/login/oauth2/code/*"))
+              .userInfoEndpoint(e -> e.userService(customOAuth2UserService))
+              .successHandler(successHandler))
+          .exceptionHandling(e -> e.accessDeniedPage("/account/accessDenied"))
+          .build();
   }
   
   @Bean
