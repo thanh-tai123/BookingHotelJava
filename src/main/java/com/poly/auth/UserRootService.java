@@ -1,9 +1,12 @@
 package com.poly.auth;
 
+import com.poly.entity.Role;
 import com.poly.entity.User;
 import com.poly.repository.UserRepo;
 
 import jakarta.servlet.http.HttpSession;
+
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,7 +43,11 @@ public class UserRootService implements UserDetailsService {
 	    }
 	    HttpSession session = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getSession();
         session.setAttribute("userEmail", user.getEmail());
-        session.setAttribute("role", user.getRoleString());
+        
+        String roles = user.getRoles().stream()
+                .map(Role::getName) // Assuming Role class has a getName method
+                .collect(Collectors.joining(","));
+            session.setAttribute("userRoles", roles);
        
 	    return UserRoot.create(user); // Giả sử UserRoot.create trả về UserDetails
 	}

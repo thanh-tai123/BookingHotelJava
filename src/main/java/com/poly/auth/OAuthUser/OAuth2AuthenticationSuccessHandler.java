@@ -20,8 +20,9 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         HttpSession session = request.getSession();
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         String email = oAuth2User.getAttribute("email");
+        String role = oAuth2User.getAttribute("role");
         session.setAttribute("userEmail", email);
-       
+        session.setAttribute("userRoles", role);
         // Redirect to the default success URL
         response.sendRedirect("/");
     }

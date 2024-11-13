@@ -20,6 +20,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import java.security.SecureRandom;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -60,6 +61,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
         HttpSession session = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getSession();
         session.setAttribute("userEmail", user.getEmail());
+        
+        String roles = user.getRoles().stream()
+                .map(Role::getName) // Assuming Role class has a getName method
+                .collect(Collectors.joining(","));
+            session.setAttribute("userRoles", roles);
         return UserRoot.create(user, oAuth2UserInfo.getAttributes());
     }
 

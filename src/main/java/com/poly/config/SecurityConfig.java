@@ -4,7 +4,13 @@ import com.poly.auth.UserRootService;
 import com.poly.auth.OAuthUser.CustomOAuth2UserService;
 import com.poly.auth.OAuthUser.OAuth2AuthenticationSuccessHandler;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+
+import java.io.IOException;
 
 import org.apache.catalina.filters.CorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +23,11 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
@@ -31,6 +40,8 @@ public class SecurityConfig {
   private final CustomOAuth2UserService customOAuth2UserService;
   @Autowired
   private OAuth2AuthenticationSuccessHandler successHandler;
+  
+
   @Bean
   public BCryptPasswordEncoder getPasswordEncoder() {
     return new BCryptPasswordEncoder();
@@ -65,11 +76,21 @@ public class SecurityConfig {
               .authorizationEndpoint(e -> e.baseUri("/oauth2/authorization"))
               .redirectionEndpoint(e -> e.baseUri("/login/oauth2/code/*"))
               .userInfoEndpoint(e -> e.userService(customOAuth2UserService))
-              .successHandler(successHandler))
+              .successHandler(new AuthenticationSuccessHandler() {
+                  @Override
+                  public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+                      HttpSession session = request.getSession();
+                      OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+                      String email = oAuth2User.getAttribute("email");
+                      session.setAttribute("userEmail", email);
+                      // Assuming roles are already set in CustomOAuth2UserService
+                      response.sendRedirect("/"); // Redirect to home or any page
+                  }
+              }))
           .exceptionHandling(e -> e.accessDeniedPage("/account/accessDenied"))
+          .userDetailsService(userRootService)
           .build();
   }
-  
   @Bean
   public CorsFilter corsFilter() {
       UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
