@@ -72,7 +72,7 @@ public class RoomService {
             room.setSophong(roomRequest.getSophong());
             room.setGia(roomRequest.getGia());
             room.setMota(roomRequest.getMota());
-            room.setStatus(roomRequest.getStatus());
+            room.setStatus(RoomStatus.FALSE);
             room.setUser(user);
             room.setRoomtype(roomtype);
 

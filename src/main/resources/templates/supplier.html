@@ -98,9 +98,9 @@
     <div class="form-row">
         <div class="form-group">
            
-            <input value="{{user.id}}" ng-model="user.id" type="text">
+            <input value="{{user.id}}" ng-model="user.id" type="hidden">
     <label>Name:</label>
-    <input value="{{user.name}}"  />
+    <input value="{{user.name}}" disabled />
             
             <input type="hidden" ng-model="room.status" ng-required="true" />
         </div>
