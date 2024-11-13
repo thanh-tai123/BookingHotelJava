@@ -352,10 +352,10 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Tài khoản</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" th:href="@{/account/info}" th:text="#{navbar.thong_tin}">THÔNG TIN</a></li>
-                        <li><a class="dropdown-item" th:href="@{/logout}" th:text="#{navbar.dang_xuat}">ĐĂNG XUẤT</a></li>
-                        <li><a class="dropdown-item" th:href="@{/account/login}" th:text="#{navbar.dang_nhap}">ĐĂNG NHẬP</a></li>
-                    </ul>
+                    <li><a class="dropdown-item" th:if="${session.userEmail != null}" th:href="@{/account/info}" th:text="#{navbar.thong_tin}">THÔNG TIN</a></li>
+                    <li><a class="dropdown-item" th:if="${session.userEmail != null}" th:href="@{/logout}" th:text="#{navbar.dang_xuat}">ĐĂNG XUẤT</a></li>
+                    <li><a class="dropdown-item" th:if="${session.userEmail == null}" th:href="@{/account/login}" th:text="#{navbar.dang_nhap}">ĐĂNG NHẬP</a></li>
+                </ul>
                 </li>
                 <button class="btn btn-reserve" type="button" style="margin-right: 30px;" th:text="#{navbar.giu_cho_ngay}">GIỮ CHỖ NGAY</button>
                 <li class="nav-item">
