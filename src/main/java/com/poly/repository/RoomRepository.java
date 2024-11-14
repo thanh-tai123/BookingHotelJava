@@ -4,7 +4,8 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,13 +24,17 @@ public interface RoomRepository extends JpaRepository<Room, Integer>{
 		       "    SELECT bd.room.id FROM BookDetail bd " +
 		       "    WHERE bd.checkin < :checkout AND bd.checkout > :checkin" +
 		       ")")
-		List<Room> findAvailableRooms(
-		    @Param("hotelId") int hotelId, 
-		    @Param("checkin") Date checkin, 
-		    @Param("checkout") Date checkout,
-		    @Param("status") RoomStatus status // Truyền thêm tham số status
-		);
+	 List<Room> findAvailableRooms(
+			 @Param("hotelId") int hotelId,
+			 @Param("checkin") Date checkin,
+			 @Param("checkout") Date checkout,
+			 @Param("status") RoomStatus status
+	 );
 	 @Query("SELECT r FROM Room r WHERE r.id NOT IN :ids AND r.status = :status")
 	 List<Room> findAvailableRoomsExcludingIds(@Param("ids") List<Integer> ids, @Param("status") RoomStatus status);
-	  List<Room> findByRoomtype_Name(String name);
+	 List<Room> findByRoomtype_Name(String name);
+	 Page<Room> findByStatus(RoomStatus status, Pageable pageable);
+
+
+
 }

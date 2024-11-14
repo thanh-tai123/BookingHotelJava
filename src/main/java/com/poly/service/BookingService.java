@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -180,4 +181,26 @@ public class BookingService {
         User user = userRepository.findById(userId).orElse(null);
         return user != null ? user.getBooks() : null;
     }
+    public List<Object[]> getBookDetails() {
+        return bookDetailRepository.findAll().stream().map(bookDetail -> {
+            User user = bookDetail.getRoom().getUser();
+            return new Object[] {
+                    bookDetail.getAdult(),
+                    user != null ? user.getEmail() : null,
+                    bookDetail.getCheckin(),
+                    bookDetail.getCheckout(),
+                    bookDetail.getChildren(),
+                    bookDetail.getPrice(),
+                    bookDetail.getTotal(),
+                    bookDetail.getPaymentMethod(),
+                    bookDetail.getPaymentStatus(),
+                    bookDetail.getBookDetailStatus(),
+                    bookDetail.getUpdatedAt(),
+                    bookDetail.getUpdatedBy(),
+                    user != null ? user.getName() : null,
+                    user != null ? user.getPhone() : null
+            };
+        }).collect(Collectors.toList());
+    }
+
 }
