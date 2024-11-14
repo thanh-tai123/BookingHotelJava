@@ -13,6 +13,7 @@ import com.poly.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -167,7 +168,7 @@ public class AccountController {
 	    public ResponseEntity<String> setPassword(@RequestParam String email, @RequestParam String newPassword){
 	    	return new ResponseEntity<>(userService.setPassword(email, newPassword),HttpStatus.OK);
 	    }
-	    
+	    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
 	    @GetMapping("/change-password")
 	    public String showChangePasswordForm(Model model, @AuthenticationPrincipal UserDetails currentUser) {
 	        String username = currentUser.getUsername();
