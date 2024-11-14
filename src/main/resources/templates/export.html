@@ -5,7 +5,7 @@
     <script th:inline="javascript">
         let currentPage = 1;
         let rowsPerPage = 5;
-        let originalBookDetails = /*[[${bookDetails}]]*/ || []; // Lưu dữ liệu gốc
+        let originalBookDetails = /*[[${bookDetails}]]*/ []; // Lưu dữ liệu gốc
         let bookDetails = [...originalBookDetails]; // Sử dụng bản sao để hiển thị
 
         function renderTable() {
@@ -116,7 +116,7 @@
     </script>
 </head>
 <body>
-
+<div th:replace="/access/nav :: html"></div>
 <h2>Book Details</h2>
 
 <label for="emailSearch">Tìm kiếm theo Email:</label>

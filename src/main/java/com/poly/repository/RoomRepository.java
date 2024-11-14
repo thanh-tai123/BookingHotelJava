@@ -36,7 +36,7 @@ public interface RoomRepository extends JpaRepository<Room, Integer>{
 
 	 List<Room> findByRoomtype_Name(String name);
 	 Page<Room> findByStatus(RoomStatus status, Pageable pageable);
-	  List<Room> findByRoomtype_Name(String name);
+	
 	  @Query("SELECT r.roomtype.name, COUNT(r) FROM Room r GROUP BY r.roomtype")
 	    List<Object[]> countRoomsByRoomType();
 	    @Query("SELECT r.hotel.chinhanh, COUNT(r) FROM Room r GROUP BY r.hotel.chinhanh")
