@@ -183,12 +183,10 @@ public class RoomController {
 
 		if (priceRange != null && !priceRange.isEmpty() && !priceRange.equals("Tất cả")) {
 			String[] priceParts = priceRange.split("-");
-
 			try {
 				int minPrice = Integer.parseInt(priceParts[0].trim());
 				int maxPrice = Integer.parseInt(priceParts[1].trim());
 
-				// Lọc phòng theo khoảng giá
 				rooms = rooms.stream()
 						.filter(room -> room.getGia() >= minPrice && room.getGia() <= maxPrice)
 						.collect(Collectors.toList());
@@ -198,35 +196,32 @@ public class RoomController {
 			}
 		}
 
-		// Kiểm tra nếu không có phòng
 		if (rooms.isEmpty()) {
 			model.addAttribute("message", "Không có phòng phù hợp với các tiêu chí lọc.");
 		}
 
-		// Lấy danh sách khách sạn và loại phòng
 		List<Hotel> branches = hotelService.getAllHotels();
 		model.addAttribute("branches", branches);
 
 		List<RoomType> roomTypes = roomTypeService.getAllRoomType();
 		model.addAttribute("roomTypes", roomTypes);
-		model.addAttribute("roomtype", roomtype);
-		model.addAttribute("priceRange", priceRange); // Truyền priceRange vào model
 
-		// Tạo một Map để lưu số lần truy cập cho từng phòng
+		model.addAttribute("roomtype", roomtype);
+		model.addAttribute("priceRange", priceRange);
+
 		Map<Integer, Integer> visitCounts = new HashMap<>();
 		for (Room room : rooms) {
 			int visitCount = viewRoomRepository.getTotalVisitCountByRoomId(room.getId());
 			visitCounts.put(room.getId(), visitCount);
 		}
 
-		// Truyền danh sách các khoảng giá có thể chọn vào model
 		List<String> priceRanges = Arrays.asList("1000-5000", "5000-10000", "10000-20000");
 		model.addAttribute("priceRanges", priceRanges);
 
 		model.addAttribute("rooms", rooms);
-		model.addAttribute("visitCounts", visitCounts); // Thêm số lần truy cập vào model
+		model.addAttribute("visitCounts", visitCounts);
 
-		return "room"; // Trả về mẫu Thymeleaf
+		return "room";
 	}
 
 	@GetMapping("/room-type-chart")
