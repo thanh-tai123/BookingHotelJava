@@ -1,10 +1,8 @@
 package com.poly.controller;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import com.poly.entity.Hotel;
 import com.poly.entity.RoomType;
@@ -29,6 +27,10 @@ import com.poly.repository.ProductRepo;
 import com.poly.repository.RoomRepository;
 import com.poly.service.RoomService;
 import com.poly.util._enum.RoomStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 @Controller
 @RequestMapping("/room")
@@ -46,25 +48,49 @@ public class RoomController {
 	private RoomTypeService roomTypeService; // Dịch vụ để lấy danh sách loại phòng
 
 	@RequestMapping("")
-	public String index(Model model) {
-		List<RoomType> roomTypes = roomTypeService.getAllRoomType();
-		model.addAttribute("roomTypes", roomTypes);
+	public String listRooms(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+							@RequestParam(value = "sortField", defaultValue = "id") String sortField,
+							@RequestParam(value = "sortDir", defaultValue = "asc") String sortDir,
+							@RequestParam(value = "keyword", required = false) String keyword, Model model) {
 
-		List<Room> rooms = roomRepo.findByStatus(RoomStatus.TRUE);
+		// Tạo Pageable với các tham số phân trang và sắp xếp
+		Pageable pageable = PageRequest.of(pageNum - 1, 3, Sort.by(Sort.Order.by(sortField).with(Sort.Direction.fromString(sortDir))));
+
+		// Truy vấn phòng với trạng thái TRUE, có phân trang
+		Page<Room> page = roomRepo.findByStatus(RoomStatus.TRUE, pageable);
+
+		// Lấy danh sách các phòng từ trang
+		List<Room> rooms = page.getContent();
+
+		// Lấy số lượt truy cập cho mỗi phòng
 		Map<Integer, Integer> visitCounts = new HashMap<>();
-
 		for (Room room : rooms) {
 			int visitCount = viewRoomRepository.getTotalVisitCountByRoomId(room.getId());
 			visitCounts.put(room.getId(), visitCount);
 		}
+
+		// Lấy các loại phòng và khách sạn
+		List<RoomType> roomTypes = roomTypeService.getAllRoomType();
 		List<Hotel> hotels = hotelService.getAllHotels();
-		model.addAttribute("branches", hotels);
 
+		// Danh sách các khoảng giá có sẵn
+		List<String> priceRanges = Arrays.asList("1000-5000", "5000-10000", "10000-20000");
 
+		// Thêm các đối tượng vào model để hiển thị trong view
 		model.addAttribute("rooms", rooms);
 		model.addAttribute("visitCounts", visitCounts);
+		model.addAttribute("roomTypes", roomTypes);
+		model.addAttribute("branches", hotels);
+		model.addAttribute("priceRanges", priceRanges);
+		model.addAttribute("currentPage", pageNum);
+		model.addAttribute("totalPages", page.getTotalPages());
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("keyword", keyword);
+
 		return "room";
 	}
+
 	@RequestMapping("/search")
 	public String searchAvailableRooms(
 			@RequestParam int hotelId,
@@ -144,36 +170,59 @@ public class RoomController {
 		return "display";
 	}
 	@GetMapping("/filter")
-	public String listRooms(@RequestParam(required = false) String roomtype, Model model) {
-		List<Room> rooms;
+	public String listRooms(@RequestParam(required = false) String roomtype,
+							@RequestParam(required = false) String priceRange,
+							Model model) {
+		List<Room> rooms = roomService.findAll(); // Lấy tất cả các phòng trước
 
-		// Nếu roomtype là rỗng, không lọc theo loại phòng
-		if (roomtype != null && !roomtype.isEmpty()) {
-			rooms = roomService.findByRoomType(roomtype);
-		} else {
-			rooms = roomService.findAll();
+		if (roomtype != null && !roomtype.isEmpty() && !roomtype.equals("Tất cả")) {
+			rooms = rooms.stream()
+					.filter(room -> room.getRoomtype().getName().equalsIgnoreCase(roomtype))
+					.collect(Collectors.toList());
 		}
 
+		if (priceRange != null && !priceRange.isEmpty() && !priceRange.equals("Tất cả")) {
+			String[] priceParts = priceRange.split("-");
+
+			try {
+				int minPrice = Integer.parseInt(priceParts[0].trim());
+				int maxPrice = Integer.parseInt(priceParts[1].trim());
+
+				// Lọc phòng theo khoảng giá
+				rooms = rooms.stream()
+						.filter(room -> room.getGia() >= minPrice && room.getGia() <= maxPrice)
+						.collect(Collectors.toList());
+			} catch (NumberFormatException e) {
+				model.addAttribute("message", "Khoảng giá không hợp lệ.");
+				rooms = new ArrayList<>();
+			}
+		}
+
+		// Kiểm tra nếu không có phòng
 		if (rooms.isEmpty()) {
-			model.addAttribute("message", "Phòng hiện đang bảo trì hoặc không có phòng phù hợp với loại phòng đã chọn.");
+			model.addAttribute("message", "Không có phòng phù hợp với các tiêu chí lọc.");
 		}
+
+		// Lấy danh sách khách sạn và loại phòng
 		List<Hotel> branches = hotelService.getAllHotels();
 		model.addAttribute("branches", branches);
 
 		List<RoomType> roomTypes = roomTypeService.getAllRoomType();
 		model.addAttribute("roomTypes", roomTypes);
 		model.addAttribute("roomtype", roomtype);
+		model.addAttribute("priceRange", priceRange); // Truyền priceRange vào model
 
 		// Tạo một Map để lưu số lần truy cập cho từng phòng
 		Map<Integer, Integer> visitCounts = new HashMap<>();
-
-		// Lặp qua danh sách phòng để lấy số lượt truy cập
 		for (Room room : rooms) {
 			int visitCount = viewRoomRepository.getTotalVisitCountByRoomId(room.getId());
 			visitCounts.put(room.getId(), visitCount);
 		}
 
-		// Thêm danh sách phòng và số lượt truy cập vào model
+		// Truyền danh sách các khoảng giá có thể chọn vào model
+		List<String> priceRanges = Arrays.asList("1000-5000", "5000-10000", "10000-20000");
+		model.addAttribute("priceRanges", priceRanges);
+
 		model.addAttribute("rooms", rooms);
 		model.addAttribute("visitCounts", visitCounts); // Thêm số lần truy cập vào model
 
@@ -186,5 +235,13 @@ public class RoomController {
         model.addAttribute("roomTypeCounts", roomTypeCounts);
         return "roomTypeChart";
     }
+
+
+
+
+
+
+
+
 
 }

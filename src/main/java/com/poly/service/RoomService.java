@@ -215,17 +215,14 @@ public class RoomService {
     public int getVisitCount(int roomId) {
         return viewRoomRepository.getTotalVisitCountByRoomId(roomId);
     }
+
     public Map<String, Long> getRoomTypeCounts() {
         List<Room> rooms = roomRepository.findAll();
         return rooms.stream()
                 .collect(Collectors.groupingBy(room -> room.getRoomtype().getName(), Collectors.counting()));
     }
     
-//    public Map<String, Long> getRoomStatistics() {
-//    	List<Room> rooms = roomRepository.findAll();
-//        return rooms.stream()
-//                .collect(Collectors.groupingBy(room -> room.getHotel().getChinhanh(), Collectors.counting()));
-//    }
+
     public List<RoomStatisticsDTO> getRoomStatistics() {
         List<Object[]> result = roomRepository.countRoomsByBranch();
         List<RoomStatisticsDTO> roomStatusCount = new ArrayList<>();
@@ -234,4 +231,5 @@ public class RoomService {
         }
         return roomStatusCount;
     }
+
 }

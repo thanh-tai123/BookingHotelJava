@@ -17,7 +17,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import com.poly.entity.Book;
 import com.poly.entity.BookDetail;
 import com.poly.repository.BookDetailRepository;
@@ -156,7 +160,43 @@ public class BookController {
         }
         return "redirect:/search/admin/getbook?bookCode=" + bookCode;// Truyền bookCode trong URL redirect
     }
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/book-details")
+    public String getBookDetails(Model model) {
+        List<Object[]> bookDetails = bookService.getBookDetails();
+        model.addAttribute("bookDetails", bookDetails);
+        return "export";  // Tên của Thymeleaf template
+    }
+    @GetMapping("/export")
+    public void exportBookDetailsToExcel(HttpServletResponse response) throws IOException {
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename=ThongTinKhachHang.xlsx");
 
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Book Details");
+
+        Row headerRow = sheet.createRow(0);
+        String[] headers = {
+                "Adult", "Email", "Check-in", "Check-out", "Children", "Price", "Total",
+                "Payment Method", "Payment Status", "Booking Status", "Updated At",
+                "Updated By", "Create Date", "Book Code"
+        };        for (int i = 0; i < headers.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(headers[i]);
+        }
+
+        List<Object[]> bookDetails = bookService.getBookDetails();
+        int rowIndex = 1;
+        for (Object[] detail : bookDetails) {
+            Row row = sheet.createRow(rowIndex++);
+            for (int i = 0; i < detail.length; i++) {
+                row.createCell(i).setCellValue(detail[i] != null ? detail[i].toString() : "");
+            }
+        }
+
+        workbook.write(response.getOutputStream());
+        workbook.close();
+    }
 
 }
 

@@ -185,18 +185,41 @@
   language-code="en"
 ></df-messenger>
 
-
-    <!-- Bộ lọc loại phòng -->
     <form action="#" th:action="@{/room/filter}" method="get" id="filterForm">
         <div class="form-group mb-3">
             <label for="roomtype">Loại phòng:</label>
             <select id="roomtype" name="roomtype" class="form-control">
-                <option value="">Tất cả</option>
-                <option th:each="roomType : ${roomTypes}" th:value="${roomType.name}" th:text="${roomType.name}" th:selected="${roomType.name == roomtype}"></option>
+                <option value="Tất cả">Tất cả</option>
+                <option th:each="roomType : ${roomTypes}"
+                        th:value="${roomType.name}"
+                        th:text="${roomType.name}"
+                        th:selected="${roomType.name == roomtype}"></option>
             </select>
         </div>
+
+        <!-- Bộ lọc giá -->
+        <div class="form-group mb-3">
+            <label for="priceRange">Khoảng giá:</label>
+            <select id="priceRange" name="priceRange" class="form-control">
+                <option value="Tất cả">Tất cả</option>
+                <option th:each="price : ${priceRanges}"
+                        th:value="${price}"
+                        th:text="${price}"
+                        th:selected="${price == priceRange}"></option>
+            </select>
+        </div>
+
         <button type="submit" class="btn btn-primary">Lọc</button>
     </form>
+
+
+
+
+
+
+
+
+
 
     <script>
         // Khi form được gửi, nếu "Tất cả" được chọn (roomtype là rỗng), loại bỏ tham số "roomtype"
@@ -252,6 +275,20 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="pagination">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:if="${currentPage > 1}">
+                <a class="page-link" th:href="@{/room?pageNum={pageNum}(pageNum=${currentPage - 1})}">Previous</a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}"
+                th:classappend="${i == currentPage} ? 'active' : ''">
+                <a class="page-link" th:href="@{/room?pageNum={pageNum}(pageNum=${i})}" th:text="${i}"></a>
+            </li>
+            <li class="page-item" th:if="${currentPage < totalPages}">
+                <a class="page-link" th:href="@{/room?pageNum={pageNum}(pageNum=${currentPage + 1})}">Next</a>
+            </li>
+        </ul>
     </div>
 </div>
 <div th:replace="/access/footer :: body"></div>
