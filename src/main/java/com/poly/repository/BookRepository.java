@@ -15,5 +15,8 @@ import com.poly.entity.Book;
 public interface BookRepository extends JpaRepository<Book, Integer> {
 	  Book findByBookCode(String bookCode);
 
+	  
+	  @Query("SELECT SUM(bd.total) FROM Book b JOIN b.bookDetails bd WHERE YEAR(bd.checkout) = :year AND bd.bookDetailStatus = 'checkout'")
+	    Float calculateRevenueByYear(@Param("year") int year);
 
 }

@@ -5,6 +5,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="../static/CSS/common.css" />
     <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
+  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
     <style>
         /* Thêm khoảng cách và căn chỉnh cho form */
         .search-form {
@@ -177,6 +178,12 @@
         </form>
     </div>
 
+<df-messenger
+  intent="WELCOME"
+  chat-title="poly-hotel"
+  agent-id="727e90a7-b57e-43ee-8135-68ed31b0c060"
+  language-code="en"
+></df-messenger>
 
     <form action="#" th:action="@{/room/filter}" method="get" id="filterForm">
         <div class="form-group mb-3">

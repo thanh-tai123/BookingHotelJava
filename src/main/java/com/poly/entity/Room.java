@@ -1,6 +1,7 @@
 package com.poly.entity;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -68,7 +69,9 @@ public class Room {
 	    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	    @JsonManagedReference
 	    private List<Comment> comments;
-	    
+	    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+	    @JsonManagedReference
+	    private List<RoomImages> roomImages = new ArrayList<>();
 	    private static final String ALPHANUMERIC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 		private static final SecureRandom RANDOM = new SecureRandom();
 

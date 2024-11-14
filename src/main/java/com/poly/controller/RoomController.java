@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.poly.entity.Room;
+import com.poly.entity.RoomImages;
 import com.poly.entity.RoomTypeByService;
 import com.poly.repository.ProductRepo;
 import com.poly.repository.RoomRepository;
@@ -120,24 +121,30 @@ public class RoomController {
 
 
 
-	 @RequestMapping("/{id}")
-	    public String detail(@PathVariable int id, Model model) {
-	        Integer userId = getCurrentUserId();
+	@RequestMapping("/{id}")
+	public String detail(@PathVariable int id, Model model) {
+	    Integer userId = getCurrentUserId();
 
+	    // Retrieve the room with the given ID
+	    Room room = roomRepo.findById(id)
+	            .orElseThrow(() -> new IllegalArgumentException("Invalid room Id:" + id));
+	    
+	    // Get services related to the room type
+	    List<RoomTypeByService> services = room.getRoomtype().getServices();
+	    
+	    // Get the list of images for this room
+	    List<RoomImages> roomImg = room.getRoomImages();
+	    
+	    // Record the room view (you may want to implement this in your service)
+	    roomService.viewRoomDetails(id, userId);
+	    
+	    // Set model attributes for the view
+	    model.addAttribute("room", room);
+	    model.addAttribute("services", services);
+	    model.addAttribute("roomImgs", roomImg);
 
-	      
-		Room room = roomRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid room Id:" + id));
-		List<RoomTypeByService> services = room.getRoomtype().getServices();
-
-		roomService.viewRoomDetails(id, userId);
-		int totalVisits = roomService.getVisitCount(id);
-
-		model.addAttribute("room", room);
-		model.addAttribute("services", services);
-		model.addAttribute("visitCount", totalVisits);
-		return "roomdetailversion";
+	    return "roomdetailversion"; // The name of your Thymeleaf template
 	}
-
 	private Integer getCurrentUserId() {
 		// Implement this method to get the current user's ID
 		return 1;
@@ -222,7 +229,12 @@ public class RoomController {
 		return "room"; // Trả về mẫu Thymeleaf
 	}
 
-
+	@GetMapping("/room-type-chart")
+    public String getRoomTypeChart(Model model) {
+        Map<String, Long> roomTypeCounts = roomService.getRoomTypeCounts();
+        model.addAttribute("roomTypeCounts", roomTypeCounts);
+        return "roomTypeChart";
+    }
 
 
 

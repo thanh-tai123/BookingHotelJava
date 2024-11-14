@@ -73,7 +73,7 @@ public class BookController {
         List<BookDetail> details = bookDetailRepository.findByBook_BookCode(bookCode);// Tìm Book theo bookCode
         if (book != null) {
             model.addAttribute("book", book);
-            model.addAttribute("bookDetails", details);
+            model.addAttribute("bookDetails", book.getBookDetails());
         } else {
             model.addAttribute("error", "Không tìm thấy Book với BookCode: " + bookCode);
         }
