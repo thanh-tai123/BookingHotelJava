@@ -5,7 +5,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="../static/CSS/common.css" />
     <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
-  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
     <style>
         /* Thêm khoảng cách và căn chỉnh cho form */
         .search-form {
@@ -97,42 +96,10 @@
         .container {
             padding: 30px;
         }
-        .search-form input, .search-form select {
-            height: 40px;  /* Chỉnh chiều cao cho đồng nhất */
-            padding: 10px;
-            font-size: 16px;
-        }
-
-        .search-form label {
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
 
         /* Thêm một chút căn chỉnh cho các phần tử trong form */
-        .search-form .form-control {
-            width: 200px; /* Giới hạn chiều rộng cho đồng nhất */
-        }
-
-        /* Đảm bảo nút tìm kiếm có chiều cao đồng nhất với input/select */
-        .search-form button {
-            padding: 10px 20px;
-            font-size: 16px;
-            height: 40px; /* Đảm bảo nút có chiều cao đồng nhất */
-            border-radius: 5px;
-        }
-        .search-form {
-            display: flex;
-            justify-content: center; /* Căn giữa nội dung */
-            align-items: center;
-            gap: 20px; /* Khoảng cách giữa các ô nhập và nút */
-            flex-wrap: wrap; /* Cho phép các phần tử xuống dòng khi không đủ không gian */
-            max-width: 1200px; /* Giới hạn chiều rộng để không bị quá rộng */
-            margin: 0 auto; /* Căn giữa form */
-        }
-
         .search-form .form-group {
-            margin-bottom: 0;
-            width: 250px; /* Đảm bảo các ô có chiều rộng đồng đều */
+            margin-bottom: 0;width: 250px; /* Đảm bảo các ô có chiều rộng đồng đều */
         }
 
         .search-form .form-control {
@@ -158,19 +125,19 @@
                 <div class="form-group">
                     <label for="hotelId">Branch:</label>
                     <select name="hotelId" required class="form-control">
-                        <option th:each="branch : ${branches}" th:value="${branch.id}" th:text="${branch.chinhanh}">Branch Name - Branch Address</option>
+                        <option th:each="branch : ${branches}" th:value="${branch.id}" th:text="${branch.chinhanh}"></option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="checkin">Check-in Date:</label>
                     <input type="date" name="checkin" required class="form-control"
-                           th:value="${checkin != null ? #dates.format(checkin, 'yyyy-MM-dd') : ''}">
+                           th:value="${checkin != null ? #dates.format(checkin, 'yyyy-MM-dd') : ''}"> <!-- Cập nhật giá trị checkin -->
                 </div>
 
                 <div class="form-group">
                     <label for="checkout">Check-out Date:</label>
                     <input type="date" name="checkout" required class="form-control"
-                           th:value="${checkout != null ? #dates.format(checkout, 'yyyy-MM-dd') : ''}">
+                           th:value="${checkout != null ? #dates.format(checkout, 'yyyy-MM-dd') : ''}"> <!-- Cập nhật giá trị checkout -->
                 </div>
 
                 <button type="submit" class="btn btn-primary">Search</button>
@@ -178,13 +145,7 @@
         </form>
     </div>
 
-<df-messenger
-  intent="WELCOME"
-  chat-title="poly-hotel"
-  agent-id="727e90a7-b57e-43ee-8135-68ed31b0c060"
-  language-code="en"
-></df-messenger>
-
+    <!-- Form lọc -->
     <form action="#" th:action="@{/room/filter}" method="get" id="filterForm">
         <div class="form-group mb-3">
             <label for="roomtype">Loại phòng:</label>
@@ -193,7 +154,7 @@
                 <option th:each="roomType : ${roomTypes}"
                         th:value="${roomType.name}"
                         th:text="${roomType.name}"
-                        th:selected="${roomType.name == roomtype}"></option>
+                        th:selected="${roomType.name == roomtype}"></option> <!-- Đảm bảo rằng roomtype được chọn đúng -->
             </select>
         </div>
 
@@ -204,14 +165,12 @@
                 <option value="Tất cả">Tất cả</option>
                 <option th:each="price : ${priceRanges}"
                         th:value="${price}"
-                        th:text="${price}"
-                        th:selected="${price == priceRange}"></option>
+                        th:text="${price}"th:selected="${price == priceRange}"></option> <!-- Đảm bảo rằng priceRange được chọn đúng -->
             </select>
         </div>
 
         <button type="submit" class="btn btn-primary">Lọc</button>
     </form>
-
 
     <!-- Hiển thị thông báo nếu không có phòng -->
     <div th:if="${message != null}">
@@ -228,8 +187,7 @@
                     <img th:src="${r.img}" alt="Luxury hotel room with a large bed, modern decor, and a spacious layout" />
                 </a>
                 <div class="card-body">
-                    <p class="card-text fas fa-eye"> <span th:text="${visitCounts[r.id]}">0</span></p>
-
+                    <p class="card-text fas fa-eye"> <span th:text="${visitCounts[r.id] != null ? visitCounts[r.id] : 0}">0</span></p> <!-- Kiểm tra giá trị visitCounts[r.id] -->
                     <h5 class="card-title" th:text="${r.roomtype.name}"></h5>
                     <h5 class="card-title" th:text="${r.hotel.chinhanh}"></h5>
                     <p class="card-text" th:text="${r.mota}"></p>
@@ -255,21 +213,6 @@
             </div>
         </div>
     </div>
-    <div class="pagination">
-        <ul class="pagination justify-content-center">
-            <li class="page-item" th:if="${currentPage > 1}">
-                <a class="page-link" th:href="@{/room?pageNum={pageNum}(pageNum=${currentPage - 1})}">Previous</a>
-            </li>
-            <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}"
-                th:classappend="${i == currentPage} ? 'active' : ''">
-                <a class="page-link" th:href="@{/room?pageNum={pageNum}(pageNum=${i})}" th:text="${i}"></a>
-            </li>
-            <li class="page-item" th:if="${currentPage < totalPages}">
-                <a class="page-link" th:href="@{/room?pageNum={pageNum}(pageNum=${currentPage + 1})}">Next</a>
-            </li>
-        </ul>
-    </div>
 </div>
-<div th:replace="/access/footer :: body"></div>
 </body>
 </html>
