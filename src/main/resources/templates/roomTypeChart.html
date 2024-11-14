@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Room Type Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Room Type Distribution</h1>
+    <canvas id="roomTypeChart" width="400" height="400"></canvas>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var ctx = document.getElementById('roomTypeChart').getContext('2d');
+            
+            // Dữ liệu roomTypeCounts dưới dạng JSON
+            var roomTypeCounts = /*[[${roomTypeCounts}]]*/ '[[${roomTypeCounts.toString()}]]';
+            
+            // Loại bỏ các ký tự không hợp lệ và phân tích cú pháp JSON
+            roomTypeCounts = roomTypeCounts.replace(/&quot;/g, '"');
+            var parsedData;
+            try {
+                parsedData = JSON.parse(roomTypeCounts);
+            } catch (e) {
+                console.error("Error parsing JSON: ", e);
+            }
+
+            // Khai báo mảng labels, data và backgroundColors
+            var labels = [];
+            var data = [];
+            var backgroundColors = [];
+            var usedColors = {};
+
+            // Hàm tạo màu ngẫu nhiên không trùng lặp
+            function generateUniqueColor() {
+                var color;
+                do {
+                    color = 'rgba(' + Math.floor(Math.random() * 255) + ',' + 
+                            Math.floor(Math.random() * 255) + ',' + Math.floor(Math.random() * 255) + ', 0.2)';
+                } while (usedColors[color]);
+                usedColors[color] = true;
+                return color;
+            }
+
+            // Duyệt qua từng phần tử trong parsedData để thêm vào các mảng
+            for (var key in parsedData) {
+                if (parsedData.hasOwnProperty(key)) {
+                    labels.push(key);
+                    data.push(parsedData[key]);
+                    backgroundColors.push(generateUniqueColor());
+                }
+            }
+
+            // Tạo biểu đồ sử dụng Chart.js
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '# of Rooms',
+                        data: data,
+                        backgroundColor: backgroundColors,
+                        borderColor: 'rgba(255, 255, 255, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            enabled: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
