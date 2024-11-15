@@ -1,6 +1,7 @@
 package com.poly.controller;
 
 import com.poly.auth.UserRoot;
+import com.poly.dto.PasswordChangeDto;
 import com.poly.dto.RegisterDto;
 import com.poly.entity.Book;
 import com.poly.entity.BookDetail;
@@ -13,7 +14,10 @@ import com.poly.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,6 +63,7 @@ public class AccountController {
 //		
 //		return "info";
 //	}
+
     @RequestMapping("/info")
     public String info(Model model, Authentication auth) {
         UserRoot userRoot = (UserRoot) auth.getPrincipal();
@@ -114,6 +119,7 @@ public class AccountController {
     }
 
     //	@PostMapping("/handle-register")
+
 //	public String handleRegister(@ModelAttribute RegisterDto registerDto) {
 //		userRepo.save(User.builder().name(registerDto.getName())
 //				.password(passwordEncoder.encode(registerDto.getPassword())).email(registerDto.getEmail()).phone(registerDto.getPhone()).build());
@@ -136,68 +142,80 @@ public class AccountController {
 //	    public String showVerifyAccountForm() {
 //	        return "verifyAccount";
 //	    }
-    @PostMapping("/verify-account")
-    public ResponseEntity<String> verifyAccount(@RequestParam String email, @RequestParam String otp) {
-        String result = userService.verifyAccount(email, otp);
 
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
+	    @PostMapping("/verify-account")
+	    public ResponseEntity<String> verifyAccount(@RequestParam String email, @RequestParam String otp) {
+	        String result = userService.verifyAccount(email, otp);
+	       
+	        return new ResponseEntity<>(result, HttpStatus.OK);
+	    }
+	    @GetMapping("/regenerate-otp")
+	    public String showRegenerateOtpForm() {
+	        return "regenerateOtp";
+	    }
 
-    @GetMapping("/regenerate-otp")
-    public String showRegenerateOtpForm() {
-        return "regenerateOtp";
-    }
+	    @PostMapping("/regenerate-otp")
+	    public ResponseEntity<String> regenerateOtp(@RequestParam String email) {
+	        String result = userService.regenerateOtp(email);
+	        return new ResponseEntity<>(result, HttpStatus.OK);
+	    }
+	    @RequestMapping("/forgot-password")
+	    public String showForgotForm() {
+	        return "forgot-password";
+	    }
+	
+	    @RequestMapping("/set-password")
+	    public String showSetPasswordForm(@RequestParam String email,Model model) {
+	    	 model.addAttribute("email", email);
+	    	return "set-password";
+	    }
+	    @PostMapping("/forgot-password")
+	    public ResponseEntity<String> forgotPassword(@RequestParam String email){
+	    	return new ResponseEntity<>(userService.forgotPassword(email),HttpStatus.OK);
+	    }
+	    @PostMapping("/set-password")
+	    public ResponseEntity<String> setPassword(@RequestParam String email, @RequestParam String newPassword){
+	    	return new ResponseEntity<>(userService.setPassword(email, newPassword),HttpStatus.OK);
+	    }
+	    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+	    @GetMapping("/change-password")
+	    public String showChangePasswordForm(Model model, @AuthenticationPrincipal UserDetails currentUser) {
+	        String username = currentUser.getUsername();
+	        String password = currentUser.getPassword();
+	        model.addAttribute("passwordChangeDto", new PasswordChangeDto());
+	        model.addAttribute("username", username); 
+	        model.addAttribute("pass", password); 
+	        // Thêm tên người dùng vào mô hình
+	        return "changepassword";
+	    }
 
-    @PostMapping("/regenerate-otp")
-    public ResponseEntity<String> regenerateOtp(@RequestParam String email) {
-        String result = userService.regenerateOtp(email);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
+	    @PostMapping("/change-password")
+	    public String changePassword(@ModelAttribute("passwordChangeDto") PasswordChangeDto passwordChangeDto,
+	    @AuthenticationPrincipal UserDetails currentUser,
+	    Model model) {
+	        String username = currentUser.getUsername();
+	        User user = userRepo.findByEmail(currentUser.getUsername()).orElse(null);
 
-    @RequestMapping("/forgot-password")
-    public String showForgotForm() {
-        return "forgot-password";
-    }
+	        if (user == null) {
+	            model.addAttribute("error", "User not found");
+	            return "changepassword";
+	        }
 
-    @RequestMapping("/set-password")
-    public String showSetPasswordForm(@RequestParam String email, Model model) {
-        model.addAttribute("email", email);
-        return "set-password";
-    }
+	        if (!userService.checkIfValidOldPassword(user, passwordChangeDto.getOldPassword())) {
+	            model.addAttribute("error", "Old password is incorrect");
+	            return "changepassword";
+	        }
 
-    @PostMapping("/forgot-password")
-    public ResponseEntity<String> forgotPassword(@RequestParam String email) {
-        return new ResponseEntity<>(userService.forgotPassword(email), HttpStatus.OK);
-    }
+	        if (!passwordChangeDto.getNewPassword().equals(passwordChangeDto.getConfirmNewPassword())) {
+	            model.addAttribute("error", "New passwords do not match");
+	            return "changepassword";
+	        }
 
-    @PostMapping("/set-password")
-    public ResponseEntity<String> setPassword(@RequestParam String email, @RequestParam String newPassword) {
-        return new ResponseEntity<>(userService.setPassword(email, newPassword), HttpStatus.OK);
-    }
+	        userService.changeUserPassword(user, passwordChangeDto.getNewPassword());
+	        model.addAttribute("message", "Password changed successfully. You will be redirected to the login page shortly.");
 
-    // user update img and profile
-    @GetMapping("user-edit")
-    public String showEditUserProfile(Principal principal, Model model) {
-        String emailLogin = principal.getName();
-        User userLogging = this.userRepo.findByEmail(emailLogin).get();
-        model.addAttribute("user", userLogging);
-        return "user_profile";
-    }
+	        // Trả về trang thông báo
+	        return "passwordChangeSuccess"; // Tạo một trang mới 'passwordChangeSuccess.html'
+	    }
 
-    @PostMapping("/user-update")
-    public String updateUserProfile(MultipartFile image,
-                                    @RequestParam(name = "id") Long id,
-                                    @RequestParam(name = "name") String name,
-                                    @RequestParam(name = "phone") String phone) {
-        String urlImageAws = this.awsS3Service.saveImageToS3(image);
-
-        User dbUser = this.userRepo.findById(id).get();
-
-        dbUser.setPhone(phone);
-        dbUser.setName(name);
-        dbUser.setImage(urlImageAws);
-
-        this.userRepo.save(dbUser);
-        return "redirect:/account/info";
-    }
 }

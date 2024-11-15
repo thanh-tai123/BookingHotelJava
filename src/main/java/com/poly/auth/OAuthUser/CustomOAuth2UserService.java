@@ -6,6 +6,7 @@ import com.poly.entity.User;
 import com.poly.repository.UserRepo;
 import com.poly.util._enum.*;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -13,10 +14,13 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.security.SecureRandom;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -55,6 +59,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .userCode(userCode) // Add userCode here
                     .build());
         }
+        HttpSession session = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getSession();
+        session.setAttribute("userEmail", user.getEmail());
+        
+        String roles = user.getRoles().stream()
+                .map(Role::getName) // Assuming Role class has a getName method
+                .collect(Collectors.joining(","));
+            session.setAttribute("userRoles", roles);
         return UserRoot.create(user, oAuth2UserInfo.getAttributes());
     }
 

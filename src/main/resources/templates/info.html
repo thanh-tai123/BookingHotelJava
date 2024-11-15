@@ -45,6 +45,7 @@
 <h1>User Information</h1>
 <table>
     <thead>
+
     <tr>
         <th>Code</th>
         <th>Name</th>
@@ -79,36 +80,52 @@
 
         <td><a th:href="@{/account/user-edit}"><i class="fa-regular fa-pen-to-square fa-xl"></i></a></td>
     </tr>
+
     </tbody>
 </table>
 
 <h2>Books</h2>
 <table>
     <thead>
-    <tr>
-        <th>Book Code</th>
-        <th>Created Date</th>
-        <th>Action</th>
-    </tr>
+
+        <tr>
+            <th>Book Code</th>
+            <th th:text="#{code.createDate}"></th>
+            <th th:text="#{admin.Action}"></th>
+        </tr>
     </thead>
     <tbody>
-    <tr th:each="book : ${books}">
-        <td class="book-code" th:text="${book.bookCode}"></td>
-        <td th:text="${#dates.format(book.createDate, 'yyyy-MM-dd HH:mm')}">[Create Date]</td>
-        <td>
-            <!-- Form Gửi Email cho từng cuốn sách -->
-            <form th:action="@{/mailer/send}" method="post">
-                <input type="hidden" name="txtTo" th:value="${user.email}"/>
-                <input type="hidden" name="txtCC" th:value="${user.email}"/>
-                <input type="hidden" name="txtSubject" value="Thông tin phòng đã đặt"/>
+        <tr th:each="book : ${books}">
+            <td class="book-code" th:text="${book.bookCode}"></td>
+            <td th:text="${#dates.format(book.createDate, 'yyyy-MM-dd HH:mm')}">[Create Date]</td>
+            <td>
+                <!-- Form Gửi Email cho từng cuốn sách -->
+                <form th:action="@{/mailer/send}" method="post">
+                    <input type="hidden" name="txtTo" th:value="${user.email}"/>
+                    <input type="hidden" name="txtCC" th:value="${user.email}"/>
+                    <input type="hidden" name="txtSubject" value="Thông tin phòng đã đặt"/>
+                    
+                    <!-- Nội dung email sẽ chứa thông tin của cuốn sách hiện tại -->
+                    <input type="hidden" name="txtContent" 
+       th:value="'Bạn đã đặt 1 phòng khách sạn với ' + ${book.bookCode} + ' - Book Code: ' + ${book.bookCode} + ' - Created Date: ' + ${#dates.format(book.createDate, 'yyyy-MM-dd HH:mm')}"/>
+                    <button type="submit" th:text="#{admin.sendEmail}"></button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+        </table>
+       <!--  <tr th:each="detail : ${book.bookDetails}">
+            <td th:text="${detail.total}">[Total]</td>
+            <td th:text="${detail.roomid}">[Room ID]</td>
+            <td th:text="${detail.price}">[Price]</td>
+            <td th:text="${#dates.format(detail.checkin, 'yyyy-MM-dd')}">[Check-in]</td>
+            <td th:text="${#dates.format(detail.checkout, 'yyyy-MM-dd')}">[Check-out]</td>
+            <td th:text="${detail.adult}">[Adults]</td>
+            <td th:text="${detail.children}">[Children]</td>
+            <td th:text="${detail.paymentMethod}">[Payment Method]</td>
+            <td th:text="${detail.paymentStatus}">[Payment Status]</td>
+        </tr> 
 
-                <!-- Nội dung email sẽ chứa thông tin của cuốn sách hiện tại -->
-                <input type="hidden" name="txtContent"
-                       th:value="'Bạn đã đặt 1 phòng khách sạn với ' + ${book.bookCode} + ' - Book Code: ' + ${book.bookCode} + ' - Created Date: ' + ${#dates.format(book.createDate, 'yyyy-MM-dd HH:mm')}"/>
-                <button type="submit">Gửi Email</button>
-            </form>
-        </td>
-    </tr>
     </tbody>
 </table>
 <!--  <tr th:each="detail : ${book.bookDetails}">

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.poly.dto.RoomTypeCountDTO;
 import com.poly.dto.RoomTypeDTO;
 
 import com.poly.dto.RoomTypeServiceSummaryDTO;
@@ -71,5 +72,8 @@ public class RoomTypeRestController {
         return ResponseEntity.noContent().build();
     }
     
-   
+    @GetMapping("/counts")
+    public List<RoomTypeCountDTO> getRoomTypeCounts() {
+        return roomTypeService.getRoomTypeCounts();
+    }
 }

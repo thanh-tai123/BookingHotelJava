@@ -356,6 +356,8 @@
                         <li><a class="dropdown-item" th:href="@{/supplier}">Tạo phòng</a></li>
                         <li><a class="dropdown-item" th:href="@{/search/admin/bookcode}">Tra cứu phòng</a></li>
                         <li><a class="dropdown-item" th:href="@{/admin/show-chinhanh}">Tạo chi nhánh mới</a></li>
+                        <li><a class="dropdown-item" th:href="@{/search/book-details}">Export</a></li>
+
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -373,11 +375,11 @@
                     </ul>
                 </li>
                 <button class="btn btn-reserve" type="button" style="margin-right: 30px;">GIỮ CHỖ NGAY</button>
+                </button>
                 <li class="nav-item">
-                    <select class="form-select" id="validationCustom04" required>
-                        <option selected disabled value="">VN</option>
-                        <option>EN</option>
-                        <option>JP</option>
+                    <select id="languageSelect" onchange="changeLanguage(this)">
+                        <option value="en" th:selected="${#locale.language == 'en'}">English</option>
+                        <option value="vi" th:selected="${#locale.language == 'vi'}">Việt Nam</option>
                     </select>
                 </li>
             </ul>

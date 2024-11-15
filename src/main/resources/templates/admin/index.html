@@ -7,19 +7,21 @@
 </head>
 <body>
 
-<div th:replace="~{/access/navadmin :: html}"></div>
+<div th:replace="~{/layout/menudoc :: html}"></div>
 <br>
-<table class="table">
+<label style="width: 82%;margin-left:255px">Thông tin User</label>
+<table class="table" style="width: 82%;margin-left:255px"> 
+
     <thead class="table-dark">
     <tr>
         <th scope="col">ID</th>
-        <th scope="col">NAME</th>
-        <th scope="col">EMAIL</th>
-        <th scope="col">PHONE</th>
-        <th scope="col">ROLES</th>
-        <th scope="col">TYPE ACCOUNT</th>
-        <th scope="col">IMAGE</th>
-        <th scope="col">EDIT</th>
+        <th scope="col" th:text="#{admin.name}">NAME</th>
+        <th scope="col" >EMAIL</th>
+        <th scope="col" th:text="#{admin.phone}">PHONE</th>
+        <th scope="col" th:text="#{admin.phone}">ROLES</th>
+        <th scope="col" th:text="#{admin.typeAccount}">TYPE ACCOUNT</th>
+        <th scope="col" th:text="#{admin.image}">IMAGE</th>
+        <th scope="col" th:text="#{admin.edit}">EDIT</th>
     </tr>
     </thead>
     <tbody>
