@@ -217,5 +217,30 @@ public class AccountController {
 	        // Trả về trang thông báo
 	        return "passwordChangeSuccess"; // Tạo một trang mới 'passwordChangeSuccess.html'
 	    }
+	    @GetMapping("user-edit")
+	    public String showEditUserProfile(Principal principal, Model model) {
+	        String emailLogin = principal.getName();
+	        User userLogging = this.userRepo.findByEmail(emailLogin).get();
+	        model.addAttribute("user", userLogging);
+	        return "user_profile";
+	    }
 
+	    @PostMapping("/user-update")
+	    public String updateUserProfile(@RequestParam(name = "image", required = false) MultipartFile image,
+	                                    @RequestParam(name = "id") Long id,
+	                                    @RequestParam(name = "name") String name,
+	                                    @RequestParam(name = "phone") String phone) {
+	      
+	        User dbUser = this.userRepo.findById(id).get();
+
+	        dbUser.setPhone(phone);
+	        dbUser.setName(name);
+	        if (image != null && !image.isEmpty()) {
+	            String urlImageAws = this.awsS3Service.saveImageToS3(image);
+	            dbUser.setImage(urlImageAws);
+	        }
+
+	        this.userRepo.save(dbUser);
+	        return "redirect:/account/info";
+	    }
 }
