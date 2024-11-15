@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .chart-container {
-            width: 100%;
+            width: 90%;
             display: inline-block;
             vertical-align: top;
             margin: 40px;
@@ -32,16 +32,34 @@
                     <canvas id="revenueChart"></canvas>
                 </div>
             </div>
-            <div class="col-md-6">
-                <h3 th:text="#{admin.RoomCountChart}"></h3>
+
+            <div class="col-md-6" >
+                <h3 th:text="#{admin.RoomCountChart}">Room Count Chart</h3>
+
                 <select ng-model="selectedYearRoomCount" ng-change="getRoomCountData(selectedYearRoomCount)" ng-options="year for year in years"></select>
                 <div class="chart-container">
                     <canvas id="roomCountChart"></canvas>
                 </div>
             </div>
+            <div class="col-md-6">
+                <h3>Room Pie Chart</h3>
+               
+                <div class="chart-container">
+                     <canvas id="roomTypeChart" ></canvas>
+                </div>
+            </div>
+             <div class="col-md-6">
+                <h3>Room Donut Chart</h3>
+               
+                <div class="chart-container">
+                 <canvas id="doughnutChart"></canvas>
+                </div>
+            </div>
+            
         </div>
-    </div>
+   
 
+</div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
@@ -135,6 +153,109 @@
             $scope.selectedYearRoomCount = currentYear;
             $scope.getRevenueData(currentYear);
             $scope.getRoomCountData(currentYear);
+            
+           
+            
+            $http.get('/api/counts')
+            .then(function(response) {
+                $scope.roomTypes = response.data;
+
+                // Tạo dữ liệu cho biểu đồ
+                var labels = [];
+                var data = [];
+                var backgroundColors = [];
+
+                // Duyệt qua dữ liệu và chuẩn bị cho Chart.js
+                $scope.roomTypes.forEach(function(roomType) {
+                    labels.push(roomType.roomTypeName);
+                    data.push(roomType.count);
+                    // Màu sắc ngẫu nhiên cho từng phần trong biểu đồ
+                    backgroundColors.push('rgba(' + Math.floor(Math.random() * 255) + ',' + 
+                                           Math.floor(Math.random() * 255) + ',' + 
+                                           Math.floor(Math.random() * 255) + ', 0.6)');
+                });
+
+                // Vẽ biểu đồ tròn
+                var ctx = document.getElementById('roomTypeChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Room Type Distribution',
+                            data: data,
+                            backgroundColor: backgroundColors,
+                            borderColor: 'rgba(255, 255, 255, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                enabled: true
+                            }
+                        }
+                    }
+                });
+            }, function(error) {
+                console.error('Error fetching room type counts:', error);
+            });
+            
+          
+            $scope.chartData = {
+                    labels: [],
+                    data: []
+                };
+
+                $http.get('/api/rooms-per-branch')
+                    .then(function(response) {
+                        response.data.forEach(function(item) {
+                            $scope.chartData.labels.push(item.chinhanh);
+                            $scope.chartData.data.push(item.roomCount);
+                        });
+                        $scope.createChart();
+                    });
+
+                $scope.createChart = function() {
+                    var ctx = document.getElementById('doughnutChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: $scope.chartData.labels,
+                            datasets: [{
+                                data: $scope.chartData.data,
+                                backgroundColor: [
+                                    '#FF6384',
+                                    '#36A2EB',
+                                    '#FFCE56',
+                                    '#4BC0C0',
+                                    '#9966FF',
+                                    '#FF9F40'
+                                ],
+                                hoverOffset: 4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                title: {
+                                    display: true,
+                                    
+                                }
+                            }
+                        }
+                    });
+                };
+                
+                
+                
         });
     </script>
 </body>

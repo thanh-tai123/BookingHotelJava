@@ -85,6 +85,7 @@
 </head>
 <body>
 <div th:replace="/access/nav :: html"></div>
+
 <h1 th:text="#{code.inputCode}"></h1>
 <form action="#" th:action="@{/search/book}" method="post">
     <label for="bookCode">BookCode:</label>
@@ -112,6 +113,7 @@
      <input  name="txtTo" th:value="${book.user.email}"/>
         <input name="txtCC" th:value="${book.user.email}"/> -->
     <h3>Chi tiết Book:</h3>
+
     <table>
         <thead>
         <tr>

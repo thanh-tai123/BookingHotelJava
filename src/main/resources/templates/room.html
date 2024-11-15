@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet"/>
+
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet"/>
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="../static/CSS/common.css"/>
     <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
@@ -98,6 +103,7 @@
             padding: 30px;
         }
 
+
         .search-form input, .search-form select {
             height: 40px; /* Chỉnh chiều cao cho đồng nhất */
             padding: 10px;
@@ -110,17 +116,17 @@
         }
 
         /* Thêm một chút căn chỉnh cho các phần tử trong form */
-        .search-form .form-control {
-            width: 200px; /* Giới hạn chiều rộng cho đồng nhất */
+/*         .search-form .form-control {
+            width: 200px; 
         }
-
+ */
         /* Đảm bảo nút tìm kiếm có chiều cao đồng nhất với input/select */
-        .search-form button {
+/*         .search-form button {
             padding: 10px 20px;
             font-size: 16px;
             height: 40px; /* Đảm bảo nút có chiều cao đồng nhất */
             border-radius: 5px;
-        }
+        } */
 
         .search-form {
             display: flex;
@@ -132,9 +138,11 @@
             margin: 0 auto; /* Căn giữa form */
         }
 
+
+ 
+
         .search-form .form-group {
-            margin-bottom: 0;
-            width: 250px; /* Đảm bảo các ô có chiều rộng đồng đều */
+            margin-bottom: 0;width: 250px; /* Đảm bảo các ô có chiều rộng đồng đều */
         }
 
         .search-form .form-control {
@@ -160,21 +168,21 @@
                 <div class="form-group">
                     <label for="hotelId" th:text="#{body.branch}"></label>
                     <select name="hotelId" required class="form-control">
-                        <option th:each="branch : ${branches}" th:value="${branch.id}" th:text="${branch.chinhanh}">
-                            Branch Name - Branch Address
-                        </option>
+
+                     <option th:each="branch : ${branches}" th:value="${branch.id}" th:text="${branch.chinhanh}"></option>
+
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="checkin" th:text="#{body.checkinDate}"></label>
                     <input type="date" name="checkin" required class="form-control"
-                           th:value="${checkin != null ? #dates.format(checkin, 'yyyy-MM-dd') : ''}">
+                           th:value="${checkin != null ? #dates.format(checkin, 'yyyy-MM-dd') : ''}"> <!-- Cập nhật giá trị checkin -->
                 </div>
 
                 <div class="form-group">
                     <label for="checkout" th:text="#{body.checkoutDate}"></label>
                     <input type="date" name="checkout" required class="form-control"
-                           th:value="${checkout != null ? #dates.format(checkout, 'yyyy-MM-dd') : ''}">
+                           th:value="${checkout != null ? #dates.format(checkout, 'yyyy-MM-dd') : ''}"> <!-- Cập nhật giá trị checkout -->
                 </div>
 
                 <button type="submit" class="btn btn-primary" th:text="#{body.search}"></button>
@@ -183,31 +191,34 @@
     </div>
 
 
-    <!-- Bộ lọc loại phòng -->
     <form action="#" th:action="@{/room/filter}" method="get" id="filterForm">
         <div class="form-group mb-3">
             <label for="roomtype" th:text="#{body.roomType}"></label>
             <select id="roomtype" name="roomtype" class="form-control">
-                <option value="" th:text="#{body.all}"></option>
-                <option th:each="roomType : ${roomTypes}" th:value="${roomType.name}" th:text="${roomType.name}"
-                        th:selected="${roomType.name == roomtype}"></option>
+
+<!--                 <option value="Tất cả">Tất cả</option> -->
+  <option value="" th:text="#{body.all}"></option>
+                <option th:each="roomType : ${roomTypes}"
+                        th:value="${roomType.name}"
+                        th:text="${roomType.name}"
+                        th:selected="${roomType.name == roomtype}"></option> <!-- Đảm bảo rằng roomtype được chọn đúng -->
             </select>
         </div>
-        <button type="submit" class="btn btn-primary" th:text="#{body.filter}"></button>
+
+        <!-- Bộ lọc giá -->
+        <div class="form-group mb-3">
+            <label for="priceRange">Khoảng giá:</label>
+            <select id="priceRange" name="priceRange" class="form-control">
+                <option value="Tất cả">Tất cả</option>
+                <option th:each="price : ${priceRanges}"
+                        th:value="${price}"
+                        th:text="${price}"th:selected="${price == priceRange}"></option> <!-- Đảm bảo rằng priceRange được chọn đúng -->
+            </select>
+        </div>
+  <button type="submit" class="btn btn-primary" th:text="#{body.filter}"></button>
+<!--         <button type="submit" class="btn btn-primary">Lọc</button> -->
     </form>
 
-    <script>
-        // Khi form được gửi, nếu "Tất cả" được chọn (roomtype là rỗng), loại bỏ tham số "roomtype"
-        document.getElementById('filterForm').addEventListener('submit', function (event) {
-            var roomtypeValue = document.getElementById('roomtype').value;
-            if (roomtypeValue === '') {
-                var url = new URL(window.location.href);
-                url.searchParams.delete('roomtype');
-                window.location.href = url.toString();
-                event.preventDefault();
-            }
-        });
-    </script>
 
     <!-- Hiển thị thông báo nếu không có phòng -->
     <div th:if="${message != null}">
@@ -225,7 +236,11 @@
                          alt="Luxury hotel room with a large bed, modern decor, and a spacious layout"/>
                 </a>
                 <div class="card-body">
-                    <p class="card-text fas fa-eye"><span th:text="${visitCounts[r.id]}">0</span></p>
+
+<!--                     <p class="card-text fas fa-eye"><span th:text="${visitCounts[r.id]}">0</span></p>
+ -->
+
+                    <p class="card-text fas fa-eye"> <span th:text="${visitCounts[r.id] != null ? visitCounts[r.id] : 0}">0</span></p> <!-- Kiểm tra giá trị visitCounts[r.id] -->
 
                     <h5 class="card-title" th:text="${r.roomtype.name}"></h5>
                     <h5 class="card-title" th:text="${r.hotel.chinhanh}"></h5>
@@ -252,7 +267,43 @@
             </div>
         </div>
     </div>
+    <div class="pagination-container mt-4" th:if="${rooms.size() > 0}">
+        <nav>
+            <ul class="pagination justify-content-center">
+                <!-- Nút Previous -->
+                <li class="page-item" th:classappend="${!hasPrevious} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/room/filter(pageNum=${currentPage - 1}, sortField=${sortField}, sortDir=${sortDir}, keyword=${keyword}, roomtype=${roomtype}, priceRange=${priceRange})}"
+                       aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+
+                <!-- Các trang -->
+                <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}" th:classappend="${i == currentPage} ? 'active'">
+                    <a class="page-link"
+                       th:href="@{/room/filter(pageNum=${i}, sortField=${sortField}, sortDir=${sortDir}, keyword=${keyword}, roomtype=${roomtype}, priceRange=${priceRange})}"
+                       th:text="${i}">1</a>
+                </li>
+
+                <!-- Nút Next -->
+                <li class="page-item" th:classappend="${!hasNext} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/room/filter(pageNum=${currentPage + 1}, sortField=${sortField}, sortDir=${sortDir}, keyword=${keyword}, roomtype=${roomtype}, priceRange=${priceRange})}"
+                       aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <df-messenger
+            intent="WELCOME"
+            chat-title="poly-hotel"
+            agent-id="727e90a7-b57e-43ee-8135-68ed31b0c060"
+            language-code="en"
+    ></df-messenger>
+
 </div>
-<div th:replace="/access/footer :: body"></div>
 </body>
 </html>

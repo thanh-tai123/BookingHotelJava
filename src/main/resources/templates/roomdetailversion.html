@@ -54,134 +54,178 @@
             background-color: #ccc;
         }
 
-        /*  //comment  */
-        .comments, .add-comment {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
+        
+       /*  //comment  */
+       .comments, .add-comment {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
 
 
-        .comments p {
-            border-bottom: 1px solid #eee;
-            padding: 10px 0;
-        }
+.comments p {
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+}
 
-        .comments p:last-child {
-            border-bottom: none;
-        }
-
-
-        textarea {
-            width: 100%;
-            height: 100px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            resize: none;
-        }
-
-        select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .cmtbutton {
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .cmtbutton:hover {
-            background-color: #0056b3;
-        }
+.comments p:last-child {
+    border-bottom: none;
+}
 
 
-    </style>
-</head>
-<body>
-<div th:replace="/access/nav :: html"></div>
-<div class="container">
-    <div class="row room-info">
-        <div class="col-md-4">
-            <img alt="Image of a deluxe twin room with city view" class="img-fluid" height="300" th:src="${room.img}"
-                 width="400"/>
 
-        </div>
-        <div class="col-md-8">
-            <h2 th:text="${room.roomCode}">
-            </h2>
-            <h2 th:text="${room.roomtype.name}">
-            </h2>
-            <h5 th:text="${room.sophong}">
-            </h5>
-            <h5 th:text="${room.mota}">
-            </h5>
-            <h5 th:text="${room.hotel.chinhanh}"></h5>
-            <h5 th:text="${room.hotel.diachi}"></h5>
-            <ul>
-                <li th:each="service : ${services}" th:text="${service.myService.name}"></li>
-            </ul>
-            <p>
 
-                <i class="fas fa-user">
-                </i>
-                Sleeps 2
-                <i class="fas fa-bed">
-                </i>
-                2 Twin beds
-                <i class="fas fa-bath">
-                </i>
-                1 Bathroom
-            </p>
-            <p>
-                28m² • City view • Non-smoking • Air conditioned • Bath • En-suite Bathroom • Hairdryer • Internet
-                Access • Linen and Towels Provided
-            </p>
-            <ul>
-                <li>
-                    Twin beds
-                </li>
-                <li>
-                    Free WIFI access
-                </li>
-                <li>
-                    Bathroom and shower
-                </li>
-                <li>
-                    Led TV with international channels
-                </li>
-                <li>
-                    Mini bar &amp; coffee and tea
-                </li>
-                <li>
-                    Safety box
-                </li>
-                <li>
-                    Free infinity swimming pool
-                </li>
-                <li>
-                    Balcony with City View
-                </li>
-                <li>
-                    Late check-out 13:00 (subject to room availability)
-                </li>
-            </ul>
-            <a href="#" th:text="#{body.LessInfo}">
-                Less info
-            </a>
-        </div>
+textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.cmtbutton {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.cmtbutton:hover {
+    background-color: #0056b3;
+}
+.image-gallery {
+    display: flex; /* Flexbox for image alignment */
+    flex-wrap: wrap; /* Wrap images to next line */
+    margin-top: 10px; /* Space above the image gallery */
+    padding: 0; /* Remove padding */
+    list-style-type: none; /* Remove bullets */
+}
+
+.image-gallery li {
+    margin: 5px; /* Space around images */
+}
+
+.room-image {
+    height: 100px; /* Fixed height */
+    width: 100px; /* Fixed width */
+    object-fit: cover; /* Cover to maintain aspect ratio */
+    border-radius: 4px; /* Rounded corners for images */
+}
+
+  </style>
+ </head>
+ <body>
+ <div th:replace="/access/nav :: html"></div>
+  <div class="container">
+   <div class="row room-info">
+    <div class="col-md-4">
+    <img alt="Image of a deluxe twin room with city view" class="img-fluid" height="300" th:src="${room.img}" width="400" />
+    
+    </div>
+    <div class="col-md-8">
+    <h2 th:text="${room.roomCode}">
+     </h2>
+     <h2 th:text="${room.roomtype.name}">
+     </h2>
+     <h5 th:text="${room.sophong}">
+     </h5>
+      <h5 th:text="${room.mota}">
+     </h5>
+       <h5 th:text="${room.hotel.chinhanh}"></h5>
+       <h5 th:text="${room.hotel.diachi}"></h5>
+<ul>
+    <li th:each="service : ${services}" th:text="${service.myService.name}"></li>
+</ul>
+<h4>Additional Images:</h4>
+    <ul class="image-gallery">
+        <li th:each="roomimg : ${roomImgs}">
+            <img th:src="${roomimg.imagePath}" alt="Room Image" class="room-image" />
+        </li>
+    </ul>
+     
+     
+      <i class="fas fa-user">
+      </i>
+      Sleeps 2
+      <i class="fas fa-bed">
+      </i>
+      2 Twin beds
+      <i class="fas fa-bath">
+      </i>
+      1 Bathroom
+     </p>
+     <p>
+      28m² • City view • Non-smoking • Air conditioned • Bath • En-suite Bathroom • Hairdryer • Internet Access • Linen and Towels Provided
+     </p>
+     <ul>
+      <li>
+       Twin beds
+      </li>
+      <li>
+       Free WIFI access
+      </li>
+      <li>
+       Bathroom and shower
+      </li>
+      <li>
+       Led TV with international channels
+      </li>
+      <li>
+       Mini bar &amp; coffee and tea
+      </li>
+      <li>
+       Safety box
+      </li>
+      <li>
+       Free infinity swimming pool
+      </li>
+      <li>
+       Balcony with City View
+      </li>
+      <li>
+       Late check-out 13:00 (subject to room availability)
+      </li>
+     </ul>
+     <a href="#">
+      Less info
+     </a>
+    </div>
+   </div>
+   <div class="row rate-info">
+    <div class="col-md-8">
+     <h6>
+      Standard Rate
+     </h6>
+     <p class="text-success">
+      <i class="fas fa-check-circle">
+      </i>
+      Free cancellation!
+     </p>
+     <p class="text-success">
+      <i class="fas fa-check-circle">
+      </i>
+      Book now, pay later
+     </p>
+     <a href="#">
+      More info
+     </a>
+
     </div>
     <div class="row rate-info">
         <div class="col-md-8">
