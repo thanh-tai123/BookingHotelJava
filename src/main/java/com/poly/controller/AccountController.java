@@ -8,6 +8,7 @@ import com.poly.entity.BookDetail;
 import com.poly.entity.User;
 import com.poly.repository.BookDetailRepository;
 import com.poly.repository.UserRepo;
+import com.poly.service.AwsS3Service;
 import com.poly.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -36,21 +38,23 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/account")
 public class AccountController {
-	@Autowired
-	UserRepo userRepo;
-	@Autowired
-	BookDetailRepository bookDetailRepository;
-	@Autowired
-	private UserService userService;
-	@Autowired
-	BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    UserRepo userRepo;
+    @Autowired
+    BookDetailRepository bookDetailRepository;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private AwsS3Service awsS3Service;
 
-	@RequestMapping("/login")
-	public String login() {
-		return "account/login";
-	}
+    @RequestMapping("/login")
+    public String login() {
+        return "account/login";
+    }
 
-//	@RequestMapping("/info")
+    //	@RequestMapping("/info")
 //	public String info(Model model, Authentication auth) {
 //		UserRoot userRoot = (UserRoot) auth.getPrincipal();
 //		System.out.println("::::::::::::::"
@@ -59,81 +63,86 @@ public class AccountController {
 //		
 //		return "info";
 //	}
-	@RequestMapping("/info")
-	public String info(Model model, Authentication auth) {
-	    UserRoot userRoot = (UserRoot) auth.getPrincipal();
-	    
-	    // Fetch the user
-	    Optional<User> optionalUser = userService.findById(userRoot.getUser().getId());
-	     
-	    if (optionalUser.isPresent()) {
-	        User user = optionalUser.get();
-	        model.addAttribute("user", user);
 
-	        // Fetch the books associated with the user
-	        List<Book> books = user.getBooks(); // Assuming getBooks() is defined
-	        books.sort(Comparator.comparing(Book::getCreateDate).reversed());
-	        model.addAttribute("books", books);
-	        model.addAttribute("books", books);
-	        
-	        // Fetch detailed information for each book
-	        List<BookDetail> allBookDetails = new ArrayList<>();
-	        for (Book book : books) {
-	            List<BookDetail> details = bookDetailRepository.findByBook_BookCode(book.getBookCode());
-	            allBookDetails.addAll(details);
-	        }
-	        model.addAttribute("bookDetails", allBookDetails); // Add all book details to the model
+    @RequestMapping("/info")
+    public String info(Model model, Authentication auth) {
+        UserRoot userRoot = (UserRoot) auth.getPrincipal();
 
-	    } else {
-	        // Handle the case where user is not found
-	        model.addAttribute("error", "User not found");
-	    }
+        // Fetch the user
+        Optional<User> optionalUser = userService.findById(userRoot.getUser().getId());
 
-	    return "info";
-	}
-	
-	@RequestMapping("/register")
-	public String register() {
-		return "account/register";
-	}
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            model.addAttribute("user", user);
 
-	@RequestMapping("/login/success")
-	public String handleLoginSuccess() {
-		return "redirect:/room";
-	}
+            // Fetch the books associated with the user
+            List<Book> books = user.getBooks(); // Assuming getBooks() is defined
+            books.sort(Comparator.comparing(Book::getCreateDate).reversed());
+            model.addAttribute("books", books);
+            model.addAttribute("books", books);
 
-	@RequestMapping("/accessDenied")
-	public String accessDenied() {
-		return "access/accessDenied";
-	}
+            // Fetch detailed information for each book
+            List<BookDetail> allBookDetails = new ArrayList<>();
+            for (Book book : books) {
+                List<BookDetail> details = bookDetailRepository.findByBook_BookCode(book.getBookCode());
+                allBookDetails.addAll(details);
+            }
+            model.addAttribute("bookDetails", allBookDetails); // Add all book details to the model
 
-	@RequestMapping("/login/failure")
-	public String handleLoginFailure(Model model) {
-		model.addAttribute("error", "Email or password is not true");
-		return "account/login";
-	}
+        } else {
+            // Handle the case where user is not found
+            model.addAttribute("error", "User not found");
+        }
 
-//	@PostMapping("/handle-register")
+        return "info";
+    }
+
+    @RequestMapping("/register")
+    public String register() {
+        return "account/register";
+    }
+
+    @RequestMapping("/login/success")
+    public String handleLoginSuccess() {
+        return "redirect:/room";
+    }
+
+    @RequestMapping("/accessDenied")
+    public String accessDenied() {
+        return "access/accessDenied";
+    }
+
+    @RequestMapping("/login/failure")
+    public String handleLoginFailure(Model model) {
+        model.addAttribute("error", "Email or password is not true");
+        return "account/login";
+    }
+
+    //	@PostMapping("/handle-register")
+
 //	public String handleRegister(@ModelAttribute RegisterDto registerDto) {
 //		userRepo.save(User.builder().name(registerDto.getName())
 //				.password(passwordEncoder.encode(registerDto.getPassword())).email(registerDto.getEmail()).phone(registerDto.getPhone()).build());
 //		return "redirect:login";
 //	}
-	 @PostMapping("/handle-register")
-	    public String register(@ModelAttribute RegisterDto registerDto) {
-	        userService.register(registerDto);
-	        return "redirect:/account/login"; // Sau khi đăng ký, chuyển hướng người dùng đến trang đăng nhập
-	    }
-	 @GetMapping("/verify-account")
-	    public String showVerifyAccountForm(@RequestParam String email, @RequestParam String otp, Model model) {
-		 String result = userService.verifyAccount(email, otp);
-	        model.addAttribute("email", email);
-	        return "verifyAccount";
-	    }
-//	 @GetMapping("/verify-account")
+    @PostMapping("/handle-register")
+    public String register(@ModelAttribute RegisterDto registerDto) {
+        userService.register(registerDto);
+        return "redirect:/account/login"; // Sau khi đăng ký, chuyển hướng người dùng đến trang đăng nhập
+    }
+
+    @GetMapping("/verify-account")
+    public String showVerifyAccountForm(@RequestParam String email, @RequestParam String otp, Model model) {
+        String result = userService.verifyAccount(email, otp);
+        model.addAttribute("email", email);
+        return "verifyAccount";
+    }
+
+    //	 @GetMapping("/verify-account")
 //	    public String showVerifyAccountForm() {
 //	        return "verifyAccount";
 //	    }
+
 	    @PostMapping("/verify-account")
 	    public ResponseEntity<String> verifyAccount(@RequestParam String email, @RequestParam String otp) {
 	        String result = userService.verifyAccount(email, otp);
@@ -208,4 +217,5 @@ public class AccountController {
 	        // Trả về trang thông báo
 	        return "passwordChangeSuccess"; // Tạo một trang mới 'passwordChangeSuccess.html'
 	    }
+
 }

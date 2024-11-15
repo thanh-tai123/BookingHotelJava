@@ -106,6 +106,7 @@ public class UserService {
 					userRepository.save(Account);
 					return "New Passoword is successfully" + "return <a href=\"/account/login\">login</a>";
 		}
+
 		
 		 public boolean checkIfValidOldPassword(User user, String oldPassword) {
 		        return passwordEncoder.matches(oldPassword, user.getPassword());
@@ -115,4 +116,5 @@ public class UserService {
 		        user.setPassword(passwordEncoder.encode(newPassword));
 		        userRepository.save(user);
 		    }
+
 }
