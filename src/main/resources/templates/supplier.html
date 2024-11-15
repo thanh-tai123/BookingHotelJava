@@ -10,88 +10,90 @@
     <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
 </head>
 <style>
-.room-form {
-    display: flex;
-    flex-direction: column;
-    max-width: 900px; /* Chiều rộng tối đa của form */
-    margin: 20px auto; /* Canh giữa form */
-    padding: 20px;
-    border: 1px solid #dddddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-}
+    .room-form {
+        display: flex;
+        flex-direction: column;
+        max-width: 900px; /* Chiều rộng tối đa của form */
+        margin: 20px auto; /* Canh giữa form */
+        padding: 20px;
+        border: 1px solid #dddddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
 
-.form-row {
-    display: flex; /* Sắp xếp các trường theo hàng ngang */
-    justify-content: space-between; /* Khoảng cách đều giữa các trường */
-    margin-bottom: 15px; /* Khoảng cách giữa các hàng */
-}
+    .form-row {
+        display: flex; /* Sắp xếp các trường theo hàng ngang */
+        justify-content: space-between; /* Khoảng cách đều giữa các trường */
+        margin-bottom: 15px; /* Khoảng cách giữa các hàng */
+    }
 
-.form-group {
-    flex: 1; /* Mỗi trường chiếm 1 phần trong hàng */
-    margin-right: 10px; /* Khoảng cách bên phải của mỗi trường */
-}
+    .form-group {
+        flex: 1; /* Mỗi trường chiếm 1 phần trong hàng */
+        margin-right: 10px; /* Khoảng cách bên phải của mỗi trường */
+    }
 
-.form-group:last-child {
-    margin-right: 0; /* Không có khoảng cách bên phải cho trường cuối cùng */
-}
+    .form-group:last-child {
+        margin-right: 0; /* Không có khoảng cách bên phải cho trường cuối cùng */
+    }
 
-.room-form label {
-    margin-top: 10px;
-    font-weight: bold;
-}
+    .room-form label {
+        margin-top: 10px;
+        font-weight: bold;
+    }
 
-.room-form input, .room-form select {
-    margin-top: 5px;
-    padding: 10px; /* Tăng padding cho các trường nhập */
-    border: 1px solid #cccccc;
-    border-radius: 4px;
-    width: 100%; /* Chiếm toàn bộ chiều rộng của ô */
-    box-sizing: border-box; /* Đảm bảo padding không làm tăng chiều rộng của ô */
-}
+    .room-form input, .room-form select {
+        margin-top: 5px;
+        padding: 10px; /* Tăng padding cho các trường nhập */
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        width: 100%; /* Chiếm toàn bộ chiều rộng của ô */
+        box-sizing: border-box; /* Đảm bảo padding không làm tăng chiều rộng của ô */
+    }
 
-.room-form button {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%; /* Nút chiếm toàn bộ chiều rộng */
-}
+    .room-form button {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100%; /* Nút chiếm toàn bộ chiều rộng */
+    }
 
-.room-form button:hover {
-    background-color: #45a049;
-}
-.rooms-table {
-    width: 100%; /* Chiều rộng của bảng */
-    border-collapse: collapse; /* Gộp các đường viền */
-}
+    .room-form button:hover {
+        background-color: #45a049;
+    }
 
-.rooms-table th, .rooms-table td {
-    border: 1px solid #dddddd; /* Đường viền cho ô */
-    text-align: left; /* Căn trái cho chữ */
-    padding: 8px; /* Khoảng cách trong ô */
-}
+    .rooms-table {
+        width: 100%; /* Chiều rộng của bảng */
+        border-collapse: collapse; /* Gộp các đường viền */
+    }
 
-.rooms-table th {
-    background-color: #f2f2f2; /* Màu nền cho hàng tiêu đề */
-}
+    .rooms-table th, .rooms-table td {
+        border: 1px solid #dddddd; /* Đường viền cho ô */
+        text-align: left; /* Căn trái cho chữ */
+        padding: 8px; /* Khoảng cách trong ô */
+    }
 
-.rooms-table tr:nth-child(even) {
-    background-color: #f9f9f9; /* Màu nền cho hàng chẵn */
-}
+    .rooms-table th {
+        background-color: #f2f2f2; /* Màu nền cho hàng tiêu đề */
+    }
 
-.rooms-table tr:hover {
-    background-color: #f1f1f1; /* Màu nền khi hover */
-}
+    .rooms-table tr:nth-child(even) {
+        background-color: #f9f9f9; /* Màu nền cho hàng chẵn */
+    }
+
+    .rooms-table tr:hover {
+        background-color: #f1f1f1; /* Màu nền khi hover */
+    }
 </style>
-<body >
+<body>
 
 <div th:replace="/access/navadmin :: html"></div>
 <div ng-controller="RoomController">
     <h1>{{ isEditing ? 'Edit Room' : 'Add Room' }}</h1>
+
    <form ng-submit="isEditing ? saveUpdatedRoom() : addRoom()" class="room-form">
    
 
@@ -99,14 +101,14 @@
         <div class="form-group">
            
             <input value="{{user.id}}" ng-model="user.id" type="hidden">
-    <label>Name:</label>
+    <label th:text="#{admin.name}"></label>
     <input value="{{user.name}}" disabled />
             
             <input type="hidden" ng-model="room.status" ng-required="true" />
         </div>
         
         <div class="form-group">
-         <label>Hotel Branch:</label>
+         <label th:text="#{admin.HotelBranch}">Hotel Branch:</label>
             <select ng-model="selectedHotel" ng-options="hotel.chinhanh for hotel in hotels" ng-change="updateHotelDetails()">
                 <option value="">Select a branch</option>
             </select>
@@ -116,7 +118,7 @@
 
         <div class="form-group">
            
-             <label>Room Type:</label>
+             <label th:text="#{admin.RoomType}">Room Type:</label>
             <select ng-model="selectedRoomType" ng-options="roomtype as roomtype.name for roomtype in roomTypes" ng-change="updateRoomTypeDetails()">
                 <option value="">Select a Room Type</option>
             </select>
@@ -139,50 +141,48 @@
         <div class="form-group">
         <label>Room Number:</label>
             <input type="number" ng-model="room.sophong" required />
-          
+        </div>
+            <div class="form-group">
+                <label th:text="#{admin.price}">Price:</label>
+                <input type="number" ng-model="room.gia" required/>
+            </div>
         </div>
 
-        <div class="form-group">
-               <label>Price:</label>
-            <input type="number" ng-model="room.gia" required />
+        <div class="form-row">
+            <div class="form-group">
+                <label th:text="#{admin.description}">Description:</label>
+                <input type="text" ng-model="room.mota" required/>
+            </div>
         </div>
-    </div>
 
-    <div class="form-row">
-        <div class="form-group">
-            <label>Description:</label>
-            <input type="text" ng-model="room.mota" required />
-        </div>
-    </div>
+        <button type="submit">{{ isEditing ? 'Update Room' : 'Add Room' }}</button>
+    </form>
+    <h2 th:text="#{admin.roomList}">Rooms List</h2>
+    <label for="statusSelect" th:text="#{admin.filterByStatus}">Filter by Status:</label>
+    <select id="statusSelect" ng-model="selectedStatus" ng-change="loadRoomsByStatus(selectedStatus)">
+        <option value="FALSE">Not Confirm</option>
+        <option value="CANCEL">Cancelled</option>
+        <option value="TRUE">Confirm</option>
+    </select>
 
-    <button type="submit">{{ isEditing ? 'Update Room' : 'Add Room' }}</button>
-</form>
-   <h2>Rooms List</h2>
-<label for="statusSelect">Filter by Status:</label>
-<select id="statusSelect" ng-model="selectedStatus" ng-change="loadRoomsByStatus(selectedStatus)">
-    <option value="FALSE">Not Confirm</option>
-    <option value="CANCEL">Cancelled</option>
-      <option value="TRUE">Confirm</option>
-</select>
-
-<table class="rooms-table">
-    <thead>
+    <table class="rooms-table">
+        <thead>
         <tr>
-          <th>Room Code</th>
-            <th>Room Number</th>
-            <th>Image</th>
-            <th>Room Type</th>
-            <th>Hotel Name</th>
-            <th>Price</th>
-            <th>Status</th>
-            <th>Description</th>
-             <th>Note</th>
-            <th>Actions</th>
+            <th th:text="#{admin.RoomCode}">Room Code</th>
+            <th th:text="#{admin.RoomNumber}">Room Number</th>
+            <th th:text="#{admin.image}">Image</th>
+            <th th:text="#{admin.RoomType}">Room Type</th>
+            <th th:text="#{admin.HotelBranch}">Hotel Name</th>
+            <th th:text="#{admin.price}">Price</th>
+            <th th:text="#{admin.status}">Status</th>
+            <th th:text="#{admin.description}">Description</th>
+            <th th:text="#{admin.Note}">Note</th>
+            <th th:text="#{admin.Action}">Actions</th>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
         <tr ng-repeat="room in rooms">
-         <td>{{ room.roomCode }}</td>
+            <td>{{ room.roomCode }}</td>
             <td>{{ room.sophong }}</td>
             <td><img ng-src="{{ room.img }}" alt="Room Image" style="height: 100px;width: 100px"/></td>
             <td>{{ room.roomType.name }}</td>
@@ -190,36 +190,39 @@
             <td>${{ room.gia }}</td>
             <td>{{ room.status }}</td>
             <td>{{ room.mota }}</td>
-              <td>{{ room.note }}</td>
+            <td>{{ room.note }}</td>
             <td>
-                <button ng-click="editRoom(room)">Edit</button>
-                <button ng-click="deleteRoom(room.id)">Delete</button>
+                <button ng-click="editRoom(room)" th:text="#{admin.edit}">Edit</button>
+                <button ng-click="deleteRoom(room.id)" th:text="#{admin.delete}">Delete</button>
             </td>
         </tr>
-    </tbody>
-</table>
+        </tbody>
+    </table>
 </div>
 
 <script>
-angular.module('app', [])
-.controller('RoomController', ['$scope', '$http', function($scope, $http) {
-    $scope.room = {
-        status: 'FALSE' // Default value
-    };
-    $scope.rooms = [];
-    $scope.hotels = [];
-    $scope.selectedHotel = null;
-    $scope.selectedStatus = 'FALSE';
-    $scope.isEditing = false
-  
-        $scope.loadRoomsByStatus = function(status) {
-            $http.get(`http://localhost:8081/api/status/${status}`)
-                .then(function(response) {
-                    $scope.rooms = response.data; // Assign fetched rooms to scope
-                }, function(error) {
-                    console.error('Error fetching rooms:', error);
-                });
-        }; 
+    angular.module('app', [])
+        .controller('RoomController', ['$scope', '$http', function ($scope, $http) {
+            $scope.room = {
+                status: 'FALSE' // Default value
+            };
+            $scope.rooms = [];
+            $scope.hotels = [];
+            $scope.selectedHotel = null;
+            $scope.selectedStatus = 'FALSE';
+            $scope.isEditing = false
+
+            $scope.loadRoomsByStatus = function (status) {
+                $http.get(`http://localhost:8081/api/status/${status}`)
+                    .then(function (response) {
+                        $scope.rooms = response.data; // Assign fetched rooms to scope
+                    }, function (error) {
+                        console.error('Error fetching rooms:', error);
+                    });
+            };
+          
+
+
         $scope.loadRoomsByStatus($scope.selectedStatus);
         $http.get('http://localhost:8081/api/user-info')
         .then(function(response) {
@@ -304,13 +307,16 @@ angular.module('app', [])
             $http.delete(`http://localhost:8081/api/delete-room/${roomId}`)
                 .then(function(response) {
                     alert('Room deleted successfully!');
+
                     $scope.loadRoomsByStatus($scope.selectedStatus); // Refresh the rooms list
-                }, function(error) {
-                    console.error('Error deleting room:', error);
-                    alert('Error deleting room: You have not permission');
+                  
+                }, function (error) {
+                    console.error('Error updating room:', error);
+                    alert('Error updating room: chọn lại hotel và roomtype');
                 });
-        }
-    };
+
+            };
+
 
    
 
@@ -399,13 +405,13 @@ angular.module('app', [])
                     } else {
                         modelSetter(scope, null); // Clear if no files
                     }
+
                 });
-            });
-        }
-    };
-}]);
+            };
+        }])
+      
 </script>
 
 
- </body>
- </html>
+</body>
+</html>

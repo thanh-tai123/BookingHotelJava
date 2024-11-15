@@ -410,7 +410,7 @@
             $scope.loadAvailableRooms = function() {
                 if ($scope.booking.checkin && $scope.booking.checkout) {
                     const checkin = new Date($scope.booking.checkin).toISOString().slice(0, 10);
-                    const checkout = new Date($scope.booking.checkout).toISOString().slice(0, 10);
+                    const  checkout = new Date($scope.booking.checkout).toISOString().slice(0, 10);
 
                     $http({
                         method: 'GET',

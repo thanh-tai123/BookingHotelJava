@@ -41,12 +41,12 @@
     <thead>
         <tr>
         	<th>Code</th>
-            <th>Name</th>
+            <th th:text="#{admin.name}"></th>
             <th>Email</th>
-            <th>Phone</th>
-            <th>Role</th>
+            <th th:text="#{admin.phone}"></th>
+            <th th:text="#{admin.roles}"></th>
             <th th:if="${user.roleString.contains('ADMIN')}">Admin</th>
-             <th th:if="${user.roleString.contains('SUPPLIER')}">Staff</th>
+             <th th:if="${user.roleString.contains('SUPPLIER')}" th:text="#{admin.staff}"></th>
             <th>Img</th>
         </tr>
     </thead>
@@ -58,10 +58,10 @@
             <td th:text="${user.phone}"></td>
             <td th:text="${user.roleString}"></td>
            <td th:if="${user.roleString.contains('ADMIN')}">
-                <a  th:href="@{/admin}">Trang Admin</a>
+                <a  th:href="@{/admin}">Admin</a>
             </td>
              <td th:if="${user.roleString.contains('SUPPLIER')}">
-                <a  th:href="@{/supplier}">Trang Staff</a>
+                <a  th:href="@{/supplier}" th:text="#{admin.staff}"></a>
             </td>
             <td><img th:src="${user.image}" alt="User Image" class="imginfo"/></td>
         </tr>
@@ -73,8 +73,8 @@
     <thead>
         <tr>
             <th>Book Code</th>
-            <th>Created Date</th>
-            <th>Action</th>
+            <th th:text="#{code.createDate}"></th>
+            <th th:text="#{admin.Action}"></th>
         </tr>
     </thead>
     <tbody>
@@ -91,7 +91,7 @@
                     <!-- Nội dung email sẽ chứa thông tin của cuốn sách hiện tại -->
                     <input type="hidden" name="txtContent" 
        th:value="'Bạn đã đặt 1 phòng khách sạn với ' + ${book.bookCode} + ' - Book Code: ' + ${book.bookCode} + ' - Created Date: ' + ${#dates.format(book.createDate, 'yyyy-MM-dd HH:mm')}"/>
-                    <button type="submit">Gửi Email</button>
+                    <button type="submit" th:text="#{admin.sendEmail}"></button>
                 </form>
             </td>
         </tr>

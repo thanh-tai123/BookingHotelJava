@@ -328,11 +328,11 @@ body {
                     </ul>
                 </li>
                 <button class="btn btn-reserve" type="button" style="margin-right: 30px;">GIỮ CHỖ NGAY</button>
+                </button>
                 <li class="nav-item">
-                    <select class="form-select" id="validationCustom04" required>
-                        <option selected disabled value="">VN</option>
-                        <option>EN</option>
-                        <option>JP</option>
+                    <select id="languageSelect" onchange="changeLanguage(this)">
+                        <option value="en" th:selected="${#locale.language == 'en'}">English</option>
+                        <option value="vi" th:selected="${#locale.language == 'vi'}">Việt Nam</option>
                     </select>
                 </li>
             </ul>

@@ -66,14 +66,18 @@
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/admin}" th:text="#{navbar.thong_tin}">THÔNG TIN</a>
             </li>
+
             <li class="nav-item">
+             
+
                 <a class="nav-link dropdown-toggle" href="#" >THỐNG KÊ</a>
                  <ul class="dropdown-menu" aria-labelledby="adminDropdown">
-                        <li><a class="dropdown-item" th:href="@{/admin/revenue}">Doanh thu theo biểu đồ</a></li>
+                        <li><a class="dropdown-item" th:href="@{/admin/revenue}" th:text="#{admin.Revenue}">Doanh thu theo biểu đồ</a></li>
                         <li><a class="dropdown-item" th:href="@{/admin/userbybook}">Thông kê lượt đặt phòng</a></li>
                         <li><a class="dropdown-item" th:href="@{/admin/compare}">So sánh doanh thu</a></li>
                        
                     </ul>
+
             </li>
             <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
