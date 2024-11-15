@@ -8,13 +8,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
     <!-- Include the AngularJS controller script -->
     <style>
-
-
+       
+        
         h2, h3 {
             color: #333;
         }
-
-        form {
+        
+       form {
             background: #fff;
             padding: 10px;
             border-radius: 5px;
@@ -28,8 +28,7 @@
         label {
             margin: 0; /* Remove margin for better alignment */
         }
-
-        input[type="text"] {
+ input[type="text"] {
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -79,11 +78,11 @@
     </style>
 </head>
 
-<body>
+<body >
 
 <div th:replace="/access/navadmin :: html"></div>
 <div ng-controller="RoomTypeController">
-    <h2>{{ roomType.id ? 'th:text="#{admin.updateRoomType}"' : 'th:text="#{admin.addRomtype}' }}</h2>
+    <h2>{{ roomType.id ? 'Update Room Type' : 'Add Room Type' }}</h2>
     <form ng-submit="roomType.id ? updateRoomType() : addRoomType()">
         <label th:text="#{admin.name}">:</label>
         <input type="text" ng-model="roomType.name" required/>
@@ -153,44 +152,44 @@
         };
 
 
-        $scope.editRoomType = function (type) {
-            $scope.roomType = angular.copy(type); // Sao chép để chỉnh sửa
+    $scope.editRoomType = function(type) {
+        $scope.roomType = angular.copy(type); // Sao chép để chỉnh sửa
+    };
+
+    $scope.updateRoomType = function() {
+        $http.put('http://localhost:8081/api/update/roomtype/' + $scope.roomType.id, $scope.roomType)
+            .then(function(response) {
+                const index = $scope.roomTypes.findIndex(type => type.id === $scope.roomType.id);
+                if (index !== -1) {
+                    $scope.roomTypes[index] = response.data; // Cập nhật danh sách
+                }
+                $scope.clearForm();
+            }, function(error) {
+                console.error('Error updating Room Type:', error);
+            });
+    };
+
+    $scope.deleteRoomType = function(id) {
+        $http.delete('http://localhost:8081/api/delete/roomtype/' + id)
+            .then(function() {
+                $scope.roomTypes = $scope.roomTypes.filter(type => type.id !== id); // Xóa khỏi danh sách
+            }, function(error) {
+                console.error('Error deleting Room Type:', error.data); // In ra dữ liệu lỗi
+            });
+    };
+
+
+    $scope.clearForm = function() {
+        $scope.roomType = {
+            id: null,
+            name: '',
+            description: ''
         };
+    };
 
-        $scope.updateRoomType = function () {
-            $http.put('http://localhost:8081/api/update/roomtype/' + $scope.roomType.id, $scope.roomType)
-                .then(function (response) {
-                    const index = $scope.roomTypes.findIndex(type => type.id === $scope.roomType.id);
-                    if (index !== -1) {
-                        $scope.roomTypes[index] = response.data; // Cập nhật danh sách
-                    }
-                    $scope.clearForm();
-                }, function (error) {
-                    console.error('Error updating Room Type:', error);
-                });
-        };
-
-        $scope.deleteRoomType = function (id) {
-            $http.delete('http://localhost:8081/api/delete/roomtype/' + id)
-                .then(function () {
-                    $scope.roomTypes = $scope.roomTypes.filter(type => type.id !== id); // Xóa khỏi danh sách
-                }, function (error) {
-                    console.error('Error deleting Room Type:', error.data); // In ra dữ liệu lỗi
-                });
-        };
-
-
-        $scope.clearForm = function () {
-            $scope.roomType = {
-                id: null,
-                name: '',
-                description: ''
-            };
-        };
-
-        // Tải danh sách loại phòng ngay khi khởi động
-        $scope.loadRoomTypes();
-    });
+    // Tải danh sách loại phòng ngay khi khởi động
+    $scope.loadRoomTypes();
+});
 
 
 </script>
