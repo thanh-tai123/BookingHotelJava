@@ -206,6 +206,27 @@
     </form>
 
 
+
+
+
+
+
+
+
+
+    <script>
+        // Khi form được gửi, nếu "Tất cả" được chọn (roomtype là rỗng), loại bỏ tham số "roomtype"
+        document.getElementById('filterForm').addEventListener('submit', function(event) {
+            var roomtypeValue = document.getElementById('roomtype').value;
+            if (roomtypeValue === '') {
+                var url = new URL(window.location.href);
+                url.searchParams.delete('roomtype');
+                window.location.href = url.toString();
+                event.preventDefault();
+            }
+        });
+    </script>
+
     <!-- Hiển thị thông báo nếu không có phòng -->
     <div th:if="${message != null}">
         <div class="alert alert-warning" role="alert">
