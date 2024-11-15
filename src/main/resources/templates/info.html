@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <title>User Information</title>
     <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css}">
+
     <style>
-        
+
         h1, h2 {
             color: #333;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -17,15 +20,18 @@
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+
         th, td {
             padding: 10px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
-        th { 
+
+        th {
             background-color: #d4af37;
             color: black;
         }
+
         .imginfo {
             max-width: 150px;
             border-radius: 8px;
@@ -34,105 +40,112 @@
     </style>
 </head>
 <body>
-  <div th:replace="/access/nav :: html"></div>
+<div th:replace="/access/nav :: html"></div>
 
 <h1>User Information</h1>
 <table>
     <thead>
-        <tr>
-        	<th>Code</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Role</th>
-            <th th:if="${user.roleString.contains('ADMIN')}">Admin</th>
-             <th th:if="${user.roleString.contains('SUPPLIER')}">Staff</th>
-            <th>Img</th>
-        </tr>
+    <tr>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Role</th>
+        <th th:if="${user.roleString.contains('ADMIN')}">Admin</th>
+        <th th:if="${user.roleString.contains('SUPPLIER')}">Staff</th>
+        <th>Img</th>
+        <th>Action</th>
+    </tr>
     </thead>
     <tbody>
-        <tr>
-        	 <td th:text="${user.userCode}"></td>
-            <td th:text="${user.name}"></td>
-            <td th:text="${user.email}"></td>
-            <td th:text="${user.phone}"></td>
-            <td th:text="${user.roleString}"></td>
-           <td th:if="${user.roleString.contains('ADMIN')}">
-                <a  th:href="@{/admin}">Trang Admin</a>
-            </td>
-             <td th:if="${user.roleString.contains('SUPPLIER')}">
-                <a  th:href="@{/supplier}">Trang Staff</a>
-            </td>
-            <td><img th:src="${user.image}" alt="User Image" class="imginfo"/></td>
-        </tr>
+    <tr>
+        <td th:text="${user.userCode}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.phone}"></td>
+        <td th:text="${user.roleString}"></td>
+        <td th:if="${user.roleString.contains('ADMIN')}">
+            <a th:href="@{/admin}">Trang Admin</a>
+        </td>
+        <td th:if="${user.roleString.contains('SUPPLIER')}">
+            <a th:href="@{/supplier}">Trang Staff</a>
+        </td>
+        <th:block th:if="${user.image != null}">
+            <td><img th:src="${user.image}" alt="Embedded Image" width="100" height="100"></td>
+        </th:block>
+        <th:block th:unless="${user.image != null}">
+            <td><i class="fa-solid fa-user fa-2xl"></i></td>
+        </th:block>
+
+        <td><a th:href="@{/account/user-edit}"><i class="fa-regular fa-pen-to-square fa-xl"></i></a></td>
+    </tr>
     </tbody>
 </table>
 
 <h2>Books</h2>
 <table>
     <thead>
-        <tr>
-            <th>Book Code</th>
-            <th>Created Date</th>
-            <th>Action</th>
-        </tr>
+    <tr>
+        <th>Book Code</th>
+        <th>Created Date</th>
+        <th>Action</th>
+    </tr>
     </thead>
     <tbody>
-        <tr th:each="book : ${books}">
-            <td class="book-code" th:text="${book.bookCode}"></td>
-            <td th:text="${#dates.format(book.createDate, 'yyyy-MM-dd HH:mm')}">[Create Date]</td>
-            <td>
-                <!-- Form Gửi Email cho từng cuốn sách -->
-                <form th:action="@{/mailer/send}" method="post">
-                    <input type="hidden" name="txtTo" th:value="${user.email}"/>
-                    <input type="hidden" name="txtCC" th:value="${user.email}"/>
-                    <input type="hidden" name="txtSubject" value="Thông tin phòng đã đặt"/>
-                    
-                    <!-- Nội dung email sẽ chứa thông tin của cuốn sách hiện tại -->
-                    <input type="hidden" name="txtContent" 
-       th:value="'Bạn đã đặt 1 phòng khách sạn với ' + ${book.bookCode} + ' - Book Code: ' + ${book.bookCode} + ' - Created Date: ' + ${#dates.format(book.createDate, 'yyyy-MM-dd HH:mm')}"/>
-                    <button type="submit">Gửi Email</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-        </table>
-       <!--  <tr th:each="detail : ${book.bookDetails}">
-            <td th:text="${detail.total}">[Total]</td>
-            <td th:text="${detail.roomid}">[Room ID]</td>
-            <td th:text="${detail.price}">[Price]</td>
-            <td th:text="${#dates.format(detail.checkin, 'yyyy-MM-dd')}">[Check-in]</td>
-            <td th:text="${#dates.format(detail.checkout, 'yyyy-MM-dd')}">[Check-out]</td>
-            <td th:text="${detail.adult}">[Adults]</td>
-            <td th:text="${detail.children}">[Children]</td>
-            <td th:text="${detail.paymentMethod}">[Payment Method]</td>
-            <td th:text="${detail.paymentStatus}">[Payment Status]</td>
-        </tr> 
+    <tr th:each="book : ${books}">
+        <td class="book-code" th:text="${book.bookCode}"></td>
+        <td th:text="${#dates.format(book.createDate, 'yyyy-MM-dd HH:mm')}">[Create Date]</td>
+        <td>
+            <!-- Form Gửi Email cho từng cuốn sách -->
+            <form th:action="@{/mailer/send}" method="post">
+                <input type="hidden" name="txtTo" th:value="${user.email}"/>
+                <input type="hidden" name="txtCC" th:value="${user.email}"/>
+                <input type="hidden" name="txtSubject" value="Thông tin phòng đã đặt"/>
+
+                <!-- Nội dung email sẽ chứa thông tin của cuốn sách hiện tại -->
+                <input type="hidden" name="txtContent"
+                       th:value="'Bạn đã đặt 1 phòng khách sạn với ' + ${book.bookCode} + ' - Book Code: ' + ${book.bookCode} + ' - Created Date: ' + ${#dates.format(book.createDate, 'yyyy-MM-dd HH:mm')}"/>
+                <button type="submit">Gửi Email</button>
+            </form>
+        </td>
+    </tr>
     </tbody>
 </table>
+<!--  <tr th:each="detail : ${book.bookDetails}">
+     <td th:text="${detail.total}">[Total]</td>
+     <td th:text="${detail.roomid}">[Room ID]</td>
+     <td th:text="${detail.price}">[Price]</td>
+     <td th:text="${#dates.format(detail.checkin, 'yyyy-MM-dd')}">[Check-in]</td>
+     <td th:text="${#dates.format(detail.checkout, 'yyyy-MM-dd')}">[Check-out]</td>
+     <td th:text="${detail.adult}">[Adults]</td>
+     <td th:text="${detail.children}">[Children]</td>
+     <td th:text="${detail.paymentMethod}">[Payment Method]</td>
+     <td th:text="${detail.paymentStatus}">[Payment Status]</td>
+ </tr>
+</tbody>
+</table>
 
-	<!-- <form enctype="multipart/form-data" th:action="@{/mailer/send}" method="post">
-    <input  name="txtTo" th:value="${user.email}"/>
-    <input  name="txtCC" th:value="${user.email}"/> Đảm bảo rằng đây là địa chỉ CC hợp lệ
-    <input  name="txtSubject" value="Thông tin sách"/>
-    <input  name="txtContent" th:value="${content}" /> Đảm bảo rằng biến content đã được khởi tạo
-    <button type="submit">Gửi Email</button>
+<!-- <form enctype="multipart/form-data" th:action="@{/mailer/send}" method="post">
+<input  name="txtTo" th:value="${user.email}"/>
+<input  name="txtCC" th:value="${user.email}"/> Đảm bảo rằng đây là địa chỉ CC hợp lệ
+<input  name="txtSubject" value="Thông tin sách"/>
+<input  name="txtContent" th:value="${content}" /> Đảm bảo rằng biến content đã được khởi tạo
+<button type="submit">Gửi Email</button>
 </form> -->
-	<!-- <form action="#" th:action="@{/mailer/send}" method="post">
-    <input type="hidden" name="txtTo" required th:value="${user.email}"/>
-    <input type="hidden" name="txtCC" th:value="${user.email}"/>
+<!-- <form action="#" th:action="@{/mailer/send}" method="post">
+<input type="hidden" name="txtTo" required th:value="${user.email}"/>
+<input type="hidden" name="txtCC" th:value="${user.email}"/>
 
-    <label for="txtSubject">Subject:</label>
-    <input type="text" name="txtSubject" value="Thông tin sách"/>
+<label for="txtSubject">Subject:</label>
+<input type="text" name="txtSubject" value="Thông tin sách"/>
 
-    <input type="hidden" name="txtContent" 
-           th:value="${#lists.join(books, ', ', book -> book.bookCode + ' (' + #dates.format(book.createDate, 'yyyy-MM-dd HH:mm') + ')')}"/>
+<input type="hidden" name="txtContent"
+       th:value="${#lists.join(books, ', ', book -> book.bookCode + ' (' + #dates.format(book.createDate, 'yyyy-MM-dd HH:mm') + ')')}"/>
 
-    <button type="submit">Gửi Email</button>
+<button type="submit">Gửi Email</button>
 </form> -->
 <!-- Giả sử bạn sẽ tạo biến content trong controller của bạn -->
-	
-	
-	   
+
+
 </body>
 </html>

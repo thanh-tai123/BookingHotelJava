@@ -106,4 +106,5 @@ public class UserService {
 					userRepository.save(Account);
 					return "New Passoword is successfully" + "return <a href=\"/account/login\">login</a>";
 		}
+
 }
