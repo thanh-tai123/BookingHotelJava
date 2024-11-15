@@ -88,7 +88,7 @@
 <h1>Nhập BookCode</h1>
     <form action="#" th:action="@{/search/book}" method="post">
         <label for="bookCode">BookCode:</label>
-        <input type="text" id="bookCode" name="bookCode" th:value="${bookCode}" required />
+        <input type="text" id="bookCode" name="bookCode"  required />
         <button type="submit">Tìm kiếm</button>
     </form>
      <h1>Thông Tin Book</h1>
@@ -96,8 +96,7 @@
     <div th:if="${error}">
         <p th:text="${error}"></p>
     </div>
-<!-- <form th:if="${book}" th:action="@{/mailer/send}" method="post"> -->
-<!--     <div th:if="${book}"> -->
+
 <div>
         <h2>Book Code: <span th:text="${book.bookCode}"></span></h2>
         <h3>Thông tin chi tiết:</h3>
@@ -108,9 +107,7 @@
              <li>Email: <span name="txtTo" th:text="${book.user.email}"></span></li>
              <!-- Giả sử bạn có thuộc tính username trong User -->
         </ul>
-<!--  <input type="hidden" name="txtSubject" value="Thông tin phòng đã đặt"/>
- <input  name="txtTo" th:value="${book.user.email}"/>
-    <input name="txtCC" th:value="${book.user.email}"/> -->
+
         <h3>Chi tiết Book:</h3>
     <table>
         <thead>

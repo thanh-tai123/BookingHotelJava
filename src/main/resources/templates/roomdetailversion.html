@@ -97,7 +97,24 @@ select {
 .cmtbutton:hover {
     background-color: #0056b3;
 }
+.image-gallery {
+    display: flex; /* Flexbox for image alignment */
+    flex-wrap: wrap; /* Wrap images to next line */
+    margin-top: 10px; /* Space above the image gallery */
+    padding: 0; /* Remove padding */
+    list-style-type: none; /* Remove bullets */
+}
 
+.image-gallery li {
+    margin: 5px; /* Space around images */
+}
+
+.room-image {
+    height: 100px; /* Fixed height */
+    width: 100px; /* Fixed width */
+    object-fit: cover; /* Cover to maintain aspect ratio */
+    border-radius: 4px; /* Rounded corners for images */
+}
 
   </style>
  </head>
@@ -123,7 +140,13 @@ select {
 <ul>
     <li th:each="service : ${services}" th:text="${service.myService.name}"></li>
 </ul>
-     <p>
+<h4>Additional Images:</h4>
+    <ul class="image-gallery">
+        <li th:each="roomimg : ${roomImgs}">
+            <img th:src="${roomimg.imagePath}" alt="Room Image" class="room-image" />
+        </li>
+    </ul>
+     
      
       <i class="fas fa-user">
       </i>

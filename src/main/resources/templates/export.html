@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Book Details</title>
+    <script th:inline="javascript">
+        let currentPage = 1;
+        let rowsPerPage = 5;
+        let originalBookDetails = /*[[${bookDetails}]]*/ []; // Lưu dữ liệu gốc
+        let bookDetails = [...originalBookDetails]; // Sử dụng bản sao để hiển thị
+
+        function renderTable() {
+            const startIndex = (currentPage - 1) * rowsPerPage;
+            const endIndex = startIndex + rowsPerPage;
+            const pageDetails = bookDetails.slice(startIndex, endIndex);
+
+            const tbody = document.getElementById("bookDetailsBody");
+            tbody.innerHTML = "";
+
+            pageDetails.forEach(detail => {
+                const row = document.createElement("tr");
+                detail.forEach(value => {
+                    const cell = document.createElement("td");
+                    cell.textContent = value != null ? value : "";
+                    row.appendChild(cell);
+                });
+                tbody.appendChild(row);
+            });
+
+            document.getElementById("pageNumber").textContent = `Trang ${currentPage}`;
+        }
+
+        function updateRowsPerPage() {
+            rowsPerPage = parseInt(document.getElementById("rowsPerPage").value);
+            currentPage = 1;
+            renderTable();
+        }
+
+        function nextPage() {
+            if ((currentPage * rowsPerPage) < bookDetails.length) {
+                currentPage++;
+                renderTable();
+            }
+        }
+
+        function previousPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable();
+            }
+        }
+
+        // Tìm kiếm và hiển thị gợi ý email
+        function searchEmailSuggestions() {
+            const searchValue = document.getElementById("emailSearch").value.toLowerCase();
+            const suggestions = document.getElementById("emailSuggestions");
+            suggestions.innerHTML = "";
+
+            if (searchValue) {
+                // Kiểm tra xem có phải đang nhập @ hay không
+                if (searchValue.includes('@')) {
+                    // Thêm gợi ý chữ "all"
+                    const allOption = document.createElement("li");
+                    allOption.textContent = "@all";
+                    allOption.onclick = () => selectEmail("@all");
+                    suggestions.appendChild(allOption);
+                }
+
+                // Lọc email theo tìm kiếm
+                const filteredEmails = Array.from(new Set(
+                    originalBookDetails
+                        .map(detail => detail[1]) // Assuming email is the second element in each detail
+                        .filter(email => email.toLowerCase().includes(searchValue))
+                ));
+
+                // Thêm các email vào danh sách gợi ý
+                filteredEmails.forEach(email => {
+                    const li = document.createElement("li");
+                    li.textContent = email;
+                    li.onclick = () => selectEmail(email); // Chọn email khi nhấn vào gợi ý
+                    suggestions.appendChild(li);
+                });
+
+                suggestions.style.display = "block";
+            } else {
+                suggestions.style.display = "none";
+            }
+        }
+
+
+        function selectEmail(email) {
+            document.getElementById("emailSearch").value = email;
+            document.getElementById("emailSuggestions").style.display = "none";
+        }
+
+        function performSearch() {
+            const searchValue = document.getElementById("emailSearch").value.toLowerCase();
+            if (searchValue === "@all") {
+                bookDetails = [...originalBookDetails];
+            } else if (searchValue) {
+                bookDetails = originalBookDetails.filter(detail => detail[1].toLowerCase().includes(searchValue));
+            } else {
+                bookDetails = [...originalBookDetails];
+            }
+            currentPage = 1;
+            renderTable();
+            document.getElementById("emailSuggestions").style.display = "none";
+        }
+
+
+        document.addEventListener("DOMContentLoaded", () => {
+            renderTable();
+        });
+
+
+
+    </script>
+</head>
+<body>
+<div th:replace="/access/nav :: html"></div>
+<h2>Book Details</h2>
+
+<label for="emailSearch">Tìm kiếm theo Email:</label>
+<input type="text" id="emailSearch" placeholder="Nhập email..." oninput="searchEmailSuggestions()">
+<button onclick="performSearch()">Search</button>
+<ul id="emailSuggestions" style="border: 1px solid #ccc; max-height: 150px; overflow-y: auto; display: none; position: absolute; background: white; width: 200px;"></ul>
+
+<label for="rowsPerPage">Số dòng mỗi trang:</label>
+<select id="rowsPerPage" onchange="updateRowsPerPage()">
+    <option value="5">5</option>
+    <option value="10">10</option>
+    <option value="20">20</option>
+</select>
+
+
+<table>
+    <thead>
+    <tr>
+        <th>Adult</th>
+        <th>Email</th>
+        <th>Check-in</th>
+        <th>Check-out</th>
+        <th>Children</th>
+        <th>Price</th>
+        <th>Total</th>
+        <th>Payment Method</th>
+        <th>Payment Status</th>
+        <th>Booking Status</th>
+        <th>Updated At</th>
+        <th>Updated By</th>
+        <th>Create Date</th>
+        <th>Book Code</th>
+    </tr>
+    </thead>
+    <tbody id="bookDetailsBody">
+    </tbody>
+</table>
+
+<div id="pagination">
+    <button onclick="previousPage()">Trang trước</button>
+    <span id="pageNumber"></span>
+    <button onclick="nextPage()">Trang sau</button>
+</div>
+<a href="/search/export" class="btn btn-primary">Export Book Details to Excel</a>
+
+</body>
+</html>

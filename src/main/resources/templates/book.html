@@ -211,6 +211,12 @@
         </div>
     </div>
 
+    <p><strong>Total:</strong> ${{ totalAmount }}</p>
+    <div class="stay-duration">
+        <p><strong>Number of days:</strong> {{stayDuration}} days</p>
+    </div>
+
+
 
     <h2>Available Rooms</h2>
     <div class="row">
@@ -299,7 +305,8 @@
             const apiUrl = `http://localhost:8081/api/get-room-details?roomId=${roomId}`;
             $scope.onDateChange = function() {
                 $scope.loadAvailableRooms(); // Load available rooms based on selected dates
-                $scope.calculateTotalAmount(); // Calculate the total amount based on selected dates
+                $scope.calculateTotalAmount();
+                $scope.calculateStayDuration();// C alculate the total amount based on selected dates
             };
             // Fetch room details from API
 
@@ -593,7 +600,25 @@
             };
 
             $scope.loadBookedDates();
+
+            $scope.calculateStayDuration = function() {
+                if ($scope.booking.checkin && $scope.booking.checkout) {
+                    const checkinDate = new Date($scope.booking.checkin);
+                    const checkoutDate = new Date($scope.booking.checkout);
+                    const daysBetween = (checkoutDate - checkinDate) / (1000 * 3600 * 24);
+
+                    // Nếu số ngày lớn hơn 0, cập nhật giá trị stayDuration
+                    if (daysBetween > 0) {
+                        $scope.stayDuration = daysBetween;
+                    } else {
+                        $scope.stayDuration = 0; // Nếu ngày không hợp lệ
+                    }
+                } else {
+                    $scope.stayDuration = 0; // Không có ngày checkin hoặc checkout
+                }
+            };
         }]);
+
 
 </script>
 

@@ -3,7 +3,9 @@ package com.poly.controller;
 import com.poly.entity.Hotel;
 import com.poly.entity.Role;
 import com.poly.entity.Room;
+import com.poly.entity.RoomImages;
 import com.poly.entity.RoomType;
+import com.poly.entity.RoomTypeByService;
 import com.poly.entity.Services;
 import com.poly.entity.User;
 import com.poly.repository.RoomRepository;
@@ -61,7 +63,7 @@ public class AdminController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping("revenue")
     public String revenue() {
-        return "revenue";
+        return "dashboard/revenue";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -75,8 +77,16 @@ public class AdminController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping("/{id}")
     public String detail(@PathVariable int id, Model model) {
-        Room room = roomRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid room Id:" + id));
-        model.addAttribute("room", room);
+    	  Room room = roomRepo.findById(id)
+  	            .orElseThrow(() -> new IllegalArgumentException("Invalid room Id:" + id));
+  	  
+  	    List<RoomTypeByService> services = room.getRoomtype().getServices();
+  	  
+  	    List<RoomImages> roomImg = room.getRoomImages();
+  	   
+  	    model.addAttribute("room", room);
+  	    model.addAttribute("services", services);
+  	    model.addAttribute("roomImgs", roomImg);
         return "roomdetail";
     }
 
@@ -233,5 +243,14 @@ public class AdminController {
     public String menu() {
        return "layout/menudoc";
     }
-   
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping("/userbybook")
+    public String userbybook() {
+       return "dashboard/userbybook";
+    }
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping("/compare")
+    public String compare() {
+       return "dashboard/compare";
+    }
 }
