@@ -67,8 +67,11 @@
             font-weight: bold;
         }
         .available-rooms {
-            list-style-type: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
             padding: 0;
+            list-style-type: none;
         }
 
         .room-item {
@@ -79,6 +82,7 @@
             background-color: #f9f9f9;
             border-radius: 5px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            flex: 1 1 calc(33.33% - 16px)
         }
 
         .room-info {
@@ -104,7 +108,6 @@
             flex: 1;
             min-width: 150px;
         }
-
         .number-input, .payment-select {
             width: 100%;
             padding: 8px;
@@ -170,56 +173,63 @@
 <body ng-controller="RoomDetailsController">
 <h1>Book</h1>
 <div>
-    <div class="room-details">
-        <img ng-src="{{roomDetails.img}}" alt="Room Image" class="room-image" />
-        <div class="room-info">
-            <p><strong>ID ROOM:</strong> {{roomDetails.id}}</p>
-            <p><strong>Room Number:</strong> {{roomDetails.sophong}}</p>
-            <p><strong>Room Type:</strong> {{roomDetails.kieuphong}}</p>
-            <p><strong>Price:</strong> ${{roomDetails.gia}}</p>
-            <p><strong>Description:</strong> {{roomDetails.mota}}</p>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="room-details">
+                <img ng-src="{{roomDetails.img}}" alt="Room Image" class="room-image" />
+                <div class="room-info">
+                    <!--            <p><strong>ID ROOM:</strong> {{roomDetails.id}}</p>-->
+                    <p><strong>Ma Phong:</strong> {{room.roomCode}}</p>
+                    <p><strong>Room Number:</strong> {{roomDetails.sophong}}</p>
+                    <p><strong>Room Type:</strong> {{roomDetails.kieuphong}}</p>
+                    <p><strong>Price:</strong> ${{roomDetails.gia}}</p>
+                    <p><strong>Description:</strong> {{roomDetails.mota}}</p>
 
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+
+            <div class="user-inputs">
+                <!--        <div class="input-group">-->
+                <!--            <label for="userId">Id:</label>-->
+                <!--            <input type="text" id="userId" value="{{user.id}}" class="user-input">-->
+                <!--        </div>-->
+                <div class="input-group">
+                    <label for="userName">Name:</label>
+                    <input type="text" id="userName" value="{{user.name}}" class="user-input">
+                </div>
+                <div class="input-group">
+                    <label for="checkin">Check-in:</label>
+                    <input type="date" id="checkin" ng-model="booking.checkin" ng-change="onDateChange()" class="date-input">
+                </div>
+                <div class="input-group">
+                    <label for="checkout">Checkout:</label>
+                    <input type="date" id="checkout" ng-model="booking.checkout" ng-change="onDateChange()" class="date-input">
+                </div>
+            </div>
         </div>
     </div>
-
-
-
-    <div class="user-inputs">
-        <div class="input-group">
-            <label for="userId">Id:</label>
-            <input type="text" id="userId" value="{{user.id}}" class="user-input">
-        </div>
-        <div class="input-group">
-            <label for="userName">Name:</label>
-            <input type="text" id="userName" value="{{user.name}}" class="user-input">
-        </div>
-        <div class="input-group">
-            <label for="checkin">Check-in:</label>
-            <input type="date" id="checkin" ng-model="booking.checkin" ng-change="onDateChange()" class="date-input">
-        </div>
-        <div class="input-group">
-            <label for="checkout">Checkout:</label>
-            <input type="date" id="checkout" ng-model="booking.checkout" ng-change="onDateChange()" class="date-input">
-        </div>
-    </div>
-    <p><strong>Total:</strong> ${{ totalAmount }}</p>
 
 
     <h2>Available Rooms</h2>
-    <ul class="available-rooms">
-        <li ng-repeat="room in availableRooms" class="room-item">
-            <img ng-src="{{room.img}}" width="80" height="80">
+    <div class="row">
+        <ul class="available-rooms">
+            <li ng-repeat="room in availableRooms" class="room-item">
+                <img ng-src="{{room.img}}" width="80" height="80">
+                <div class="room-info">
+                    <p><strong>Ma Phong:</strong> {{room.roomCode}}</p>
+                    <p><strong>Room Number:</strong> {{room.sophong}}</p>
 
-            <div class="room-info">
-                <p><strong>ID ROOM:</strong> {{room.id}}</p>
-                <p><strong>Room Number:</strong> {{room.sophong}}</p>
-                <p><strong>Price:</strong> ${{room.gia}}</p>
-                <p><strong>Room Type:</strong> {{room.kieuphong}}</p>
-            </div>
-            <input type="checkbox" class="checkbox" ng-click="toggleRoomSelection(room)">
+                    <p><strong>Price:</strong> ${{room.gia}}</p>
+                    <p><strong>Room Type:</strong> {{room.roomtype.name}}</p>
 
-        </li>
-    </ul>
+                </div>
+                <input type="checkbox" class="checkbox" ng-click="toggleRoomSelection(room)">
+            </li>
+        </ul>
+    </div>
+
 
     <div class="user-inputs">
         <div class="input-group">
@@ -239,17 +249,35 @@
         </div>
     </div>
 
-    <p><strong>Total:</strong> ${{ total }}</p>
-
+    <!--    <p><strong>Total:</strong> ${{ total }}</p>-->
+    <p><strong>Total:</strong> ${{ totalAmount }}</p>
     <button ng-click="bookRoom()" class="book-button">Book</button>
 
     <!-- List of Booked Dates -->
     <h2>Booked Dates</h2>
-    <ul class="booked-dates">
-        <li ng-repeat="booking in bookedDates | filter: isFutureCheckout">
-            Check-in: {{booking.checkin}}, Check-out: {{booking.checkout}}
-        </li>
-    </ul>
+    <div class="row">
+        <div class="col-md-4">
+            <ul class="booked-dates">
+                <li ng-repeat="booking in bookedDates | filter: isFutureCheckout" ng-if="$index % 3 === 0">
+                    Check-in: {{booking.checkin}}, Check-out: {{booking.checkout}}
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <ul class="booked-dates">
+                <li ng-repeat="booking in bookedDates | filter: isFutureCheckout" ng-if="$index % 3 === 1">
+                    Check-in: {{booking.checkin}}, Check-out: {{booking.checkout}}
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <ul class="booked-dates">
+                <li ng-repeat="booking in bookedDates | filter: isFutureCheckout" ng-if="$index % 3 === 2">
+                    Check-in: {{booking.checkin}}, Check-out: {{booking.checkout}}
+                </li>
+            </ul>
+        </div>
+    </div>
 
 </div>
 
@@ -500,7 +528,7 @@
                         alert(response.data);
                         $window.location.href ="http://localhost:8081/account/info";
                         $scope.loadBookedDates();
-						
+
                     }, function errorCallback(response) {
                         console.error('Error booking room:', response);
                         alert('Error booking room: ' + response.data);
@@ -520,9 +548,9 @@
                         console.log('Booking successful:', response.data);
                         alert(response.data);
                         $window.location.href = `http://localhost:8081/${response.data}`;
-                       /*  const paymentUrl = `http://localhost:8081/pay?total=${totalAmount}`;
-                        $window.location.href = paymentUrl; */
-						
+                        /*  const paymentUrl = `http://localhost:8081/pay?total=${totalAmount}`;
+                         $window.location.href = paymentUrl; */
+
                         $scope.loadBookedDates();
                     }, function errorCallback(response) {
                         console.error('Error booking room:', response);
