@@ -100,7 +100,9 @@
            
             <input value="{{user.id}}" ng-model="user.id" type="hidden">
     <label>Name:</label>
-    <input value="{{user.name}}" disabled /><input type="hidden" ng-model="room.status" ng-required="true" />
+    <input value="{{user.name}}" disabled />
+            
+            <input type="hidden" ng-model="room.status" ng-required="true" />
         </div>
         
         <div class="form-group">
@@ -181,7 +183,8 @@
     <tbody>
         <tr ng-repeat="room in rooms">
          <td>{{ room.roomCode }}</td>
-            <td>{{ room.sophong }}</td><td><img ng-src="{{ room.img }}" alt="Room Image" style="height: 100px;width: 100px"/></td>
+            <td>{{ room.sophong }}</td>
+            <td><img ng-src="{{ room.img }}" alt="Room Image" style="height: 100px;width: 100px"/></td>
             <td>{{ room.roomType.name }}</td>
             <td>{{ room.hotelid.chinhanh }}</td>
             <td>${{ room.gia }}</td>
@@ -256,7 +259,8 @@ angular.module('app', [])
         formData.append('mota', $scope.room.mota);
         formData.append('status', $scope.room.status);
 
-        // Truyền chỉ id của user vào formDataformData.append('staffid', $scope.user.id);
+        // Truyền chỉ id của user vào formData
+         formData.append('staffid', $scope.user.id);
 
         // Thêm img nếu có
         if ($scope.room.img) {
@@ -337,7 +341,8 @@ angular.module('app', [])
 
     $scope.updateRoomTypeDetails = function() {
         if ($scope.selectedRoomType) {
-            $scope.room.roomTypeId = $scope.selectedRoomType.id; // Cập nhật ID loại phòng$scope.room.roomType = $scope.selectedRoomType; // Cập nhật thông tin loại phòng
+            $scope.room.roomTypeId = $scope.selectedRoomType.id; // Cập nhật ID loại phòng
+            $scope.room.roomType = $scope.selectedRoomType; // Cập nhật thông tin loại phòng
         } else {
             $scope.room.roomTypeId = null; // Đặt lại nếu không có lựa chọn
             $scope.room.roomType = {}; // Đặt lại đối tượng loại phòng
