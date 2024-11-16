@@ -28,10 +28,10 @@ public class UserService {
     private EmailUtil emailUtil;
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
-    public User findByUsername(String name) {
+    public User findByName(String name) {
         return userRepository.findByName(name);
     }
-    
+   
     public String getUserEmailById(Long userId) {
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new IllegalArgumentException("User not found"));
@@ -106,4 +106,15 @@ public class UserService {
 					userRepository.save(Account);
 					return "New Passoword is successfully" + "return <a href=\"/account/login\">login</a>";
 		}
+
+		
+		 public boolean checkIfValidOldPassword(User user, String oldPassword) {
+		        return passwordEncoder.matches(oldPassword, user.getPassword());
+		    }
+
+		    public void changeUserPassword(User user, String newPassword) {
+		        user.setPassword(passwordEncoder.encode(newPassword));
+		        userRepository.save(user);
+		    }
+
 }

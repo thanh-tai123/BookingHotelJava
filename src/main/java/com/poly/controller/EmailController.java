@@ -20,6 +20,8 @@ import com.poly.helper.MailerHelper;
 
 import com.poly.service.MailerService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("mailer")
 public class EmailController {
@@ -54,21 +56,49 @@ public class EmailController {
 //	        return "<h1>Không thể gửi mail: " + e.getMessage() + "</h1>";
 //	    }
 //	}
-	@ResponseBody
-    @PostMapping("/send")
-    public String send(
-            @RequestParam String txtTo,
-            @RequestParam String txtCC,
-            @RequestParam String txtSubject,
-            @RequestParam String txtContent) {
-        try {
-            mailer.sendEmail(txtTo, txtCC, txtSubject, txtContent);
-            return "<h1>Mail của bạn đã được gửi đi</h1>"; // Thành công
-        } catch (Exception e) {
-            e.printStackTrace(); // Ghi lại lỗi trong console
-            return "<h1>Không thể gửi mail: " + e.getMessage() + "</h1>";
-        }
-    }
+	 @ResponseBody
+	    @PostMapping("/send")
+	    public String send(
+	            @RequestParam String txtTo,
+	            @RequestParam String txtCC,
+	            @RequestParam String txtSubject,
+	            @RequestParam String txtContent,
+	            HttpSession session) {
+	        Integer emailCount = (Integer) session.getAttribute("emailCount");
+	        if (emailCount == null) {
+	            emailCount = 0;
+	        }
 
-	
+	        if (emailCount >= 3) {
+	           return getLimitReachedResponse();
+	        }
+
+	        try {
+	            mailer.sendEmail(txtTo, txtCC, txtSubject, txtContent);
+	            session.setAttribute("emailCount", ++emailCount);
+	            return getSuccessResponse();
+	        } catch (Exception e) {
+	            e.printStackTrace(); // Ghi lại lỗi trong console
+	            return "<h1>Không thể gửi mail: " + e.getMessage() + "</h1>";
+	        }
+	    }
+
+	    private String getSuccessResponse() {
+	        return "<h1>Mail của bạn đã được gửi đi</h1>" +
+	                "<p>Chuyển hướng trong 4 giây...</p>" +
+	                "<script>" +
+	                "setTimeout(function() {" +
+	                "  window.location.href = 'http://localhost:8081/room';" +
+	                "}, 4000);" +
+	                "</script>";
+	    }
+	    private String getLimitReachedResponse() {
+	        return "<h1>Bạn đã gửi email tối đa 5 lần.</h1>" +
+	                "<p>Chuyển hướng trong 3 giây...</p>" +
+	                "<script>" +
+	                "setTimeout(function() {" +
+	                "  window.location.href = 'http://localhost:8081/room';" +
+	                "}, 3000);" +
+	                "</script>";
+	    }
 }

@@ -82,67 +82,75 @@
 
 <div th:replace="/access/navadmin :: html"></div>
 <div ng-controller="RoomTypeController">
-   <h2>{{ roomType.id ? 'Update Room Type' : 'Add Room Type' }}</h2>
-<form ng-submit="roomType.id ? updateRoomType() : addRoomType()">
-    <label>Name:</label>
-    <input type="text" ng-model="roomType.name" required />
+    <h2>{{ roomType.id ? 'Update Room Type' : 'Add Room Type' }}</h2>
+    <form ng-submit="roomType.id ? updateRoomType() : addRoomType()">
+        <label th:text="#{admin.name}">:</label>
+        <input type="text" ng-model="roomType.name" required/>
 
-    <label>Description:</label>
-    <input type="text" ng-model="roomType.description" required />
+        <label th:text="#{admin.description}">Description:</label>
+        <input type="text" ng-model="roomType.description" required/>
 
-    <button type="submit">{{ roomType.id ? 'Update Room Type' : 'Add Room Type' }}</button>
-</form>
-   
-     <h3>Room Types List</h3>
+        <button type="submit">{{ roomType.id ? 'Update Room Type' : 'Add Room Type' }}</button>
+    </form>
+
+    <h3 th:text="#{admin.roomList}">Room Types List</h3>
     <table border="1">
         <thead>
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                 <th>Status</th>
-            </tr>
+        <tr>
+            <th th:text="#{admin.name}">Name</th>
+            <th th:text="#{admin.description}">Description</th>
+            <th th:text="#{admin.status}">Status</th>
+        </tr>
         </thead>
-         <tbody>
+        <tbody>
         <tr ng-repeat="type in roomTypes">
             <td>{{ type.name }}</td>
             <td>{{ type.description }}</td>
             <td>
-                <button ng-click="editRoomType(type)">Edit</button>
-                <button ng-click="deleteRoomType(type.id)">Delete</button>
+                <button ng-click="editRoomType(type)" th:text="#{admin.edit}">Edit</button>
+                <button ng-click="deleteRoomType(type.id)" th:text="#{admin.delete}">Delete</button>
             </td>
         </tr>
-    </tbody>
+        </tbody>
     </table>
 </div>
 <script>
-var app = angular.module('app', []);
-app.controller('RoomTypeController', function($scope, $http) {
-    $scope.roomType = {
-        id: null,
-        name: '',
-        description: ''
-    };
-    $scope.roomTypes = [];
-    
-    $scope.loadRoomTypes = function() {
-        $http.get('http://localhost:8081/api/roomtypes')
-            .then(function(response) {
-                $scope.roomTypes = response.data; 
-            }, function(error) {
-                console.error('Error loading Room Types:', error);
-            });
-    };
+    var app = angular.module('app', []);
+    app.controller('RoomTypeController', function ($scope, $http) {
+        $scope.roomType = {
+            id: null,
+            name: '',
+            description: ''
+        };
+        $scope.roomTypes = [];
 
-    $scope.addRoomType = function() {
-        $http.post('http://localhost:8081/api/add/roomtype', $scope.roomType)
-            .then(function(response) {
-                console.log('Room Type added successfully:', response.data);
-                $scope.roomTypes.push(response.data); // Thêm vào danh sách
-                $scope.clearForm();
-            }, function(error) {
-                console.error('Error adding Room Type:', error);
-            });
-    };
+        $scope.loadRoomTypes = function () {
+            $http.get('http://localhost:8081/api/roomtypes')
+                .then(function (response) {
+                    $scope.roomTypes = response.data;
+                }, function (error) {
+                    console.error('Error loading Room Types:', error);
+                });
+        };
+
+        $scope.addRoomType = function () {
+            $http.post('http://localhost:8081/api/add/roomtype', $scope.roomType, {
+                headers: {
+                    'Content-Type': 'application/json' // Đặt tiêu đề Content-Type
+                }
+            })
+                .then(function (response) {
+                    console.log('Room Type added successfully:', response.data);
+                    $scope.roomTypes.push(response.data); // Thêm vào danh sách
+                    $scope.loadRoomTypes();
+
+                    $scope.clearForm(); // Gọi hàm clearForm sau khi thêm thành công
+                }, function (error) {
+                    console.error('Error adding Room Type:', error);
+                    window.location.reload();
+                });
+        };
+
 
     $scope.editRoomType = function(type) {
         $scope.roomType = angular.copy(type); // Sao chép để chỉnh sửa

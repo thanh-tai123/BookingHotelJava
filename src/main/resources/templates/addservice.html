@@ -80,22 +80,22 @@
 <div ng-controller="ServiceController">
     <h2>{{ service.id ? 'Update Service' : 'Add Service' }}</h2>
     <form ng-submit="service.id ? updateService() : addService()">
-        <label>Name:</label>
+        <label th:text="#{admin.name}">Name:</label>
         <input type="text" ng-model="service.name" required />
 
-        <label>Description:</label>
+        <label th:text="#{admin.description}">Description:</label>
         <input type="text" ng-model="service.description" required />
 
         <button type="submit">{{ service.id ? 'Update Service' : 'Add Service' }}</button>
     </form>
 
-    <h3>Service List</h3>
+    <h3 th:text="#{admin.listService}">Service List</h3>
     <table border="1">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Actions</th>
+                <th th:text="#{admin.name}">Name</th>
+                <th th:text="#{admin.description}">Description</th>
+                <th th:text="#{admin.Action}">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -103,8 +103,8 @@
                 <td>{{ service.name }}</td>
                 <td>{{ service.description }}</td>
                 <td>
-                    <button ng-click="editService(service)">Edit</button>
-                    <button ng-click="deleteService(service.id)">Delete</button>
+                    <button ng-click="editService(service)" th:text="#{admin.edit}">Edit</button>
+                    <button ng-click="deleteService(service.id)" th:text="#{admin.delete}">Delete</button>
                 </td>
             </tr>
         </tbody>

@@ -293,6 +293,26 @@
             color: #333;
         }
 
+
+        .nav-item .dropdown-menu {
+            display: none;
+        }
+
+        .nav-item:hover .dropdown-menu {
+            display: block;
+        }
+
+    
+        .dropdown-menu {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-item:hover {
+            background-color: #e9ecef;
+        }
+
     </style>
 </head>
 <body>
@@ -312,65 +332,56 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
-                    <a class="nav-link" th:href="@{/room}" th:text="#{navbar.phong_va_suites}">
-                        PHÒNG &amp; SUITES
+                    <a class="nav-link dropdown-toggle" th:href="@{/room}" id="roomDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false" th:text="#{navbar.phong_va_suites}">
+
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#" th:text="#{navbar.phong_deluxe}">
-                            Phòng Deluxe
-                        </a></li>
-                        <li><a class="dropdown-item" href="#" th:text="#{navbar.phong_suite}">
-                            Phòng Suite
-                        </a></li>
-                        <li><a class="dropdown-item" href="#" th:text="#{navbar.phong_executive}">
-                            Phòng Executive
-                        </a></li>
+                    <ul class="dropdown-menu" aria-labelledby="roomDropdown">
+                        <li><a class="dropdown-item" th:href="@{/room/filter?roomtype=Deluxe}"
+                               th:text="#{navbar.phong_deluxe}"></a></li>
+                        <li><a class="dropdown-item" th:href="@{/room/filter?roomtype=Suite}"
+                               th:text="#{navbar.phong_suite}"></a></li>
+                        <li><a class="dropdown-item" th:href="@{/room/filter?roomtype=Double}"
+                               th:text="#{navbar.phong_va_suites}"></a></li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/search/bookcode}" th:text="#{navbar.tra_cuu_phong}">TRA CỨU
+                        PHÒNG</a>
+                </li>
+                <li class="nav-item" th:if="${session.userRoles != null && session.userRoles.contains('ADMIN')}">
+        <a class="nav-link" th:text="'ADMIN'"  th:href="@{/admin}">ADMIN</a>
+    </li>
+              <li class="nav-item">
+                <a class="nav-link" th:text="${session.userEmail}">Email</a>
+            </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false" th:text="#{navbar.taikhoan}"></a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/account/info}" th:text="#{navbar.thong_tin}">
-                        THÔNG TIN
-                    </a>
-                </li>
-                <!--   <li class="nav-item">
-                   <a class="nav-link" th:href="@{/account/register}">
-                   ĐĂNG KÍ
-                   </a>
-                  </li> -->
-                <!--   <li class="nav-item">
-                 <a class="nav-link" th:href="@{/admin}">
-                 ADMIN
-                 </a>
-                </li> -->
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/search/bookcode}" th:text="#{navbar.tra_cuu_phong}">
-                        TRA CỨU PHÒNG
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/logout}" th:text="#{navbar.dang_xuat}">
-                        ĐĂNG XUẤT
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/account/login}" th:text="#{navbar.dang_nhap}">
-                        ĐĂNG NHẬP
-                    </a>
-                </li>
 
+                    <li><a class="dropdown-item" th:if="${session.userEmail != null}" th:href="@{/account/info}" th:text="#{navbar.thong_tin}">THÔNG TIN</a></li>
+                    <li><a class="dropdown-item" th:if="${session.userEmail != null}" th:href="@{/logout}" th:text="#{navbar.dang_xuat}">ĐĂNG XUẤT</a></li>
+                    <li><a class="dropdown-item" th:if="${session.userEmail == null}" th:href="@{/account/login}" th:text="#{navbar.dang_nhap}">ĐĂNG NHẬP</a></li>
+               
+                        <li><a class="dropdown-item" th:if="${session.userEmail != null}" th:href="@{/account/change-password}" >THAY ĐỔI PASSWORD</a></li>
+
+                    </ul>
+
+                </li>
                 <button class="btn btn-reserve" type="button" style="margin-right: 30px;"
-                        th:text="#{navbar.giu_cho_ngay}">
-                    GIỮ CHỖ NGAY
+                        th:text="#{navbar.giu_cho_ngay}">GIỮ CHỖ NGAY
                 </button>
                 <li class="nav-item">
                     <select id="languageSelect" onchange="changeLanguage(this)">
                         <option value="en" th:selected="${#locale.language == 'en'}">English</option>
-                        <option value="vi" th:selected="${#locale.language == 'vi'}">Vietnamese</option>
+                        <option value="vi" th:selected="${#locale.language == 'vi'}">
+                            Việt Nam
+                        </option>
                     </select>
                 </li>
             </ul>
-
         </div>
     </div>
 </nav>
@@ -379,41 +390,7 @@
     <div class="hero-text">
         JAVA HOTEL
     </div>
-    <!-- <div class="booking-bar">
-     <div>
-         <i class="fas fa-calendar-alt"></i>
-         <span id="ngayDatLabel" style="cursor: pointer;">Ngày đặt</span>
-         <input type="date" id="ngayDat" style="display: none; margin-left: 10px;" />
-     </div>
-     <div>
-         <i class="fas fa-calendar-alt"></i>
-         <span id="ngayTraLabel" style="cursor: pointer;">Ngày trả</span>
-         <input type="date" id="ngayTra" style="display: none; margin-left: 10px;" />
-     </div>
-     <div>
-         <i class="fas fa-user"></i>
-         <span id="peopleInfo" style="cursor: pointer;">0 Adults | 0 Children | 0 Rooms</span>
-
-         <div id="peopleForm" style="display: none; margin-top: 10px; padding: 10px; background-color: black; border-radius: 8px; width: 250px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
-             <div class="form-group">
-                 <label for="adults" style="font-weight: bold;">Adults:</label>
-                 <input type="number" id="adults" value="0" min="1" class="form-control" style="width: 100%;" />
-             </div>
-             <div class="form-group">
-                 <label for="children" style="font-weight: bold;">Children:</label>
-                 <input type="number" id="children" value="0" min="0" class="form-control" style="width: 100%;" />
-             </div>
-             <div class="form-group">
-                 <label for="rooms" style="font-weight: bold;">Rooms:</label>
-                 <input type="number" id="rooms" value="0" min="1" class="form-control" style="width: 100%;" />
-             </div>
-             <button id="applyPeople" type="button" class="btn btn-primary" style="margin-top: 10px; width: 100%;">Apply</button>
-         </div>
-     </div>
-     <button>
-      GIỮ CHỖ NGAY
-     </button>
-    </div> -->
+   
 
 
 </div>

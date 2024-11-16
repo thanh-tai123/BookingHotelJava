@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.poly.dto.RoomTypeCountDTO;
 import com.poly.dto.RoomTypeDTO;
 
 import com.poly.dto.RoomTypeServiceSummaryDTO;
@@ -44,9 +45,35 @@ public class RoomTypeRestController {
     private ServiceRepository serviceRepository;
     @Autowired
     private RoomTypeByServiceRepository roomTypeByServiceRepository;
-    @GetMapping("/roomtypes")
+    @GetMapping("/roomtype")
     public List<RoomType> getAllRoomType() {
         return roomtyepeRepository.findAll();
     }
+    @PostMapping("/add/roomtype")
+    public ResponseEntity<RoomType> addRoomType(@RequestBody RoomTypeDTO roomTypeDTO) {
+        RoomType newRoomType = roomTypeService.createRoomType(roomTypeDTO);
+        return ResponseEntity.ok(newRoomType);
+    }
+    
+ // Thay đổi kiểu dữ liệu của serviceIds thành List<Integer> để nhận các ID
+   
+    @GetMapping("/roomtypes")
+    public List<RoomTypeDTO> getAllRoomTypes() {
+        return roomTypeService.getAllRoomTypes();
+    }
+    @PutMapping("/update/roomtype/{id}")
+    public RoomTypeDTO updateRoomType(@PathVariable Integer id, @RequestBody RoomTypeDTO roomTypeDTO) {
+        return roomTypeService.updateRoomType(id, roomTypeDTO);
+    }
 
+    @DeleteMapping("/delete/roomtype/{id}")
+    public ResponseEntity<Void> deleteRoomType(@PathVariable Integer id) {
+        roomTypeService.deleteRoomType(id);
+        return ResponseEntity.noContent().build();
+    }
+    
+    @GetMapping("/counts")
+    public List<RoomTypeCountDTO> getRoomTypeCounts() {
+        return roomTypeService.getRoomTypeCounts();
+    }
 }
