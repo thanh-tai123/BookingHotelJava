@@ -96,7 +96,7 @@ public class RoomController {
 			Model model) {
 
 		// Tạo Pageable để phân trang
-		Pageable pageable = PageRequest.of(pageNum - 1, 3, Sort.by(Sort.Order.by(sortField).with(Sort.Direction.fromString(sortDir))));
+		Pageable pageable = PageRequest.of(pageNum - 1, 6, Sort.by(Sort.Order.by(sortField).with(Sort.Direction.fromString(sortDir))));
 
 		// Lấy danh sách phòng trống với phân trang
 		Page<Room> page = roomRepo.findAvailableRooms(hotelId, checkin, checkout, RoomStatus.TRUE, pageable);
