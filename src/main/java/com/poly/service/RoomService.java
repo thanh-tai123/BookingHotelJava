@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.poly.entity.ViewRoom;
@@ -19,11 +20,13 @@ import com.poly.dto.RoomStatisticsDTO;
 import com.poly.dto.RoomTypeCountDTO;
 import com.poly.dto.RoomTypeDTO;
 import com.poly.dto.UserDTO;
+import com.poly.entity.BookDetail;
 import com.poly.entity.Hotel;
 import com.poly.entity.Room;
 import com.poly.entity.RoomImages;
 import com.poly.entity.RoomType;
 import com.poly.entity.User;
+import com.poly.repository.BookDetailRepository;
 import com.poly.repository.HotelRepository;
 import com.poly.repository.RoomRepository;
 import com.poly.repository.RoomTypeRepository;
@@ -44,6 +47,8 @@ public class RoomService {
     private ViewRoomRepository viewRoomRepository;
     @Autowired
     private UserRepo userRepository;
+    @Autowired
+    private BookDetailRepository bookDetailRepository;
     public Room findById(int id) {
         return roomRepository.findById(id).orElse(null);
     }
@@ -188,7 +193,72 @@ public class RoomService {
 
         return roomDTOs;
     }
-    
+    public RoomDTO getRoomDetails(int roomId) {
+        Optional<Room> optionalRoom = roomRepository.findById(roomId);
+        if (optionalRoom.isPresent()) {
+            Room room = optionalRoom.get();
+            RoomDTO roomDTO = RoomDTO.builder()
+                .id(room.getId())
+                .roomCode(room.getRoomCode())
+                .img(room.getImg())
+                .sophong(room.getSophong())
+                .gia(room.getGia())
+                .mota(room.getMota())
+                .status(room.getStatus())
+                .note(room.getNote())
+                .hotelid(HotelDTO.builder()
+                        .id(room.getHotel().getId())
+                        .chinhanh(room.getHotel().getChinhanh())
+                        .diachi(room.getHotel().getDiachi())
+                        .build())
+                .roomType(RoomTypeDTO.builder()
+                        .id(room.getRoomtype().getId())
+                        .name(room.getRoomtype().getName())
+                        .description(room.getRoomtype().getDescription())
+                        .build())
+                .build();
+            return roomDTO;
+        }
+        return null;
+    }
+    public List<RoomDTO> getAvailableRooms(Date checkin, Date checkout, RoomStatus status) {
+        // Tìm các booking có xung đột với checkin và checkout
+        List<BookDetail> conflictingBookings = bookDetailRepository.findAllByCheckinLessThanEqualAndCheckoutGreaterThanEqual(checkout, checkin);
+
+        // Lấy danh sách các phòng bận
+        List<Integer> busyRoomIds = conflictingBookings.stream()
+                .map(bookDetail -> bookDetail.getRoom().getId())
+                .collect(Collectors.toList());
+
+        // Lọc các phòng trống
+        List<Room> availableRooms = roomRepository.findAvailableRoomsExcludingIds(busyRoomIds, status);
+
+        // Chuyển đổi sang RoomDTO
+        return availableRooms.stream()
+                .map(room -> RoomDTO.builder()
+                        .id(room.getId())
+                        .roomCode(room.getRoomCode())
+                        .img(room.getImg())
+                        .sophong(room.getSophong())
+                        .gia(room.getGia())
+                        .mota(room.getMota())
+                        .status(room.getStatus())
+                        .note(room.getNote())
+                        // Thêm thông tin khách sạn
+                        .hotelid(HotelDTO.builder()
+                                .id(room.getHotel().getId())
+                                .chinhanh(room.getHotel().getChinhanh())
+                                .diachi(room.getHotel().getDiachi())
+                                .build())
+                        // Thêm thông tin loại phòng
+                        .roomType(RoomTypeDTO.builder()
+                                .id(room.getRoomtype().getId())
+                                .name(room.getRoomtype().getName())
+                                .description(room.getRoomtype().getDescription())
+                                .build())
+                        .build())
+                .collect(Collectors.toList());
+    }
     public List<Room> findByRoomType(String roomtype) {
         return roomRepository.findByRoomtype_Name(roomtype);
     }
