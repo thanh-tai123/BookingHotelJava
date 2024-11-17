@@ -26,33 +26,7 @@
             list-style-type: disc;
         }
 
-        .rate-info {
-            border-top: 1px solid #ddd;
-            padding-top: 20px;
-            margin-top: 20px;
-        }
-
-        .rate-info h6 {
-            font-size: 1rem;
-            font-weight: bold;
-        }
-
-        .rate-info .text-success {
-            color: #28a745 !important;
-        }
-
-        .rate-info .text-danger {
-            color: #dc3545 !important;
-        }
-
-        .rate-info .btn {
-            background-color: #d4a373;
-            color: white;
-        }
-
-        .rate-info .btn:disabled {
-            background-color: #ccc;
-        }
+       
 
         
        /*  //comment  */
@@ -118,14 +92,86 @@ select {
 }
 
 .image-gallery li {
-    margin: 5px; /* Space around images */
+    margin: 5px;
+     list-style-type: none; /* Space around images */
 }
 
 .room-image {
-    height: 100px; /* Fixed height */
+    height: 130px; /* Fixed height */
     width: 100px; /* Fixed width */
     object-fit: cover; /* Cover to maintain aspect ratio */
-    border-radius: 4px; /* Rounded corners for images */
+    border-radius: 4px;
+     list-style-type: none; /* Rounded corners for images */
+}
+.room-details {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.col {
+    flex: 1;
+    padding: 0 10px; /* Adjust padding as needed */
+}
+
+h2, h5 {
+    margin: 5px 0;
+    text-align: left; /* Align text to the left */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column; /* Stack columns on small screens */
+    }
+}
+.list-inline-item {
+    margin-right: 15px;
+}
+ul.image-gallery {
+    list-style-type: none; /* Loại bỏ bullet */
+    padding-left: 0; /* Bỏ khoảng cách mặc định bên trái */
+}
+
+ul.image-gallery li {
+    display: inline-block; /* Để các hình ảnh hiển thị ngang */
+}
+.room-details .d-flex {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.room-details label {
+    margin-right: 1px; 
+ 	font-weight:bold;
+}
+
+.room-details span {
+    font-weight: normal; /* Tùy chỉnh kiểu chữ của span nếu cần */
+}
+.d-flex {
+    display: flex;
+    justify-content: flex-start; /* Căn chỉnh các cột */
+}
+
+.col {
+    width: 48%; /* Điều chỉnh kích thước của mỗi cột */
+}
+
+ul {
+    padding-left: 20px; /* Thêm khoảng cách cho các item trong ul */
+}
+
+.list-inline-item {
+    margin-right: 15px; /* Khoảng cách giữa các item trong list-inline */
 }
 
   </style>
@@ -136,30 +182,63 @@ select {
    <div class="row room-info">
     <div class="col-md-4">
     <img alt="Image of a deluxe twin room with city view" class="img-fluid" height="300" th:src="${room.img}" width="400" />
-    
-    </div>
-    <div class="col-md-8">
-    <h2 th:text="${room.roomCode}">
-     </h2>
-     <h2 th:text="${room.roomtype.name}">
-     </h2>
-     <h5 th:text="${room.sophong}">
-     </h5>
-      <h5 th:text="${room.mota}">
-     </h5>
-       <h5 th:text="${room.hotel.chinhanh}"></h5>
-       <h5 th:text="${room.hotel.diachi}"></h5>
-<ul>
-    <li th:each="service : ${services}" th:text="${service.myService.name}"></li>
-</ul>
-<h4>Additional Images:</h4>
-    <ul class="image-gallery">
+   
+    <ul class="image-gallery list-inline">
         <li th:each="roomimg : ${roomImgs}">
-            <img th:src="${roomimg.imagePath}" alt="Room Image" class="room-image" />
+            <img th:src="${roomimg.imagePath}" alt="Room Image" class="room-image list-inline-item" />
         </li>
     </ul>
-     
-     
+    </div>
+    <div class="col-md-8">
+  <div class="room-details">
+    <label>Mã phòng:</label>
+    <span th:text="${room.roomCode}"></span>
+
+    <div class="row">
+        <div class="col">
+            <div class="d-flex">
+                <label>Số phòng:</label>
+                <span th:text="${room.sophong}"></span>
+            </div>
+            <div class="d-flex">
+                <label>Khu vực:</label>
+                <span th:text="${room.hotel.chinhanh}"></span>
+            </div>
+        </div>
+        <div class="col">
+            <div class="d-flex">
+                <label>Kiểu phòng:</label>
+                <span th:text="${room.roomtype.name}"></span>
+            </div>
+            <div class="d-flex">
+                <label>Địa chỉ:</label>
+                <span th:text="${room.hotel.diachi}"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex">
+    <div class="col">
+        <h5>Dịch vụ khác</h5>
+        <ul class="list-inline">
+            <li  th:each="service : ${services}" th:text="${service.myService.name}"></li>
+        </ul>
+    </div>
+
+    <div class="col">
+        <h5>Dịch vụ chung</h5>
+        <ul>
+            <li>Twin beds</li>
+            <li>Free WIFI access</li>
+            <li>Bathroom and shower</li>
+            <li>Led TV with international channels</li>
+            <li>Mini bar &amp; coffee and tea</li>
+        </ul>
+    </div>
+</div>
+
+       
       <i class="fas fa-user">
       </i>
       Sleeps 2
@@ -169,63 +248,14 @@ select {
       <i class="fas fa-bath">
       </i>
       1 Bathroom
-     </p>
-     <p>
-      28m² • City view • Non-smoking • Air conditioned • Bath • En-suite Bathroom • Hairdryer • Internet Access • Linen and Towels Provided
-     </p>
-     <ul>
-      <li>
-       Twin beds
-      </li>
-      <li>
-       Free WIFI access
-      </li>
-      <li>
-       Bathroom and shower
-      </li>
-      <li>
-       Led TV with international channels
-      </li>
-      <li>
-       Mini bar &amp; coffee and tea
-      </li>
-      <li>
-       Safety box
-      </li>
-      <li>
-       Free infinity swimming pool
-      </li>
-      <li>
-       Balcony with City View
-      </li>
-      <li>
-       Late check-out 13:00 (subject to room availability)
-      </li>
-     </ul>
-     <a href="#">
-      Less info
-     </a>
+    
     </div>
    </div>
    <div class="row rate-info">
-    <div class="col-md-8">
-     <h6>
-      Standard Rate
-     </h6>
-     <p class="text-success">
-      <i class="fas fa-check-circle">
-      </i>
-      Free cancellation!
-     </p>
-     <p class="text-success">
-      <i class="fas fa-check-circle">
-      </i>
-      Book now, pay later
-     </p>
-     <a href="#">
-      More info
-     </a>
-
+    <div >
+    
+     <h5>Mô tả</h5>
+            <span th:text="${room.mota}"></span>
     </div>
     <div class="row rate-info">
         <div class="col-md-8">
@@ -257,16 +287,6 @@ select {
                 , 2
                 <text th:text="#{body.night}"></text>
             </p>
-            <button class="btn" th:text="#{body.select}">
-
-            </button>
-        </div>
-    </div>
-    <div class="row rate-info">
-        <div class="col-md-8">
-            <h6 th:text="#{body.roomOnly}">
-
-            </h6>
             <p class="text-success">
                 <i class="fas fa-check-circle">
                 </i>
@@ -275,26 +295,11 @@ select {
                 </a>
 
             </p>
-            <p class="text-danger">
-                <i class="fas fa-exclamation-circle">
-                </i>
-                <text th:text="#{body.NonRefundable}"></text>
-            </p>
-            <a href="#" th:text="#{body.MoreInfo}">
-
-            </a>
-        </div>
-        <div class="col-md-4 text-end">
-            <button class="btn" disabled="" th:text="#{body.SoldOut}">
-
-            </button>
-            <button class="btn btn-outline-secondary" th:text="#{body.FindAvailableDate}">
-
-            </button>
         </div>
     </div>
+   
 
-    <div class="comments">
+    <div class="comments" >
         <h2 th:text="#{body.comment}"></h2>
         <div th:each="comment : ${room.comments}">
             <div class="comment">
@@ -330,6 +335,7 @@ select {
             <button type="submit" class="cmtbutton" th:text="#{body.submit}"></button>
         </form>
     </div>
+</div>
 </div>
 </body>
 </html>

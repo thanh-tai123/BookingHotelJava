@@ -28,6 +28,8 @@ public class UserService {
     private EmailUtil emailUtil;
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
+	@Autowired
+    private AwsS3Service awsS3Service;
     public User findByName(String name) {
         return userRepository.findByName(name);
     }
@@ -54,6 +56,7 @@ public class UserService {
 		    Account.setName(registerDto.getName());
 		    Account.setEmail(registerDto.getEmail());
 		    Account.setPhone(registerDto.getPhone());
+		   
 		    Account.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 		    Account.setOtp(otp);
 		    Account.setOtpGeneratedTime(LocalDateTime.now());
