@@ -11,19 +11,21 @@
             width: 250px;
             height: 100vh;
             position: fixed;
-            background-color: #f8f9fa;
+            background-color: rgb(77, 77, 77);
             padding-top: 20px;
         }
         .vertical-navbar .nav-link {
-            color: #333;
+            color: rgb(248, 251, 225);
         }
         .vertical-navbar .btn-reserve {
             margin-left: 15px;
         }
         .content {
-            margin-left: 270px;
+            margin-left: 250px;
             padding: 20px;
-        }.nav-item .dropdown-menu {
+            
+        }
+        .nav-item .dropdown-menu {
     display: none;
 }
 
@@ -49,11 +51,11 @@
 
 <nav class="vertical-navbar">
     <div class="container">
-        <a class="navbar-brand" href="#">
-            <img alt="Hotel logo" height="20" src="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" width="50"/>
+        <a class="navbar-brand" th:href="@{/room}">
+            <img alt="Hotel logo" style="margin-left:25px" height="120" src="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" width="150"/>
         </a>
         <ul class="navbar-nav flex-column">
-             <li class="nav-item dropdown">
+             <!-- <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" th:href="@{/room}" id="roomDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         PHÒNG &amp; SUITES
                     </a>
@@ -62,7 +64,7 @@
                         <li><a class="dropdown-item" th:href="@{/room/filter?roomtype=Suite}">Phòng Suite</a></li>
                         <li><a class="dropdown-item" th:href="@{/room/filter?roomtype=Double}">Phòng Double</a></li>
                     </ul>
-                </li>
+                </li> -->
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/admin}" th:text="#{navbar.thong_tin}">THÔNG TIN</a>
             </li>
@@ -96,20 +98,15 @@
                     </ul>
                 </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/account/login}" th:text="#{navbar.dang_nhap}">ĐĂNG NHẬP</a>
+                <a class="nav-link" th:href="@{/logout}" >ĐĂNG XUẤT</a>
             </li>
-            <button class="btn btn-reserve" type="button" style="margin-top: 10px;" th:text="#{navbar.giu_cho_ngay}">GIỮ CHỖ NGAY</button>
-            <li class="nav-item" style="margin-top: 20px;">
-                <select id="languageSelect" onchange="changeLanguage(this)">
-                    <option value="en" th:selected="${#locale.language == 'en'}">English</option>
-                    <option value="vi" th:selected="${#locale.language == 'vi'}">Vietnamese</option>
-                </select>
-            </li>
+          
+          
         </ul>
     </div>
 </nav>
 
-<div class="content">
+<div class="content" >
     <!-- Nội dung của bạn sẽ ở đây -->
 </div>
 
