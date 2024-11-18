@@ -53,6 +53,10 @@ public class AccountController {
     public String login() {
         return "account/login";
     }
+    @RequestMapping("/homepage")
+    public String homepage() {
+        return "homepage";
+    }
 
     //	@RequestMapping("/info")
 //	public String info(Model model, Authentication auth) {
