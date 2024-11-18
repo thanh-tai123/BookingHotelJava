@@ -78,6 +78,7 @@
 <body>
 <div th:replace="/access/navadmin :: html"></div>
 <div ng-controller="ServiceController">
+<div class="container">
     <h2>{{ service.id ? 'Update Service' : 'Add Service' }}</h2>
     <form ng-submit="service.id ? updateService() : addService()">
         <label th:text="#{admin.name}">Name:</label>
@@ -110,7 +111,7 @@
         </tbody>
     </table>
 </div>
-
+</div>
 <script>
 var app = angular.module('app', []);
 

@@ -9,6 +9,7 @@
 
 <div th:replace="~{/access/navadmin :: html}"></div>
 <br>
+<div class="container">
 <p class="ml-10">
     <a th:href="@{/admin/show-add-chinhanh}">
         <i class="fa-solid fa-circle-plus fa-2xl"></i>
@@ -36,5 +37,7 @@
     </tr>
     </tbody>
 </table>
+</div>
+<div th:replace="/access/error :: footer"></div>
 </body>
 </html>

@@ -313,6 +313,73 @@
             background-color: #e9ecef;
         }
 
+.nav-item.d-flex {
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+}
+
+.user-image {
+    width: 30px; /* Kích thước ảnh */
+    height: 25px; /* Kích thước ảnh */
+    border-radius: 50%; /* Làm cho ảnh thành hình tròn */
+    object-fit: cover; /* Đảm bảo ảnh không bị méo */
+    margin-right: 10px; /* Khoảng cách giữa ảnh và email */
+}
+
+.nav-link.dropdown-toggle {
+    display: flex;
+    align-items: center;
+}
+ .footer {
+            padding: 20px 0;
+
+        }
+
+        .footer .col {
+            margin-bottom: 20px;
+
+        }
+
+        .footer p {
+            text-align: left;
+            padding-left: 25px;
+
+
+
+
+        }
+
+        .footer h5 {
+            text-align: left;
+            margin-bottom: 30px;
+            margin-top: 30px;
+            padding-left: 25px;
+
+
+
+        }
+
+        .footer a {
+            color: #fff;
+            text-decoration: none;
+
+        }
+
+        .footer a:hover {
+            text-decoration: none;
+        }
+
+        .footer-bottom p {
+            border-top: 1px solid #444;
+            padding-top: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .footer-bottom img {
+            width: 50px;
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -352,24 +419,31 @@
                 <li class="nav-item" th:if="${session.userRoles != null && session.userRoles.contains('ADMIN')}">
         <a class="nav-link" th:text="'ADMIN'"  th:href="@{/admin}">ADMIN</a>
     </li>
-              <li class="nav-item">
-                <a class="nav-link" th:text="${session.userEmail}">Email</a>
-            </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false" th:text="#{navbar.taikhoan}"></a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-
-
-                    <li><a class="dropdown-item" th:if="${session.userEmail != null}" th:href="@{/account/info}" th:text="#{navbar.thong_tin}">THÔNG TIN</a></li>
-                    <li><a class="dropdown-item" th:if="${session.userEmail != null}" th:href="@{/logout}" th:text="#{navbar.dang_xuat}">ĐĂNG XUẤT</a></li>
-                    <li><a class="dropdown-item" th:if="${session.userEmail == null}" th:href="@{/account/login}" th:text="#{navbar.dang_nhap}">ĐĂNG NHẬP</a></li>
-               
-                        <li><a class="dropdown-item" th:if="${session.userEmail != null}" th:href="@{/account/change-password}" >THAY ĐỔI PASSWORD</a></li>
-
-                    </ul>
-
-                </li>
+ <li class="nav-item dropdown" th:if="${session.userEmail != null}">
+    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button"
+       data-bs-toggle="dropdown" aria-expanded="false">
+        <img class="user-image" th:src="@{${session.userImage}}" />
+        <span th:text="${session.userEmail}">Email</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <li>
+            <a class="dropdown-item" th:if="${session.userEmail != null}" th:href="@{/account/info}" th:text="#{navbar.thong_tin}">THÔNG TIN</a>
+        </li>
+        <li>
+            <a class="dropdown-item" th:if="${session.userEmail != null}" th:href="@{/logout}" th:text="#{navbar.dang_xuat}">ĐĂNG XUẤT</a>
+        </li>
+       
+        <li>
+            <a class="dropdown-item" th:if="${session.userEmail != null}" th:href="@{/account/change-password}">THAY ĐỔI PASSWORD</a>
+        </li>
+    </ul>
+</li>
+ <li class="nav-item">
+            <a class="nav-link" th:if="${session.userEmail == null}" th:href="@{/account/login}" th:text="#{navbar.dang_nhap}">ĐĂNG NHẬP</a>
+        </li>
+       <li class="nav-item">
+            <a class="nav-link" th:if="${session.userEmail == null}" th:href="@{/account/register}" >ĐĂNG KÍ</a>
+        </li>
                 <button class="btn btn-reserve" type="button" style="margin-right: 30px;"
                         th:text="#{navbar.giu_cho_ngay}">GIỮ CHỖ NGAY
                 </button>

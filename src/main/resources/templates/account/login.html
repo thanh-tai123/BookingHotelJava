@@ -1,26 +1,108 @@
 <html>
 <head>
-    <title>Login </title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-</head>
-<style>
-    .box {
-        margin: 0px;
-        height: 800px;
-        background-color: rgb(173, 223, 223);
-    }
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        .bg {
+            background-image: url('https://lavelasaigon.com/wp-content/uploads/2022/10/main-banner.png');
+            height: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-container {
+            background-color: #bfa77a;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            margin-left: 100px;
+        }
+        .login-container h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .login-container label {
+            color: white;
+            
+        }
+        .login-container input[type="text"], .login-container input[type="email"], .login-container input[type="password"], .login-container input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        .login-container input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .login-container .btn-login {
+            background-color:brown;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .remember{
+            font-size: 15px;
+        }
+        .login-container .btn-login:hover {
+            background-color: #a38e6a;
+        }
+        .login-container .forgot-password {
+            color: white;
+            float: right;
+            font-size: 15px;
+        }
+        .login-container .social-login {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .login-container .social-login button {
+            background-color: white;
+            color: black;
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .login-container .social-login button:hover {
+            background-color: red;
+        }
+        .welcome-text {
+            position: absolute;
+            top: 50%;
+            right: 40%;
+            transform: translateY(-50%);
+            color: white;
+            text-align: left;
+        }
+        .welcome-text h1 {
+            font-size: 36px;
+        }
+        .hero-section {
+            position: relative;
+          
+            color: white;
+        }
 
-    .wellcom {
-        padding: 5px;
-        display: flex;
-        align-items: center;
-        text-align: center;
-        position: relative;
-        left: 200px;
-    }
+        .hero-section img {
+            width: 100%;
+            height: 100%;
+        }
 
-    .btn-google {
+        .btn-google {
         background-color: #f44248;
         color: white; /* Màu chữ mặc định */
         transition: background-color 0.3s; /* Hiệu ứng chuyển tiếp */
@@ -34,15 +116,22 @@
     .btn-google:hover {
         color: white; /* Màu chữ khi hover */
     }
-
-</style>
+    </style>
+</head>
 <body>
-
-<div class="container row">
-    <div class="container col-6 box d-flex justify-content-center align-items-center" style="height: 100vh;">
-        <div class="card p-5 shadow-2">
-            <h2 class="text-center mb-4" th:text="#{login.login}"></h2>
-            <form th:action="@{/account/login-check}" method="post">
+    <div class="bg">
+    
+            <div class="row">
+                <div class="col-md-1">
+                <a class="navbar-brand" th:href="@{/room}">
+            <img alt="Hotel logo" style="margin-left:50px; margin-top:-70px" height="100" src="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png"
+                 width="100"/>
+        </a>
+                </div>
+                <div class="col-md-3">
+            <div class="login-container">
+            <h2>Đăng nhập</h2>
+                  <form th:action="@{/account/login-check}" method="post">
                 <div class="mb-3">
                     <label for="email" class="form-label" th:text="#{login.username}"></label>
                     <input type="text" class="form-control" name="email" aria-describedby="emailHelp" required>
@@ -70,7 +159,7 @@
                 <div class="text-center mt-3">
                     <p th:text="#{login.orLogInBy}"></p>
                     <div class="d-flex justify-content-center mt-3">
-                        <a th:href="@{/oauth2/authorization/google}" class="btn btn-google btn-lg"
+                    <a th:href="@{/oauth2/authorization/google}" class="btn btn-google btn-lg"
                            th:text="#{login.signInWithGoogle}">
                             <i class="fab fa-google me-2"></i>
                         </a>
@@ -85,10 +174,18 @@
             </form>
         </div>
     </div>
-    <div class=" wellcom  col-6 text-center">
-        <h1 th:text="#{login.wellcomeToBooking}"></h1>
+        <div class="col-md-6">
+            <div class="hero-section">
+                <img src="https://lavelasaigon.com/wp-content/uploads/2022/10/room-banner.png" alt="">
+                </div>
+        <div class="welcome-text">
+            <h1>Welcome to<br>La Vela Sai Gon Hotel</h1>
+        </div>
+        
+
     </div>
+    <div class="col-md-2"></div>
+</div>
 </div>
 </body>
-
 </html>
