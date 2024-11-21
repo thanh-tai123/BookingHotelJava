@@ -24,11 +24,12 @@ import com.poly.repository.RoomRepository;
 import com.poly.repository.RoomTypeByServiceRepository;
 import com.poly.repository.RoomTypeRepository;
 import com.poly.repository.ServiceRepository;
+import com.poly.serviceRepository.RoomTypeServiceRepository;
 
 import jakarta.transaction.Transactional;
 
 @Service
-public class RoomTypeService {
+public class RoomTypeService implements RoomTypeServiceRepository{
     @Autowired
     private RoomTypeRepository roomTypeRepository;
     @Autowired

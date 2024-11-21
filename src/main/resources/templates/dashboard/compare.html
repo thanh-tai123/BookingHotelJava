@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Revenue and Room Count Charts</title>
+    <title>So sánh doanh thu</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
     <style>
         .chart-container {
             width: 100%;
@@ -27,13 +28,13 @@
 
 <div style="margin-left:400px">
         <select ng-model="year1" ng-options="year for year in years" placeholder="Select first year">
-    <option value="">Select first year</option>
+    <option value="">Chọn năm thứ nhất</option>
 </select>
 
 <select ng-model="year2" ng-options="year for year in years" placeholder="Select second year">
-    <option value="">Select second year</option>
+    <option value="">Chọn năm thứ hai</option>
 </select>
-        <button ng-click="compareRevenue(year1, year2)">Compare Revenue</button>
+        <button ng-click="compareRevenue(year1, year2)">So sánh</button>
     </div>
     <canvas id="lineChart" style="margin-left:200px"></canvas>
     </div>

@@ -18,7 +18,7 @@
             color: rgb(248, 251, 225);
         }
         .vertical-navbar .btn-reserve {
-            margin-left: 15px;
+            margin-left: 10px;
         }
         .content {
             margin-left: 250px;
@@ -39,6 +39,7 @@
     background-color: #f8f9fa;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   
 }
 
 .dropdown-item:hover {
@@ -90,11 +91,11 @@
                         <li><a class="dropdown-item" th:href="@{/admin/confirmroom}">Xác nhận phòng</a></li>
                         <li><a class="dropdown-item" th:href="@{/admin/add/roomtype}">Tạo kiểu phòng</a></li>
                         <li><a class="dropdown-item" th:href="@{/admin/add/service}">Tạo dịch vụ</a></li>
-                        <li><a class="dropdown-item" th:href="@{/admin/roomtypes}">Đặt Service vào kiểu phòng</a></li>
+                        <li><a class="dropdown-item" th:href="@{/admin/roomtypes}">Đặt dịch vụ <br>theo kiểu phòng</a></li>
                         <li><a class="dropdown-item" th:href="@{/supplier}">Tạo phòng</a></li>
                         <li><a class="dropdown-item" th:href="@{/search/admin/bookcode}">Tra cứu phòng</a></li>
                         <li><a class="dropdown-item" th:href="@{/admin/show-chinhanh}">Tạo chi nhánh mới</a></li>
-                          <li><a class="dropdown-item" th:href="@{/search/book-details}">Export</a></li>
+                          <li><a class="dropdown-item" th:href="@{/search/book-details}">Danh sách <br>khách hàng đã đặt</a></li>
                     </ul>
                 </li>
             <li class="nav-item">
