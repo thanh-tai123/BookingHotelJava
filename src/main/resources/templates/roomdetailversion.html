@@ -72,7 +72,7 @@ select {
 .cmtbutton {
     width: 100%;
     padding: 10px;
-    background-color: #007bff;
+    background-color: #c09b5a;
     color: white;
     border: none;
     border-radius: 4px;
@@ -81,8 +81,10 @@ select {
 }
 
 .cmtbutton:hover {
-    background-color: #0056b3;
-}
+     background-color: white;
+     color: #c09b5a;
+     border:1px solid #c09b5a;
+ }
 .image-gallery {
     display: flex; /* Flexbox for image alignment */
     flex-wrap: wrap; /* Wrap images to next line */
@@ -325,11 +327,11 @@ ul {
             <div class="form-group">
                 <label for="rating" th:text="#{body.ratting}"></label>
                 <select name="rating" id="rating">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                    <option value="1">⭐</option>
+                    <option value="2">⭐⭐</option>
+                    <option value="3">⭐⭐⭐</option>
+                    <option value="4">⭐⭐⭐⭐</option>
+                    <option value="5">⭐⭐⭐⭐⭐</option>
                 </select>
             </div>
             <button type="submit" class="cmtbutton" th:text="#{body.submit}"></button>

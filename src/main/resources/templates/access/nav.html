@@ -23,7 +23,7 @@
             top: 0;
             width: 100%;
             z-index: 1000;
-            height: 70px;
+            height: 110px;
         }
 
         .navbar.scrolled {
@@ -31,17 +31,17 @@
         }
 
         .navbar-brand img {
-            height: 20px;
+            height: 50px;
         }
 
         .navbar-nav .nav-link {
             color: white;
-            font-size: 14px;
-            margin-right: 20px;
+            font-size: 20px;
+            margin-right: 40px;
         }
 
         .navbar-nav .nav-link:hover {
-            color: #d4af37;
+            color: #c09b5a;
         }
 
         .btn-reserve {
@@ -64,7 +64,7 @@
 
         .hero-section img {
             width: 100%;
-            height: 500px;
+            height: 600px;
         }
 
         .hero-section .hero-text {
@@ -289,8 +289,8 @@
         }
 
         .dropdown-menu .dropdown-item:hover {
-            background-color: #f0f0f0;
-            color: #333;
+            background-color: #c09b5a;
+            color: white;
         }
 
 
@@ -380,6 +380,22 @@
             width: 50px;
             height: auto;
         }
+        #languageSelect {
+    background-color: #f8f9fa; 
+    border: 1px solid #ced4da; 
+    border-radius: 4px; 
+    padding: 8px 12px; 
+    font-size: 16px; 
+    color: #495057; 
+    cursor: pointer; 
+    transition: border-color 0.2s; 
+    height:48px;
+}
+#languageSelect:focus {
+    outline: none; 
+    border-color: #80bdff; 
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); 
+}
     </style>
 </head>
 <body>
@@ -393,14 +409,14 @@
 <nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand" th:href="@{/account/homepage}">
-            <img alt="Hotel logo" style="height:60px; margin-right:30px" src="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png"
-                 width="100"/>
+            <img alt="Hotel logo" style="height:100px; margin-right:30px" src="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png"
+                 width="120"/>
         </a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" th:href="@{/room}" id="roomDropdown" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false" th:text="#{navbar.phong_va_suites}">
+                       data-bs-toggle="dropdown" aria-expanded="false" th:text="#{navbar.phong_va_suites}" style="color: #c09b5a">
 
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="roomDropdown">
@@ -434,7 +450,7 @@
         </li>
        
         <li>
-            <a class="dropdown-item" th:if="${session.userEmail != null}" th:href="@{/account/change-password}">THAY ĐỔI PASSWORD</a>
+            <a class="dropdown-item" th:if="${session.userEmail != null}" th:href="@{/account/change-password}" th:text="#{navbar.thaydoimatkhau}">THAY ĐỔI PASSWORD</a>
         </li>
     </ul>
 </li>
@@ -442,7 +458,7 @@
             <a class="nav-link" th:if="${session.userEmail == null}" th:href="@{/account/login}" th:text="#{navbar.dang_nhap}">ĐĂNG NHẬP</a>
         </li>
        <li class="nav-item">
-            <a class="nav-link" th:if="${session.userEmail == null}" th:href="@{/account/register}" >ĐĂNG KÍ</a>
+            <a class="nav-link" th:if="${session.userEmail == null}" th:href="@{/account/register}" th:text="#{navbar.dangki}" >ĐĂNG KÍ</a>
         </li>
                 <button class="btn btn-reserve" type="button" style="margin-right: 30px;"
                         th:text="#{navbar.giu_cho_ngay}">GIỮ CHỖ NGAY
