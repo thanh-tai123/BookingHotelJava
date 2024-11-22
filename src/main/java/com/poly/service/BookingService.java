@@ -24,10 +24,11 @@ import com.poly.repository.BookDetailRepository;
 import com.poly.repository.BookRepository;
 import com.poly.repository.RoomRepository;
 import com.poly.repository.UserRepo;
+import com.poly.serviceRepository.BookingServiceRepository;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 @Service
-public class BookingService {
+public class BookingService implements BookingServiceRepository{
 
     @Autowired
     private BookRepository bookRepository;
@@ -185,11 +186,11 @@ public class BookingService {
         return bookDetailRepository.findAll().stream().map(bookDetail -> {
             User user = bookDetail.getRoom().getUser();
             return new Object[] {
-                    bookDetail.getAdult(),
+                   
                     user != null ? user.getEmail() : null,
                     bookDetail.getCheckin(),
                     bookDetail.getCheckout(),
-                    bookDetail.getChildren(),
+                
                     bookDetail.getPrice(),
                     bookDetail.getTotal(),
                     bookDetail.getPaymentMethod(),

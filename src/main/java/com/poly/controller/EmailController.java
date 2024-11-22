@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.poly.entity.MailInfo;
 import com.poly.helper.MailerHelper;
-
-import com.poly.service.MailerService;
+import com.poly.serviceRepository.MailerService;
 
 import jakarta.servlet.http.HttpSession;
 

@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 
 import com.poly.entity.ViewRoom;
 import com.poly.repository.ViewRoomRepository;
+import com.poly.serviceRepository.RoomServiceRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,7 +36,7 @@ import com.poly.repository.UserRepo;
 import com.poly.util._enum.RoomStatus;
 
 @Service
-public class RoomService {
+public class RoomService implements RoomServiceRepository{
 	 @Autowired
 	    private HotelRepository hotelRepository;
 	 @Autowired
@@ -54,11 +56,11 @@ public class RoomService {
     }
     public void updateRoom(int roomId, RoomRequest roomRequest, MultipartFile img, List<MultipartFile> images) {
         try {
-            // Tìm room cần update
+           
             Room room = roomRepository.findById(roomId)
                     .orElseThrow(() -> new RuntimeException("Room not found"));
             
-            // Tìm hotel và roomtype liên quan
+         
             Hotel hotel = hotelRepository.findById(roomRequest.getHotelid())
                     .orElseThrow(() -> new RuntimeException("Hotel not found"));
             RoomType roomtype = roomtypeRepository.findById(roomRequest.getRoomtypeid())
@@ -66,13 +68,13 @@ public class RoomService {
             User user = userRepository.findById(roomRequest.getStaffid())
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
-            // Cập nhật ảnh nếu có ảnh mới
+          
             if (img != null && !img.isEmpty()) {
                 String imageUrl = awsS3Service.saveImageToS3(img);
                 room.setImg(imageUrl);
             }
 
-            // Cập nhật các thuộc tính khác của room
+         
             room.setHotel(hotel);
             room.setSophong(roomRequest.getSophong());
             room.setGia(roomRequest.getGia());
@@ -81,7 +83,7 @@ public class RoomService {
             room.setUser(user);
             room.setRoomtype(roomtype);
 
-            // Cập nhật nhiều hình ảnh bổ sung
+          
             if (images != null && !images.isEmpty()) {
                 for (MultipartFile additionalImg : images) {
                     String additionalImageUrl = awsS3Service.saveImageToS3(additionalImg);
@@ -92,10 +94,10 @@ public class RoomService {
                 }
             }
 
-            // Lưu lại thông tin phòng sau khi cập nhật
+          
             roomRepository.save(room);
         } catch (Exception e) {
-            // Ghi lại chi tiết lỗi và ném lại ngoại lệ
+           
             e.printStackTrace();
             throw new RuntimeException("Error updating room: " + e.getMessage());
         }

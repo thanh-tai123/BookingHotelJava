@@ -7,9 +7,9 @@
 </head>
 <body>
 
-<div th:replace="~{/access/navadmin :: html}"></div>
+<div th:replace="/layout/menudoc :: html"></div>
 <br>
-<div class="container">
+<div class="container" style="margin-left:400px">
 <p class="ml-10">
     <a th:href="@{/admin/show-add-chinhanh}">
         <i class="fa-solid fa-circle-plus fa-2xl"></i>
@@ -38,6 +38,6 @@
     </tbody>
 </table>
 </div>
-<div th:replace="/access/error :: footer"></div>
+
 </body>
 </html>
