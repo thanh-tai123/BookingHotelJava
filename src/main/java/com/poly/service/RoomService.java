@@ -68,6 +68,7 @@ public class RoomService implements RoomServiceRepository{
 
             if (img != null && !img.isEmpty()) {
                 String imageUrl = awsS3Service.saveImageToS3(img);
+                
                 room.setImg(imageUrl);
             }
 
