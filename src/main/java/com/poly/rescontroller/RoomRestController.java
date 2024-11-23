@@ -122,7 +122,6 @@ public class RoomRestController {
         return roomService.getAvailableRooms(checkin, checkout, status);
     }
 
-    
     @PutMapping("/update-room/{roomId}")
     public ResponseEntity<?> updateRoom(
             @PathVariable int roomId,
@@ -155,7 +154,6 @@ public class RoomRestController {
                                  .body(Map.of("message", "Error updating room", "error", e.getMessage()));
         }
     }
-
 
 
 

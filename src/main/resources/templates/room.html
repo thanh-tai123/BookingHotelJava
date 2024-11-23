@@ -215,7 +215,7 @@
         <div class="form-group mb-3">
             <label for="priceRange">Khoảng giá:</label>
             <select id="priceRange" name="priceRange" class="form-control">
-                <option value="Tất cả">Tất cả</option>
+                <option value="Tất cả" th:text="#{body.all}"></option>
                 <option th:each="price : ${priceRanges}"
                         th:value="${price}"
                         th:text="${price}"th:selected="${price == priceRange}"></option> <!-- Đảm bảo rằng priceRange được chọn đúng -->

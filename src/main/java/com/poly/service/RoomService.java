@@ -56,11 +56,9 @@ public class RoomService implements RoomServiceRepository{
     }
     public void updateRoom(int roomId, RoomRequest roomRequest, MultipartFile img, List<MultipartFile> images) {
         try {
-           
             Room room = roomRepository.findById(roomId)
                     .orElseThrow(() -> new RuntimeException("Room not found"));
             
-         
             Hotel hotel = hotelRepository.findById(roomRequest.getHotelid())
                     .orElseThrow(() -> new RuntimeException("Hotel not found"));
             RoomType roomtype = roomtypeRepository.findById(roomRequest.getRoomtypeid())
@@ -68,13 +66,11 @@ public class RoomService implements RoomServiceRepository{
             User user = userRepository.findById(roomRequest.getStaffid())
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
-          
             if (img != null && !img.isEmpty()) {
                 String imageUrl = awsS3Service.saveImageToS3(img);
                 room.setImg(imageUrl);
             }
 
-         
             room.setHotel(hotel);
             room.setSophong(roomRequest.getSophong());
             room.setGia(roomRequest.getGia());
@@ -83,7 +79,6 @@ public class RoomService implements RoomServiceRepository{
             room.setUser(user);
             room.setRoomtype(roomtype);
 
-          
             if (images != null && !images.isEmpty()) {
                 for (MultipartFile additionalImg : images) {
                     String additionalImageUrl = awsS3Service.saveImageToS3(additionalImg);
@@ -94,10 +89,8 @@ public class RoomService implements RoomServiceRepository{
                 }
             }
 
-          
             roomRepository.save(room);
         } catch (Exception e) {
-           
             e.printStackTrace();
             throw new RuntimeException("Error updating room: " + e.getMessage());
         }
