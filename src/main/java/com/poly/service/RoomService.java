@@ -54,11 +54,12 @@ public class RoomService implements RoomServiceRepository{
     public Room findById(int id) {
         return roomRepository.findById(id).orElse(null);
     }
-    public void updateRoom(int roomId, RoomRequest roomRequest, MultipartFile img, List<MultipartFile> images) {
+    public void updateRoom(int roomId, RoomRequest roomRequest, List<MultipartFile> images) {
         try {
+            // Lấy thông tin phòng, khách sạn, loại phòng, và người dùng từ cơ sở dữ liệu
             Room room = roomRepository.findById(roomId)
                     .orElseThrow(() -> new RuntimeException("Room not found"));
-            
+
             Hotel hotel = hotelRepository.findById(roomRequest.getHotelid())
                     .orElseThrow(() -> new RuntimeException("Hotel not found"));
             RoomType roomtype = roomtypeRepository.findById(roomRequest.getRoomtypeid())
@@ -66,12 +67,9 @@ public class RoomService implements RoomServiceRepository{
             User user = userRepository.findById(roomRequest.getStaffid())
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
-            if (img != null && !img.isEmpty()) {
-                String imageUrl = awsS3Service.saveImageToS3(img);
-                
-                room.setImg(imageUrl);
-            }
-
+            // Cập nhật hình ảnh chính của phòng nếu có
+            room.setImg(awsS3Service.saveImageToS3(images.get(0)));
+            // Cập nhật các thông tin khác của phòng
             room.setHotel(hotel);
             room.setSophong(roomRequest.getSophong());
             room.setGia(roomRequest.getGia());
@@ -80,7 +78,16 @@ public class RoomService implements RoomServiceRepository{
             room.setUser(user);
             room.setRoomtype(roomtype);
 
+            // Cập nhật các hình ảnh bổ sung của phòng nếu có
             if (images != null && !images.isEmpty()) {
+                // Xóa các hình ảnh bổ sung cũ từ S3
+                for (RoomImages roomImage : room.getRoomImages()) {
+                    awsS3Service.deleteImageFromS3(roomImage.getImagePath());
+                }
+                // Xóa các hình ảnh bổ sung cũ khỏi phòng
+                room.getRoomImages().clear();
+
+                // Lưu các hình ảnh bổ sung mới lên S3 và thêm vào danh sách hình ảnh bổ sung của phòng
                 for (MultipartFile additionalImg : images) {
                     String additionalImageUrl = awsS3Service.saveImageToS3(additionalImg);
                     RoomImages roomImage = new RoomImages();
@@ -90,6 +97,7 @@ public class RoomService implements RoomServiceRepository{
                 }
             }
 
+            // Lưu các thông tin đã cập nhật của phòng vào cơ sở dữ liệu
             roomRepository.save(room);
         } catch (Exception e) {
             e.printStackTrace();

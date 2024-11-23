@@ -24,7 +24,8 @@ public class RoomRequest {
 
     @NotNull(message = "Room number is required")
     private Integer sophong;
-
+    @NotNull(message = "Img is required")
+    private String img;
     @NotNull(message = "Room type is required")
     private Integer roomtypeid;
 

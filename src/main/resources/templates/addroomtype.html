@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book</title>
-    <!-- Include AngularJS -->
+    <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-    <!-- Include the AngularJS controller script -->
+ 
     <style>
        
         
@@ -80,7 +80,7 @@
 
 <body >
 
-<div th:replace="/layout/menudoc :: html"></div>
+<div th:replace="layout/menudoc :: html"></div>
 <div ng-controller="RoomTypeController">
 <div class="container" style="margin-left:400px">
     <h2>{{ roomType.id ? 'Update Room Type' : 'Add Room Type' }}</h2>
@@ -127,7 +127,7 @@
         $scope.roomTypes = [];
 
         $scope.loadRoomTypes = function () {
-            $http.get('http://localhost:8081/api/roomtypes')
+            $http.get('/api/roomtypes')
                 .then(function (response) {
                     $scope.roomTypes = response.data;
                 }, function (error) {
@@ -136,7 +136,7 @@
         };
 
         $scope.addRoomType = function () {
-            $http.post('http://localhost:8081/api/add/roomtype', $scope.roomType, {
+            $http.post('/api/add/roomtype', $scope.roomType, {
                 headers: {
                     'Content-Type': 'application/json' // Đặt tiêu đề Content-Type
                 }
@@ -146,7 +146,7 @@
                     $scope.roomTypes.push(response.data); // Thêm vào danh sách
                     $scope.loadRoomTypes();
 
-                    $scope.clearForm(); // Gọi hàm clearForm sau khi thêm thành công
+                    $scope.clearForm();
                 }, function (error) {
                     console.error('Error adding Room Type:', error);
                     window.location.reload();
@@ -155,11 +155,11 @@
 
 
     $scope.editRoomType = function(type) {
-        $scope.roomType = angular.copy(type); // Sao chép để chỉnh sửa
+        $scope.roomType = angular.copy(type); 
     };
 
     $scope.updateRoomType = function() {
-        $http.put('http://localhost:8081/api/update/roomtype/' + $scope.roomType.id, $scope.roomType)
+        $http.put('/api/update/roomtype/' + $scope.roomType.id, $scope.roomType)
             .then(function(response) {
                 const index = $scope.roomTypes.findIndex(type => type.id === $scope.roomType.id);
                 if (index !== -1) {
@@ -172,7 +172,7 @@
     };
 
     $scope.deleteRoomType = function(id) {
-        $http.delete('http://localhost:8081/api/delete/roomtype/' + id)
+        $http.delete('/api/delete/roomtype/' + id)
             .then(function() {
                 $scope.roomTypes = $scope.roomTypes.filter(type => type.id !== id); // Xóa khỏi danh sách
             }, function(error) {
@@ -189,7 +189,7 @@
         };
     };
 
-    // Tải danh sách loại phòng ngay khi khởi động
+    
     $scope.loadRoomTypes();
 });
 

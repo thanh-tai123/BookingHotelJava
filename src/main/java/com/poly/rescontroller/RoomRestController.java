@@ -127,7 +127,7 @@ public class RoomRestController {
             @PathVariable int roomId,
             @ModelAttribute @Valid RoomRequest roomRequest, 
             BindingResult result,
-            @RequestParam(value = "img", required = false) MultipartFile img,
+           
             @RequestParam(value = "images", required = false) List<MultipartFile> images) {
 
         if (result.hasErrors()) {
@@ -143,7 +143,7 @@ public class RoomRestController {
         
         try {
             // Gọi service để thực hiện cập nhật
-            roomService.updateRoom(roomId, roomRequest, img, images);
+            roomService.updateRoom(roomId, roomRequest, images);
             // Trả về JSON xác nhận cập nhật thành công
             return ResponseEntity.ok(Map.of("message", "Room updated successfully"));
         } catch (Exception e) {

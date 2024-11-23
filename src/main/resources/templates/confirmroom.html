@@ -54,13 +54,13 @@
 </head>
 <body>
 
-<div th:replace="/access/navadmin :: html"></div>
+<div th:replace="access/navadmin :: html"></div>
     <div class="container">
         <div class="row">
             <div class="col-md-4" th:each="r : ${rooms}">
                 <div class="card">
                     <a th:href="@{/admin/{id}(id=${r.id})}">
-                        <img th:src="${r.img}" alt="Luxury hotel room with a large bed, modern decor, and a spacious layout" />
+                        <img th:src="${r.img}" alt="Luxury hotel room with a large bed, modern decor, and a spacious layout" style="height:250px" />
                     </a>
                     <div class="card-body">
                         <h5 class="card-title" th:text="${r.roomtype.name}"></h5>

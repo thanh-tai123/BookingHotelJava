@@ -6,6 +6,7 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.poly.exception.OurException;
@@ -55,7 +56,23 @@ public class AwsS3Service {
             throw new OurException("Unable to upload image to s3 bucket" + e.getMessage());
         }
     }
-    
+    // Phương thức xóa hình ảnh từ S3
+    public void deleteImageFromS3(String imageUrl) {
+        try {
+            String s3Filename = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+
+            BasicAWSCredentials awsCredentials = new BasicAWSCredentials(awsS3AccessKey, awsS3SecretKey);
+            AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+                    .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
+                    .withRegion("ap-southeast-2")
+                    .build();
+
+            s3Client.deleteObject(new DeleteObjectRequest(bucketName, s3Filename));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new OurException("Unable to delete image from s3 bucket: " + e.getMessage());
+        }
+    }
 }
 
 

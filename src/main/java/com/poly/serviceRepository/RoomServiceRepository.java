@@ -14,7 +14,7 @@ import com.poly.util._enum.RoomStatus;
 
 public interface RoomServiceRepository {
 	 public Room findById(int id) ;
-	  public void updateRoom(int roomId, RoomRequest roomRequest, MultipartFile img, List<MultipartFile> images);
+	  public void updateRoom(int roomId, RoomRequest roomRequest, List<MultipartFile> images);
 	  public boolean deleteRoom(int id);
 	  public void addRoom(RoomRequest roomRequest, List<MultipartFile> images);
 	  public List<RoomDTO> getRoomsByStatus(RoomStatus status);
