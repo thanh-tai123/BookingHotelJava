@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Service Management</title>
+     <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
      <style>
        
@@ -76,7 +77,7 @@
     </style>
 </head>
 <body>
-<div th:replace="/layout/menudoc :: html"></div>
+<div th:replace="layout/menudoc :: html"></div>
 <div ng-controller="ServiceController">
 <div class="container" style="margin-left:400px">
     <h2>{{ service.id ? 'Update Service' : 'Add Service' }}</h2>
@@ -123,7 +124,7 @@ app.controller('ServiceController', function($scope, $http) {
     };
 
     $scope.loadServices = function() {
-        $http.get('http://localhost:8081/api/services')
+        $http.get('/api/services')
             .then(function(response) {
                 $scope.services = response.data;
             }, function(error) {
@@ -132,7 +133,7 @@ app.controller('ServiceController', function($scope, $http) {
     };
 
     $scope.addService = function() {
-        $http.post('http://localhost:8081/api/add/services', $scope.service, {
+        $http.post('/api/add/services', $scope.service, {
             headers: {
                 'Content-Type': 'application/json' // Đặt tiêu đề Content-Type
             }
@@ -140,6 +141,7 @@ app.controller('ServiceController', function($scope, $http) {
         .then(function(response) {
             $scope.services.push(response.data);
             $scope.clearForm();
+            alert("Thêm dịch vụ thành công")
         }, function(error) {
             console.error('Error adding service:', error);
         });
@@ -151,20 +153,21 @@ app.controller('ServiceController', function($scope, $http) {
     };
 
     $scope.updateService = function() {
-        $http.put('http://localhost:8081/api/update/services/' + $scope.service.id, $scope.service)
+        $http.put('/api/update/services/' + $scope.service.id, $scope.service)
             .then(function(response) {
                 const index = $scope.services.findIndex(s => s.id === $scope.service.id);
                 if (index !== -1) {
                     $scope.services[index] = response.data;
                 }
                 $scope.clearForm();
+                alert("Cập nhật dịch vụ thành công")
             }, function(error) {
                 console.error('Error updating service:', error);
             });
     };
 
     $scope.deleteService = function(id) {
-        $http.delete('http://localhost:8081/api/delete/services/' + id)
+        $http.delete('/api/delete/services/' + id)
             .then(function() {
                 $scope.services = $scope.services.filter(s => s.id !== id);
             }, function(error) {
