@@ -281,6 +281,7 @@ angular.module('app', [])
             alert('Room updated successfully!');
             $scope.loadRoomsByStatus($scope.selectedStatus); // Làm mới danh sách phòng
             $scope.resetForm(); // Reset form sau khi cập nhật
+          
         }, function(error) {
             console.error('Error updating room:', error);
             let errorMessage = 'Error updating room: ';

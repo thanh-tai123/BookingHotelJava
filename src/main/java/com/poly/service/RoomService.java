@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.poly.entity.ViewRoom;
 import com.poly.repository.ViewRoomRepository;
+import com.poly.serviceRepository.RoomServiceRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,11 +22,13 @@ import com.poly.dto.RoomStatisticsDTO;
 import com.poly.dto.RoomTypeCountDTO;
 import com.poly.dto.RoomTypeDTO;
 import com.poly.dto.UserDTO;
+import com.poly.entity.BookDetail;
 import com.poly.entity.Hotel;
 import com.poly.entity.Room;
 import com.poly.entity.RoomImages;
 import com.poly.entity.RoomType;
 import com.poly.entity.User;
+import com.poly.repository.BookDetailRepository;
 import com.poly.repository.HotelRepository;
 import com.poly.repository.RoomRepository;
 import com.poly.repository.RoomTypeRepository;
@@ -31,7 +36,7 @@ import com.poly.repository.UserRepo;
 import com.poly.util._enum.RoomStatus;
 
 @Service
-public class RoomService {
+public class RoomService implements RoomServiceRepository{
 	 @Autowired
 	    private HotelRepository hotelRepository;
 	 @Autowired
@@ -44,16 +49,18 @@ public class RoomService {
     private ViewRoomRepository viewRoomRepository;
     @Autowired
     private UserRepo userRepository;
+    @Autowired
+    private BookDetailRepository bookDetailRepository;
     public Room findById(int id) {
         return roomRepository.findById(id).orElse(null);
     }
     public void updateRoom(int roomId, RoomRequest roomRequest, MultipartFile img, List<MultipartFile> images) {
         try {
-            // Tìm room cần update
+           
             Room room = roomRepository.findById(roomId)
                     .orElseThrow(() -> new RuntimeException("Room not found"));
             
-            // Tìm hotel và roomtype liên quan
+         
             Hotel hotel = hotelRepository.findById(roomRequest.getHotelid())
                     .orElseThrow(() -> new RuntimeException("Hotel not found"));
             RoomType roomtype = roomtypeRepository.findById(roomRequest.getRoomtypeid())
@@ -61,13 +68,13 @@ public class RoomService {
             User user = userRepository.findById(roomRequest.getStaffid())
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
-            // Cập nhật ảnh nếu có ảnh mới
+          
             if (img != null && !img.isEmpty()) {
                 String imageUrl = awsS3Service.saveImageToS3(img);
                 room.setImg(imageUrl);
             }
 
-            // Cập nhật các thuộc tính khác của room
+         
             room.setHotel(hotel);
             room.setSophong(roomRequest.getSophong());
             room.setGia(roomRequest.getGia());
@@ -76,7 +83,7 @@ public class RoomService {
             room.setUser(user);
             room.setRoomtype(roomtype);
 
-            // Cập nhật nhiều hình ảnh bổ sung
+          
             if (images != null && !images.isEmpty()) {
                 for (MultipartFile additionalImg : images) {
                     String additionalImageUrl = awsS3Service.saveImageToS3(additionalImg);
@@ -87,10 +94,10 @@ public class RoomService {
                 }
             }
 
-            // Lưu lại thông tin phòng sau khi cập nhật
+          
             roomRepository.save(room);
         } catch (Exception e) {
-            // Ghi lại chi tiết lỗi và ném lại ngoại lệ
+           
             e.printStackTrace();
             throw new RuntimeException("Error updating room: " + e.getMessage());
         }
@@ -188,7 +195,72 @@ public class RoomService {
 
         return roomDTOs;
     }
-    
+    public RoomDTO getRoomDetails(int roomId) {
+        Optional<Room> optionalRoom = roomRepository.findById(roomId);
+        if (optionalRoom.isPresent()) {
+            Room room = optionalRoom.get();
+            RoomDTO roomDTO = RoomDTO.builder()
+                .id(room.getId())
+                .roomCode(room.getRoomCode())
+                .img(room.getImg())
+                .sophong(room.getSophong())
+                .gia(room.getGia())
+                .mota(room.getMota())
+                .status(room.getStatus())
+                .note(room.getNote())
+                .hotelid(HotelDTO.builder()
+                        .id(room.getHotel().getId())
+                        .chinhanh(room.getHotel().getChinhanh())
+                        .diachi(room.getHotel().getDiachi())
+                        .build())
+                .roomType(RoomTypeDTO.builder()
+                        .id(room.getRoomtype().getId())
+                        .name(room.getRoomtype().getName())
+                        .description(room.getRoomtype().getDescription())
+                        .build())
+                .build();
+            return roomDTO;
+        }
+        return null;
+    }
+    public List<RoomDTO> getAvailableRooms(Date checkin, Date checkout, RoomStatus status) {
+        // Tìm các booking có xung đột với checkin và checkout
+        List<BookDetail> conflictingBookings = bookDetailRepository.findAllByCheckinLessThanEqualAndCheckoutGreaterThanEqual(checkout, checkin);
+
+        // Lấy danh sách các phòng bận
+        List<Integer> busyRoomIds = conflictingBookings.stream()
+                .map(bookDetail -> bookDetail.getRoom().getId())
+                .collect(Collectors.toList());
+
+        // Lọc các phòng trống
+        List<Room> availableRooms = roomRepository.findAvailableRoomsExcludingIds(busyRoomIds, status);
+
+        // Chuyển đổi sang RoomDTO
+        return availableRooms.stream()
+                .map(room -> RoomDTO.builder()
+                        .id(room.getId())
+                        .roomCode(room.getRoomCode())
+                        .img(room.getImg())
+                        .sophong(room.getSophong())
+                        .gia(room.getGia())
+                        .mota(room.getMota())
+                        .status(room.getStatus())
+                        .note(room.getNote())
+                        // Thêm thông tin khách sạn
+                        .hotelid(HotelDTO.builder()
+                                .id(room.getHotel().getId())
+                                .chinhanh(room.getHotel().getChinhanh())
+                                .diachi(room.getHotel().getDiachi())
+                                .build())
+                        // Thêm thông tin loại phòng
+                        .roomType(RoomTypeDTO.builder()
+                                .id(room.getRoomtype().getId())
+                                .name(room.getRoomtype().getName())
+                                .description(room.getRoomtype().getDescription())
+                                .build())
+                        .build())
+                .collect(Collectors.toList());
+    }
     public List<Room> findByRoomType(String roomtype) {
         return roomRepository.findByRoomtype_Name(roomtype);
     }

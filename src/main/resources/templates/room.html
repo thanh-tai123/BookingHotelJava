@@ -32,7 +32,7 @@
         .search-form button {
             padding: 10px 20px;
             font-size: 16px;
-            background-color: #007bff;
+            background-color:#c09b5a;
             color: white;
             border: none;
             border-radius: 5px;
@@ -40,9 +40,25 @@
         }
 
         .search-form button:hover {
-            background-color: #0056b3;
+            background-color: white;
+            color: #c09b5a;
+           
+            border:1px solid #c09b5a;
         }
-
+        #filterForm button{
+            background-color:#c09b5a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+		#filterForm button:hover{
+		 background-color: white;
+            color: #c09b5a;
+           
+            border:1px solid #c09b5a;
+		}
+		
         /* Chỉnh cho card phòng */
         .card {
             margin-bottom: 20px;
@@ -54,6 +70,7 @@
 
         .card:hover {
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+             border:1px solid #c09b5a;
         }
 
         .card img {
@@ -80,7 +97,7 @@
 
         .card-icons i {
             margin-right: 5px;
-            color: #007bff;
+            
         }
 
         .btn-custom {
@@ -115,18 +132,7 @@
             margin-bottom: 5px;
         }
 
-        /* Thêm một chút căn chỉnh cho các phần tử trong form */
-/*         .search-form .form-control {
-            width: 200px; 
-        }
- */
-        /* Đảm bảo nút tìm kiếm có chiều cao đồng nhất với input/select */
-/*         .search-form button {
-            padding: 10px 20px;
-            font-size: 16px;
-            height: 40px; /* Đảm bảo nút có chiều cao đồng nhất */
-   /*          border-radius: 5px;
-        } */ */
+      
 
         .search-form {
             display: flex;
@@ -305,5 +311,6 @@
     ></df-messenger>
 
 </div>
+<div th:replace="/access/error :: footer"></div>
 </body>
 </html>

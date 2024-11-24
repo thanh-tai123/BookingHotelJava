@@ -33,7 +33,7 @@ public interface RoomRepository extends JpaRepository<Room, Integer>, JpaSpecifi
 			@Param("status") RoomStatus status,
 			Pageable pageable
 	);
-	@Query("SELECT r FROM Room r WHERE r.id NOT IN :ids AND r.status = :status")
+	 @Query("SELECT r FROM Room r LEFT JOIN FETCH r.roomtype rt WHERE r.id NOT IN :ids AND r.status = :status")
 	List<Room> findAvailableRoomsExcludingIds(@Param("ids") List<Integer> ids, @Param("status") RoomStatus status);
 
 	Page<Room> findByStatus(RoomStatus status, Pageable pageable);

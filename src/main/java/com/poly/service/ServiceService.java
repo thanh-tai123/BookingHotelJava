@@ -11,9 +11,10 @@ import com.poly.dto.ServiceDTO;
 import com.poly.entity.Role;
 import com.poly.entity.Services;
 import com.poly.repository.ServiceRepository;
+import com.poly.serviceRepository.ServiceServiceRepository;
 
 @Service
-public class ServiceService {
+public class ServiceService implements ServiceServiceRepository{
     @Autowired
     private ServiceRepository serviceRepository;
 

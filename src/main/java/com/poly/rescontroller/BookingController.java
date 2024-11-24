@@ -22,8 +22,8 @@ import com.poly.entity.MailInfo;
 import com.poly.entity.Room;
 import com.poly.service.BookDetailService;
 import com.poly.service.BookingService;
-import com.poly.service.MailerService;
 import com.poly.service.UserService;
+import com.poly.serviceRepository.MailerService;
 
 @RestController
 @RequestMapping("/api")

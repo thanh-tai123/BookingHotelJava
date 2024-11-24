@@ -314,6 +314,18 @@
             background-color: #e9ecef;
         }
 
+.nav-item.d-flex {
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+}
+
+.user-image {
+    width: 30px; /* Kích thước ảnh */
+    height: 25px; /* Kích thước ảnh */
+    border-radius: 50%; /* Làm cho ảnh thành hình tròn */
+    object-fit: cover; /* Đảm bảo ảnh không bị méo */
+    margin-right: 10px; /* Khoảng cách giữa ảnh và email */
+}
     </style>
 </head>
 <body>
@@ -363,17 +375,25 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/admin/revenue}">THỐNG KÊ</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        Tài khoản
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="accountDropdown">
-                        <li><a class="dropdown-item" th:href="@{/account/info}">THÔNG TIN</a></li>
-                        <li><a class="dropdown-item" th:href="@{/logout}">ĐĂNG XUẤT</a></li>
-                        <li><a class="dropdown-item" th:href="@{/account/login}">ĐĂNG NHẬP</a></li>
-                    </ul>
-                </li>
+               <li class="nav-item dropdown" th:if="${session.userEmail != null}">
+    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button"
+       data-bs-toggle="dropdown" aria-expanded="false">
+        <img class="user-image" th:src="@{${session.userImage}}" />
+        <span th:text="${session.userEmail}">Email</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <li>
+            <a class="dropdown-item" th:if="${session.userEmail != null}" th:href="@{/account/info}" th:text="#{navbar.thong_tin}">THÔNG TIN</a>
+        </li>
+        <li>
+            <a class="dropdown-item" th:if="${session.userEmail != null}" th:href="@{/logout}" th:text="#{navbar.dang_xuat}">ĐĂNG XUẤT</a>
+        </li>
+       
+        <li>
+            <a class="dropdown-item" th:if="${session.userEmail != null}" th:href="@{/account/change-password}">THAY ĐỔI PASSWORD</a>
+        </li>
+    </ul>
+</li>
                 <button class="btn btn-reserve" type="button" style="margin-right: 30px;">GIỮ CHỖ NGAY</button>
                 </button>
                 <li class="nav-item">
@@ -426,19 +446,7 @@
       GIỮ CHỖ NGAY
      </button>
     </div> -->
-    <form action="/room/search" method="get">
-        <label for="hotelId">Branch:</label>
-        <input type="number" name="hotelId" required>
-
-        <label for="checkin">Check-in Date:</label>
-        <input type="date" name="checkin" required>
-
-        <label for="checkout">Check-out Date:</label>
-        <input type="date" name="checkout" required>
-
-        <button type="submit">Search</button>
-    </form>
-
+  
 </div>
 
 <script>

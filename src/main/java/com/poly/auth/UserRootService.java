@@ -48,7 +48,7 @@ public class UserRootService implements UserDetailsService {
                 .map(Role::getName) // Assuming Role class has a getName method
                 .collect(Collectors.joining(","));
             session.setAttribute("userRoles", roles);
-       
+            session.setAttribute("userImage", user.getImage());
 	    return UserRoot.create(user); // Giả sử UserRoot.create trả về UserDetails
 	}
 }

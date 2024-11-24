@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book</title>
     <!-- Include jQuery -->
+    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Include AngularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
@@ -13,6 +14,10 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <style>
+    body {
+            font-family: Arial, sans-serif;
+           
+        }
         .room-details {
             display: flex;
             margin-bottom: 20px;
@@ -171,24 +176,25 @@
    Checkout:
    <input type="date" ng-model="booking.checkout">  -->
 <body ng-controller="RoomDetailsController">
+<div class="container">
 <h1>Book</h1>
 <div>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="room-details">
                 <img ng-src="{{roomDetails.img}}" alt="Room Image" class="room-image" />
                 <div class="room-info">
                     <!--            <p><strong>ID ROOM:</strong> {{roomDetails.id}}</p>-->
-                    <p><strong>Ma Phong:</strong> {{room.roomCode}}</p>
+                    <p><strong>Room Code:</strong> {{roomDetails.roomCode}}</p>
                     <p><strong>Room Number:</strong> {{roomDetails.sophong}}</p>
-                    <p><strong>Room Type:</strong> {{roomDetails.kieuphong}}</p>
+                    <p><strong>Room Type:</strong> {{roomDetails.roomType.name}}</p>
                     <p><strong>Price:</strong> ${{roomDetails.gia}}</p>
                     <p><strong>Description:</strong> {{roomDetails.mota}}</p>
 
                 </div>
             </div>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-6">
 
             <div class="user-inputs">
                 <!--        <div class="input-group">-->
@@ -211,10 +217,7 @@
         </div>
     </div>
 
-    <p><strong>Total:</strong> ${{ totalAmount }}</p>
-    <div class="stay-duration">
-        <p><strong>Number of days:</strong> {{stayDuration}} days</p>
-    </div>
+   
 
 
 
@@ -228,7 +231,7 @@
                     <p><strong>Room Number:</strong> {{room.sophong}}</p>
 
                     <p><strong>Price:</strong> ${{room.gia}}</p>
-                    <p><strong>Room Type:</strong> {{room.roomtype.name}}</p>
+                    <p><strong>Room Type:</strong> {{room.roomType.name}}</p>
 
                 </div>
                 <input type="checkbox" class="checkbox" ng-click="toggleRoomSelection(room)">
@@ -257,6 +260,9 @@
 
     <!--    <p><strong>Total:</strong> ${{ total }}</p>-->
     <p><strong>Total:</strong> ${{ totalAmount }}</p>
+    <div class="stay-duration">
+        <p><strong>Number of days:</strong> {{stayDuration}} days</p>
+    </div>
     <button ng-click="bookRoom()" class="book-button">Book</button>
 
     <!-- List of Booked Dates -->
@@ -286,7 +292,7 @@
     </div>
 
 </div>
-
+</div>
 <script>
 
     angular.module('app', [])
@@ -414,7 +420,7 @@
 
                     $http({
                         method: 'GET',
-                        url: `http://localhost:8081/api/get-available-rooms?checkin=${checkin}&checkout=${checkout}`
+                        url: `http://localhost:8081/api/get-available-rooms?checkin=${checkin}&checkout=${checkout}&status=TRUE`
                     }).then(function successCallback(response) {
                         console.log("Available rooms:", response.data);
                         $scope.availableRooms = response.data;
@@ -430,6 +436,10 @@
                     url: `http://localhost:8081/api/get-bookings?roomId=${roomId}`
                 }).then(function successCallback(response) {
                     $scope.bookedDates = response.data; // Assign booked dates to scope
+                    $scope.bookedDates.sort(function(a, b) {
+                        // So sánh checkin ngày
+                        return new Date(a.checkin) - new Date(b.checkin);
+                    });
                 }, function errorCallback(response) {
                     console.error('Error fetching booked dates:', response);
                 });

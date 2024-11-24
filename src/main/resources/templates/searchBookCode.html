@@ -3,6 +3,7 @@
 <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
 <head>
     <title>Nhập BookCode</title>
+    <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
     <style>
 
 
@@ -29,13 +30,13 @@
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid #4f4c4c;
             border-radius: 4px;
         }
 
         button {
             padding: 10px 15px;
-            background-color: #5cb85c;
+            background-color: #c09b5a;
             color: white;
             border: none;
             border-radius: 4px;
@@ -43,7 +44,10 @@
         }
 
         button:hover {
-            background-color: #4cae4c;
+             background-color: white;
+            color: #c09b5a;
+           
+            border:1px solid #c09b5a;
         }
 
         h2, h3 {
@@ -81,29 +85,24 @@
             color: green;
             font-weight: bold;
         }
+        .container {
+            padding: 30px;
+        }
     </style>
 </head>
 <body>
 <div th:replace="/access/nav :: html"></div>
 
-<h1 th:text="#{code.inputCode}"></h1>
-<form action="#" th:action="@{/search/book}" method="post">
-    <label for="bookCode">BookCode:</label>
-    <input type="text" id="bookCode" name="bookCode" th:value="${bookCode}" required/>
-    <button type="submit" th:text="#{code.search}"></button>
-</form>
-<h1 th:text="#{code.informationBook}"></h1>
 
-<div th:if="${error}">
-    <p th:text="${error}"></p>
-</div>
+
 <!-- <form th:if="${book}" th:action="@{/mailer/send}" method="post"> -->
 <!--     <div th:if="${book}"> -->
+<div class="container">
 <div>
-    <h2>Book Code: <span th:text="${book.bookCode}"></span></h2>
+   	<a th:href="@{/search/bookcode}">Trở lại trang tra cứu</a>
     <h3 th:text="#{code.informationBook}"></h3>
     <ul>
-
+		<li>Mã phòng: <span th:text="${book.bookCode}"></span></li>
         <li>Ngày tạo: <span th:text="${#dates.format(book.createDate, 'yyyy-MM-dd HH:mm:ss')}"></span></li>
         <li>Người dùng: <span th:text="${book.user.name}"></span></li>
         <li>Email: <span name="txtTo" th:text="${book.user.email}"></span></li>
@@ -185,6 +184,7 @@
 
     <button type="submit">Gửi Email</button>
 </form>
-
+</div>
+<div th:replace="/access/error :: footer"></div>
 </body>
 </html>

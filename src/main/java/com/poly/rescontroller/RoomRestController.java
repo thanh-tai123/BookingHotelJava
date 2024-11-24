@@ -54,9 +54,9 @@ public class RoomRestController {
 	    private BookDetailRepository bookDetailRepository;
 
 	 
-	  @GetMapping("/get-room-details")
-	    public Room getRoomDetails(@RequestParam int roomId) {
-	        return roomRepository.findById(roomId).orElse(null);
+	 @GetMapping("/get-room-details")
+	    public RoomDTO getRoomDetails(@RequestParam int roomId) {
+	        return roomService.getRoomDetails(roomId);
 	    }
     @GetMapping("/{id}")
     public ResponseEntity<Room> getRoomById(@PathVariable int id) {
@@ -111,21 +111,15 @@ public class RoomRestController {
 //        BookResponse response = new BookResponse(room);
 //        return ResponseEntity.ok(response).header("Content-Type", "application/json");
 //    }
+
     @GetMapping("/get-available-rooms")
-    public List<Room> getAvailableRooms(
+    public List<RoomDTO> getAvailableRooms(
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkin, 
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkout) {
-        
-        // Find conflicting bookings
-        List<BookDetail> conflictingBookings = bookDetailRepository.findAllByCheckinLessThanEqualAndCheckoutGreaterThanEqual(checkout, checkin);
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkout,
+            @RequestParam RoomStatus status) {
 
-        // Get the list of busy room IDs
-        List<Integer> busyRoomIds = conflictingBookings.stream()
-                .map(bookDetail -> bookDetail.getRoom().getId())
-                .collect(Collectors.toList());
-
-        // Filter available rooms
-        return roomRepository.findAvailableRoomsExcludingIds(busyRoomIds, RoomStatus.TRUE);
+        // Gọi dịch vụ để lấy các phòng trống
+        return roomService.getAvailableRooms(checkin, checkout, status);
     }
 
     

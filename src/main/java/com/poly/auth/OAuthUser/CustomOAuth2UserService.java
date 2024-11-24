@@ -66,6 +66,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 .map(Role::getName) // Assuming Role class has a getName method
                 .collect(Collectors.joining(","));
             session.setAttribute("userRoles", roles);
+            
+            session.setAttribute("userImage", user.getImage());
+      
         return UserRoot.create(user, oAuth2UserInfo.getAttributes());
     }
 

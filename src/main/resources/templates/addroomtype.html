@@ -80,8 +80,9 @@
 
 <body >
 
-<div th:replace="/access/navadmin :: html"></div>
+<div th:replace="/layout/menudoc :: html"></div>
 <div ng-controller="RoomTypeController">
+<div class="container" style="margin-left:400px">
     <h2>{{ roomType.id ? 'Update Room Type' : 'Add Room Type' }}</h2>
     <form ng-submit="roomType.id ? updateRoomType() : addRoomType()">
         <label th:text="#{admin.name}">:</label>
@@ -113,6 +114,7 @@
         </tr>
         </tbody>
     </table>
+</div>
 </div>
 <script>
     var app = angular.module('app', []);

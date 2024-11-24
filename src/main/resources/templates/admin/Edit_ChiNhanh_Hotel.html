@@ -6,12 +6,11 @@
     <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
 </head>
 <body>
-
-<div th:replace="/access/navadmin :: html"></div>
+<div th:replace="/layout/menudoc :: html"></div>
 <br>
 
 <div>
-
+	<div class="container">
     <form th:action="@{/admin/update-chinhanh}" method="post" style="max-width:700px; margin: 0 auto" th:object="${hotel}"
           enctype="multipart/form-data">
         <input type="hidden" th:field="*{id}">
@@ -39,6 +38,6 @@
     </form>
 
 </div>
-
+</div>
 </body>
 </html>

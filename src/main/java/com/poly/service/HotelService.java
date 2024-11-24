@@ -2,13 +2,15 @@ package com.poly.service;
 
 import com.poly.entity.Hotel;
 import com.poly.repository.HotelRepository;
+import com.poly.serviceRepository.HotelServiceRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class HotelService {
+public class HotelService implements HotelServiceRepository{
     @Autowired
     private HotelRepository hotelRepository;
 

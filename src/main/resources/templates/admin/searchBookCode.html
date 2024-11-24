@@ -85,17 +85,7 @@
 </head>
 <body>
 <div th:replace="/access/navadmin :: html"></div>
-<h1>Nhập BookCode</h1>
-<form action="#" th:action="@{/search/admin/book}" method="post">
-    <label for="bookCode">BookCode:</label>
-    <input type="text" id="bookCode" name="bookCode" th:value="${bookCode}" required />
-    <button type="submit">Tìm kiếm</button>
-</form>
-<h1>Thông Tin Book</h1>
-
-<div th:if="${error}">
-    <p th:text="${error}"></p>
-</div>
+<div class="container">
 
 <div>
     <h2>Book Code: <span th:text="${book.bookCode}"></span></h2>
@@ -197,6 +187,6 @@
     
     <button type="submit">Gửi Email</button>
 </form>
-
+</div>
 </body>
 </html>
