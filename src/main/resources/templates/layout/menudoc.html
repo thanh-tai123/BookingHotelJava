@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vertical Navbar</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css}">
+    <style>
+        .vertical-navbar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: rgb(77, 77, 77);
+            padding-top: 20px;
+            z-index: 1000;
+        }
+
+        .vertical-navbar .nav-link {
+            color: rgb(248, 251, 225);
+        }
+
+        .vertical-navbar .btn-reserve {
+            margin-left: 10px;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .nav-item .dropdown-menu {
+            display: none;
+        }
+
+        .nav-item:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-menu {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-item:hover {
+            background-color: #e9ecef;
+        }
+
+        @media (max-width: 768px) {
+            .vertical-navbar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="vertical-navbar">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/room}">
+            <img alt="Hotel logo" style="margin-left:25px" height="120"
+                 src="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" width="150"/>
+        </a>
+        <ul class="navbar-nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/admin}" th:text="#{navbar.thong_tin}">THÔNG TIN</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link dropdown-toggle" href="#">THỐNG KÊ</a>
+                <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                    <li><a class="dropdown-item" th:href="@{/admin/revenue}" th:text="#{admin.Revenue}">Doanh thu theo
+                        biểu đồ</a></li>
+                    <li><a class="dropdown-item" th:href="@{/admin/userbybook}">Thông kê lượt đặt phòng</a></li>
+                    <li><a class="dropdown-item" th:href="@{/admin/compare}">So sánh doanh thu</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-toggle="dropdown"
+                   aria-expanded="false">ADMIN</a>
+                <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                    <li><a class="dropdown-item" th:href="@{/admin/confirmroom}">Xác nhận phòng</a></li>
+                    <li><a class="dropdown-item" th:href="@{/admin/add/roomtype}">Tạo kiểu phòng</a></li>
+                    <li><a class="dropdown-item" th:href="@{/admin/add/service}">Tạo dịch vụ</a></li>
+                    <li><a class="dropdown-item" th:href="@{/admin/roomtypes}">Đặt dịch vụ <br>theo kiểu phòng</a></li>
+                    <li><a class="dropdown-item" th:href="@{/admin/show-chinhanh}">Tạo chi nhánh mới</a></li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/logout}">ĐĂNG XUẤT</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

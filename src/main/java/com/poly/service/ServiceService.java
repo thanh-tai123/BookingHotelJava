@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.poly.dto.ServiceDTO;
+import com.poly.entity.Role;
 import com.poly.entity.Services;
 import com.poly.repository.ServiceRepository;
+import com.poly.serviceRepository.ServiceServiceRepository;
 
 @Service
-public class ServiceService {
+public class ServiceService implements ServiceServiceRepository{
     @Autowired
     private ServiceRepository serviceRepository;
 
@@ -49,5 +51,8 @@ public class ServiceService {
 
     public void deleteService(Integer id) {
         serviceRepository.deleteById(id);
+    }
+    public List<Services> findAll() {
+        return this.serviceRepository.findAll();
     }
 }

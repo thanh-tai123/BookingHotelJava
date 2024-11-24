@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,11 @@ import com.poly.repository.BookDetailRepository;
 import com.poly.repository.BookRepository;
 import com.poly.repository.RoomRepository;
 import com.poly.repository.UserRepo;
+import com.poly.serviceRepository.BookingServiceRepository;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 @Service
-public class BookingService {
+public class BookingService implements BookingServiceRepository{
 
     @Autowired
     private BookRepository bookRepository;
@@ -69,13 +71,51 @@ public class BookingService {
                 bookDetail.setChildren(request.getChildren());
                 bookDetail.setPaymentMethod(request.getPaymentMethod());
                 bookDetail.setPaymentStatus(request.getPaymentStatus());
-
+                bookDetail.setBookDetailStatus(request.getBookDetailStatus());
                 bookDetailRepository.save(bookDetail);
             } catch (Exception e) {
                 System.out.println("Error saving BookDetail for roomId " + roomId + ": " + e.getMessage());
             }
         }
 
+    }
+    
+    public Book PaybookRoom(BookingRequest request) {
+        User user = userRepository.findById(request.getUserid())
+            .orElseThrow(() -> new RuntimeException("User not found with id " + request.getUserid()));
+
+        Book book = new Book();
+        book.setUser(user);
+        book.setCreateDate(new Date());
+        book.generateBookCode();
+        Book savedBook = bookRepository.save(book);
+
+        float totalAmount = 0;
+        for (Integer roomId : request.getRoomid()) {
+            Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new RuntimeException("Room not found with id " + roomId));
+
+            BookDetail bookDetail = new BookDetail();
+            bookDetail.setBookid(savedBook.getId());
+            bookDetail.setRoom(room);
+            bookDetail.setPrice(room.getGia());
+            bookDetail.setCheckin(request.getCheckin());
+            bookDetail.setCheckout(request.getCheckout());
+
+            long differenceInMillis = request.getCheckout().getTime() - request.getCheckin().getTime();
+            long daysBetween = differenceInMillis / (1000 * 60 * 60 * 24);
+            float calculatedTotal = daysBetween * room.getGia();
+            bookDetail.setTotal(calculatedTotal);
+            totalAmount += calculatedTotal;
+            bookDetail.setAdult(request.getAdult());
+            bookDetail.setChildren(request.getChildren());
+            bookDetail.setPaymentMethod(request.getPaymentMethod());
+            bookDetail.setPaymentStatus(request.getPaymentStatus());
+
+            bookDetailRepository.save(bookDetail);
+        }
+
+        return savedBook;
     }
 //    public BookingResponse bookRoom(BookingRequest request) {
 //        User user = userRepository.findById(request.getUserid())
@@ -142,4 +182,26 @@ public class BookingService {
         User user = userRepository.findById(userId).orElse(null);
         return user != null ? user.getBooks() : null;
     }
+    public List<Object[]> getBookDetails() {
+        return bookDetailRepository.findAll().stream().map(bookDetail -> {
+            User user = bookDetail.getRoom().getUser();
+            return new Object[] {
+                   
+                    user != null ? user.getEmail() : null,
+                    bookDetail.getCheckin(),
+                    bookDetail.getCheckout(),
+                
+                    bookDetail.getPrice(),
+                    bookDetail.getTotal(),
+                    bookDetail.getPaymentMethod(),
+                    bookDetail.getPaymentStatus(),
+                    bookDetail.getBookDetailStatus(),
+                    bookDetail.getUpdatedAt(),
+                    bookDetail.getUpdatedBy(),
+                    user != null ? user.getName() : null,
+                    user != null ? user.getPhone() : null
+            };
+        }).collect(Collectors.toList());
+    }
+
 }

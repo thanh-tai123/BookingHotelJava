@@ -1,12 +1,16 @@
 package com.poly.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.poly.util._enum.RoomStatus;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,16 +19,27 @@ import lombok.Data;
 //RoomRequest.java
 public class RoomRequest {
 
-private int hotelid;
- private int sophong;
- private String kieuphong;
- private float gia;
+    @NotNull(message = "Hotel ID is required")
+    private Integer hotelid;
 
- private String mota;
- private RoomStatus status = RoomStatus.FALSE;
-// private String note;
-private int staffid;
-private Integer roomtypeid;
+    @NotNull(message = "Room number is required")
+    private Integer sophong;
 
- // Getters and setters
+    @NotNull(message = "Room type is required")
+    private Integer roomtypeid;
+
+    @NotNull(message = "Price is required")
+    private Float gia;
+
+    @Size(max = 255, message = "Description cannot be longer than 255 characters")
+    private String mota;
+
+    @NotNull(message = "Status is required")
+    private RoomStatus status = RoomStatus.FALSE;
+
+    @NotNull(message = "Staff ID is required")
+    private Long staffid;
+    private List<MultipartFile> images;
+    // Getters and setters
 }
+

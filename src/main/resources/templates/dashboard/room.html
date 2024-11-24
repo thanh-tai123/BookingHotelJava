@@ -1,0 +1,37 @@
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Add New Room</h5>
+                <form id="addRoomForm">
+                    <div class="mb-3">
+                        <label for="roomName" class="form-label">Room Name</label>
+                        <input type="text" class="form-control" id="roomName" placeholder="Enter room name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="roomType" class="form-label">Room Type</label>
+                        <select class="form-select" id="roomType" required>
+                            <option value="" disabled selected>Select room type</option>
+                            <option value="single">Single</option>
+                            <option value="double">Double</option>
+                            <option value="suite">Suite</option>
+                            <option value="deluxe">Deluxe</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="roomPrice" class="form-label">Price per Night ($)</label>
+                        <input type="number" class="form-control" id="roomPrice" placeholder="Enter price" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="roomDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="roomDescription" rows="3" placeholder="Enter room description" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="roomImage" class="form-label">Upload Room Image</label>
+                        <input type="file" class="form-control" id="roomImage" accept="image/*" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Room</button>
+                </form>
+            </div>
+        </div>
+
+

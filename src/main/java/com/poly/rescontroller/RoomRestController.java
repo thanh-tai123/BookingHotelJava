@@ -1,6 +1,7 @@
 package com.poly.rescontroller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,6 +14,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,6 +31,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.poly.dto.BookingRequest;
 import com.poly.dto.RoomDTO;
 import com.poly.dto.RoomRequest;
+import com.poly.dto.RoomStatisticsDTO;
+import com.poly.dto.RoomTypeCountDTO;
 import com.poly.entity.BookDetail;
 import com.poly.entity.BookResponse;
 import com.poly.entity.Room;
@@ -35,6 +40,8 @@ import com.poly.repository.BookDetailRepository;
 import com.poly.repository.RoomRepository;
 import com.poly.service.RoomService;
 import com.poly.util._enum.RoomStatus;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
@@ -47,9 +54,9 @@ public class RoomRestController {
 	    private BookDetailRepository bookDetailRepository;
 
 	 
-	  @GetMapping("/get-room-details")
-	    public Room getRoomDetails(@RequestParam int roomId) {
-	        return roomRepository.findById(roomId).orElse(null);
+	 @GetMapping("/get-room-details")
+	    public RoomDTO getRoomDetails(@RequestParam int roomId) {
+	        return roomService.getRoomDetails(roomId);
 	    }
     @GetMapping("/{id}")
     public ResponseEntity<Room> getRoomById(@PathVariable int id) {
@@ -79,9 +86,8 @@ public class RoomRestController {
 
     @PostMapping("/add-room")
     public ResponseEntity<String> addRoom(@ModelAttribute RoomRequest roomRequest, 
-                                          @RequestParam("img") MultipartFile img) {
-        roomService.addRoom(roomRequest, img);
-        
+                                          @RequestParam("images") List<MultipartFile> images) {
+        roomService.addRoom(roomRequest, images);
         return ResponseEntity.ok("{\"message\":\"Room added successfully\"}");
     }
 
@@ -105,36 +111,52 @@ public class RoomRestController {
 //        BookResponse response = new BookResponse(room);
 //        return ResponseEntity.ok(response).header("Content-Type", "application/json");
 //    }
+
     @GetMapping("/get-available-rooms")
-    public List<Room> getAvailableRooms(
+    public List<RoomDTO> getAvailableRooms(
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkin, 
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkout) {
-        
-        // Find conflicting bookings
-        List<BookDetail> conflictingBookings = bookDetailRepository.findAllByCheckinLessThanEqualAndCheckoutGreaterThanEqual(checkout, checkin);
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkout,
+            @RequestParam RoomStatus status) {
 
-        // Get the list of busy room IDs
-        List<Integer> busyRoomIds = conflictingBookings.stream()
-                .map(bookDetail -> bookDetail.getRoom().getId())
-                .collect(Collectors.toList());
-
-        // Filter available rooms
-        return roomRepository.findAvailableRoomsExcludingIds(busyRoomIds, RoomStatus.TRUE);
+        // Gọi dịch vụ để lấy các phòng trống
+        return roomService.getAvailableRooms(checkin, checkout, status);
     }
 
     
     @PutMapping("/update-room/{roomId}")
-    public ResponseEntity<Map<String, String>> updateRoom(
+    public ResponseEntity<?> updateRoom(
             @PathVariable int roomId,
-            @ModelAttribute RoomRequest roomRequest, 
-            @RequestParam(value = "img", required = false) MultipartFile img) {
+            @ModelAttribute @Valid RoomRequest roomRequest, 
+            BindingResult result,
+            @RequestParam(value = "img", required = false) MultipartFile img,
+            @RequestParam(value = "images", required = false) List<MultipartFile> images) {
+
+        if (result.hasErrors()) {
+            List<Map<String, String>> errors = new ArrayList<>();
+            for (FieldError error : result.getFieldErrors()) {
+                Map<String, String> errorDetails = new HashMap<>();
+                errorDetails.put("field", error.getField());
+                errorDetails.put("message", error.getDefaultMessage());
+                errors.add(errorDetails);
+            }
+            return ResponseEntity.badRequest().body(errors);
+        }
         
-        // Gọi service để thực hiện cập nhật
-        roomService.updateRoom(roomId, roomRequest, img);
-        
-        // Trả về JSON xác nhận cập nhật thành công
-        return ResponseEntity.ok(Map.of("message", "Room updated successfully"));
+        try {
+            // Gọi service để thực hiện cập nhật
+            roomService.updateRoom(roomId, roomRequest, img, images);
+            // Trả về JSON xác nhận cập nhật thành công
+            return ResponseEntity.ok(Map.of("message", "Room updated successfully"));
+        } catch (Exception e) {
+            // Ghi lại chi tiết lỗi
+            e.printStackTrace();
+            // Trả về thông tin lỗi chi tiết
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                 .body(Map.of("message", "Error updating room", "error", e.getMessage()));
+        }
     }
+
+
 
 
 
@@ -152,5 +174,11 @@ public class RoomRestController {
            // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("message", "Error deleting room: " + e.getMessage()));
         	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("message", "Error deleting room: You have not permission"));
         }
+    }
+    
+    
+    @GetMapping("/rooms-per-branch")
+    public List<RoomStatisticsDTO> getRoomTypeCounts() {
+        return roomService.getRoomStatistics();
     }
 }

@@ -1,5 +1,7 @@
 package com.poly.entity;
 
+import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +26,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table
@@ -35,6 +38,7 @@ public class Room {
 		@Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private int id;
+		 private String roomCode;
 		  @ManyToOne
 		    @JoinColumn(name = "hotelid", nullable = false)
 		    @JsonBackReference
@@ -53,8 +57,32 @@ public class Room {
 	    @Enumerated(EnumType.STRING)
 	    private RoomStatus status = RoomStatus.FALSE;
 	    private String note;
-	    private int staffid;
+//	    private int staffid;
+	    @ManyToOne
+		  @JsonBackReference
+		@ToString.Exclude
+	    @JoinColumn(name = "staffid", referencedColumnName = "id", nullable = false)
+	    private User user;
 	    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	    @JsonManagedReference
 	    private List<BookDetail> bookDetails;
+	    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	    @JsonManagedReference
+	    private List<Comment> comments;
+	    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+	    @JsonManagedReference
+	    private List<RoomImages> roomImages = new ArrayList<>();
+	    private static final String ALPHANUMERIC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		private static final SecureRandom RANDOM = new SecureRandom();
+
+		// Generate a random book code
+		public String generateRoomCode() {
+			StringBuilder code = new StringBuilder(8);
+			for (int i = 0; i < 8; i++) {
+				code.append(ALPHANUMERIC.charAt(RANDOM.nextInt(ALPHANUMERIC.length())));
+			}
+			this.roomCode = code.toString();
+			return this.roomCode;
+		}
+
 }

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="revenueApp" ng-controller="RevenueController">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thống kê người dùng</title>
+    <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .chart-container {
+            width: 100%;
+            display: inline-block;
+            vertical-align: top;
+            margin: 40px;
+           margin-left:400px;
+        }
+        canvas {
+            max-width: 100%;
+            height: 500px;
+            
+        }
+    </style>
+</head>
+<body>
+  <div th:replace="/layout/menudoc :: html"></div>
+  <div class="container">
+    <div  style="width: 80%; margin-left: auto;">
+        <select ng-model="selectedYear" ng-change="getTopUsersData(selectedYear, selectedMonth)" ng-options="year for year in years">
+            <option value="">Chọn năm</option>
+        </select>
+        <select ng-model="selectedMonth" ng-change="getTopUsersData(selectedYear, selectedMonth)" ng-options="month for month in months">
+            <option value="">Chọn tháng</option>
+        </select>
+        <h3>Thống kê người đặt phòng nhiều nhất theo tháng trong năm</h3>
+        <div ng-repeat="user in topUsers">
+            <p>Email: {{ user.userEmail }} - Tháng: {{ user.month }} - Năm: {{ user.year }} - Số lượng đặt phòng: {{ user.bookingCount }}</p>
+        </div>
+    </div>
+</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    var app = angular.module('revenueApp', []);
+    app.controller('RevenueController', function($scope, $http) {
+        $scope.years = Array.from({length: 9}, (_, i) => 2019 + i);
+        $scope.months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];  
+        var currentDate = new Date();
+        $scope.selectedYear = currentDate.getFullYear(); 
+        $scope.selectedMonth = currentDate.getMonth() + 1; 
+        $scope.topUsers = [];
+        $scope.getTopUsersData = function(year, month) {
+            if (year && month) {
+                $http.get('/api/top-users/' + year + '/' + month).then(function(response) {
+                    $scope.topUsers = response.data;
+                });
+            }
+        };    
+        $scope.getTopUsersData($scope.selectedYear, $scope.selectedMonth);
+    });
+    </script>
+</body>
+</html>

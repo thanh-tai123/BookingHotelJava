@@ -12,13 +12,8 @@ import java.util.List;
 
 @Repository
 public interface ViewRoomRepository extends JpaRepository<ViewRoom, Integer> {
-    @Query("SELECT COALESCE(SUM(v.visitCount), 0) " +
-            "FROM ViewRoom v " +
-            "WHERE v.roomId = :roomId")
+	@Query("SELECT COALESCE(SUM(v.visitCount), 0) FROM ViewRoom v WHERE v.roomId = :roomId")
     Integer getTotalVisitCountByRoomId(@Param("roomId") int roomId);
-
-
-
 
     @Modifying
     @Transactional

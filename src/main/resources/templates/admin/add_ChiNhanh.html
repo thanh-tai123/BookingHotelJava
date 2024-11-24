@@ -2,43 +2,161 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>Tạo Chi Nhánh Mới</title>
     <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
+
+    <!-- Link Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* Body setup */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Menu styles */
+        .menu {
+            width: 250px;
+            background-color: #343a40;
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding-top: 20px;
+        }
+
+        .menu img {
+            width: 150px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: white;
+            padding: 10px 20px;
+            display: block;
+            transition: all 0.3s;
+        }
+
+        .menu a:hover {
+            background-color: #495057;
+        }
+
+        .menu .menu-header {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        /* Content area */
+        .content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 900px; /* Tăng kích thước form tối đa */
+            padding: 40px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #c09b5a;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-control:focus {
+            border-color: #c09b5a;
+            box-shadow: 0 0 5px rgba(192, 155, 90, 0.5);
+        }
+
+        /* Button styles */
+        .btn-primary {
+            color: white !important;
+            background-color: #c09b5a !important;
+            border: 1px solid #c09b5a !important;
+            font-weight: bold;
+            transition: all 0.3s ease !important;
+        }
+
+        .btn-primary:hover {
+            background-color: white !important;
+            color: #c09b5a !important;
+            font-weight: bold;
+            border: 1px solid #c09b5a !important;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            border: 1px solid #6c757d;
+            transition: all 0.3s ease;
+            font-weight: bold;
+
+        }
+
+        .btn-secondary:hover {
+            background-color: white !important;
+            color: #c09b5a !important;
+            font-weight: bold;
+            border: 1px solid #c09b5a !important;
+        }
+
+        .text-center {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
 
-<div th:replace="/access/navadmin :: html"></div>
-<br>
+<!-- Menu -->
+<div th:replace="/layout/menudoc :: html"></div>
 
-<div>
 
-    <form th:action="@{/admin/save-chinhanh}" method="post" style="max-width:700px; margin: 0 auto" th:object="${hotel}"
-          enctype="multipart/form-data">
-        <input type="hidden" name="*{id}">
-        <div class="border border-secondary rounded p-3">
-
-            <div class="form-group row mt-2">
-                <label class="col-sm-4 col-form-label">Chi Nhanh:</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control" name="chinhanh" required>
-                </div>
+<!-- Content -->
+<div class="content">
+    <div class="form-container">
+        <h2>Tạo Chi Nhánh Mới</h2>
+        <form th:action="@{/admin/save-chinhanh}" method="post" th:object="${hotel}" enctype="multipart/form-data">
+            <input type="hidden" name="*{id}">
+            <div class="form-group">
+                <label for="chinhanh">Chi Nhánh:</label>
+                <input type="text" id="chinhanh" name="chinhanh" class="form-control" required>
             </div>
-
-            <div class="form-group row mt-2">
-                <label class="col-sm-4 col-form-label">Dia Chi:</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control" name="diachi" required>
-                </div>
+            <div class="form-group">
+                <label for="diachi">Địa Chỉ:</label>
+                <input type="text" id="diachi" name="diachi" class="form-control" required>
             </div>
-
             <div class="text-center">
-                <input type="submit" value="Save" class="btn btn-primary m-3">
-                <input type="button" value="Cancel" class="btn btn-secondary" id="buttonCancel">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-secondary" id="buttonCancel">Cancel</button>
             </div>
-        </div>
-    </form>
-
+        </form>
+    </div>
 </div>
 
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Type Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 0;
+        }
+
+        .content {
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            max-width: 90%;
+        }
+
+        h2 {
+            color: #c09b5a; /* Màu chủ đạo */
+        }
+
+        table {
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            text-align: center;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            vertical-align: middle;
+            text-align: center;
+            padding: 15px;
+            border: 1px solid #dee2e6;
+        }
+
+        table th {
+            background-color: #c09b5a; /* Màu chủ đạo */
+            color: #fff;
+            font-weight: bold;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+
+        /* Button styles */
+        .btn-primary {
+            color: white !important;
+            background-color: #c09b5a !important;
+            border: 1px solid #c09b5a !important;
+            font-weight: bold;
+            transition: all 0.3s ease !important;
+        }
+
+        .btn-primary:hover {
+            background-color: white !important;
+            color: #c09b5a !important;
+            font-weight: bold;
+            border: 1px solid #c09b5a !important;
+        }
+
+
+        @media (max-width: 992px) {
+            .content {
+                padding: 15px;
+                margin: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Include Navbar -->
+<div th:replace="/layout/menudoc :: html"></div>
+
+<!-- Nội dung -->
+<div class="content">
+    <h2 class="mb-4 text-center font-weight-bold">THÔNG TIN LOẠI PHÒNG</h2>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên</th>
+            <th>Mô Tả</th>
+            <th>Dịch Vụ</th>
+            <th>Chỉnh Sửa</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="rt : ${roomTypes}">
+            <td th:text="${rt.id}"></td>
+            <td th:text="${rt.name}"></td>
+            <td th:text="${rt.description}"></td>
+            <td>
+                <ul class="list-unstyled mb-0">
+                    <li th:each="service : ${rt.services}" th:text="${service.myService.name}"></li>
+                </ul>
+            </td>
+            <td>
+                <a th:href="@{'/admin/editRoomType/' + ${rt.id}}" class="btn btn-sm btn-primary">
+                    <i class="fas fa-edit"></i> Chỉnh sửa
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>

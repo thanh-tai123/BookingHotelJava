@@ -85,23 +85,13 @@
 </head>
 <body>
 <div th:replace="/access/navadmin :: html"></div>
-<h1>Nhập BookCode</h1>
-<form action="#" th:action="@{/search/admin/book}" method="post">
-    <label for="bookCode">BookCode:</label>
-    <input type="text" id="bookCode" name="bookCode" th:value="${bookCode}" required />
-    <button type="submit">Tìm kiếm</button>
-</form>
-<h1>Thông Tin Book</h1>
-
-<div th:if="${error}">
-    <p th:text="${error}"></p>
-</div>
+<div class="container">
 
 <div>
     <h2>Book Code: <span th:text="${book.bookCode}"></span></h2>
     <h3>Thông tin chi tiết:</h3>
     <ul>
-        <li>ID: <span th:text="${book.id}"></span></li>
+        <li>Mã khách hàng: <span th:text="${book.user.userCode}"></span></li>
         <li>Ngày tạo: <span th:text="${#dates.format(book.createDate, 'yyyy-MM-dd HH:mm:ss')}"></span></li>
         <li>Người dùng: <span th:text="${book.user.name}"></span></li>
         <li>Email: <span name="txtTo" th:text="${book.user.email}"></span></li>
@@ -127,7 +117,7 @@
             <th>Hành động</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody th:with="content='Chi tiết đặt phòng:\n'">
         <tr th:each="detail : ${bookDetails}">
              <td th:text="${detail.room.sophong}"></td>
                     <td th:text="${detail.room.roomtype.name}"></td>
@@ -155,6 +145,8 @@
                     <button type="submit">Cập nhật</button>
                 </form>
             </td>
+            <td th:with="content=${content} + 'ID: ' + ${detail.id} + ', ID Phòng: ' + ${detail.room.id} + ', Tổng: ' + ${detail.total} + ', Giá: ' + ${detail.price} + ', Checkin: ' + ${#dates.format(detail.checkin, 'yyyy-MM-dd HH:mm:ss')} + ', Checkout: ' + ${#dates.format(detail.checkout, 'yyyy-MM-dd HH:mm:ss')} + ', Người lớn: ' + ${detail.adult} + ', Trẻ em: ' + ${detail.children} + ', Phương thức thanh toán: ' + ${detail.paymentMethod} + ', Trạng thái thanh toán: ' + ${detail.paymentStatus} + ', Trạng thái phòng: ' + ${detail.bookDetailStatus} + ', Người cập nhật: ' + ${detail.updatedBy} + ', Thời gian cập nhật: ' + ${#dates.format(detail.updatedAt, 'yyyy-MM-dd HH:mm:ss')} + '\n'">
+            </td>
         </tr>
     </tbody>
 </table>
@@ -175,8 +167,8 @@
     
     Chi tiết:
     <th:block th:each="detail : ${bookDetails}">
-        - ID: [[${detail.id}]], 
-        ID Phòng: [[${detail.roomid}]], 
+      
+        Số phòng Phòng: [[${detail.room.sophong}]], 
         Tổng: [[${detail.total}]], 
         Giá: [[${detail.price}]], 
         Checkin: [[${#dates.format(detail.checkin, 'yyyy-MM-dd HH:mm:ss')}]], 
@@ -186,13 +178,15 @@
         Phương thức thanh toán: [[${detail.paymentMethod}]], 
         Trạng thái thanh toán: [[${detail.paymentStatus}]]
         Trạng thái phòng: [[${detail.BookDetailStatus}]]
-        &#10; <------------------------------------>
+        Người cập nhật: [[${detail.updatedBy}]], 
+        Thời gian cập nhật: [[${#dates.format(detail.updatedAt, 'yyyy-MM-dd HH:mm:ss')}]]
+              &#10; <------------------------------------>
     </th:block>
 </textarea>
 
     
     <button type="submit">Gửi Email</button>
 </form>
-
+</div>
 </body>
 </html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="revenueApp" ng-controller="RevenueController">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>So sánh doanh thu</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
+    <style>
+        .chart-container {
+            width: 100%;
+            display: inline-block;
+            vertical-align: top;
+            margin: 40px;
+           /*  margin-left:100px; */
+        }
+        canvas {
+            max-width: 100%;
+            height: 500px;
+            
+        }
+    </style>
+</head>
+<body>
+  <div th:replace="/layout/menudoc :: html"></div>
+    <div class="container">
+       
+
+<div style="margin-left:400px">
+        <select ng-model="year1" ng-options="year for year in years" placeholder="Select first year">
+    <option value="">Chọn năm thứ nhất</option>
+</select>
+
+<select ng-model="year2" ng-options="year for year in years" placeholder="Select second year">
+    <option value="">Chọn năm thứ hai</option>
+</select>
+        <button ng-click="compareRevenue(year1, year2)">So sánh</button>
+    </div>
+    <canvas id="lineChart" style="margin-left:200px"></canvas>
+    </div>
+    
+  
+   
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var app = angular.module('revenueApp', []);
+        app.controller('RevenueController', function($scope, $http) {
+            $scope.years = Array.from({length: 9}, (_, i) => 2019 + i);
+
+            
+            $scope.revenueData = {
+            	    labels: [],
+            	    data: []
+            	};
+            $scope.compareRevenue = function(year1, year2) {
+                if (year1 && year2) {
+                    $http.get(`/api/compare/${year1}/${year2}`)
+                        .then(function(response) {
+                            // Clear previous data
+                            $scope.revenueData.labels = [];
+                            $scope.revenueData.data = [];
+
+                            response.data.forEach(function(item) {
+                                $scope.revenueData.labels.push(item.year);
+                                $scope.revenueData.data.push(item.revenue);
+                            });
+                            $scope.createRevenueChart();
+                        })
+                        .catch(function(error) {
+                            console.error('Error fetching revenue data:', error);
+                        });
+                }
+            };
+
+            $scope.createRevenueChart = function() {
+                var ctx = document.getElementById('lineChart').getContext('2d');
+
+                // Destroy the previous chart instance if it exists
+                if ($scope.lineChart) {
+                    $scope.lineChart.destroy();
+                }
+
+                // Create a new chart
+                $scope.lineChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: $scope.revenueData.labels,
+                        datasets: [{
+                            label: 'Revenue',
+                            data: $scope.revenueData.data,
+                            borderColor: '#36A2EB',
+                            fill: false
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: true
+                            },
+                            title: {
+                                display: true,
+                                text: 'Revenue Comparison'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Revenue (in currency)'
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Year'
+                                }
+                            }
+                        }
+                    }
+                });
+            };
+          
+                
+                
+        });
+    </script>
+</body>
+</html>

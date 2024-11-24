@@ -55,6 +55,7 @@ public class AwsS3Service {
             throw new OurException("Unable to upload image to s3 bucket" + e.getMessage());
         }
     }
+    
 }
 
 

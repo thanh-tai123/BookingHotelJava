@@ -1,0 +1,262 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Booking Saigon Hotel
+  </title>
+  <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&amp;family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .navbar {
+            background-color: #f8f9fa;
+        }
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+        }
+       
+        .content-section {
+            padding: 50px 0;
+        }
+        .content-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        .content-section p {
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        .content-section .btn {
+            background-color: #d4af37;
+            border: none;
+            color: white;
+        }
+        .special-offers {
+            background-color: #f8f9fa;
+            padding: 50px 0;
+        }
+        .special-offers h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        .footer {
+            background-color: #000;
+            color: white;
+            padding: 50px 0;
+        }
+        .footer a {
+            color: white;
+        }
+  </style>
+ </head>
+ <body>
+<div th:replace="/access/nav :: html"></div>
+
+  <div class="container mt-5">
+    <div class="row">
+     <div class="col-md-6">
+      <h1 class="title">
+       TẬN HƯỞNG KÌ NGHỈ DƯỠNG
+      </h1>
+      <p class="subtitle">
+       Thư Giãn &amp; Sang Trọng
+      </p>
+      <p class="content">
+       Chào mừng bạn đến với dịch vụ 5 sao sang trọng tại La Booking Sài Gòn. Thiết kế hiện đại kết hợp cùng phong cách cổ điển sẽ mang lại trải nghiệm tuyệt vời cho những ai có niềm đam mê du lịch. Tạo ra một phong cách sống hoàn toàn mới với dịch vụ của chúng tôi: từ phòng nghỉ tiện nghi đến bữa tiệc thịnh soạn. Dịch vụ ẩm thực phong phú với các nhà hàng và quán bar; phòng gym; và hồ bơi vô cực trên cao lớn nhất thành phố cùng tầm nhìn tuyệt đẹp. Một kì nghỉ dưỡng thư thái đang chờ đón bạn!
+      </p>
+     </div>
+     <div class="col-md-6 image-container">
+      <div class="row">
+       <div class="col-6">
+        <img alt="A person wearing a crown and a white robe, lying on a bed with a tray of food and drink" height="400" src="https://lavelasaigon.com/wp-content/uploads/2024/05/DSC00485-560x660.png" width="300"/>
+       </div>
+       <div class="col-6">
+        <img alt="A person wearing a crown and a white robe, lying on a bed" height="400" src="https://lavelasaigon.com/wp-content/uploads/2024/05/z5628971543272_f3b935daa8027653cbd9e49128704bdd-560x660.jpg" width="300"/>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+   <div class="container mt-5">
+    <div class="row mt-5">
+        <div class="col-md-6 image-container">
+            <div class="row">
+                <div class="col-6">
+                    <img alt="A person wearing a crown and a white robe, lying on a bed with a tray of food and drink" height="400" src="https://storage.googleapis.com/a1aa/image/0DAYrADJG95YIVzqTVtezn0xzErjDAiDia2Kl6Fv5MARtVzJA.jpg" width="300"/>
+                </div>
+                <div class="col-6">
+                    <img alt="A person wearing a crown and a white robe, lying on a bed" height="400" src="data:image/jpeg;base64,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" width="300"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h1 class="title">
+                TẬN HƯỞNG KÌ NGHỈ DƯỠNG
+            </h1>
+            <p class="subtitle">
+                Thư Giãn &amp; Sang Trọng
+            </p>
+            <p class="content">
+                Chào mừng bạn đến với dịch vụ 5 sao sang trọng tại La Vela Sài Gòn. Thiết kế hiện đại kết hợp cùng phong cách cổ điển sẽ mang lại trải nghiệm tuyệt vời cho những ai có niềm đam mê du lịch. Tạo ra một phong cách sống hoàn toàn mới với dịch vụ của chúng tôi: từ phòng nghỉ tiện nghi đến bữa tiệc thịnh soạn. Dịch vụ ẩm thực phong phú với các nhà hàng và quán bar; phòng gym; và hồ bơi vô cực trên cao lớn nhất thành phố cùng tầm nhìn tuyệt đẹp. Một kì nghỉ dưỡng thư thái đang chờ đón bạn!
+            </p>
+        </div>
+    </div>
+</div>
+  <section class="content-section">
+   <div class="container">
+    
+    <h2>
+     Điểm Đến Của Không Gian Sang Trọng
+    </h2>
+    <div class="row">
+     <div class="col-md-6 mb-4">
+      <div class="card">
+       <img alt="Image of a luxurious hotel room" class="card-img-top" height="400" src="https://lavelasaigon.com/wp-content/uploads/2022/12/spa-treatment-dark-wall-scaled.jpg" width="600"/>
+       <div class="card-body">
+        <h5 class="card-title">
+         Mỹ Kỳ Nghỉ Thư Giãn
+        </h5>
+        <p class="card-text">
+         Tận hưởng không gian sang trọng và dịch vụ cao cấp tại La Vela Saigon Hotel. Chúng tôi cam kết mang đến cho bạn những trải nghiệm tuyệt vời nhất.
+        </p>
+        <a class="btn" href="#">
+         Read More
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="col-md-6 mb-4">
+      <div class="card">
+       <img alt="Image of a woman enjoying a meal" class="card-img-top" height="400" src="https://lavelasaigon.com/wp-content/uploads/2024/09/Thiet-ke-chua-co-ten-25.png" width="600"/>
+       <div class="card-body">
+        <h5 class="card-title">
+         Những Hương Vị Tinh Tế
+        </h5>
+        <p class="card-text">
+         Thưởng thức những món ăn ngon và tinh tế tại nhà hàng của chúng tôi. Đội ngũ đầu bếp chuyên nghiệp sẽ mang đến cho bạn những trải nghiệm ẩm thực đáng nhớ.
+        </p>
+        <a class="btn" href="#">
+         Read More
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="col-md-6 mb-4">
+      <div class="card">
+       <img alt="Image of a spa with candles and towels" class="card-img-top" height="400" src="https://storage.googleapis.com/a1aa/image/v2monue8CfgrzEDZe4DdK7rohspDPeevVxDs5RM6qGbg6a1cC.jpg" width="600"/>
+       <div class="card-body">
+        <h5 class="card-title">
+         Thư Giãn Cơ Thể Và Tâm Hồn
+        </h5>
+        <p class="card-text">
+         Thư giãn cơ thể và tâm hồn với các dịch vụ spa cao cấp của chúng tôi. Chúng tôi cung cấp các liệu pháp thư giãn và chăm sóc sức khỏe tốt nhất.
+        </p>
+        <a class="btn" href="#">
+         Read More
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="col-md-6 mb-4">
+      <div class="card">
+       <img alt="Image of a couple enjoying a poolside view" class="card-img-top" height="400" src="https://storage.googleapis.com/a1aa/image/YGrAv8eHAB2xKiLWXXfqgfsx3oq37V4bFHgphwS4tFeqdtaOB.jpg" width="600"/>
+       <div class="card-body">
+        <h5 class="card-title">
+         Những Khoảnh Khắc Quý Giá
+        </h5>
+        <p class="card-text">
+         Ghi lại những khoảnh khắc quý giá bên gia đình và bạn bè tại La Vela Saigon Hotel. Chúng tôi cung cấp các dịch vụ và tiện nghi tốt nhất để bạn có thể tận hưởng kỳ nghỉ của mình.
+        </p>
+        <a class="btn" href="#">
+         Read More
+        </a>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section>
+  <section class="special-offers">
+   <div class="container">
+    <h2>
+     Special Offers
+    </h2>
+    <div class="row">
+     <div class="col-md-4 mb-4">
+      <div class="card">
+       <img alt="Image of a seafood dish with a 10% off offer" class="card-img-top" height="400" src="https://storage.googleapis.com/a1aa/image/Db5gZfPtj4XzG6jwtcedGZ6WQp5f2aDTQOAxgjvo7aYguWNnA.jpg" width="400"/>
+       <div class="card-body">
+        <h5 class="card-title">
+         Ocean's Bounty: 10% OFF
+        </h5>
+        <p class="card-text">
+         Enjoy a 10% discount on our special seafood dishes. Offer valid for a limited time only.
+        </p>
+       </div>
+      </div>
+     </div>
+     <div class="col-md-4 mb-4">
+      <div class="card">
+       <img alt="Image of a gift box with a special offer" class="card-img-top" height="400" src="https://storage.googleapis.com/a1aa/image/Tf7B0LmvcA2dOCgZIglHb8ZiLxf3HfnEQE8qOQT52oPnuWNnA.jpg" width="400"/>
+       <div class="card-body">
+        <h5 class="card-title">
+         Special Gift Package
+        </h5>
+        <p class="card-text">
+         Receive a special gift package when you book a stay of 3 nights or more. Offer valid while supplies last.
+        </p>
+       </div>
+      </div>
+     </div>
+     <div class="col-md-4 mb-4">
+      <div class="card">
+       <img alt="Image of a couple enjoying a summer vacation" class="card-img-top" height="400" src="https://storage.googleapis.com/a1aa/image/KR5ue9CD7DWGPi6fgfpM4OWKu8y5NMQgCZeRl6KoLVn3dtaOB.jpg" width="400"/>
+       <div class="card-body">
+        <h5 class="card-title">
+         Summer Dream Vacation
+        </h5>
+        <p class="card-text">
+         Book your summer vacation now and enjoy exclusive benefits and discounts. Offer valid for a limited time only.
+        </p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section>
+  <section class="content-section">
+   <div class="container">
+    <h2>
+     Hãy Là Một Phần Của Booking Vela Saigon
+    </h2>
+    <p>
+     #lavelasaigon
+    </p>
+    <p>
+     Follow us on Instagram and share your moments with us. Use the hashtag #lavelasaigon to be featured on our page.
+    </p>
+    <div class="row">
+     <div class="col-md-4">
+      <img alt="Image of a luxurious hotel lobby" class="img-fluid" height="300" src="https://storage.googleapis.com/a1aa/image/XNHcdYnMiZ6eMKaXbcxSRm6UtwugKSXbe5KBNNSrs91ZXrmTA.jpg" width="400"/>
+     </div>
+     <div class="col-md-4">
+      <img alt="Image of a hotel dining area" class="img-fluid" height="300" src="https://storage.googleapis.com/a1aa/image/eTVebi2h6nuNOkfgxI3f3tKoeREkqeEjOnOOR7DYeQFJprVzJA.jpg" width="400"/>
+     </div>
+     <div class="col-md-4">
+      <img alt="Image of a couple enjoying wine" class="img-fluid" height="300" src="https://storage.googleapis.com/a1aa/image/kguue6ZkGFWvLCuRSrp83fPFBA9vlfNwQ7uO153fiyew6a1cC.jpg" width="400"/>
+     </div>
+    </div>
+   </div>
+  </section>
+  <script crossorigin="anonymous" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+3i5q5YlF0x4l+2n5D5e5z5e5z5e5" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
+  </script>
+  <div th:replace="/access/error :: footer"></div>
+ </body>
+</html>

@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +14,14 @@ import org.springframework.stereotype.Service;
 import com.poly.dto.RegisterDto;
 import com.poly.entity.User;
 import com.poly.repository.UserRepo;
+import com.poly.serviceRepository.UserServiceRepository;
 import com.poly.util.EmailUtil;
 import com.poly.util.OtpUtil;
 
 import jakarta.mail.MessagingException;
 
 @Service
-public class UserService {
+public class UserService implements UserServiceRepository{
 	 @Autowired
 	  private OtpUtil otpUtil;
     @Autowired
@@ -28,10 +30,12 @@ public class UserService {
     private EmailUtil emailUtil;
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
-    public User findByUsername(String name) {
+	@Autowired
+    private AwsS3Service awsS3Service;
+    public User findByName(String name) {
         return userRepository.findByName(name);
     }
-    
+   
     public String getUserEmailById(Long userId) {
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new IllegalArgumentException("User not found"));
@@ -50,9 +54,11 @@ public class UserService {
 		      throw new RuntimeException("Unable to send otp please try again");
 		    }
 		    User Account = new User();
+		    Account.generateUserCode();
 		    Account.setName(registerDto.getName());
 		    Account.setEmail(registerDto.getEmail());
 		    Account.setPhone(registerDto.getPhone());
+		   
 		    Account.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 		    Account.setOtp(otp);
 		    Account.setOtpGeneratedTime(LocalDateTime.now());
@@ -105,4 +111,21 @@ public class UserService {
 					userRepository.save(Account);
 					return "New Passoword is successfully" + "return <a href=\"/account/login\">login</a>";
 		}
+
+		
+		 public boolean checkIfValidOldPassword(User user, String oldPassword) {
+		        return passwordEncoder.matches(oldPassword, user.getPassword());
+		    }
+
+		    public void changeUserPassword(User user, String newPassword) {
+		        user.setPassword(passwordEncoder.encode(newPassword));
+		        userRepository.save(user);
+		    }
+
+			public List<User> getAllUsers() {
+				// TODO Auto-generated method stub
+				
+				return userRepository.findAll();
+			}
+
 }

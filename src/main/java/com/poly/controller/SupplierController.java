@@ -1,6 +1,7 @@
 package com.poly.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,7 @@ import com.poly.repository.UserRepo;
 @Controller
 @RequestMapping("/supplier")
 @PreAuthorize("hasAuthority('SUPPLIER') or hasAuthority('ADMIN') ")
+@Lazy
 public class SupplierController {
 	 @Autowired
 	  private UserRepo userRepo;
