@@ -50,4 +50,10 @@ public class ChartController {
         List<Map<String, Object>> revenue = bookDetailService.getRevenueByBranchAndYear(year);
         return ResponseEntity.ok(revenue);
     }
+    
+    @GetMapping("/search/rooms-by-branch/{branch}")
+    public ResponseEntity<?> getRoomsByBranch(@PathVariable String branch) {
+        List<Map<String, Object>> rooms = bookDetailService.getRoomsBookedByBranch(branch);
+        return ResponseEntity.ok(rooms);
+    }
 }

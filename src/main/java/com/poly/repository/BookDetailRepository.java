@@ -41,7 +41,18 @@ public interface BookDetailRepository extends JpaRepository<BookDetail, Integer>
 	             "FROM BookDetail bd " +
 	             "JOIN bd.room r " +
 	             "JOIN r.hotel h " +
-	             "WHERE FUNCTION('YEAR', bd.checkin) = :year " +
+	             "WHERE FUNCTION('YEAR', bd.checkout) = :year AND bd.bookDetailStatus = 'checkout'" +
 	             "GROUP BY h.chinhanh")
 	      List<Map<String, Object>> findRevenueByBranchAndYear(@Param("year") Integer year);
+	     
+	     @Query("SELECT bd.room.id AS roomId, r.roomCode AS roomCode, r.img AS img, rt.name AS roomType, " +
+             "r.gia AS price, h.chinhanh AS branch " +
+             "FROM BookDetail bd " +
+             "JOIN bd.room r " +
+	             "JOIN r.roomtype rt " +
+	             "JOIN r.hotel h " +
+             "WHERE h.chinhanh = :branchName AND bd.bookDetailStatus = 'checkout'")
+      List<Map<String, Object>> findRoomsBookedByBranch(@Param("branchName") String branchName);
+	     
+
 }

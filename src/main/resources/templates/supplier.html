@@ -213,7 +213,7 @@ angular.module('app', [])
     $scope.isEditing = false
   
         $scope.loadRoomsByStatus = function(status) {
-            $http.get(`http://localhost:8081/api/status/${status}`)
+            $http.get(`/api/status/${status}`)
                 .then(function(response) {
                     $scope.rooms = response.data; // Assign fetched rooms to scope
                 }, function(error) {

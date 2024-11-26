@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="revenueApp" ng-controller="BookingController">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doanh thu theo Chi nhánh</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Thêm CSS nếu cần thiết */
+    </style>
+</head>
+<body>
+   <div >
+     <select ng-model="selectedBranch" 
+               ng-options="branch.chinhanh for branch in branches" 
+               ng-change="loadRooms()">
+           <option value="" disabled selected>Chọn chi nhánh</option>
+       </select>
+
+    <div ng-if="rooms.length > 0">
+    <h3>Danh sách phòng đã đặt cho chi nhánh: {{ branch }}</h3>
+    <table  class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Hình ảnh</th>
+                <th>Mã phòng</th>
+                <th>Kiểu phòng</th>
+                <th>Giá</th>
+                <th>Chi nhánh</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="room in rooms">
+                <td><img ng-src="{{ room.img }}" alt="Room Image" width="100" /></td>
+                <td>{{ room.roomCode }}</td>
+                <td>{{ room.roomType }}</td>
+                <td>{{ room.price | currency }}</td>
+                <td>{{ room.branch }}</td>
+               
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+    <div ng-if="rooms.length === 0">
+        <p>Không có phòng nào được đặt tại chi nhánh này.</p>
+    </div>
+</div>
+   
+
+    <script>
+        var app = angular.module('revenueApp', []);
+
+        app.service('BookingService', function($http) {
+            this.getRoomsByBranch = function(branch) {
+                return $http.get(`/api/search/rooms-by-branch/${branch}`);
+            };  
+            this.getBranches = function() {
+                return $http.get('/api/hotels');
+            };
+        });
+        app.controller('BookingController', function($scope, BookingService) {
+            $scope.branches = []; // Danh sách các chi nhánh
+            $scope.selectedBranch = null; // Chi nhánh được chọn
+            $scope.rooms = []; // Danh sách phòng đã đặt
+
+            // Load danh sách chi nhánh
+            BookingService.getBranches()
+                .then(function(response) {
+                    $scope.branches = response.data;
+                    if ($scope.branches.length > 0) {
+                        // Mặc định chọn chi nhánh đầu tiên
+                        $scope.selectedBranch = $scope.branches[0];
+                        // Gọi hàm loadRooms để hiển thị danh sách phòng cho chi nhánh đầu tiên
+                        $scope.loadRooms();
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Error loading branches:', error);
+                });
+
+            // Load danh sách phòng theo chi nhánh được chọn
+            $scope.loadRooms = function() {
+                if ($scope.selectedBranch) {
+                    BookingService.getRoomsByBranch($scope.selectedBranch.chinhanh)
+                        .then(function(response) {
+                            $scope.rooms = response.data;
+                        })
+                        .catch(function(error) {
+                            console.error('Error loading rooms:', error);
+                        });
+                }
+            };
+        });
+
+
+		loadRooms();
+    </script>
+</body>
+</html>
