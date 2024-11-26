@@ -2,55 +2,169 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+
+    <title>Chỉnh sửa dịch vụ</title>
     <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Nội dung chính */
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .content {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        h2 {
+            color: #c09b5a;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* Định dạng form */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            padding: 10px;
+        }
+
+        .form-control:focus {
+            border-color: #c09b5a;
+            box-shadow: 0 0 5px rgba(192, 155, 90, 0.5);
+        }
+
+        /* Nút tùy chỉnh */
+        .btn-custom {
+            color: white !important;
+            background-color: #c09b5a !important;
+            border: 1px solid #c09b5a !important;
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 8px 20px;
+            transition: all 0.3s ease !important;
+        }
+
+        .btn-custom:hover {
+            background-color: white !important;
+            color: #c09b5a !important;
+            border: 1px solid #c09b5a !important;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d !important;
+            border: 1px solid #6c757d !important;
+            border-radius: 5px;
+            padding: 8px 20px;
+        }
+
+        .btn-secondary:hover {
+            background-color: white !important;
+            color: #c09b5a !important;
+            font-weight: bold;
+            border: 1px solid #c09b5a !important;
+        }
+
+        .checkbox-group {
+            margin-top: 10px;
+        }
+
+        .checkbox-group input {
+            margin-right: 8px;
+        }
+
+        .checkbox-group span {
+            font-size: 16px;
+            color: #555;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+                margin: 10px auto;
+            }
+
+            .content {
+                padding: 15px;
+            }
+        }
+
+    </style>
 </head>
 <body>
 
-<div th:replace="/layout/menudoc :: html"></div>
+<!-- Include Navbar -->
+<div th:replace="layout/menudoc :: html"></div>
 <br>
 
-<div>
-<form th:action="@{/admin/saveRoomType}" method="post" style="max-width:700px; margin: 0 auto" th:object="${roomType}" enctype="multipart/form-data">
-    <input type="hidden" th:field="*{id}">
-    <div class="border border-secondary rounded p-3">
+<!-- Nội dung chính -->
+<div class="container">
+    <div class="content">
+        <h2>Chỉnh sửa dịch vụ <span th:text="${roomType.name}"></span></h2>
+        <form th:action="@{/admin/saveRoomType}" method="post" th:object="${roomType}" enctype="multipart/form-data">
+            <input type="hidden" th:field="*{id}">
 
-        <div class="form-group row mt-2">
-            <label class="col-sm-4 col-form-label" th:text="#{admin.name}">Name:</label>
-            <div class="col-sm-8">
-                <input type="text" class="form-control" th:field="*{name}" required minlength="2" maxlength="50">
+            <div class="form-group">
+                <label for="name" th:text="#{admin.name}">Tên phòng:</label>
+                <input type="text" id="name" class="form-control" th:field="*{name}" required minlength="2"
+                       maxlength="50">
             </div>
-        </div>
 
-        <div class="form-group row mt-2">
-            <label class="col-sm-4 col-form-label" th:text="#{admin.description}">Description:</label>
-            <div class="col-sm-8">
-                <input type="text" class="form-control" th:field="*{description}" required minlength="2" maxlength="200">
+            <div class="form-group">
+                <label for="description" th:text="#{admin.description}">Mô tả:</label>
+                <input type="text" id="description" class="form-control" th:field="*{description}" required
+                       minlength="2" maxlength="200">
             </div>
-        </div>
 
-        <div class="form-group row mt-2">
-            <label class="col-sm-4 col-form-label" th:text="#{admin.services}">Services:</label>
-            <div class="col-sm-8">
-                <th:block th:each="service : ${services}">
-                    <input type="checkbox" name="serviceIds" th:value="${service.id}" 
-                           th:checked="${selectedServices.contains(service.id)}"/> <span th:text="${service.name}"></span>
-                    <br>
-                </th:block>
+            <div class="form-group">
+                <label th:text="#{admin.services}">Dịch vụ:</label>
+                <div class="checkbox-group">
+                    <th:block th:each="service : ${services}">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="serviceIds" th:value="${service.id}"
+                                   th:checked="${selectedServices.contains(service.id)}">
+                            <span th:text="${service.name}"></span>
+                        </div>
+                    </th:block>
+                </div>
             </div>
-        </div>
 
-        <div class="text-center">
-            <input type="submit" th:value="#{admin.save}" class="btn btn-primary m-3">
-            <input type="button" th:value="#{admin.cancel}" class="btn btn-secondary" id="buttonCancel">
-        </div>
+            <div class="text-center">
+                <input type="submit" th:value="#{admin.save}" class="btn btn-custom m-3">
+                <input type="button" th:value="#{admin.cancel}" class="btn btn-secondary" id="buttonCancel">
+            </div>
+        </form>
     </div>
-</form>
-
-   
-   
-
 </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
 </body>
 </html>
+

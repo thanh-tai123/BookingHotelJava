@@ -54,6 +54,7 @@ public class RoomService implements RoomServiceRepository{
     public Room findById(int id) {
         return roomRepository.findById(id).orElse(null);
     }
+
     public void updateRoom(int roomId, RoomRequest roomRequest, List<MultipartFile> images) {
         try {
             // Lấy thông tin phòng, khách sạn, loại phòng, và người dùng từ cơ sở dữ liệu
@@ -70,6 +71,8 @@ public class RoomService implements RoomServiceRepository{
             // Cập nhật hình ảnh chính của phòng nếu có
             room.setImg(awsS3Service.saveImageToS3(images.get(0)));
             // Cập nhật các thông tin khác của phòng
+
+   
             room.setHotel(hotel);
             room.setSophong(roomRequest.getSophong());
             room.setGia(roomRequest.getGia());
@@ -77,6 +80,7 @@ public class RoomService implements RoomServiceRepository{
             room.setStatus(RoomStatus.FALSE);
             room.setUser(user);
             room.setRoomtype(roomtype);
+
 
             // Cập nhật các hình ảnh bổ sung của phòng nếu có
             if (images != null && !images.isEmpty()) {
@@ -88,23 +92,22 @@ public class RoomService implements RoomServiceRepository{
                 room.getRoomImages().clear();
 
                 // Lưu các hình ảnh bổ sung mới lên S3 và thêm vào danh sách hình ảnh bổ sung của phòng
-                for (MultipartFile additionalImg : images) {
-                    String additionalImageUrl = awsS3Service.saveImageToS3(additionalImg);
-                    RoomImages roomImage = new RoomImages();
-                    roomImage.setRoom(room);
-                    roomImage.setImagePath(additionalImageUrl);
-                    room.getRoomImages().add(roomImage);
-                }
-            }
+
+          
 
             // Lưu các thông tin đã cập nhật của phòng vào cơ sở dữ liệu
+           
+          
             roomRepository.save(room);
-        } catch (Exception e) {
+        } 
+        }catch (Exception e) {
+           
+
             e.printStackTrace();
             throw new RuntimeException("Error updating room: " + e.getMessage());
         }
+    
     }
-
 
 
     // Xóa phòng

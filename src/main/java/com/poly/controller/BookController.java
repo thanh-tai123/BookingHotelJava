@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,6 +32,7 @@ import com.poly.service.BookingService;
 
 @Controller
 @RequestMapping("/search")
+@Lazy
 public class BookController {
     @Autowired
     private BookRepository bookRepository; // Giả sử đây là repository của bạn cho Book
@@ -143,6 +145,7 @@ public class BookController {
             model.addAttribute("bookDetails", details);
         } else {
             model.addAttribute("error", "Không tìm thấy Book với BookCode: " + bookCode);
+            return "admin/searchcode";
         }
         model.addAttribute("bookCode", bookCode);
         return "/admin/searchBookCode"; // Tên của view hiển thị thông tin Book

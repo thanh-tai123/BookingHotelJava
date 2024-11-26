@@ -5,27 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vertical Navbar</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-         <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css}">
+
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css}">
+
     <style>
         .vertical-navbar {
             width: 250px;
             height: 100vh;
             position: fixed;
+
+            top: 0;
+            left: 0;
             background-color: rgb(77, 77, 77);
             padding-top: 20px;
+            z-index: 1000;
         }
+
         .vertical-navbar .nav-link {
             color: rgb(248, 251, 225);
         }
+
         .vertical-navbar .btn-reserve {
             margin-left: 10px;
         }
+
         .content {
             margin-left: 250px;
             padding: 20px;
-            
         }
+
         .nav-item .dropdown-menu {
+
     display: none;
 }
 
@@ -47,6 +57,7 @@
     color:#f8f9fa;
 }
         
+
     </style>
 </head>
 <body>
@@ -54,22 +65,15 @@
 <nav class="vertical-navbar">
     <div class="container">
         <a class="navbar-brand" th:href="@{/room}">
-            <img alt="Hotel logo" style="margin-left:25px" height="120" src="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" width="150"/>
+
+            <img alt="Hotel logo" style="margin-left:25px" height="120"
+                 src="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" width="150"/>
         </a>
         <ul class="navbar-nav flex-column">
-             <!-- <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" th:href="@{/room}" id="roomDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        PHÒNG &amp; SUITES
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="roomDropdown">
-                        <li><a class="dropdown-item" th:href="@{/room/filter?roomtype=Deluxe}">Phòng Deluxe</a></li>
-                        <li><a class="dropdown-item" th:href="@{/room/filter?roomtype=Suite}">Phòng Suite</a></li>
-                        <li><a class="dropdown-item" th:href="@{/room/filter?roomtype=Double}">Phòng Double</a></li>
-                    </ul>
-                </li> -->
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/admin}" th:text="#{navbar.thong_tin}">THÔNG TIN</a>
             </li>
+
 
           <li class="nav-item">
     <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">THỐNG KÊ</a>
@@ -119,14 +123,15 @@
                           <li><a class="dropdown-item" th:href="@{/search/book-details}">Danh sách <br>khách hàng đã đặt</a></li>
                     </ul>
                 </li>
+
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/logout}" >ĐĂNG XUẤT</a>
+                <a class="nav-link" th:href="@{/logout}">ĐĂNG XUẤT</a>
             </li>
-          
-          
+
         </ul>
     </div>
 </nav>
+
 
 <div class="content" >
     <!-- Nội dung của bạn sẽ ở đây -->

@@ -23,6 +23,7 @@ import com.poly.util._enum.RoomStatus;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -39,6 +40,7 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/admin")
 @PreAuthorize("hasAuthority('ADMIN')")
+@Lazy
 public class AdminController {
     @Autowired
     private UserRepo userRepo;
