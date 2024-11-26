@@ -53,4 +53,8 @@ public class BookDetailService implements BookDetailServiceRepository{
     public List<BookDetail> getBookingsByRoomid(Room room) {
         return bookDetailRepository.findByRoom(room);
     }
+    
+    public List<Map<String, Object>> getRevenueByBranchAndYear(Integer year) {
+        return bookDetailRepository.findRevenueByBranchAndYear(year);
+    }
 }

@@ -15,6 +15,8 @@ import com.poly.dto.RevenueComparisonDTO;
 import com.poly.service.BookDetailService;
 import com.poly.service.RevenueService;
 
+import jakarta.websocket.server.PathParam;
+
 @RestController
 @RequestMapping("/api")
 public class ChartController {
@@ -41,5 +43,11 @@ public class ChartController {
     public ResponseEntity<List<RevenueComparisonDTO>> compareRevenue(@PathVariable int year1, @PathVariable int year2) {
         List<RevenueComparisonDTO> comparison = revenueService.getRevenueComparison(year1, year2);
         return ResponseEntity.ok(comparison);
+    }
+    
+    @GetMapping("/branch/{year}")
+    public ResponseEntity<List<Map<String, Object>>> getRevenueByBranchAndYear(@PathVariable int year) {
+        List<Map<String, Object>> revenue = bookDetailService.getRevenueByBranchAndYear(year);
+        return ResponseEntity.ok(revenue);
     }
 }
