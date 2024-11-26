@@ -26,7 +26,6 @@
         .search-form input, .search-form select {
             width: 200px;
             padding: 10px;
-
         }
 
         /* Chỉnh cho nút tìm kiếm đẹp hơn */
@@ -43,7 +42,7 @@
         .search-form button:hover {
             background-color: white;
             color: #c09b5a;
-           
+
             border:1px solid #c09b5a;
         }
         #filterForm button{
@@ -53,13 +52,13 @@
             border-radius: 5px;
             cursor: pointer;
         }
-		#filterForm button:hover{
-		 background-color: white;
+        #filterForm button:hover{
+            background-color: white;
             color: #c09b5a;
-           
+
             border:1px solid #c09b5a;
-		}
-		
+        }
+
         /* Chỉnh cho card phòng */
         .card {
             margin-bottom: 20px;
@@ -71,17 +70,16 @@
 
         .card:hover {
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-             border:1px solid #c09b5a;
+            border:1px solid #c09b5a;
         }
 
-       .card img {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    width: 100%; 
-    height: auto;
-    object-fit: cover; 
-}
-
+        .card img {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
 
         .card-body {
             padding: 15px;
@@ -100,7 +98,7 @@
 
         .card-icons i {
             margin-right: 5px;
-            
+
         }
 
         .btn-custom {
@@ -135,7 +133,7 @@
             margin-bottom: 5px;
         }
 
-      
+
 
         .search-form {
             display: flex;
@@ -148,7 +146,7 @@
         }
 
 
- 
+
 
         .search-form .form-group {
             margin-bottom: 0;width: 250px; /* Đảm bảo các ô có chiều rộng đồng đều */
@@ -168,10 +166,7 @@
     </style>
 </head>
 <body>
-
 <div th:replace="access/nav :: html"></div>
-
-
 <div class="container">
     <!-- Form tìm kiếm -->
     <div class="search-form">
@@ -181,10 +176,11 @@
                     <label for="hotelId" th:text="#{body.branch}"></label>
                     <select name="hotelId" required class="form-control">
 
-                     <option th:each="branch : ${branches}" th:value="${branch.id}" th:text="${branch.chinhanh}"></option>
+                        <option th:each="branch : ${branches}" th:value="${branch.id}" th:text="${branch.chinhanh}"></option>
 
                     </select>
                 </div>
+
                 <div class="form-group">
                     <label for="checkin" th:text="#{body.checkinDate}"></label>
                     <input type="date" name="checkin" required class="form-control"
@@ -204,33 +200,39 @@
 
 
     <form action="#" th:action="@{/room/filter}" method="get" id="filterForm">
-        <div class="form-group mb-3">
-            <label for="roomtype" th:text="#{body.roomType}"></label>
-            <select id="roomtype" name="roomtype" class="form-control">
 
-<!--                 <option value="Tất cả">Tất cả</option> -->
-  <option value="" th:text="#{body.all}"></option>
-                <option th:each="roomType : ${roomTypes}"
-                        th:value="${roomType.name}"
-                        th:text="${roomType.name}"
-                        th:selected="${roomType.name == roomtype}"></option> <!-- Đảm bảo rằng roomtype được chọn đúng -->
-            </select>
+        <div class="d-flex">
+            <div class="form-group mb-3 mx-5">
+                <label for="roomtype" th:text="#{body.roomType}"></label>
+                <select id="roomtype" name="roomtype" class="form-control">
+
+                    <!--                 <option value="Tất cả">Tất cả</option> -->
+                    <option value="" th:text="#{body.all}"></option>
+                    <option th:each="roomType : ${roomTypes}"
+                            th:value="${roomType.name}"
+                            th:text="${roomType.name}"
+                            th:selected="${roomType.name == roomtype}"></option> <!-- Đảm bảo rằng roomtype được chọn đúng -->
+                </select>
+            </div>
+
+            <!-- Bộ lọc giá -->
+            <div class="form-group mb-3">
+                <label for="priceRange">Khoảng giá:</label>
+                <select id="priceRange" name="priceRange" class="form-control">
+                    <option value="Tất cả" th:text="#{body.all}"></option>
+                    <option th:each="price : ${priceRanges}"
+                            th:value="${price}"
+                            th:text="${price}"th:selected="${price == priceRange}"></option> <!-- Đảm bảo rằng priceRange được chọn đúng -->
+                </select>
+            </div >
+            <div class="ms-auto" style="margin-right: 157px">
+                <button  type="submit"  class="btn btn-primary ms-5 " th:text="#{body.filter}"></button>
+            </div>
+
+
         </div>
 
-        <!-- Bộ lọc giá -->
-        <div class="form-group mb-3">
-            <label for="priceRange"　th:text="#{body.price}"></label>
-            <select id="priceRange" name="priceRange" class="form-control">
-
-                <option value="Tất cả" th:text="#{body.all}"></option>
-
-                <option th:each="price : ${priceRanges}"
-                        th:value="${price}"
-                        th:text="${price}"th:selected="${price == priceRange}"></option> <!-- Đảm bảo rằng priceRange được chọn đúng -->
-            </select>
-        </div>
-  <button type="submit" class="btn btn-primary" th:text="#{body.filter}"></button>
-<!--         <button type="submit" class="btn btn-primary">Lọc</button> -->
+        <!--         <button type="submit" class="btn btn-primary">Lọc</button> -->
     </form>
 
 
@@ -247,14 +249,12 @@
             <div class="card">
                 <a th:href="@{/room/{id}(id=${r.id})}">
                     <img th:src="${r.img}"
-
                          alt="Luxury hotel room with a large bed, modern decor, and a spacious layout" style="height:250px"/>
-
                 </a>
                 <div class="card-body">
 
-<!--                     <p class="card-text fas fa-eye"><span th:text="${visitCounts[r.id]}">0</span></p>
- -->
+                    <!--                     <p class="card-text fas fa-eye"><span th:text="${visitCounts[r.id]}">0</span></p>
+                     -->
 
                     <p class="card-text fas fa-eye"> <span th:text="${visitCounts[r.id] != null ? visitCounts[r.id] : 0}">0</span></p> <!-- Kiểm tra giá trị visitCounts[r.id] -->
 
@@ -321,9 +321,6 @@
     ></df-messenger>
 
 </div>
-
 <div th:replace="access/error :: footer"></div>
-
-
 </body>
 </html>
