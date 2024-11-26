@@ -12,6 +12,7 @@ import com.poly.service.AwsS3Service;
 import com.poly.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,6 +38,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/account")
+@Lazy
 public class AccountController {
     @Autowired
     UserRepo userRepo;

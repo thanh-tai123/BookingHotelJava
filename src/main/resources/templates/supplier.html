@@ -127,10 +127,13 @@
 
     <div class="form-row">
         <div class="form-group">
+
         <label>Image:</label>
         <input type="file" file-model="room.img" ng-required="!isEditing" />
         <img ng-if="isEditing" ng-src="{{ room.img }}" alt="Room Image" style="height: 100px; width: 100px;" />
     </div>
+
+           
  <div class="form-group">
     <label>Additional Images:</label>
     <input type="file" file-model="room.images" multiple />
@@ -221,7 +224,9 @@ angular.module('app', [])
                 });
         }; 
         $scope.loadRoomsByStatus($scope.selectedStatus);
+
         $http.get('/api/user-info')
+
         .then(function(response) {
             // Kiểm tra dữ liệu trả về từ API
             console.log(response.data);
@@ -252,7 +257,10 @@ angular.module('app', [])
     };
     $scope.saveUpdatedRoom = function() {
         var formData = new FormData();
+
         formData.append('hotelid', $scope.room.hotelId);
+
+
         formData.append('sophong', $scope.room.sophong);
         formData.append('roomtypeid', $scope.room.roomTypeId);
         formData.append('gia', $scope.room.gia);
@@ -260,7 +268,9 @@ angular.module('app', [])
         formData.append('status', $scope.room.status);
 
         // Truyền chỉ id của user vào formData
+
         formData.append('staffid', $scope.user.id);
+
 
         // Thêm img nếu có
         if ($scope.room.img) {
@@ -281,6 +291,7 @@ angular.module('app', [])
             alert('Room updated successfully!');
             $scope.loadRoomsByStatus($scope.selectedStatus); // Làm mới danh sách phòng
             $scope.resetForm(); // Reset form sau khi cập nhật
+
         }, function(error) {
             console.error('Error updating room:', error);
             let errorMessage = 'Error updating room: ';
@@ -294,7 +305,6 @@ angular.module('app', [])
             alert(errorMessage);
         });
     };
-
 
 
 
@@ -333,7 +343,9 @@ angular.module('app', [])
     };
 
     
+
     $http.get('/api/roomtypes')
+
     .then(function(response) {
         $scope.roomTypes = response.data;
     }, function(error) {

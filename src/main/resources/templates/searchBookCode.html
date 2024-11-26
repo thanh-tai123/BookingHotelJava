@@ -91,7 +91,9 @@
     </style>
 </head>
 <body>
+
 <div th:replace="access/nav :: html"></div>
+
 
 
 
@@ -128,7 +130,9 @@
             <th>Phương thức thanh toán</th>
             <th>Trạng thái thanh toán</th>
             <th>Trạng thái phòng</th>
+
             <th></th>
+
         </tr>
         </thead>
         <tbody th:with="content='Chi tiết đặt phòng:\n'">
@@ -186,6 +190,8 @@
     <button type="submit">Gửi Email</button>
 </form>
 </div>
+
 <div th:replace="access/error :: footer"></div>
+
 </body>
 </html>

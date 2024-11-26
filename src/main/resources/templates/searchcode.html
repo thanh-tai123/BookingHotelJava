@@ -87,7 +87,9 @@
     </style>
 </head>
 <body>
+
 <div th:replace="access/nav :: html"></div>
+
 <div class="container">
     <h1>Nhập BookCode</h1>
     <form action="#" th:action="@{/search/book}" method="post">
@@ -99,6 +101,6 @@
     <p th:text="${error}"></p>
 </div>
 </div>
-<div th:replace="/access/error :: footer"></div>
+<div th:replace="access/error :: footer"></div>
 </body>
 </html>

@@ -26,6 +26,7 @@
         .search-form input, .search-form select {
             width: 200px;
             padding: 10px;
+
         }
 
         /* Chỉnh cho nút tìm kiếm đẹp hơn */
@@ -80,6 +81,7 @@
     height: auto;
     object-fit: cover; 
 }
+
 
         .card-body {
             padding: 15px;
@@ -166,7 +168,10 @@
     </style>
 </head>
 <body>
+
 <div th:replace="access/nav :: html"></div>
+
+
 <div class="container">
     <!-- Form tìm kiếm -->
     <div class="search-form">
@@ -216,7 +221,9 @@
         <div class="form-group mb-3">
             <label for="priceRange">Khoảng giá:</label>
             <select id="priceRange" name="priceRange" class="form-control">
+
                 <option value="Tất cả" th:text="#{body.all}"></option>
+
                 <option th:each="price : ${priceRanges}"
                         th:value="${price}"
                         th:text="${price}"th:selected="${price == priceRange}"></option> <!-- Đảm bảo rằng priceRange được chọn đúng -->
@@ -240,7 +247,9 @@
             <div class="card">
                 <a th:href="@{/room/{id}(id=${r.id})}">
                     <img th:src="${r.img}"
+
                          alt="Luxury hotel room with a large bed, modern decor, and a spacious layout" style="height:250px"/>
+
                 </a>
                 <div class="card-body">
 
@@ -312,6 +321,9 @@
     ></df-messenger>
 
 </div>
+
 <div th:replace="access/error :: footer"></div>
+
+
 </body>
 </html>

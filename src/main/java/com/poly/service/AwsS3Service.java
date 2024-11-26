@@ -56,6 +56,7 @@ public class AwsS3Service {
             throw new OurException("Unable to upload image to s3 bucket" + e.getMessage());
         }
     }
+
     // Phương thức xóa hình ảnh từ S3
     public void deleteImageFromS3(String imageUrl) {
         try {
@@ -73,6 +74,7 @@ public class AwsS3Service {
             throw new OurException("Unable to delete image from s3 bucket: " + e.getMessage());
         }
     }
+
 }
 
 

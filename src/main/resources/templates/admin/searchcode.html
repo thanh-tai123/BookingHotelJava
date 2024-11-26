@@ -34,7 +34,10 @@
 
         button {
             padding: 10px 15px;
+
             background-color: #c09b5a;
+
+
             color: white;
             border: none;
             border-radius: 4px;
@@ -42,10 +45,14 @@
         }
 
         button:hover {
+
             background-color: white;
             color: #c09b5a;
            
             border:1px solid #c09b5a;
+
+            background-color: white;
+
         }
 
         h2, h3 {
@@ -86,7 +93,9 @@
     </style>
 </head>
 <body>
+
 <div th:replace="access/navadmin :: html"></div>
+
 <div class="container">
     <h1>Nhập BookCode</h1>
     <form action="#" th:action="@{/search/admin/book}" method="post">
@@ -98,6 +107,8 @@
     <p th:text="${error}"></p>
 </div>
 </div>
+
 <div th:replace="access/error :: footer"></div>
+
 </body>
 </html>
