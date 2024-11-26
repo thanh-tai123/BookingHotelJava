@@ -284,5 +284,14 @@ public class AdminController {
     public String compare() {
        return "dashboard/compare";
     }
-
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping("/branch")
+    public String branch() {
+       return "dashboard/branch";
+    }
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping("/search/room-per-branch")
+    public String RoomPerBranch() {
+       return "dashboard/tableroomperbranch";
+    }
 }
