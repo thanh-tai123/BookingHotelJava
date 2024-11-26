@@ -12,6 +12,8 @@
     </style>
 </head>
 <body>
+  <div th:replace="layout/menudoc :: html"></div>
+<div class="container" style="margin-left:400px">
    <div >
      <select ng-model="selectedBranch" 
                ng-options="branch.chinhanh for branch in branches" 
@@ -22,7 +24,7 @@
     <div ng-if="rooms.length > 0">
     <h3>Danh sách phòng đã đặt cho chi nhánh: {{ branch }}</h3>
     <table  class="table table-striped table-hover">
-        <thead>
+        <thead style="background-color: #c09b5a">
             <tr>
                 <th>Hình ảnh</th>
                 <th>Mã phòng</th>
@@ -49,7 +51,7 @@
     </div>
 </div>
    
-
+</div>
     <script>
         var app = angular.module('revenueApp', []);
 
