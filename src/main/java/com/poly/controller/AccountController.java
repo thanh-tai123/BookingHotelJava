@@ -57,7 +57,7 @@ public class AccountController {
     }
     @RequestMapping("/homepage")
     public String homepage() {
-        return "homepage";
+        return "home/homepage";
     }
 
     //	@RequestMapping("/info")
@@ -100,7 +100,7 @@ public class AccountController {
             model.addAttribute("error", "User not found");
         }
 
-        return "info";
+        return "account/info";
     }
 
     @RequestMapping("/register")
@@ -141,7 +141,7 @@ public class AccountController {
     public String showVerifyAccountForm(@RequestParam String email, @RequestParam String otp, Model model) {
         String result = userService.verifyAccount(email, otp);
         model.addAttribute("email", email);
-        return "verifyAccount";
+        return "account/verifyAccount";
     }
 
     //	 @GetMapping("/verify-account")
@@ -157,7 +157,7 @@ public class AccountController {
 	    }
 	    @GetMapping("/regenerate-otp")
 	    public String showRegenerateOtpForm() {
-	        return "regenerateOtp";
+	        return "account/regenerateOtp";
 	    }
 
 	    @PostMapping("/regenerate-otp")
@@ -167,13 +167,13 @@ public class AccountController {
 	    }
 	    @RequestMapping("/forgot-password")
 	    public String showForgotForm() {
-	        return "forgot-password";
+	        return "account/forgot-password";
 	    }
 	
 	    @RequestMapping("/set-password")
 	    public String showSetPasswordForm(@RequestParam String email,Model model) {
 	    	 model.addAttribute("email", email);
-	    	return "set-password";
+	    	return "account/set-password";
 	    }
 	    @PostMapping("/forgot-password")
 	    public ResponseEntity<String> forgotPassword(@RequestParam String email){
@@ -192,7 +192,7 @@ public class AccountController {
 	        model.addAttribute("username", username); 
 	        model.addAttribute("pass", password); 
 	        // Thêm tên người dùng vào mô hình
-	        return "changepassword";
+	        return "account/changepassword";
 	    }
 
 	    @PostMapping("/change-password")
@@ -204,31 +204,31 @@ public class AccountController {
 
 	        if (user == null) {
 	            model.addAttribute("error", "User not found");
-	            return "changepassword";
+	            return "account/changepassword";
 	        }
 
 	        if (!userService.checkIfValidOldPassword(user, passwordChangeDto.getOldPassword())) {
 	            model.addAttribute("error", "Old password is incorrect");
-	            return "changepassword";
+	            return "account/changepassword";
 	        }
 
 	        if (!passwordChangeDto.getNewPassword().equals(passwordChangeDto.getConfirmNewPassword())) {
 	            model.addAttribute("error", "New passwords do not match");
-	            return "changepassword";
+	            return "account/changepassword";
 	        }
 
 	        userService.changeUserPassword(user, passwordChangeDto.getNewPassword());
 	        model.addAttribute("message", "Password changed successfully. You will be redirected to the login page shortly.");
 
 	        // Trả về trang thông báo
-	        return "passwordChangeSuccess"; // Tạo một trang mới 'passwordChangeSuccess.html'
+	        return "account/passwordChangeSuccess"; // Tạo một trang mới 'passwordChangeSuccess.html'
 	    }
 	    @GetMapping("user-edit")
 	    public String showEditUserProfile(Principal principal, Model model) {
 	        String emailLogin = principal.getName();
 	        User userLogging = this.userRepo.findByEmail(emailLogin).get();
 	        model.addAttribute("user", userLogging);
-	        return "user_profile";
+	        return "account/user_profile";
 	    }
 
 	    @PostMapping("/user-update")

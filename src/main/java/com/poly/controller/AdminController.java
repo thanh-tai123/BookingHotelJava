@@ -79,7 +79,7 @@ public class AdminController {
 
         model.addAttribute("rooms", roomRepo.findByStatus(RoomStatus.FALSE));
 
-        return "confirmroom";
+        return "admin/confirmroom";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -95,7 +95,7 @@ public class AdminController {
   	    model.addAttribute("room", room);
   	    model.addAttribute("services", services);
   	    model.addAttribute("roomImgs", roomImg);
-        return "roomdetail";
+        return "admin/roomdetail";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -128,7 +128,7 @@ public class AdminController {
     @RequestMapping("/add/roomtype")
     public String roomtype(Model model) {
 
-        return "addroomtype";
+        return "admin/addroomtype";
     }
 
 
@@ -227,7 +227,7 @@ public class AdminController {
     @RequestMapping("/add/service")
     public String roomservice(Model model) {
 
-        return "addservice";
+        return "admin/addservice";
     }
 
     //Them chi nhanh

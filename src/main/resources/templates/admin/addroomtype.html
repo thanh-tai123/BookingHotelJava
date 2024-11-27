@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Service Management</title>
 
-     <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
-
+    <title>Book</title>
+    <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <title>Room Types</title>
+
     <style>
         /* Đặt lại bố cục cho body */
         body {
@@ -46,7 +48,7 @@
 
         /* Bố cục cho container chính */
         .main-content {
-            /* Căn lề để tránh navbar */
+           /* Căn lề để tránh navbar */
             padding: 30px;
             width: 100%;
             background-color: #fff;
@@ -97,24 +99,25 @@
             outline: none;
         }
 
+        /* Nút thêm mới và sửa */
         button {
             background-color: #c09b5a;
             color: white;
             padding: 12px 20px;
-            border: none;
+            border: 1px solid #c09b5a;
             border-radius: 4px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: background 0.3s, color 0.3s, border 0.3s;
             width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            border: 1px solid #c09b5a;
         }
 
         button:hover {
             background-color: white;
             color: #c09b5a;
+            border: 1px solid #c09b5a;
         }
 
         /* Bảng */
@@ -184,115 +187,128 @@
         }
     </style>
 </head>
-<body>
 
+<body>
 <!-- Navbar Dọc -->
-<div th:replace="~{/layout/menudoc :: html}"></div>
+<div th:replace="layout/menudoc :: html"></div>
+
 
 <!-- Nội dung chính -->
-<div class="main-content" ng-controller="ServiceController">
-    <h2>{{ service.id ? 'Update Service' : 'Add Service' }}</h2>
-    <form ng-submit="service.id ? updateService() : addService()">
-        <label>Service Name:</label>
-        <input type="text" ng-model="service.name" required/>
+<div class="main-content" ng-controller="RoomTypeController">
+    <h2>{{ roomType.id ? 'Update Room Type' : 'Add Room Type' }}</h2>
+    <form ng-submit="roomType.id ? updateRoomType() : addRoomType()">
+        <label>Room Type Name:</label>
+        <input type="text" ng-model="roomType.name" required/>
 
         <label>Description:</label>
-        <input type="text" ng-model="service.description" required/>
 
+        <input type="text" ng-model="roomType.description" required/>
 
-        <button type="submit">{{ service.id ? 'Update Service' : 'Add Service' }}</button>
+        <button type="submit">{{ roomType.id ? 'Update Room Type' : 'Add Room Type' }}</button>
     </form>
 
 
-    <h3>Service List</h3>
+    <h3>Room Types List</h3>
     <table>
         <thead>
         <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Actions</th>
+            <th class="text-center">Name</th>
+            <th class="text-center">Description</th>
+            <th class="text-center">Actions</th>
+
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="service in services">
-            <td>{{ service.name }}</td>
-            <td>{{ service.description }}</td>
-            <td class="action-buttons">
-                <button ng-click="editService(service)">Edit</button>
-                <button ng-click="deleteService(service.id)">Delete</button>
+        <tr ng-repeat="type in roomTypes">
+
+            <td class="text-center">{{ type.name }}</td>
+            <td class="text-center">{{ type.description }}</td>
+            <td class="action-buttons text-center">
+                <button ng-click="editRoomType(type)">Edit</button>
+                <button ng-click="deleteRoomType(type.id)">Delete</button>
+
             </td>
         </tr>
         </tbody>
     </table>
 </div>
 
+
 <script>
     var app = angular.module('app', []);
+    app.controller('RoomTypeController', function ($scope, $http) {
 
-
-    app.controller('ServiceController', function ($scope, $http) {
-
-        $scope.service = {
+        $scope.roomType = {
             id: null,
             name: '',
             description: ''
         };
-        $scope.services = [];
+        $scope.roomTypes = [];
 
-        $scope.loadServices = function () {
-            $http.get('http://localhost:8081/api/services')
+
+        $scope.loadRoomTypes = function () {
+            $http.get('http://localhost:8081/api/roomtypes')
                 .then(function (response) {
-                    $scope.services = response.data;
+                    $scope.roomTypes = response.data;
                 }, function (error) {
-                    console.error('Error loading services:', error);
+                    console.error('Error loading Room Types:', error);
                 });
         };
 
-        $scope.addService = function () {
-            $http.post('http://localhost:8081/api/add/services', $scope.service)
+
+        $scope.addRoomType = function () {
+            $http.post('http://localhost:8081/api/add/roomtype', $scope.roomType, {
+                headers: {
+                    'Content-Type': 'application/json' // Đặt tiêu đề Content-Type
+                }
+            })
                 .then(function (response) {
-                    $scope.services.push(response.data);
-                    $scope.clearForm();
+                    console.log('Room Type added successfully:', response.data);
+                    $scope.roomTypes.push(response.data); // Thêm vào danh sách
+                    $scope.loadRoomTypes();
+                    $scope.clearForm(); // Gọi hàm clearForm sau khi thêm thành công
                 }, function (error) {
-                    console.error('Error adding service:', error);
+                    console.error('Error adding Room Type:', error);
+                    window.location.reload();
                 });
         };
 
-        $scope.editService = function (service) {
-            $scope.service = angular.copy(service);
+        $scope.editRoomType = function (type) {
+            $scope.roomType = angular.copy(type); // Sao chép để chỉnh sửa
         };
 
-        $scope.updateService = function () {
-            $http.put('http://localhost:8081/api/update/services/' + $scope.service.id, $scope.service)
+        $scope.updateRoomType = function () {
+            $http.put('http://localhost:8081/api/update/roomtype/' + $scope.roomType.id, $scope.roomType)
                 .then(function (response) {
-                    const index = $scope.services.findIndex(s => s.id === $scope.service.id);
+                    const index = $scope.roomTypes.findIndex(type => type.id === $scope.roomType.id);
                     if (index !== -1) {
-                        $scope.services[index] = response.data;
+                        $scope.roomTypes[index] = response.data; // Cập nhật danh sách
                     }
                     $scope.clearForm();
                 }, function (error) {
-                    console.error('Error updating service:', error);
+                    console.error('Error updating Room Type:', error);
                 });
         };
 
-        $scope.deleteService = function (id) {
-            $http.delete('http://localhost:8081/api/delete/services/' + id)
+        $scope.deleteRoomType = function (id) {
+            $http.delete('http://localhost:8081/api/delete/roomtype/' + id)
                 .then(function () {
-                    $scope.services = $scope.services.filter(s => s.id !== id);
+                    $scope.roomTypes = $scope.roomTypes.filter(type => type.id !== id); // Xóa khỏi danh sách
                 }, function (error) {
-                    console.error('Error deleting service:', error);
+                    console.error('Error deleting Room Type:', error);
                 });
         };
 
         $scope.clearForm = function () {
-            $scope.service = {
+            $scope.roomType = {
                 id: null,
                 name: '',
                 description: ''
             };
         };
 
-        $scope.loadServices();
+        // Load danh sách Room Types khi trang được tải
+        $scope.loadRoomTypes();
     });
 </script>
 </body>

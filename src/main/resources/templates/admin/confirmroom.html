@@ -122,7 +122,7 @@
 <body>
 
 
-<div th:replace="/layout/menudoc :: html"></div> <!-- Menu dọc sẽ được thay thế tại đây -->
+<div th:replace="layout/menudoc :: html"></div> <!-- Menu dọc sẽ được thay thế tại đây -->
 
 <!-- Phần nội dung các card phòng -->
 <div class="content">
@@ -130,7 +130,7 @@
     <div class="row">
         <div class="col-md-4" th:each="r : ${rooms}">
             <div class="card">
-                <a th:href="@{/room/{id}(id=${r.id})}">
+                <a th:href="@{/admin/{id}(id=${r.id})}">
                     <img th:src="${r.img}" alt="Luxury hotel room" style="height:250px"/>
                 </a>
                 <div class="card-body text-center">

@@ -85,7 +85,7 @@ public class RoomController {
 		model.addAttribute("hasPrevious", page.hasPrevious());
 		model.addAttribute("hasNext", page.hasNext());
 
-		return "room";
+		return "room/room";
 	}
 
 
@@ -131,7 +131,7 @@ public class RoomController {
 		model.addAttribute("hasPrevious", page.hasPrevious());
 		model.addAttribute("hasNext", page.hasNext());
 
-		return "room";
+		return "room/room";
 	}
 
 
@@ -158,7 +158,7 @@ public class RoomController {
 		model.addAttribute("services", services);
 		model.addAttribute("roomImgs", roomImg);
 
-		return "roomdetailversion"; // The name of your Thymeleaf template
+		return "room/roomdetailversion"; // The name of your Thymeleaf template
 	}
 	private Integer getCurrentUserId() {
 		// Implement this method to get the current user's ID
@@ -172,11 +172,11 @@ public class RoomController {
 	 * // This should point to your AngularJS app's main HTML file }
 	 */
 
-	@PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('SUPPLIER') or hasAuthority('MOD')")
+	@PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('STAFF') or hasAuthority('SUPERADMIN')")
 	@GetMapping("/room-details/{roomId}")
 	public String showRoomDetails(@PathVariable Integer roomId, Model model) {
 		model.addAttribute("roomId", roomId);
-		return "book";
+		return "room/book";
 	}
 	@RequestMapping("displaypayment")
 	public String display(Model model) {
@@ -249,7 +249,7 @@ public class RoomController {
 	    model.addAttribute("hasPrevious", page.hasPrevious());
 	    model.addAttribute("hasNext", page.hasNext());
 
-	    return "room";
+	    return "room/room";
 	}
 
 

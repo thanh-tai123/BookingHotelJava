@@ -9,8 +9,8 @@ public class _enum {
 //    ADMIN_HN(3)
 	  ADMIN(0),
     USER(1),
-    MOD(2),
-	  SUPPLIER(3);
+    SUPERADMIN(2),
+	  STAFF(3);
     private final int value;
 
     RoleUserEnum(int value) {

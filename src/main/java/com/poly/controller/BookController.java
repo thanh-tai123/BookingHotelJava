@@ -66,7 +66,7 @@ public class BookController {
     @GetMapping("/bookcode")
     public String showBookForm() {
       
-        return "searchcode"; // Tên của view Thymeleaf
+        return "account/searchcode"; // Tên của view Thymeleaf
     }
 
     @GetMapping("/getbook")
@@ -80,7 +80,7 @@ public class BookController {
             model.addAttribute("error", "Không tìm thấy Book với BookCode: " + bookCode);
         }
         model.addAttribute("bookCode", bookCode);
-        return "searchBookCode"; // Tên của view hiển thị thông tin Book
+        return "account/searchBookCode"; // Tên của view hiển thị thông tin Book
     }
 
     @PostMapping("/book")
@@ -95,14 +95,14 @@ public class BookController {
             return "searchcode";
         }
         model.addAttribute("bookCode", bookCode); // Đảm bảo bookCode có trong model khi cần
-        return "searchBookCode"; // Tên của view hiển thị thông tin Book
+        return "account/searchBookCode"; // Tên của view hiển thị thông tin Book
     }
 
     @GetMapping("/user/books")
     public String getUserBooks(@RequestParam("Userid") Long userId, Model model) {
         List<Book> books = bookService.getBooksByUserId(userId);
         model.addAttribute("books", books);
-        return "userBooks"; // Thymeleaf template name
+        return "account/userBooks"; // Thymeleaf template name
     }
 
     @GetMapping("/bookdetail")
@@ -176,7 +176,7 @@ public class BookController {
     public String getBookDetails(Model model) {
         List<Object[]> bookDetails = bookService.getBookDetails();
         model.addAttribute("bookDetails", bookDetails);
-        return "export";  // Tên của Thymeleaf template
+        return "admin/export";  // Tên của Thymeleaf template
     }
     @GetMapping("/export")
     public void exportBookDetailsToExcel(HttpServletResponse response) throws IOException {
