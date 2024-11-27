@@ -71,31 +71,7 @@
             margin-bottom: 5px;
             font-weight: bold;
         }
-        .available-rooms {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            padding: 0;
-            list-style-type: none;
-        }
 
-        .room-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-            padding: 10px;
-            background-color: #f9f9f9;
-            border-radius: 5px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            flex: 1 1 calc(33.33% - 16px)
-        }
-
-        .room-info {
-            margin-left: 20px;
-            flex: 1;
-            height: 200px;
-
-        }
 
         .user-inputs {
             display: flex;
@@ -154,18 +130,65 @@
             transition: background-color 0.3s ease;
         }
 
-
-
-        .checkbox{
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-            margin: 100px;
+        .available-rooms {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
         }
 
+        .room-item {
+            margin-bottom: 20px; /* Khoảng cách giữa các hàng */
+        }
 
+        .room-box {
+            display: flex; /* Sử dụng flexbox cho box */
+            border: 1px solid #ced4da;
+            border-radius: 0.375rem;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s;
+        }
 
+        .room-box:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Đổ bóng khi hover */
+        }
 
+        .room-image {
+            width: 50%; /* Hình ảnh chiếm 50% chiều rộng của box */
+            height: auto; /* Tự động điều chỉnh chiều cao */
+            border-top-left-radius: 0.375rem;
+            border-bottom-left-radius: 0.375rem;
+        }
+
+        .room-info {
+            flex-grow: 1; /* Nội dung chiếm không gian còn lại */
+            padding: 15px; /* Khoảng cách cho nội dung */
+        }
+
+        .checkbox {
+            margin-top: auto; /* Đẩy checkbox xuống dưới cùng */
+        }
+.room-box {
+    display: flex;
+    align-items: center; /* Đặt tất cả các phần tử trong dòng giữa theo chiều dọc */
+}
+
+.room-info {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center; /* Đặt tất cả phần tử thông tin trong dòng giữa */
+    gap: 10px; /* Khoảng cách giữa các phần tử */
+}
+
+.room-info input.checkbox {
+    margin-left: auto; /* Đẩy checkbox sang bên phải (nếu cần) */
+}
+ .checkbox {
+            width: 20px; /* Điều chỉnh chiều rộng */
+            height: 20px; /* Điều chỉnh chiều cao */
+            transform: scale(1.5); /* Tăng kích thước bằng cách scale */
+            cursor: pointer; /* Thay đổi con trỏ khi hover */
+        }
     </style>
 </head>
 <div th:replace="access/nav1 :: html"></div>
@@ -223,19 +246,22 @@
 
         <h2>PHÒNG TRỐNG </h2>
         <div class="row">
-            <ul class="available-rooms">
-                <li ng-repeat="room in availableRooms" class="room-item">
-                    <img ng-src="{{room.img}}" width="80" height="80">
-                    <div class="room-info">
-                        <p><strong>MÃ PHÒNG</strong> {{room.roomCode}}</p>
-                        <p><strong>SỐ PHÒNG</strong> {{room.sophong}}</p>
+            <ul class="available-rooms list-unstyled w-100">
+                <div class="row">
+                    <li ng-repeat="room in availableRooms" class="room-item col-md-6 mb-4">
+                        <div class="room-box d-flex align-items-center">
+    <img ng-src="{{room.img}}" class="room-image" alt="Room Image" style="height:210px; width:210px">
+    <div class="room-info d-flex flex-grow-1 align-items-center">
+        <p><strong>MÃ PHÒNG:</strong> {{room.roomCode}}</p>
+        <p><strong>SỐ PHÒNG:</strong> {{room.sophong}}</p>
+        <p><strong>GIÁ:</strong> ${{room.gia}}</p>
+        <p><strong>KIỂU PHÒNG:</strong> {{room.roomType.name}}</p>
+        <input type="checkbox" class="checkbox ml-3" ng-click="toggleRoomSelection(room)">
+    </div>
+</div>
 
-                        <p><strong>GIÁ</strong> ${{room.gia}}</p>
-                        <p><strong>KIỂU PHÒNG</strong> {{room.roomType.name}}</p>
-
-                    </div>
-                    <input type="checkbox" class="checkbox" ng-click="toggleRoomSelection(room)">
-                </li>
+                    </li>
+                </div>
             </ul>
         </div>
 
