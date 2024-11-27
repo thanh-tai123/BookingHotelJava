@@ -168,7 +168,27 @@
         .checkbox {
             margin-top: auto; /* Đẩy checkbox xuống dưới cùng */
         }
+.room-box {
+    display: flex;
+    align-items: center; /* Đặt tất cả các phần tử trong dòng giữa theo chiều dọc */
+}
 
+.room-info {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center; /* Đặt tất cả phần tử thông tin trong dòng giữa */
+    gap: 10px; /* Khoảng cách giữa các phần tử */
+}
+
+.room-info input.checkbox {
+    margin-left: auto; /* Đẩy checkbox sang bên phải (nếu cần) */
+}
+ .checkbox {
+            width: 20px; /* Điều chỉnh chiều rộng */
+            height: 20px; /* Điều chỉnh chiều cao */
+            transform: scale(1.5); /* Tăng kích thước bằng cách scale */
+            cursor: pointer; /* Thay đổi con trỏ khi hover */
+        }
     </style>
 </head>
 <div th:replace="access/nav1 :: html"></div>
@@ -229,16 +249,17 @@
             <ul class="available-rooms list-unstyled w-100">
                 <div class="row">
                     <li ng-repeat="room in availableRooms" class="room-item col-md-6 mb-4">
-                        <div class="room-box d-flex">
-                            <img ng-src="{{room.img}}" class="room-image" alt="Room Image">
-                            <div class="room-info d-flex flex-column flex-grow-1">
-                                <p><strong>MÃ PHÒNG:</strong> {{room.roomCode}}</p>
-                                <p><strong>SỐ PHÒNG:</strong> {{room.sophong}}</p>
-                                <p><strong>GIÁ:</strong> ${{room.gia}}</p>
-                                <p><strong>KIỂU PHÒNG:</strong> {{room.roomType.name}}</p>
-                                <input type="checkbox" class="checkbox mt-auto" ng-click="toggleRoomSelection(room)">
-                            </div>
-                        </div>
+                        <div class="room-box d-flex align-items-center">
+    <img ng-src="{{room.img}}" class="room-image" alt="Room Image" style="height:210px; width:210px">
+    <div class="room-info d-flex flex-grow-1 align-items-center">
+        <p><strong>MÃ PHÒNG:</strong> {{room.roomCode}}</p>
+        <p><strong>SỐ PHÒNG:</strong> {{room.sophong}}</p>
+        <p><strong>GIÁ:</strong> ${{room.gia}}</p>
+        <p><strong>KIỂU PHÒNG:</strong> {{room.roomType.name}}</p>
+        <input type="checkbox" class="checkbox ml-3" ng-click="toggleRoomSelection(room)">
+    </div>
+</div>
+
                     </li>
                 </div>
             </ul>
