@@ -240,7 +240,7 @@
         $scope.services = [];
 
         $scope.loadServices = function () {
-            $http.get('http://localhost:8081/api/services')
+            $http.get('/api/services')
                 .then(function (response) {
                     $scope.services = response.data;
                 }, function (error) {
@@ -249,7 +249,7 @@
         };
 
         $scope.addService = function () {
-            $http.post('http://localhost:8081/api/add/services', $scope.service)
+            $http.post('/api/add/services', $scope.service)
                 .then(function (response) {
                     $scope.services.push(response.data);
                     $scope.clearForm();
@@ -263,7 +263,7 @@
         };
 
         $scope.updateService = function () {
-            $http.put('http://localhost:8081/api/update/services/' + $scope.service.id, $scope.service)
+            $http.put('/api/update/services/' + $scope.service.id, $scope.service)
                 .then(function (response) {
                     const index = $scope.services.findIndex(s => s.id === $scope.service.id);
                     if (index !== -1) {
@@ -276,7 +276,7 @@
         };
 
         $scope.deleteService = function (id) {
-            $http.delete('http://localhost:8081/api/delete/services/' + id)
+            $http.delete('/api/delete/services/' + id)
                 .then(function () {
                     $scope.services = $scope.services.filter(s => s.id !== id);
                 }, function (error) {

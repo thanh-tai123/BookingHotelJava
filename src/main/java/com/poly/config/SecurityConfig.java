@@ -30,12 +30,14 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
-public class SecurityConfig {
+public class SecurityConfig implements WebMvcConfigurer{
   private final UserRootService userRootService;
   private final CustomOAuth2UserService customOAuth2UserService;
   @Autowired
@@ -91,12 +93,22 @@ public class SecurityConfig {
           .userDetailsService(userRootService)
           .build();
   }
+  @Override
+  public void addCorsMappings(CorsRegistry registry) {
+      registry.addMapping("/**")
+          .allowedOrigins("https://polyhotelbooking.online")
+          .allowedMethods("GET", "POST", "PUT", "DELETE")
+          .allowedHeaders("*")
+          .allowCredentials(true);
+  }
+
+  
   @Bean
   public CorsFilter corsFilter() {
       UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
       CorsConfiguration config = new CorsConfiguration();
       config.setAllowCredentials(true);
-      config.addAllowedOrigin("http://localhost:5500/index.html");
+      config.addAllowedOrigin("https://polyhotelbooking.online");
       config.addAllowedHeader("*");
       config.addAllowedMethod("*");
       

@@ -247,7 +247,7 @@
 
 
         $scope.loadRoomTypes = function () {
-            $http.get('http://localhost:8081/api/roomtypes')
+            $http.get('/api/roomtypes')
                 .then(function (response) {
                     $scope.roomTypes = response.data;
                 }, function (error) {
@@ -257,7 +257,7 @@
 
 
         $scope.addRoomType = function () {
-            $http.post('http://localhost:8081/api/add/roomtype', $scope.roomType, {
+            $http.post('/api/add/roomtype', $scope.roomType, {
                 headers: {
                     'Content-Type': 'application/json' // Đặt tiêu đề Content-Type
                 }
@@ -278,7 +278,7 @@
         };
 
         $scope.updateRoomType = function () {
-            $http.put('http://localhost:8081/api/update/roomtype/' + $scope.roomType.id, $scope.roomType)
+            $http.put('/api/update/roomtype/' + $scope.roomType.id, $scope.roomType)
                 .then(function (response) {
                     const index = $scope.roomTypes.findIndex(type => type.id === $scope.roomType.id);
                     if (index !== -1) {
@@ -291,7 +291,7 @@
         };
 
         $scope.deleteRoomType = function (id) {
-            $http.delete('http://localhost:8081/api/delete/roomtype/' + id)
+            $http.delete('/api/delete/roomtype/' + id)
                 .then(function () {
                     $scope.roomTypes = $scope.roomTypes.filter(type => type.id !== id); // Xóa khỏi danh sách
                 }, function (error) {
