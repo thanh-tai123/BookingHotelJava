@@ -88,7 +88,7 @@ public class UserService implements UserServiceRepository{
 		    Account.setOtp(otp);
 		    Account.setOtpGeneratedTime(LocalDateTime.now());
 		    userRepository.save(Account);
-		    return "Email sent... please verify account within 1 minute <a href=\"/account/login\">login</a>";
+		    return "Email sent... please verify account within 3 minute <a href=\"/account/login\">login</a>";
 		  }
 	  
 	  

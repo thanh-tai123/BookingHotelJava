@@ -337,7 +337,7 @@
             $scope.selectedRooms = [];
             // Get the room ID from the current URL
             const roomId = $window.location.pathname.split('/').pop(); // Gets the last part of the URL
-            const apiUrl = `http://localhost:8081/api/get-room-details?roomId=${roomId}`;
+            const apiUrl = `/api/get-room-details?roomId=${roomId}`;
             $scope.onDateChange = function() {
                 $scope.loadAvailableRooms(); // Load available rooms based on selected dates
                 $scope.calculateTotalAmount();
@@ -348,7 +348,7 @@
 
             $http({
                 method: 'GET',
-                url: 'http://localhost:8081/api/user-info'
+                url: '/api/user-info'
             }).then(function successCallback(response) {
                 $scope.user = response.data; // Assign API data to scope
             }, function errorCallback(response) {
@@ -449,7 +449,7 @@
 
                     $http({
                         method: 'GET',
-                        url: `http://localhost:8081/api/get-available-rooms?checkin=${checkin}&checkout=${checkout}&status=TRUE`
+                        url: `/api/get-available-rooms?checkin=${checkin}&checkout=${checkout}&status=TRUE`
                     }).then(function successCallback(response) {
                         console.log("Available rooms:", response.data);
                         $scope.availableRooms = response.data;
@@ -462,7 +462,7 @@
             $scope.loadBookedDates = function() {
                 $http({
                     method: 'GET',
-                    url: `http://localhost:8081/api/get-bookings?roomId=${roomId}`
+                    url: `/api/get-bookings?roomId=${roomId}`
                 }).then(function successCallback(response) {
                     $scope.bookedDates = response.data; // Assign booked dates to scope
                     $scope.bookedDates.sort(function(a, b) {
@@ -564,7 +564,7 @@
                     bookingData.bookDetailStatus = 'NotCheckIn';
                     $http({
                         method: 'POST',
-                        url: 'http://localhost:8081/api/book-room',
+                        url: '/api/book-room',
                         data: bookingData,
                         transformResponse: [function (data) {
                             return data; // Handle the response as text
@@ -572,7 +572,7 @@
                     }).then(function successCallback(response) {
                         console.log('Booking successful:', response.data);
                         alert(response.data);
-                        $window.location.href ="http://localhost:8081/account/info";
+                        $window.location.href ="/account/info";
                         $scope.loadBookedDates();
 
                     }, function errorCallback(response) {
@@ -585,7 +585,7 @@
                     bookingData.bookDetailStatus = 'NotCheckIn';
                     $http({
                         method: 'POST',
-                        url: 'http://localhost:8081/payment/book-room',
+                        url: '/payment/book-room',
                         data: bookingData,
                         transformResponse: [function (data) {
                             return data; // Handle the response
@@ -593,8 +593,8 @@
                     }).then(function successCallback(response) {
                         console.log('Booking successful:', response.data);
                         alert(response.data);
-                        $window.location.href = `http://localhost:8081/${response.data}`;
-                        /*  const paymentUrl = `http://localhost:8081/pay?total=${totalAmount}`;
+                        $window.location.href = `/${response.data}`;
+                        /*  const paymentUrl = `/pay?total=${totalAmount}`;
                          $window.location.href = paymentUrl; */
 
                         $scope.loadBookedDates();
@@ -608,7 +608,7 @@
             function checkPaymentStatus(bookingId) {
                 // Giả sử bạn sử dụng setInterval để kiểm tra trạng thái
                 const interval = setInterval(() => {
-                    $http.get(`http://localhost:8081/api/check-payment-status/${bookingId}`)
+                    $http.get(`/api/check-payment-status/${bookingId}`)
                         .then(function(statusResponse) {
                             if (statusResponse.data.status === 'success') {
                                 // Cập nhật trạng thái thanh toán thành công
@@ -624,7 +624,7 @@
 
             // Hàm cập nhật trạng thái thanh toán
             function updatePaymentStatus(bookingId, status) {
-                $http.put(`http://localhost:8081/api/update-payment-status/${bookingId}`, { paymentStatus: status })
+                $http.put(`/api/update-payment-status/${bookingId}`, { paymentStatus: status })
                     .then(function(updateResponse) {
                         console.log('Payment status updated:', updateResponse.data);
                     })
