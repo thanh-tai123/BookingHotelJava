@@ -2,6 +2,7 @@ package com.poly.entity;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -72,6 +73,9 @@ public class Room {
 	    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
 	    @JsonManagedReference
 	    private List<RoomImages> roomImages = new ArrayList<>();
+	    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	    @JsonManagedReference
+	    private List<Discount> discounts = new ArrayList<>();
 	    private static final String ALPHANUMERIC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 		private static final SecureRandom RANDOM = new SecureRandom();
 
@@ -84,5 +88,12 @@ public class Room {
 			this.roomCode = code.toString();
 			return this.roomCode;
 		}
-
+		 public float getCurrentPrice(Date date) {
+		        for (Discount discount : discounts) {
+		            if (date.compareTo(discount.getStartDate()) >= 0 && date.compareTo(discount.getEndDate()) <= 0) {
+		                return gia * (1 - discount.getDiscountRate());
+		            }
+		        }
+		        return gia;
+		    }
 }

@@ -152,11 +152,13 @@ public class RoomController {
 
 		// Record the room view (you may want to implement this in your service)
 		roomService.viewRoomDetails(id, userId);
-
+		 Date currentDate = new Date();
+		    float currentPrice = room.getCurrentPrice(currentDate);
 		// Set model attributes for the view
 		model.addAttribute("room", room);
 		model.addAttribute("services", services);
 		model.addAttribute("roomImgs", roomImg);
+		model.addAttribute("currentPrice", currentPrice);
 
 		return "room/roomdetailversion"; // The name of your Thymeleaf template
 	}
