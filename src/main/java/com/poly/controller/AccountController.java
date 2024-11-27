@@ -247,6 +247,6 @@ public class AccountController {
 	        }
 
 	        this.userRepo.save(dbUser);
-	        return "account/info";
+	        return "redirect:/account/info";
 	    }
 }
