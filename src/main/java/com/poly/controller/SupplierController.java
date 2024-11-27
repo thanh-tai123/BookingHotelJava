@@ -12,7 +12,7 @@ import com.poly.repository.UserRepo;
 
 @Controller
 @RequestMapping("/supplier")
-@PreAuthorize("hasAuthority('SUPPLIER') or hasAuthority('ADMIN') or hasAuthority('SUPERADMIN')")
+@PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN') or hasAuthority('SUPERADMIN')")
 @Lazy
 public class SupplierController {
 	 @Autowired
