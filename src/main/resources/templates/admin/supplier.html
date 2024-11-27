@@ -284,7 +284,7 @@ angular.module('app', [])
             }
         }
 
-        $http.put(`http://localhost:8081/api/update-room/${$scope.room.id}`, formData, {
+        $http.put(`/api/update-room/${$scope.room.id}`, formData, {
             headers: { 'Content-Type': undefined },
             transformRequest: angular.identity
         }).then(function(response) {
@@ -312,7 +312,7 @@ angular.module('app', [])
     $scope.deleteRoom = function(roomId) {
         if (confirm('Are you sure you want to delete this room?')) {
             console.log('Attempting to delete room with ID:', roomId); // Log ID
-            $http.delete(`http://localhost:8081/api/delete-room/${roomId}`)
+            $http.delete(`/api/delete-room/${roomId}`)
                 .then(function(response) {
                     alert('Room deleted successfully!');
                     $scope.loadRoomsByStatus($scope.selectedStatus); // Refresh the rooms list
@@ -384,7 +384,7 @@ angular.module('app', [])
                 formData.append('images', $scope.room.images[i]);
             }
         }
-        $http.post('http://localhost:8081/api/add-room', formData, {
+        $http.post('/api/add-room', formData, {
             headers: {'Content-Type': undefined},
             transformRequest: angular.identity
         }).then(function(response) {

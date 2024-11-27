@@ -3,7 +3,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Verify Account</title>
+<title>XÁC THỰC TÀI KHOẢN</title>
+ <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
 </head>
 <style>  body, html {
     height: 100%;
@@ -120,20 +121,20 @@ img{width: 300px;
         <div class="col-md-1"></div>
         <div class="col-md-3">
             <div class="login-container">
-                <h3 >Verify Account</h3>
-                <form th:action="@{/account/verify-account}" method="post">
+                <h3 >NHẬP EMAIL ĐỂ XÁC THỰC LẠI</h3>
+                <form th:action="@{/account/regenerate-otp}" method="post">
 
                     <label for="email" class="form-label" th:text="#{forgotPassword.EmailAddress}"></label>
                     <input type="text" name="email" th:value="${email}">
 
-                    <label >OTP:</label>
-                    <input input type="text" name="otp">
+                  <!--   <label >OTP:</label>
+                    <input input type="text" name="otp"> -->
 
 
 
 
 
-                    <button type="submit" class="btn-login"  >Verify</button>
+                    <button type="submit" class="btn-login"  >GỬI</button>
 
                 </form>
                  </div>
