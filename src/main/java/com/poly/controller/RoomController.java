@@ -186,78 +186,70 @@ public class RoomController {
 	}
 	@GetMapping("/filter")
 	public String listRooms(@RequestParam(required = false) String roomtype,
-							@RequestParam(required = false) String priceRange,
-							@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-							@RequestParam(value = "sortField", defaultValue = "id") String sortField,
-							@RequestParam(value = "sortDir", defaultValue = "asc") String sortDir,
-							Model model) {
+	                        @RequestParam(required = false) String priceRange,
+	                        @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+	                        @RequestParam(value = "sortField", defaultValue = "id") String sortField,
+	                        @RequestParam(value = "sortDir", defaultValue = "asc") String sortDir,
+	                        Model model) {
 
-		// Kiểm tra và đảm bảo pageNum không nhỏ hơn 1
-		if (pageNum < 1) {
-			pageNum = 1;
-		}
+	    if (pageNum < 1) {
+	        pageNum = 1;
+	    }
 
-		// Tạo Pageable cho phân trang (bắt đầu từ pageNum - 1)
-		Pageable pageable = PageRequest.of(pageNum - 1, 3, Sort.by(Sort.Order.by(sortField).with(Sort.Direction.fromString(sortDir))));
+	    Pageable pageable = PageRequest.of(pageNum - 1, 6, Sort.by(Sort.Order.by(sortField).with(Sort.Direction.fromString(sortDir))));
 
-		// Tạo điều kiện lọc
-		Specification<Room> specification = Specification.where(null);
+	    Specification<Room> specification = Specification.where((root, query, criteriaBuilder) -> 
+	            criteriaBuilder.equal(root.get("status"), RoomStatus.TRUE));
 
-		if (roomtype != null && !roomtype.isEmpty() && !roomtype.equals("Tất cả")) {
-			specification = specification.and((root, query, criteriaBuilder) ->
-					criteriaBuilder.equal(root.get("roomtype").get("name"), roomtype));
-		}
+	    if (roomtype != null && !roomtype.isEmpty() && !roomtype.equals("Tất cả")) {
+	        specification = specification.and((root, query, criteriaBuilder) ->
+	                criteriaBuilder.equal(root.get("roomtype").get("name"), roomtype));
+	    }
 
-		if (priceRange != null && !priceRange.isEmpty() && !priceRange.equals("Tất cả")) {
-			String[] priceParts = priceRange.split("-");
-			try {
-				int minPrice = Integer.parseInt(priceParts[0].trim());
-				int maxPrice = Integer.parseInt(priceParts[1].trim());
+	    if (priceRange != null && !priceRange.isEmpty() && !priceRange.equals("Tất cả")) {
+	        String[] priceParts = priceRange.split("-");
+	        try {
+	            int minPrice = Integer.parseInt(priceParts[0].trim());
+	            int maxPrice = Integer.parseInt(priceParts[1].trim());
+	            specification = specification.and((root, query, criteriaBuilder) ->
+	                    criteriaBuilder.between(root.get("gia"), minPrice, maxPrice));
+	        } catch (NumberFormatException e) {
+	            model.addAttribute("message", "Khoảng giá không hợp lệ.");
+	        }
+	    }
 
-				specification = specification.and((root, query, criteriaBuilder) ->
-						criteriaBuilder.between(root.get("gia"), minPrice, maxPrice));
-			} catch (NumberFormatException e) {
-				model.addAttribute("message", "Khoảng giá không hợp lệ.");
-			}
-		}
+	    Page<Room> page = roomRepo.findAll(specification, pageable);
+	    List<Room> rooms = page.getContent();
 
-		// Áp dụng phân trang và lọc
-		Page<Room> page = roomRepo.findAll(specification, pageable);
-		List<Room> rooms = page.getContent();
+	    if (rooms.isEmpty()) {
+	        model.addAttribute("message", "Không có phòng nào phù hợp với tiêu chí tìm kiếm.");
+	    }
 
-		// Kiểm tra nếu không có phòng nào, hiển thị thông báo
-		if (rooms.isEmpty()) {
-			model.addAttribute("message", "Không có phòng nào phù hợp với tiêu chí tìm kiếm.");
-		}
+	    Map<Integer, Integer> visitCounts = new HashMap<>();
+	    for (Room room : rooms) {
+	        int visitCount = viewRoomRepository.getTotalVisitCountByRoomId(room.getId());
+	        visitCounts.put(room.getId(), visitCount);
+	    }
 
-		// Tính số lượt xem cho từng phòng
-		Map<Integer, Integer> visitCounts = new HashMap<>();
-		for (Room room : rooms) {
-			int visitCount = viewRoomRepository.getTotalVisitCountByRoomId(room.getId());
-			visitCounts.put(room.getId(), visitCount);
-		}
+	    List<Hotel> branches = hotelService.getAllHotels();
+	    List<RoomType> roomTypes = roomTypeService.getAllRoomType();
+	    List<String> priceRanges = Arrays.asList("1000-5000", "5000-10000", "10000-20000");
 
-		// Lấy thông tin các room type, hotel và price ranges
-		List<Hotel> branches = hotelService.getAllHotels();
-		List<RoomType> roomTypes = roomTypeService.getAllRoomType();
-		List<String> priceRanges = Arrays.asList("1000-5000", "5000-10000", "10000-20000");
+	    model.addAttribute("rooms", rooms);
+	    model.addAttribute("visitCounts", visitCounts);
+	    model.addAttribute("roomTypes", roomTypes);
+	    model.addAttribute("branches", branches);
+	    model.addAttribute("priceRanges", priceRanges);
+	    model.addAttribute("currentPage", pageNum);
+	    model.addAttribute("totalPages", page.getTotalPages());
+	    model.addAttribute("sortField", sortField);
+	    model.addAttribute("sortDir", sortDir);
+	    model.addAttribute("roomtype", roomtype);
+	    model.addAttribute("priceRange", priceRange);
+	    model.addAttribute("hasPrevious", page.hasPrevious());
+	    model.addAttribute("hasNext", page.hasNext());
 
-		// Thêm thông tin vào model
-		model.addAttribute("rooms", rooms);
-		model.addAttribute("visitCounts", visitCounts);
-		model.addAttribute("roomTypes", roomTypes);
-		model.addAttribute("branches", branches);
-		model.addAttribute("priceRanges", priceRanges);
-		model.addAttribute("currentPage", pageNum);
-		model.addAttribute("totalPages", page.getTotalPages());
-		model.addAttribute("sortField", sortField);
-		model.addAttribute("sortDir", sortDir);
-		model.addAttribute("roomtype", roomtype);  // Duy trì giá trị lọc
-		model.addAttribute("priceRange", priceRange); // Duy trì giá trị lọc
-		model.addAttribute("hasPrevious", page.hasPrevious());
-		model.addAttribute("hasNext", page.hasNext());
-
-		return "room";
+	    return "room";
 	}
 
 
