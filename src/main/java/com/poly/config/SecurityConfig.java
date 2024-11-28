@@ -102,6 +102,15 @@ public class SecurityConfig implements WebMvcConfigurer{
           .allowCredentials(true);
   }
 
+  @Bean
+  public WebMvcConfigurer corsConfigurer() {
+      return new WebMvcConfigurer() {
+          @Override
+          public void addCorsMappings(CorsRegistry registry) {
+              registry.addMapping("/**").allowedOrigins("https://polyhotelbooking.online");
+          }
+      };
+  }
   
   @Bean
   public CorsFilter corsFilter() {
