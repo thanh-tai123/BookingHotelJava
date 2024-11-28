@@ -2,44 +2,191 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>Thông tin người dùng</title>
     <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Màu chủ đạo */
+        :root {
+            --primary-color: #c09b5a;
+            --text-color: #333;
+            --bg-light: #f9f9f9;
+        }
+
+        /* Tổng thể */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-light);
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 24px;
+            color: var(--primary-color);
+        }
+
+        /* Bố cục */
+        .content {
+            display: flex; /* Flexbox để bố trí bảng và thống kê */
+            justify-content: space-between; /* Khoảng cách giữa bảng và box */
+            gap: 20px; /* Khoảng cách giữa hai phần */
+            margin: 20px;
+        }
+
+        /* Styling cho bảng */
+        .table-container {
+            flex: 1; /* Bảng chiếm tối đa không gian còn lại */
+        }
+
+        table {
+            width: 100%;
+            background-color: #ffffff; /* Nền trắng */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+            border-radius: 10px; /* Bo góc */
+            overflow: hidden;
+            border-collapse: collapse;
+        }
+
+        table th {
+            background-color: var(--primary-color); /* Màu nền tiêu đề */
+            color: white; /* Chữ trắng */
+            text-align: center;
+            vertical-align: middle;
+            font-weight: bold;
+            padding: 10px;
+        }
+
+        table td {
+            text-align: center;
+            vertical-align: middle;
+            padding: 10px;
+            color: var(--text-color);
+        }
+
+        .btn-primary {
+            color: white !important;
+            background-color: #c09b5a !important;
+            border: 1px solid #c09b5a !important;
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 8px 20px;
+            transition: all 0.3s ease !important;
+        }
+
+        .btn-primary:hover {
+            background-color: white !important;
+            color: #c09b5a !important;
+            border: 1px solid #c09b5a !important;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f7f7f7; /* Màu nền xen kẽ */
+        }
+
+        img {
+            border-radius: 50%; /* Bo tròn hình ảnh */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng cho hình ảnh */
+        }
+
+        /* Styling phần thống kê */
+        .stats {
+            width: 250px; /* Độ rộng cố định */
+            background-color: #ffffff; /* Nền trắng */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+            border-radius: 10px; /* Bo góc */
+            padding: 20px; /* Khoảng cách bên trong */
+            text-align: left; /* Căn trái */
+            display: inline-block; /* Chỉ mở rộng box theo nội dung */
+        }
+
+        .stats h4 {
+            color: var(--primary-color); /* Màu tiêu đề */
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center; /* Căn giữa */
+        }
+
+        .stats p {
+            font-size: 16px;
+            margin: 0 0 10px 0; /* Khoảng cách giữa các đoạn văn */
+            color: var(--text-color); /* Màu chữ nội dung */
+            font-weight: bold; /* In đậm thông tin */
+        }
+
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .content {
+                flex-direction: column; /* Đưa bảng và thống kê xuống dòng */
+                align-items: center;
+            }
+
+            .stats {
+                width: 100%; /* Box chiếm toàn bộ chiều rộng trên màn hình nhỏ */
+                margin-top: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
 
 <div th:replace="~{/layout/menudoc :: html}"></div>
 <br>
-<label style="width: 82%;margin-left:255px">Thông tin User</label>
-<table class="table" style="width: 82%;margin-left:255px"> 
 
-    <thead class="table-dark">
-    <tr>
-        <th scope="col">ID</th>
-        <th scope="col" th:text="#{admin.name}">NAME</th>
-        <th scope="col" >EMAIL</th>
-        <th scope="col" th:text="#{admin.phone}">PHONE</th>
-        <th scope="col" th:text="#{admin.phone}">ROLES</th>
-        <th scope="col" th:text="#{admin.typeAccount}">TYPE ACCOUNT</th>
-        <th scope="col" th:text="#{admin.image}">IMAGE</th>
-        <th scope="col" th:text="#{admin.edit}">EDIT</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="u : ${users}">
-        <td th:text="${u.id}"></td>
-        <td th:text="${u.name}"></td>
-        <td th:text="${u.email}"></td>
-        <td th:text="${u.phone}"></td>
-        <td th:text="${u.roleString}"></td>
-        <td th:text="${u.authType}"></td>
-        <td><img th:src="${u.image}" width="50" height="50" alt=""></td>
-        <td>
-            <a th:href="@{'admin/edit/' + ${u.id}}" title="Edit role user">
-                <i class="fa-solid fa-pen-to-square fa-2xl"></i>
-            </a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<div class="content">
+    <!-- Bảng Thông Tin Người Dùng -->
+    <div class="table-container">
+        <label class="text-center">THÔNG TIN NGƯỜI DÙNG</label>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tên</th>
+                <th>Email</th>
+                <th>Số Điện Thoại</th>
+                <th>Vai Trò</th>
+                <th>Loại Tài Khoản</th>
+                <th>Hình Ảnh</th>
+                <th>Chỉnh Sửa</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="u : ${users}">
+                <td th:text="${u.id}"></td>
+                <td th:text="${u.name}"></td>
+                <td th:text="${u.email}"></td>
+                <td th:text="${u.phone}"></td>
+                <td th:text="${u.roleString}"></td>
+                <td th:text="${u.authType}"></td>
+                <td>
+                    <img th:src="${u.image}" width="50" height="50" alt="User Image">
+                </td>
+                <td>
+                    <a th:href="@{'admin/edit/' + ${u.id}}" title="Edit role user" class="btn btn-sm btn-primary">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Phần Thống Kê -->
+    <div class="stats">
+        <h4>Thống kê</h4>
+
+        <p><strong>Tổng số người dùng:</strong> <span th:text="${totalUsers}"></span></p>
+        <p><strong>Số tài khoản Google:</strong> <span th:text="${googleAccounts}"></span></p>
+        <p><strong>Số tài khoản Local:</strong> <span th:text="${localAccounts}"></span></p>
+        <p><strong>Tổng số vai trò:</strong> <span th:text="${totalRoles}"></span></p>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

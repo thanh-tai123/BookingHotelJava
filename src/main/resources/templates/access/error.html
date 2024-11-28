@@ -98,12 +98,12 @@
 
         .footer {
             padding: 20px 0;
-
+			background-color:black;
         }
 
         .footer .col {
             margin-bottom: 20px;
-
+ background-color: black;
         }
 
         .footer p {
@@ -173,61 +173,18 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <img alt="Hotel logo" height="50"
-                    src="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" width="50" />
-            </a>
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-                    <button class="btn btn-reserve" type="button" style="margin-right: 30px;">
-                        GIỮ CHỖ NGAY
-                    </button>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            PHÒNG &amp; SUITES
-                        </a>
-                    </li>
+    <div th:replace="access/nav :: html"></div>
 
-
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            TRA CỨU PHÒNG
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <select class="form-select1" id="validationCustom03" required>
-                            <option selected disabled value="">Thông tin</option>
-                            <option>Đăng nhập</option>
-                            <option>Đăng xuất</option>
-                        </select>
-                    </li>
-
-                    <li class="nav-item">
-                        <select class="form-select" id="validationCustom04" required>
-                            <option selected disabled value="">VN</option>
-                            <option>EN</option>
-                            <option>JP</option>
-                        </select>
-                    </li>
-                </ul>
-
-            </div>
-        </div>
-    </nav>
-    <div class="bg">
+   
     
         
-<div th:if="${error}" class="bg1 bg-black bg-opacity-50 p-8 rounded-lg text-center">
-    <h5 th:text="${error}" class="text-white text-3xl font-bold mb-4"></h5> <!-- Hiển thị thông báo lỗi -->
-</div>
+<div th:if="${error}" >
+    <h5 th:text="${error}" ></h5> <!-- Hiển thị thông báo lỗi -->
+
   
 </div>
-
+<footer style="background-color: black;">
 <div class="container footer">
     <div class="row text-center">
         <div class="col-md-3">
@@ -346,8 +303,8 @@
         </div>
     </div>
 </div>
-</div>
-</div>
+</footer>
+
 
 </body>
 </html>

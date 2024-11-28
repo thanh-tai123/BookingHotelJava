@@ -11,9 +11,10 @@ import org.springframework.stereotype.Service;
 import com.poly.entity.BookDetail;
 import com.poly.entity.Room;
 import com.poly.repository.BookDetailRepository;
+import com.poly.serviceRepository.BookDetailServiceRepository;
 
 @Service
-public class BookDetailService {
+public class BookDetailService implements BookDetailServiceRepository{
 
     @Autowired
     private BookDetailRepository bookDetailRepository;
@@ -51,5 +52,13 @@ public class BookDetailService {
     
     public List<BookDetail> getBookingsByRoomid(Room room) {
         return bookDetailRepository.findByRoom(room);
+    }
+    
+    public List<Map<String, Object>> getRevenueByBranchAndYear(Integer year) {
+        return bookDetailRepository.findRevenueByBranchAndYear(year);
+    }
+    
+    public List<Map<String, Object>> getRoomsBookedByBranch(String branchName) {
+        return bookDetailRepository.findRoomsBookedByBranch(branchName);
     }
 }

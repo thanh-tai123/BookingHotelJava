@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Book Details</title>
+    <title>Xuất file Excel</title>
+    <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
     <script th:inline="javascript">
         let currentPage = 1;
         let rowsPerPage = 5;
@@ -116,8 +117,11 @@
     </script>
 </head>
 <body>
-<div th:replace="/access/nav :: html"></div>
-<h2>Book Details</h2>
+
+<div th:replace="access/nav :: html"></div>
+
+
+<h2>Danh sách khách hàng đã đặt phòng</h2>
 
 <label for="emailSearch">Tìm kiếm theo Email:</label>
 <input type="text" id="emailSearch" placeholder="Nhập email..." oninput="searchEmailSuggestions()">
@@ -135,19 +139,19 @@
 <table>
     <thead>
     <tr>
-        <th>Adult</th>
+      
         <th>Email</th>
-        <th>Check-in</th>
-        <th>Check-out</th>
-        <th>Children</th>
-        <th>Price</th>
-        <th>Total</th>
-        <th>Payment Method</th>
+        <th>Ngày vào</th>
+        <th>Ngày ra</th>
+       
+        <th>Giá</th>
+        <th>Tổng</th>
+        <th>Phương thức thanh toán</th>
         <th>Payment Status</th>
         <th>Booking Status</th>
         <th>Updated At</th>
         <th>Updated By</th>
-        <th>Create Date</th>
+        <th>Create By</th>
         <th>Book Code</th>
     </tr>
     </thead>
@@ -160,7 +164,8 @@
     <span id="pageNumber"></span>
     <button onclick="nextPage()">Trang sau</button>
 </div>
-<a href="/search/export" class="btn btn-primary">Export Book Details to Excel</a>
+<a href="/search/export" class="btn btn-primary">Xuất sang file Excel</a>
 
+<div th:replace="/access/error :: footer"></div>
 </body>
 </html>

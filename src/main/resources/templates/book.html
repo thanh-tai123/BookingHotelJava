@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book</title>
     <!-- Include jQuery -->
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Include AngularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
@@ -13,6 +14,10 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+
+        }
         .room-details {
             display: flex;
             margin-bottom: 20px;
@@ -66,31 +71,7 @@
             margin-bottom: 5px;
             font-weight: bold;
         }
-        .available-rooms {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            padding: 0;
-            list-style-type: none;
-        }
 
-        .room-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-            padding: 10px;
-            background-color: #f9f9f9;
-            border-radius: 5px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            flex: 1 1 calc(33.33% - 16px)
-        }
-
-        .room-info {
-            margin-left: 20px;
-            flex: 1;
-            height: 200px;
-
-        }
 
         .user-inputs {
             display: flex;
@@ -149,21 +130,68 @@
             transition: background-color 0.3s ease;
         }
 
-
-
-        .checkbox{
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-            margin: 100px;
+        .available-rooms {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
         }
 
+        .room-item {
+            margin-bottom: 20px; /* Khoảng cách giữa các hàng */
+        }
 
+        .room-box {
+            display: flex; /* Sử dụng flexbox cho box */
+            border: 1px solid #ced4da;
+            border-radius: 0.375rem;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s;
+        }
 
+        .room-box:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Đổ bóng khi hover */
+        }
 
+        .room-image {
+            width: 50%; /* Hình ảnh chiếm 50% chiều rộng của box */
+            height: auto; /* Tự động điều chỉnh chiều cao */
+            border-top-left-radius: 0.375rem;
+            border-bottom-left-radius: 0.375rem;
+        }
+
+        .room-info {
+            flex-grow: 1; /* Nội dung chiếm không gian còn lại */
+            padding: 15px; /* Khoảng cách cho nội dung */
+        }
+
+        .checkbox {
+            margin-top: auto; /* Đẩy checkbox xuống dưới cùng */
+        }
+.room-box {
+    display: flex;
+    align-items: center; /* Đặt tất cả các phần tử trong dòng giữa theo chiều dọc */
+}
+
+.room-info {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center; /* Đặt tất cả phần tử thông tin trong dòng giữa */
+    gap: 10px; /* Khoảng cách giữa các phần tử */
+}
+
+.room-info input.checkbox {
+    margin-left: auto; /* Đẩy checkbox sang bên phải (nếu cần) */
+}
+ .checkbox {
+            width: 20px; /* Điều chỉnh chiều rộng */
+            height: 20px; /* Điều chỉnh chiều cao */
+            transform: scale(1.5); /* Tăng kích thước bằng cách scale */
+            cursor: pointer; /* Thay đổi con trỏ khi hover */
+        }
     </style>
 </head>
-<div th:replace="/access/nav :: html"></div>
+<div th:replace="access/nav1 :: html"></div>
 <!-- Date Range Picker -->
 <!--   Check-in:
    <input type="date" ng-model="booking.checkin">
@@ -171,122 +199,129 @@
    Checkout:
    <input type="date" ng-model="booking.checkout">  -->
 <body ng-controller="RoomDetailsController">
-<h1>Book</h1>
-<div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="room-details">
-                <img ng-src="{{roomDetails.img}}" alt="Room Image" class="room-image" />
-                <div class="room-info">
-                    <!--            <p><strong>ID ROOM:</strong> {{roomDetails.id}}</p>-->
-                    <p><strong>Ma Phong:</strong> {{room.roomCode}}</p>
-                    <p><strong>Room Number:</strong> {{roomDetails.sophong}}</p>
-                    <p><strong>Room Type:</strong> {{roomDetails.kieuphong}}</p>
-                    <p><strong>Price:</strong> ${{roomDetails.gia}}</p>
-                    <p><strong>Description:</strong> {{roomDetails.mota}}</p>
+<div class="container" style="margin-top: 200px" >
+    <h1>ĐẶT PHÒNG</h1>
+    <div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="room-details">
+                    <img ng-src="{{roomDetails.img}}" alt="Room Image" class="room-image" />
+                    <div class="room-info">
+                        <!--            <p><strong>ID ROOM:</strong> {{roomDetails.id}}</p>-->
+                        <p><strong>MÃ PHÒNG :</strong> {{roomDetails.roomCode}}</p>
+                        <p><strong>SỐ PHÒNG :</strong> {{roomDetails.sophong}}</p>
+                        <p><strong>KIỂU PHÒNG :</strong> {{roomDetails.roomType.name}}</p>
+                        <p><strong>GIÁ :</strong> ${{roomDetails.gia}}</p>
+                        <p><strong>MÔ TẢ </strong> {{roomDetails.mota}}</p>
 
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+
+                <div class="user-inputs">
+                    <!--        <div class="input-group">-->
+                    <!--            <label for="userId">Id:</label>-->
+                    <!--            <input type="text" id="userId" value="{{user.id}}" class="user-input">-->
+                    <!--        </div>-->
+                    <div class="input-group">
+                        <label for="userName">TÊN </label>
+                        <input type="text" id="userName" value="{{user.name}}" class="user-input">
+                    </div>
+                    <div class="input-group">
+                        <label for="checkin">NGÀY NHẬN  </label>
+                        <input type="date" id="checkin" ng-model="booking.checkin" ng-change="onDateChange()" class="date-input">
+                    </div>
+                    <div class="input-group">
+                        <label for="checkout">NGÀY TRẢ </label>
+                        <input type="date" id="checkout" ng-model="booking.checkout" ng-change="onDateChange()" class="date-input">
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-8">
 
-            <div class="user-inputs">
-                <!--        <div class="input-group">-->
-                <!--            <label for="userId">Id:</label>-->
-                <!--            <input type="text" id="userId" value="{{user.id}}" class="user-input">-->
-                <!--        </div>-->
-                <div class="input-group">
-                    <label for="userName">Name:</label>
-                    <input type="text" id="userName" value="{{user.name}}" class="user-input">
-                </div>
-                <div class="input-group">
-                    <label for="checkin">Check-in:</label>
-                    <input type="date" id="checkin" ng-model="booking.checkin" ng-change="onDateChange()" class="date-input">
-                </div>
-                <div class="input-group">
-                    <label for="checkout">Checkout:</label>
-                    <input type="date" id="checkout" ng-model="booking.checkout" ng-change="onDateChange()" class="date-input">
-                </div>
-            </div>
-        </div>
+
+
+
+
+        <h2>PHÒNG TRỐNG </h2>
+        <div class="row">
+            <ul class="available-rooms list-unstyled w-100">
+                <div class="row">
+                    <li ng-repeat="room in availableRooms" class="room-item col-md-6 mb-4">
+                        <div class="room-box d-flex align-items-center">
+    <img ng-src="{{room.img}}" class="room-image" alt="Room Image" style="height:210px; width:210px">
+    <div class="room-info d-flex flex-grow-1 align-items-center">
+        <p><strong>MÃ PHÒNG:</strong> {{room.roomCode}}</p>
+        <p><strong>SỐ PHÒNG:</strong> {{room.sophong}}</p>
+        <p><strong>GIÁ:</strong> ${{room.gia}}</p>
+        <p><strong>KIỂU PHÒNG:</strong> {{room.roomType.name}}</p>
+        <input type="checkbox" class="checkbox ml-3" ng-click="toggleRoomSelection(room)">
     </div>
-
-    <p><strong>Total:</strong> ${{ totalAmount }}</p>
-    <div class="stay-duration">
-        <p><strong>Number of days:</strong> {{stayDuration}} days</p>
-    </div>
-
-
-
-    <h2>Available Rooms</h2>
-    <div class="row">
-        <ul class="available-rooms">
-            <li ng-repeat="room in availableRooms" class="room-item">
-                <img ng-src="{{room.img}}" width="80" height="80">
-                <div class="room-info">
-                    <p><strong>Ma Phong:</strong> {{room.roomCode}}</p>
-                    <p><strong>Room Number:</strong> {{room.sophong}}</p>
-
-                    <p><strong>Price:</strong> ${{room.gia}}</p>
-                    <p><strong>Room Type:</strong> {{room.roomtype.name}}</p>
-
-                </div>
-                <input type="checkbox" class="checkbox" ng-click="toggleRoomSelection(room)">
-            </li>
-        </ul>
-    </div>
-
-
-    <div class="user-inputs">
-        <div class="input-group">
-            <label for="adultCount">Adult:</label>
-            <input type="number" id="adultCount" min="1" max="2" ng-model="booking.adult" class="number-input">
-        </div>
-        <div class="input-group">
-            <label for="childrenCount">Children:</label>
-            <input type="number" id="childrenCount" min="0" max="2" ng-model="booking.children" class="number-input">
-        </div>
-        <div class="input-group">
-            <label for="paymentMethod">Payment Method:</label>
-            <select id="paymentMethod" ng-model="booking.paymentMethod" class="payment-select">
-                <option value="cash">Cash</option>
-                <option value="transfer">Bank Transfer</option>
-            </select>
-        </div>
-    </div>
-
-    <!--    <p><strong>Total:</strong> ${{ total }}</p>-->
-    <p><strong>Total:</strong> ${{ totalAmount }}</p>
-    <button ng-click="bookRoom()" class="book-button">Book</button>
-
-    <!-- List of Booked Dates -->
-    <h2>Booked Dates</h2>
-    <div class="row">
-        <div class="col-md-4">
-            <ul class="booked-dates">
-                <li ng-repeat="booking in bookedDates | filter: isFutureCheckout" ng-if="$index % 3 === 0">
-                    Check-in: {{booking.checkin}}, Check-out: {{booking.checkout}}
-                </li>
-            </ul>
-        </div>
-        <div class="col-md-4">
-            <ul class="booked-dates">
-                <li ng-repeat="booking in bookedDates | filter: isFutureCheckout" ng-if="$index % 3 === 1">
-                    Check-in: {{booking.checkin}}, Check-out: {{booking.checkout}}
-                </li>
-            </ul>
-        </div>
-        <div class="col-md-4">
-            <ul class="booked-dates">
-                <li ng-repeat="booking in bookedDates | filter: isFutureCheckout" ng-if="$index % 3 === 2">
-                    Check-in: {{booking.checkin}}, Check-out: {{booking.checkout}}
-                </li>
-            </ul>
-        </div>
-    </div>
-
 </div>
 
+                    </li>
+                </div>
+            </ul>
+        </div>
+
+
+        <div class="user-inputs">
+            <div class="input-group">
+                <label for="adultCount">NGƯỜI LỚN</label>
+                <input type="number" id="adultCount" min="1" max="2" ng-model="booking.adult" class="number-input">
+            </div>
+            <div class="input-group">
+                <label for="childrenCount">TRẺ CON</label>
+                <input type="number" id="childrenCount" min="0" max="2" ng-model="booking.children" class="number-input">
+            </div>
+            <div class="input-group">
+                <label for="paymentMethod">PHƯƠNG THỨC THANH TOÁN</label>
+                <select id="paymentMethod" ng-model="booking.paymentMethod" class="payment-select">
+                    <option value="cash">Cash</option>
+                    <option value="transfer">Bank Transfer</option>
+                </select>
+            </div>
+        </div>
+
+        <!--    <p><strong>Total:</strong> ${{ total }}</p>-->
+        <p><strong>TỔNG </strong> ${{ totalAmount }}</p>
+        <div class="stay-duration">
+            <p><strong>SỐ NGÀY </strong> {{stayDuration}} days</p>
+        </div>
+        <button ng-click="bookRoom()" class="book-button">Book</button>
+
+        <!-- List of Booked Dates -->
+        <h2>LỊCH ĐÃ ĐẶT TRƯỚC </h2>
+        <div class="row">
+            <div class="col-md-4">
+                <ul class="booked-dates">
+                    <li ng-repeat="booking in bookedDates | filter: isFutureCheckout" ng-if="$index % 3 === 0">
+                        NGÀY NHẬN PHÒNG: {{booking.checkin}} <br>
+                        NGÀY TRẢ PHÒNG: {{booking.checkout}}
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <ul class="booked-dates">
+                    <li ng-repeat="booking in bookedDates | filter: isFutureCheckout" ng-if="$index % 3 === 1">
+                        NGÀY NHẬN PHÒNG: {{booking.checkin}} <br>
+                        NGÀY TRẢ PHÒNG: {{booking.checkout}}
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <ul class="booked-dates">
+                    <li ng-repeat="booking in bookedDates | filter: isFutureCheckout" ng-if="$index % 3 === 2">
+                        NGÀY NHẬN PHÒNG: {{booking.checkin}} <br>
+                        NGÀY TRẢ PHÒNG: {{booking.checkout}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
 <script>
 
     angular.module('app', [])
@@ -414,7 +449,7 @@
 
                     $http({
                         method: 'GET',
-                        url: `http://localhost:8081/api/get-available-rooms?checkin=${checkin}&checkout=${checkout}`
+                        url: `http://localhost:8081/api/get-available-rooms?checkin=${checkin}&checkout=${checkout}&status=TRUE`
                     }).then(function successCallback(response) {
                         console.log("Available rooms:", response.data);
                         $scope.availableRooms = response.data;
@@ -430,6 +465,10 @@
                     url: `http://localhost:8081/api/get-bookings?roomId=${roomId}`
                 }).then(function successCallback(response) {
                     $scope.bookedDates = response.data; // Assign booked dates to scope
+                    $scope.bookedDates.sort(function(a, b) {
+                        // So sánh checkin ngày
+                        return new Date(a.checkin) - new Date(b.checkin);
+                    });
                 }, function errorCallback(response) {
                     console.error('Error fetching booked dates:', response);
                 });
@@ -618,7 +657,6 @@
                 }
             };
         }]);
-
 
 </script>
 

@@ -3,6 +3,7 @@ package com.poly.repository;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -35,4 +36,23 @@ public interface BookDetailRepository extends JpaRepository<BookDetail, Integer>
 	            "GROUP BY b.user.email " +
 	            "ORDER BY COUNT(bd.id) DESC")
 	     List<Object[]> findTopUsersByMonthAndYear(@Param("year") int year, @Param("month") int month);
+	     
+	     @Query("SELECT h.chinhanh AS branch, SUM(bd.price) AS revenue " +
+	             "FROM BookDetail bd " +
+	             "JOIN bd.room r " +
+	             "JOIN r.hotel h " +
+	             "WHERE FUNCTION('YEAR', bd.checkout) = :year AND bd.bookDetailStatus = 'checkout'" +
+	             "GROUP BY h.chinhanh")
+	      List<Map<String, Object>> findRevenueByBranchAndYear(@Param("year") Integer year);
+	     
+	     @Query("SELECT bd.room.id AS roomId, r.roomCode AS roomCode, r.img AS img, rt.name AS roomType, " +
+             "r.gia AS price, h.chinhanh AS branch " +
+             "FROM BookDetail bd " +
+             "JOIN bd.room r " +
+	             "JOIN r.roomtype rt " +
+	             "JOIN r.hotel h " +
+             "WHERE h.chinhanh = :branchName AND bd.bookDetailStatus = 'checkout'")
+      List<Map<String, Object>> findRoomsBookedByBranch(@Param("branchName") String branchName);
+	     
+
 }

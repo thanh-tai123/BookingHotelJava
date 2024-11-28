@@ -17,10 +17,13 @@ import com.poly.service.HotelService;
 import com.poly.service.RoleService;
 import com.poly.service.RoomTypeService;
 import com.poly.service.ServiceService;
+import com.poly.service.UserService;
+import com.poly.util._enum.AuthTypeEnum;
 import com.poly.util._enum.RoomStatus;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -29,6 +32,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -36,6 +40,7 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/admin")
 @PreAuthorize("hasAuthority('ADMIN')")
+@Lazy
 public class AdminController {
     @Autowired
     private UserRepo userRepo;
@@ -45,6 +50,8 @@ public class AdminController {
     private ServiceRepository serviceRepo;
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private UserService userService;
     @Autowired
     private RoomTypeRepository roomTypeRepo;
     @Autowired
@@ -136,9 +143,29 @@ public class AdminController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping("")
-    public String index(Model model) {
-        model.addAttribute("user", new User());
-        model.addAttribute("users", userRepo.findAll());
+    public String getUsers(Model model) {
+        // Giả sử bạn có danh sách người dùng từ service
+        List<User> users = userService.getAllUsers();
+
+        // Tính tổng số người dùng
+        int totalUsers = users.size();
+
+        // Tính số tài khoản Google và Local
+        long googleAccounts = users.stream().filter(u -> u.getAuthType() == AuthTypeEnum.GOOGLE).count();
+        long localAccounts = users.stream().filter(u -> u.getAuthType() == AuthTypeEnum.LOCAL).count();
+
+        // Tính số vai trò (tính duy nhất)
+        Set<String> roles = users.stream()
+                                 .flatMap(u -> Arrays.stream(u.getRoleString().split(", ")))
+                                 .collect(Collectors.toSet());
+
+        // Gửi dữ liệu sang giao diện
+        model.addAttribute("users", users);
+        model.addAttribute("totalUsers", totalUsers);
+        model.addAttribute("googleAccounts", googleAccounts);
+        model.addAttribute("localAccounts", localAccounts);
+        model.addAttribute("totalRoles", roles.size());
+
         return "admin/index";
     }
 
@@ -257,5 +284,14 @@ public class AdminController {
     public String compare() {
        return "dashboard/compare";
     }
-
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping("/branch")
+    public String branch() {
+       return "dashboard/branch";
+    }
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping("/search/room-per-branch")
+    public String RoomPerBranch() {
+       return "dashboard/tableroomperbranch";
+    }
 }

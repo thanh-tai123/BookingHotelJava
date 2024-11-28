@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.poly.entity.BookDetail;
 import com.poly.entity.MailInfo;
+import com.poly.serviceRepository.MailerService;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,6 +32,7 @@ import com.poly.service.BookingService;
 
 @Controller
 @RequestMapping("/search")
+@Lazy
 public class BookController {
     @Autowired
     private BookRepository bookRepository; // Giả sử đây là repository của bạn cho Book
@@ -62,9 +64,9 @@ public class BookController {
 //    }
 
     @GetMapping("/bookcode")
-    public String showBookForm(Model model) {
-        model.addAttribute("bookCode", "");
-        return "searchBookCode"; // Tên của view Thymeleaf
+    public String showBookForm() {
+      
+        return "searchcode"; // Tên của view Thymeleaf
     }
 
     @GetMapping("/getbook")
@@ -84,14 +86,15 @@ public class BookController {
     @PostMapping("/book")
     public String getBookInfo(@RequestParam("bookCode") String bookCode, Model model) {
         Book book = bookRepository.findByBookCode(bookCode);
-        List<BookDetail> details = bookDetailRepository.findByBook_BookCode(bookCode);// Tìm Book theo bookCode
+        List<BookDetail> details = bookDetailRepository.findByBook_BookCode(bookCode); // Tìm Book theo bookCode
         if (book != null) {
             model.addAttribute("book", book);
             model.addAttribute("bookDetails", details);
         } else {
             model.addAttribute("error", "Không tìm thấy Book với BookCode: " + bookCode);
+            return "searchcode";
         }
-        model.addAttribute("bookCode", bookCode);
+        model.addAttribute("bookCode", bookCode); // Đảm bảo bookCode có trong model khi cần
         return "searchBookCode"; // Tên của view hiển thị thông tin Book
     }
 
@@ -112,8 +115,8 @@ public class BookController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/admin/bookcode")
     public String showAdminBookForm(Model model) {
-        model.addAttribute("bookCode", "");
-        return "admin/searchBookCode"; // Tên của view Thymeleaf
+       
+        return "admin/searchcode"; // Tên của view Thymeleaf
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -126,6 +129,7 @@ public class BookController {
             model.addAttribute("bookDetails", details);
         } else {
             model.addAttribute("error", "Không tìm thấy Book với BookCode: " + bookCode);
+            return "admin/searchcode";
         }
         model.addAttribute("bookCode", bookCode);
         return "/admin/searchBookCode"; // Tên của view hiển thị thông tin Book
@@ -141,6 +145,7 @@ public class BookController {
             model.addAttribute("bookDetails", details);
         } else {
             model.addAttribute("error", "Không tìm thấy Book với BookCode: " + bookCode);
+            return "admin/searchcode";
         }
         model.addAttribute("bookCode", bookCode);
         return "/admin/searchBookCode"; // Tên của view hiển thị thông tin Book

@@ -23,7 +23,7 @@
             top: 0;
             width: 100%;
             z-index: 1000;
-            height: 70px;
+            height: 110px;
         }
 
         .navbar.scrolled {
@@ -31,17 +31,17 @@
         }
 
         .navbar-brand img {
-            height: 20px;
+            height: 50px;
         }
 
         .navbar-nav .nav-link {
             color: white;
-            font-size: 14px;
-            margin-right: 20px;
+            font-size: 15px;
+            margin-right: 40px;
         }
 
         .navbar-nav .nav-link:hover {
-            color: #d4af37;
+            color: #c09b5a;
         }
 
         .btn-reserve {
@@ -56,25 +56,7 @@
             color: black;
         }
 
-        .hero-section {
-            position: relative;
-            text-align: center;
-            color: white;
-        }
 
-        .hero-section img {
-            width: 100%;
-            height: 500px;
-        }
-
-        .hero-section .hero-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 48px;
-            font-weight: bold;
-        }
 
         .booking-bar {
             background-color: rgba(0, 0, 0, 0.7);
@@ -289,8 +271,8 @@
         }
 
         .dropdown-menu .dropdown-item:hover {
-            background-color: #f0f0f0;
-            color: #333;
+            background-color: #c09b5a;
+            color: white;
         }
 
 
@@ -302,7 +284,7 @@
             display: block;
         }
 
-    
+
         .dropdown-menu {
             background-color: #f8f9fa;
             border-radius: 5px;
@@ -313,6 +295,150 @@
             background-color: #e9ecef;
         }
 
+        .nav-item.d-flex {
+            display: flex;
+            align-items: center; /* Căn giữa theo chiều dọc */
+        }
+
+        .user-image {
+            width: 30px; /* Kích thước ảnh */
+            height: 25px; /* Kích thước ảnh */
+            border-radius: 50%; /* Làm cho ảnh thành hình tròn */
+            object-fit: cover; /* Đảm bảo ảnh không bị méo */
+            margin-right: 10px; /* Khoảng cách giữa ảnh và email */
+        }
+
+        .nav-link.dropdown-toggle {
+            display: flex;
+            align-items: center;
+        }
+        .footer {
+            padding: 20px 0;
+
+        }
+
+        .footer .col {
+            margin-bottom: 20px;
+
+        }
+
+        .footer p {
+            text-align: left;
+            padding-left: 25px;
+
+
+
+
+        }
+
+        .footer h5 {
+            text-align: left;
+            margin-bottom: 30px;
+            margin-top: 30px;
+            padding-left: 25px;
+
+
+
+        }
+
+        .footer a {
+            color: #fff;
+            text-decoration: none;
+
+        }
+
+        .footer a:hover {
+            text-decoration: none;
+        }
+
+        .footer-bottom p {
+            border-top: 1px solid #444;
+            padding-top: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .footer-bottom img {
+            width: 50px;
+            height: auto;
+        }
+        #languageSelect {
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            padding: 8px 12px;
+            font-size: 16px;
+            color: #495057;
+            cursor: pointer;
+            transition: border-color 0.2s;
+            height:48px;
+        }
+        #languageSelect:focus {
+            outline: none;
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+        .hero-section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+        }
+        .hero-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .hero-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .slider {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease;
+            width: 300%; /* 3 slides */
+            height: 100%;
+        }
+        .slide {
+            width: 100%; /* Each slide takes full width */
+            flex: 0 0 100%;
+            height: 100%;
+        }
+        img {
+            width: 100%;
+            height: 80%;
+            object-fit: cover;
+        }
+        .dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+        .dot {
+            height: 10px;
+            width: 10px;
+            margin: 0 5px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .active {
+            background-color: #717171;
+        }
     </style>
 </head>
 <body>
@@ -325,15 +451,15 @@
   <button><a th:href="@{/account/info}">info</a></button> -->
 <nav class="navbar navbar-expand-lg">
     <div class="container">
-        <a class="navbar-brand" href="#">
-            <img alt="Hotel logo" height="20" src="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png"
-                 width="50"/>
+        <a class="navbar-brand" th:href="@{/account/homepage}">
+            <img alt="Hotel logo" style="height:100px; margin-right:30px" src="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png"
+                 width="120"/>
         </a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" th:href="@{/room}" id="roomDropdown" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false" th:text="#{navbar.phong_va_suites}">
+                       data-bs-toggle="dropdown" aria-expanded="false" th:text="#{navbar.phong_va_suites}" style="color: #c09b5a">
 
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="roomDropdown">
@@ -350,34 +476,48 @@
                         PHÒNG</a>
                 </li>
                 <li class="nav-item" th:if="${session.userRoles != null && session.userRoles.contains('ADMIN')}">
-        <a class="nav-link" th:text="'ADMIN'"  th:href="@{/admin}">ADMIN</a>
-    </li>
-              <li class="nav-item">
-                <a class="nav-link" th:text="${session.userEmail}">Email</a>
-            </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false" th:text="#{navbar.taikhoan}"></a>
+                    <a class="nav-link" th:text="'ADMIN'"  th:href="@{/admin}">ADMIN</a>
+                </li>
+                <li class="nav-item dropdown" th:if="${session.userEmail != null}">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <img class="user-image" th:src="@{${session.userImage}}" />
+                        <span th:text="${session.userEmail}">Email</span>
+                    </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li>
+                            <a class="dropdown-item" th:if="${session.userEmail != null}" th:href="@{/account/info}" th:text="#{navbar.thong_tin}">THÔNG TIN</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" th:if="${session.userEmail != null}" th:href="@{/logout}" th:text="#{navbar.dang_xuat}">ĐĂNG XUẤT</a>
+                        </li>
 
-
-                    <li><a class="dropdown-item" th:if="${session.userEmail != null}" th:href="@{/account/info}" th:text="#{navbar.thong_tin}">THÔNG TIN</a></li>
-                    <li><a class="dropdown-item" th:if="${session.userEmail != null}" th:href="@{/logout}" th:text="#{navbar.dang_xuat}">ĐĂNG XUẤT</a></li>
-                    <li><a class="dropdown-item" th:if="${session.userEmail == null}" th:href="@{/account/login}" th:text="#{navbar.dang_nhap}">ĐĂNG NHẬP</a></li>
-               
-                        <li><a class="dropdown-item" th:if="${session.userEmail != null}" th:href="@{/account/change-password}" >THAY ĐỔI PASSWORD</a></li>
-
+                        <li>
+                            <a class="dropdown-item" th:if="${session.userEmail != null}" th:href="@{/account/change-password}" th:text="#{navbar.thaydoimatkhau}">THAY ĐỔI PASSWORD</a>
+                        </li>
                     </ul>
-
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:if="${session.userEmail == null}" th:href="@{/account/login}" th:text="#{navbar.dang_nhap}">ĐĂNG NHẬP</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:if="${session.userEmail == null}" th:href="@{/account/register}" th:text="#{navbar.dangki}" >ĐĂNG KÍ</a>
                 </li>
                 <button class="btn btn-reserve" type="button" style="margin-right: 30px;"
                         th:text="#{navbar.giu_cho_ngay}">GIỮ CHỖ NGAY
                 </button>
                 <li class="nav-item">
                     <select id="languageSelect" onchange="changeLanguage(this)">
-                        <option value="en" th:selected="${#locale.language == 'en'}">English</option>
-                        <option value="vi" th:selected="${#locale.language == 'vi'}">
+                        <option value="en" th:selected="${#locale.language == 'en'}" th:text="#{la.ta}">English</option>
+                        <option value="vi" th:selected="${#locale.language == 'vi'}" th:text="#{la.tv}">
                             Việt Nam
+                        </option>
+                        <option value="ja" th:selected="${#locale.language == 'ja'}" th:text="#{la.tn}">
+                            Nhật Bản
+                        </option>
+
+                        <option value="ko" th:selected="${#locale.language == 'ko'}" th:text="#{la.th}">
+
                         </option>
                     </select>
                 </li>
@@ -386,16 +526,72 @@
     </div>
 </nav>
 <div class="hero-section">
-    <img alt="Hotel Lobby" src="https://lavelasaigon.com/wp-content/uploads/2022/10/main-banner.png">
-    <div class="hero-text">
-        JAVA HOTEL
+    <div class="slider">
+        <div class="slides">
+            <div class="slide">
+                <img src="https://lavelasaigon.com/wp-content/uploads/2022/10/main-banner.png" alt="Hotel Lobby 1">
+            </div>
+            <div class="slide">
+                <img src="https://images.squarespace-cdn.com/content/v1/5aadf482aa49a1d810879b88/1626698419120-J7CH9BPMB2YI728SLFPN/1.jpg" alt="Hotel Lobby 2">
+            </div>
+            <div class="slide">
+                <img src="https://kconceptvn.com/wp-content/uploads/2020/04/hotel-photography-chup-anh-khach-san-khach-san-bamboo-sapa-hotel-18-1024x683.jpg" alt="Hotel Lobby 3">
+            </div>
+            <div class="slide">
+                <img src="https://lavelasaigon.com/wp-content/uploads/2022/10/banner-offers.png" alt="Hotel Lobby 3">
+            </div>
+            <div class="slide">
+                <img src="https://kconceptvn.com/wp-content/uploads/2020/04/hotel-photography-chup-anh-khach-san-khach-san-bamboo-sapa-hotel-18-1024x683.jpg" alt="Hotel Lobby 3">
+            </div>
+        </div>
+        <div class="dots">
+            <span class="dot" onclick="currentSlide(0)"></span>
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+            <span class="dot" onclick="currentSlide(4)"></span>
+        </div>
     </div>
-   
 
-
+</div>
+</div>
+<div class="hero-text">
+    LAVELA HOTEL
+</div>
 </div>
 
 <script>
+    let currentIndex = 0;
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+
+    function showSlide(index) {
+        const totalSlides = slides.length;
+        currentIndex = (index + totalSlides) % totalSlides; // Wrap around
+        const offset = -currentIndex * 100; // Calculate offset
+        document.querySelector('.slides').style.transform = `translateX(${offset}%)`;
+
+        // Update dots
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentIndex);
+        });
+    }
+
+    function nextSlide() {
+        showSlide(currentIndex + 1);
+    }
+
+    // Automatic slideshow
+    setInterval(nextSlide, 3000); // Change slide every 3 seconds
+
+    // Show the initial slide
+    showSlide(currentIndex);
+
+
+
+
+
+
     window.addEventListener('scroll', function () {
         var navbar = document.querySelector('.navbar');
         if (window.scrollY > 50) {

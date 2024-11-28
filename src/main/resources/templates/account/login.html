@@ -1,94 +1,564 @@
-<html>
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Login </title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap');
+
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+
+        .bg {
+            background-image: url('https://lavelasaigon.com/wp-content/uploads/2022/10/main-banner.png');
+            height: 100vh;
+
+     
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            background-color: #bfa77a;
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%;
+            margin-left: 100px;
+
+        }
+
+        .login-container label {
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            width: 255px;
+
+        }
+
+        .login-container input[type="text"],
+        .login-container input[type="email"],
+        .login-container input[type="password"],
+        .login-container input[type="tel"] {
+
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+
+
+        .login-container .btn-login {
+            background-color: brown;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 255px;
+            height: 50px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            animation: wave 1.2s ease-in-out infinite;
+            margin-left: 21%;
+        }
+
+        .login-container .btn-login:hover {
+            background-color: #a38e6a;
+            animation: none;
+        }
+
+        .login-container a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+
+        .login-container a:hover {
+            color: #f8d17c;
+            text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.9);
+            text-decoration: underline;
+        }
+
+        .btn-google {
+            background-color: red;
+            border: 2px solid darkred;
+            color: white;
+            border-radius: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 15px;
+            transition: background-color 0.3s, transform 0.2s;
+            width: 255px;
+            height: 50px;
+            text-decoration: none;
+        }
+
+        .btn-google i {
+            margin-right: 8px;
+            font-size: 20px;
+        }
+
+        .btn-google:hover {
+            background-color: darkred;
+            transform: scale(1.05);
+        }
+
+        .welcome-text {
+            position: absolute;
+            top: 70%;
+            left: 10%;
+            color: white;
+            font-size: 30px; /* Tăng kích thước chữ */
+            font-weight: bold;
+            line-height: 1.4;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); /* Tạo bóng cho chữ */
+
+
+
+        }
+
+        /* Hiệu ứng fade-in cho chữ */
+        @keyframes fadeInText {
+            from {
+                opacity: 0;
+                transform: translateY(50px); /* Di chuyển lên từ dưới */
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0); /* Dừng lại ở vị trí ban đầu */
+            }
+        }
+
+
+        .login-container h2 {
+            font-size: 30px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Hiệu ứng fade-in */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Hiệu ứng bounce */
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes wave {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .login-container input:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .hero-section {
+            position: relative;
+            color: white;
+            height: 100%;
+            opacity: 0; /* Ẩn hình ảnh khi chưa xuất hiện */
+            animation: fadeInImage 2s ease-out forwards; /* Áp dụng hiệu ứng fade-in cho ảnh */
+            perspective: 1000px; /* Thêm chiều sâu 3D */
+
+        }
+
+        /* Hiệu ứng fade-in cho hình ảnh */
+        @keyframes fadeInImage {
+            from {
+                opacity: 0;
+                transform: translateY(50px); /* Di chuyển lên từ dưới */
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0); /* Dừng lại ở vị trí ban đầu */
+            }
+        }
+
+        .hero-section img {
+            width: 90%;
+            height: 100%;
+            margin-left: 85px;
+            object-fit: cover;
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+
+        .hero-section:hover .image {
+            transform: scale(1.1); /* Phóng đại ảnh */
+            filter: brightness(0.7) contrast(1.5); /* Tăng độ tương phản và giảm độ sáng */        }
+
+        .login-container {
+            animation: slideUp 1s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .text-start{
+            margin-left: 80px;
+        }
+        .animated-text {
+            text-align: center;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            line-height: 1.4;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+            margin-left: 90px;
+        }
+
+        .animated-text span {
+            display: inline-block;
+            opacity: 0;
+            animation: bounce 1s ease-in-out infinite; /* Đặt hiệu ứng nhảy lên cho mỗi chữ */
+        }
+
+        /* Đặt độ trễ cho mỗi chữ để tạo hiệu ứng nhảy lên tuần tự */
+        .animated-text span:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .animated-text span:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .animated-text span:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        .animated-text span:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+
+        .animated-text span:nth-child(5) {
+            animation-delay: 0.4s;
+        }
+
+        .animated-text span:nth-child(6) {
+            animation-delay: 0.5s;
+        }
+
+        .animated-text span:nth-child(7) {
+            animation-delay: 0.6s;
+        }
+
+        .animated-text span:nth-child(8) {
+            animation-delay: 0.7s;
+        }
+
+        .animated-text span:nth-child(9) {
+            animation-delay: 0.8s;
+        }
+
+        .animated-text span:nth-child(10) {
+            animation-delay: 0.9s;
+        }
+
+        .animated-text span:nth-child(11) {
+            animation-delay: 1s;
+        }
+
+        .animated-text span:nth-child(12) {
+            animation-delay: 1.1s;
+        }
+
+        .animated-text span:nth-child(13) {
+            animation-delay: 1.2s;
+        }
+
+        .animated-text span:nth-child(14) {
+            animation-delay: 1.3s;
+        }
+
+        .animated-text span:nth-child(15) {
+            animation-delay: 1.4s;
+        }
+
+        .animated-text span:nth-child(16) {
+            animation-delay: 1.5s;
+        }
+
+        .animated-text span:nth-child(17) {
+            animation-delay: 1.6s;
+        }
+
+        .animated-text span:nth-child(18) {
+            animation-delay: 1.7s;
+        }
+
+        .animated-text span:nth-child(19) {
+            animation-delay: 1.8s;
+        }
+
+        .animated-text span:nth-child(20) {
+            animation-delay: 1.9s;
+        }
+        .animated-text span:nth-child(21) {
+            animation-delay: 2.0s;
+        }
+        .animated-text span:nth-child(22) {
+            animation-delay: 2.1s;
+        }
+        .animated-text span:nth-child(23) {
+            animation-delay: 2.2s;
+        }
+        .animated-text span:nth-child(24) {
+            animation-delay: 2.3s;
+        }
+        .animated-text span:nth-child(25) {
+            animation-delay: 2.4s;
+        }
+        .animated-text span:nth-child(26) {
+            animation-delay: 2.5s;
+        }
+        .animated-text span:nth-child(27) {
+            animation-delay: 2.6s;
+        }
+
+        /* Hiệu ứng bounce */
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-20px); /* Chữ nhảy lên */
+                opacity: 1;
+            }
+        }
+
+
+        /* Căn chỉnh và nền */
+        section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Chữ chính */
+        h2 {
+            position: relative;
+            text-align: center;
+            color: khaki;
+            user-select: none;
+            font-size: 20px;
+        }
+
+        /* Hiệu ứng từng ký tự */
+        h2 span {
+            position: relative;
+            display: inline-block;
+            color: khaki;
+        }
+
+        h2 span.active {
+            animation: smoke 2s linear forwards;
+            transform-origin: bottom;
+        }
+
+        @keyframes smoke {
+            0% {
+                opacity: 1;
+                filter: blur(0);
+                transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+                color: white;
+            }
+            50% {
+                opacity: 1;
+                pointer-events: none;
+                color: beige;
+            }
+            100% {
+                opacity: 0;
+                filter: blur(20px);
+                transform: translateX(-300px) translateY(300px) rotate(360deg) scale(4);
+                color: white;
+            }
+        }
+
+
+
+    </style>
+        <script>
+            // Mảng các ảnh nền sẽ thay đổi
+            const images = [
+            'https://lavelasaigon.com/wp-content/uploads/2022/10/main-banner.png',
+            'https://lavelasaigon.com/wp-content/uploads/2022/10/room-banner.png',
+            'https://lavelasaigon.com/wp-content/uploads/2022/10/banner-offers.png',
+            'https://lavelasaigon.com/wp-content/uploads/2022/10/aaron-huber-oMOx_wV6mLQ-unsplash-1.png',
+            'https://lavelasaigon.com/wp-content/uploads/2022/12/spa-treatment-dark-wall-scaled.jpg',
+            ];
+            let currentIndex = 0; // Chỉ số của ảnh hiện tại
+
+            // Hàm thay đổi ảnh nền
+            function changeBackground() {
+            currentIndex = (currentIndex + 1) % images.length; // Tính chỉ số ảnh tiếp theo
+            document.querySelector('.bg').style.backgroundImage = `url('${images[currentIndex]}')`;
+        }
+
+            // Thay đổi ảnh nền mỗi 5 giây
+            setInterval(changeBackground, 5000); // 5000ms = 5 giây
+
+    </script>
+
 </head>
-<style>
-    .box {
-        margin: 0px;
-        height: 800px;
-        background-color: rgb(173, 223, 223);
-    }
-
-    .wellcom {
-        padding: 5px;
-        display: flex;
-        align-items: center;
-        text-align: center;
-        position: relative;
-        left: 200px;
-    }
-
-    .btn-google {
-        background-color: #f44248;
-        color: white; /* Màu chữ mặc định */
-        transition: background-color 0.3s; /* Hiệu ứng chuyển tiếp */
-    }
-
-    .btn-google:hover {
-        background-color: red; /* Màu nền khi hover */
-    }
-
-    /* Nếu cần, bạn cũng có thể thay đổi màu chữ khi hover */
-    .btn-google:hover {
-        color: white; /* Màu chữ khi hover */
-    }
-
-</style>
 <body>
-
-<div class="container row">
-    <div class="container col-6 box d-flex justify-content-center align-items-center" style="height: 100vh;">
-        <div class="card p-5 shadow-2">
-            <h2 class="text-center mb-4" th:text="#{login.login}"></h2>
-            <form th:action="@{/account/login-check}" method="post">
-                <div class="mb-3">
-                    <label for="email" class="form-label" th:text="#{login.username}"></label>
-                    <input type="text" class="form-control" name="email" aria-describedby="emailHelp" required>
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label" th:text="#{login.passWord}"></label>
-                    <input type="password" class="form-control" name="password" id="password" required>
-                </div>
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="remember-me">
-                        <label class="form-check-label" for="remember-me" th:text="#{login.remember}">
-
-                        </label>
-                    </div>
-                    <a href="/account/forgot-password" class="text-primary" th:text="#{login.forgotPassword}"></a>
-                </div>
-                <div class="d-grid">
-                    <input type="submit" class="btn btn-primary" th:value="#{login.login}"
-                           style="margin-left: 15px; width:230px; height:50px">
-                </div>
-                <div th:if="${error}" style="margin-left: 17px; color: red; font-weight: bold;">
-                    <p th:text="${error}"></p>
-                </div>
-                <div class="text-center mt-3">
-                    <p th:text="#{login.orLogInBy}"></p>
-                    <div class="d-flex justify-content-center mt-3">
-                        <a th:href="@{/oauth2/authorization/google}" class="btn btn-google btn-lg"
-                           th:text="#{login.signInWithGoogle}">
-                            <i class="fab fa-google me-2"></i>
-                        </a>
-
-                    </div>
-                </div>
-                <div class="text-center mt-3">
-                    <text th:text="#{login.YouDontHaveAccount}"></text>
-                    <a th:href="@{/account/register}" class="text-primary" th:text="#{login.register}"></a>
-                </div>
-                <a href="/account/regenerate-otp" th:text="#{login.veryfi}"></a>
-            </form>
+<div class="bg">
+    <div class="row">
+        <div class="col-md-1">
+            <a class="navbar-brand" href="/room">
+                <img alt="Hotel logo" style="margin-left:50px; margin-top:-70px" height="100"
+                     src="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" width="100"/>
+            </a>
         </div>
-    </div>
-    <div class=" wellcom  col-6 text-center">
-        <h1 th:text="#{login.wellcomeToBooking}"></h1>
+        <div class="col-md-4">
+            <div class="login-container">
+                <section>
+                    <h2 class="text" id="text">Đăng nhập</h2>
+                </section>
+
+                <script>
+                    window.onload = function() {
+                        const text = document.getElementById('text');
+                        // Thay thế mỗi ký tự bằng một span
+                        text.innerHTML = text.textContent.replace(/\S/g, "<span>$&</span>");
+
+                        const alphaSpan = document.querySelectorAll('span');
+
+                        function addAndRemoveEffect() {
+                            let delay = 0;
+                            alphaSpan.forEach((span, index) => {
+                                setTimeout(() => {
+                                    span.classList.add('active'); // Thêm hiệu ứng
+                                }, delay);
+
+                                setTimeout(() => {
+                                    span.classList.remove('active'); // Loại bỏ sau 2s
+                                }, delay + 2000);
+
+                                delay += 200; // Thêm độ trễ giữa các ký tự
+                            });
+                        }
+
+                        // Gọi hàm hiệu ứng ngay lập tức
+                        addAndRemoveEffect();
+
+                        // Lặp lại hiệu ứng mỗi 4 giây
+                        setInterval(addAndRemoveEffect, 4000); // 4000ms = 4s
+                    }
+
+                </script>
+
+
+                <form action="/account/login-check" method="post">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Tên đăng nhập</label>
+                        <input type="text" class="form-control" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Mật khẩu</label>
+                        <input type="password" class="form-control" name="password" required>
+
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="remember-me">
+                            <label class="form-check-label" for="remember-me">Ghi nhớ</label>
+                        </div>
+                        <a href="/account/forgot-password" class="forgot-password">Quên mật khẩu?</a>
+                    </div>
+
+                    <div class="d-grid">
+                        <input type="submit" class="btn-login" value="Đăng nhập" style="background-color: #c09b5a; margin-left:125px">
+                    </div>
+                    <div class="text-center mt-3">
+                        <p>Hoặc đăng nhập bằng</p>
+                        <div class="d-flex justify-content-center mt-3">
+                            <a href="/oauth2/authorization/google" class="btn-google">
+                                <i class="fab fa-google"></i> Đăng nhập bằng Google
+                            </a>
+                        </div>
+                    </div>
+                    <div class="text-start mt-4" style="margin-left:135px">
+                        <span>Bạn chưa có tài khoản?</span>
+                        <a href="/account/register">Đăng ký</a>
+                    </div>
+                    <div class="text-center mt-2">
+                        <a href="/account/regenerate-otp">Xác thực tài khoản</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6">
+                <div class="hero-section">
+                    <img src="https://lavelasaigon.com/wp-content/uploads/2022/10/room-banner.png" alt="Image" class="image">
+                    <div class="welcome-text">
+                        <h1 class="animated-text">
+                            <span>W</span><span>e</span><span>l</span><span>c</span><span>o</span><span>m</span><span>e</span>
+                            <span>t</span><span>o</span><br>
+                            <span>L</span><span>a</span> <span>V</span><span>e</span><span>l</span><span>a</span>
+                            <span>S</span><span>a</span><span>i</span> <span>G</span><span>o</span><span>n</span>
+                            <span>H</span><span>o</span><span>t</span><span>e</span><span>l</span>
+                        </h1>
+
+                    </div>
+
+                </div>
+
+
+
+        </div>
     </div>
 </div>
 </body>
-
 </html>
+

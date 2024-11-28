@@ -9,9 +9,27 @@
             font-family: Arial, sans-serif;
         }
 
+
         .room-info {
-            margin-top: 20px;
+            margin-top: 100px;
+            background-color: white; /* Màu nền trắng */
+            padding: 20px; /* Khoảng cách bên trong */
+            border-radius: 10px; /* Bo tròn góc */
+            border: 5px solid #c09b5a; /* Khung vàng */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Đổ bóng đen */
+            max-width: 100%; /* Chiều rộng tối đa 100% */
+            width: auto; /* Chiều rộng tự động */
+
+            /*background-color: #f8f9fa;*/
+            /*border-radius: 10px;*/
+            /*padding: 15px;*/
+            /*display: flex;*/
+            /*align-items: center;*/
+            /*box-shadow: 8px 4px 4px rgba(0, 0, 0, 0.3);*/
+            /*transition: border 0.3s ease, box-shadow 0.3s ease;*/
         }
+
+
 
         .room-info h5 {
             font-size: 1.25rem;
@@ -26,310 +44,421 @@
             list-style-type: disc;
         }
 
-        .rate-info {
-            border-top: 1px solid #ddd;
-            padding-top: 20px;
-            margin-top: 20px;
+        .card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .card-header {
+            font-weight: bold;
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+        }
+        .card-body {
+            display: flex;
+            justify-content: space-between;
+        }
+        .card-body div {
+            flex: 1;
+            margin-right: 16px;
+        }
+        .card-body div:last-child {
+            margin-right: 0;
+        }
+        .card-body .icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        .amenities {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .amenities div {
+            flex: 1 1 30%;
+            margin-bottom: 8px;
+        }
+        .amenities div i {
+            margin-right: 8px;
         }
 
-        .rate-info h6 {
-            font-size: 1rem;
+        .comments, .add-comment {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .comments p {
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+        }
+
+        .comments p:last-child {
+            border-bottom: none;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: none;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .cmtbutton {
+            width: 100%;
+            padding: 10px;
+            background-color: #c09b5a;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .cmtbutton:hover {
+            background-color: white;
+            color: #c09b5a;
+            border: 1px solid #c09b5a;
+        }
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            padding: 0;
+            list-style-type: none;
+        }
+
+        .image-gallery li {
+            margin: 5px;
+        }
+
+        .room-image {
+            height: 130px;
+            width: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .room-details {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .col {
+            flex: 1;
+            padding: 0 10px;
+        }
+
+        h2, h5 {
+            margin: 5px 0;
+            text-align: left;
+        }
+
+        @media (max-width: 768px) {
+            .row {
+                flex-direction: column;
+            }
+        }
+
+        .list-inline-item {
+            margin-right: 15px;
+        }
+
+        ul.image-gallery {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        ul.image-gallery li {
+            display: inline-block;
+        }
+
+        .room-details .d-flex {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .room-details label {
+            margin-right: 1px;
             font-weight: bold;
         }
 
-        .rate-info .text-success {
-            color: #28a745 !important;
+        .room-details span {
+            font-weight: normal;
         }
 
-        .rate-info .text-danger {
-            color: #dc3545 !important;
+        .d-flex {
+            display: flex;
+            justify-content: flex-start;
         }
 
-        .rate-info .btn {
-            background-color: #d4a373;
-            color: white;
+        .col {
+            width: 48%;
         }
 
-        .rate-info .btn:disabled {
-            background-color: #ccc;
+        ul {
+            padding-left: 20px;
         }
 
-        
-       /*  //comment  */
-       .comments, .add-comment {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
+        .list-inline-item {
+            margin-right: 15px;
+        }
+        .highlight-section {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px;
+        }
+        .highlight-title {
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+        .highlight-item {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .highlight-item img {
+            width: 40px;
+            height: 40px;
+        }
 
-
-.comments p {
-    border-bottom: 1px solid #eee;
-    padding: 10px 0;
-}
-
-.comments p:last-child {
-    border-bottom: none;
-}
-
-
-
-
-textarea {
-    width: 100%;
-    height: 100px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    resize: none;
-}
-
-select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.cmtbutton {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.cmtbutton:hover {
-    background-color: #0056b3;
-}
-.image-gallery {
-    display: flex; /* Flexbox for image alignment */
-    flex-wrap: wrap; /* Wrap images to next line */
-    margin-top: 10px; /* Space above the image gallery */
-    padding: 0; /* Remove padding */
-    list-style-type: none; /* Remove bullets */
-}
-
-.image-gallery li {
-    margin: 5px; /* Space around images */
-}
-
-.room-image {
-    height: 100px; /* Fixed height */
-    width: 100px; /* Fixed width */
-    object-fit: cover; /* Cover to maintain aspect ratio */
-    border-radius: 4px; /* Rounded corners for images */
-}
-
-  </style>
- </head>
- <body>
- <div th:replace="/access/nav :: html"></div>
-  <div class="container">
-   <div class="row room-info">
-    <div class="col-md-4">
-    <img alt="Image of a deluxe twin room with city view" class="img-fluid" height="300" th:src="${room.img}" width="400" />
-    
-    </div>
-    <div class="col-md-8">
-    <h2 th:text="${room.roomCode}">
-     </h2>
-     <h2 th:text="${room.roomtype.name}">
-     </h2>
-     <h5 th:text="${room.sophong}">
-     </h5>
-      <h5 th:text="${room.mota}">
-     </h5>
-       <h5 th:text="${room.hotel.chinhanh}"></h5>
-       <h5 th:text="${room.hotel.diachi}"></h5>
-<ul>
-    <li th:each="service : ${services}" th:text="${service.myService.name}"></li>
-</ul>
-<h4>Additional Images:</h4>
-    <ul class="image-gallery">
-        <li th:each="roomimg : ${roomImgs}">
-            <img th:src="${roomimg.imagePath}" alt="Room Image" class="room-image" />
-        </li>
-    </ul>
-     
-     
-      <i class="fas fa-user">
-      </i>
-      Sleeps 2
-      <i class="fas fa-bed">
-      </i>
-      2 Twin beds
-      <i class="fas fa-bath">
-      </i>
-      1 Bathroom
-     </p>
-     <p>
-      28m² • City view • Non-smoking • Air conditioned • Bath • En-suite Bathroom • Hairdryer • Internet Access • Linen and Towels Provided
-     </p>
-     <ul>
-      <li>
-       Twin beds
-      </li>
-      <li>
-       Free WIFI access
-      </li>
-      <li>
-       Bathroom and shower
-      </li>
-      <li>
-       Led TV with international channels
-      </li>
-      <li>
-       Mini bar &amp; coffee and tea
-      </li>
-      <li>
-       Safety box
-      </li>
-      <li>
-       Free infinity swimming pool
-      </li>
-      <li>
-       Balcony with City View
-      </li>
-      <li>
-       Late check-out 13:00 (subject to room availability)
-      </li>
-     </ul>
-     <a href="#">
-      Less info
-     </a>
-    </div>
-   </div>
-   <div class="row rate-info">
-    <div class="col-md-8">
-     <h6>
-      Standard Rate
-     </h6>
-     <p class="text-success">
-      <i class="fas fa-check-circle">
-      </i>
-      Free cancellation!
-     </p>
-     <p class="text-success">
-      <i class="fas fa-check-circle">
-      </i>
-      Book now, pay later
-     </p>
-     <a href="#">
-      More info
-     </a>
-
-    </div>
-    <div class="row rate-info">
+    </style>
+</head>
+<body>
+<div th:replace="access/nav1 :: html"></div>
+<div class="container ">
+    <div class="row room-info" style="margin-top: 200px">
+        <div class="col-md-4">
+            <img style="height: 400px ; border-radius: 10%;" alt="Image of a deluxe twin room with city view" class="img-fluid" height="500" th:src="${room.img}" width="400" />
+            <ul class="image-gallery list-inline">
+                <li th:each="roomimg : ${roomImgs}">
+                    <img th:src="${roomimg.imagePath}" alt="Room Image" class="room-image list-inline-item" />
+                </li>
+            </ul>
+        </div>
         <div class="col-md-8">
-            <h6 th:text="#{body.StandardRate}">
-            </h6>
-            <p class="text-success">
-                <i class="fas fa-check-circle">
-                </i>
-                <text th:text="#{body.FreeCancellation}"></text>
-            </p>
-            <p class="text-success">
-                <i class="fas fa-check-circle">
-                </i>
-                <text th:text="#{body.BookNowPayLater}"></text>
-            </p>
-            <a href="#" th:text="#{body.LessInfo}">
+            <div class="room-details">
+                <label>Mã phòng:</label>
+                <span th:text="${room.roomCode}"></span>
 
-            </a>
-        </div>
-        <div class="col-md-4 text-end">
-            <p th:text="${room.gia}">
+                <div class="row">
+                    <div class="col">
+                        <div class="d-flex">
+                            <label>Số phòng:</label>
+                            <span th:text="${room.sophong}"></span>
+                        </div>
+                        <div class="d-flex">
+                            <label>Khu vực: </label>
+                            <span th:text="${room.hotel.chinhanh}"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="d-flex">
+                            <label>Kiểu phòng:</label>
+                            <span th:text="${room.roomtype.name}"></span>
+                        </div>
+                        <div class="d-flex">
+                            <label>Địa chỉ:</label>
+                            <span th:text="${room.hotel.diachi}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex">
+                <div class="col">
+
+                    <div class="card">
+                        <!--                <div class="card-header">-->
+                        <!--                    Không gian & phòng-->
+                        <!--                    <a href="#" class="float-end">Chọn phòng</a>-->
+                        <!--                </div>-->
+                        <div class="card-body">
+                            <div>
+                                <div class="icon">
+                                    <i class="fas fa-bed"></i>
+                                </div>
+                                <div>
+                                    <strong>Không gian chung</strong>
+                                    <p>   </p>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="icon">
+                                    <i class="fas fa-bath"></i>
+                                </div>
+                                <div>
+                                    <strong>Phòng tắm và vật dụng phòng tắm</strong>
+                                    <p>Các loại khăn, Gương, Máy sấy tóc, phòng tắm riêng, Sản phẩm vệ sinh</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
-            </p>
-            <p>
-                <text th:text="#{body.CostFor}"></text>
-                1
-                <text th:text="#{body.guests}"></text>
-                , 2
-                <text th:text="#{body.night}"></text>
-            </p>
-            <button class="btn" th:text="#{body.select}">
 
-            </button>
+                </div>
+
+            </div>
+            <hr>
+            <i class="fas fa-user"></i> Sleeps 2
+            <i class="fas fa-bed"></i> 2 Twin beds
+            <i class="fas fa-bath"></i> 1 Bathroom
         </div>
     </div>
+    <div class="container">
+        <div class="highlight-section">
+            <div class="highlight-title">
+                Điểm nổi bật nhất
+            </div>
+            <div class="row">
+                <div class="col-md-2 highlight-item">
+                    <img alt="Icon of a checkmark on a door" height="40" src="https://storage.googleapis.com/a1aa/image/ewDiFNiagC3fRUlwbC7eFJAI28kQ5hApfJUPwUXoSYLy29RPB.jpg" width="40"/>
+                    <div>
+                        Nhận phòng [24 giờ]
+                    </div>
+                </div>
+                <div class="col-md-2 highlight-item">
+                    Wi-Fi miễn phí trong tất cả các phòng!
+                </div>
+                <div class="col-md-2 highlight-item">
+                    Điều hòa
+                </div>
+                <div class="col-md-2 highlight-item">
+                    Thang máy
+                </div>
+                <div class="col-md-2 highlight-item">
+                    Rèm che ánh sáng
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Additional Cards Section -->
+    <div class="row">
+        <div class="col-12">
+
+            <div class="card">
+                <div class="card-header">
+                    Tiện nghi
+                </div>
+                <div class="card-body amenities">
+                    <div><i class="fas fa-check"></i> Bãi đỗ xe</div>
+                    <div><i class="fas fa-check"></i> Dịch vụ giặt là</div>
+                    <div><i class="fas fa-check"></i> Wi-Fi miễn phí trong tất cả các phòng!</div>
+                    <div><i class="fas fa-check"></i> Wi-Fi ở nơi công cộng</div>
+                    <div><i class="fas fa-check"></i> Nhận/trả phòng [riêng]</div>
+                    <div><i class="fas fa-check"></i> Giặt khô</div>
+                    <div><i class="fas fa-check"></i> Nhận phòng [24 giờ]</div>
+
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h5>Dịch vụ khác</h5>
+                </div>
+                <div class="card-body amenities">
+                    <div><i  class="fas fa-check" th:each="service : ${services}" th:text="${service.myService.name}"></i> </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <div class="row rate-info">
-        <div class="col-md-8">
-            <h6 th:text="#{body.roomOnly}">
-
-            </h6>
-            <p class="text-success">
-                <i class="fas fa-check-circle">
-                </i>
-                <a th:href="'/room/room-details/' + ${room.id}" class="btn btn-success" th:text="#{body.BookNow}">
-
-                </a>
-
-            </p>
-            <p class="text-danger">
-                <i class="fas fa-exclamation-circle">
-                </i>
-                <text th:text="#{body.NonRefundable}"></text>
-            </p>
-            <a href="#" th:text="#{body.MoreInfo}">
-
-            </a>
+        <div>
+            <h2>Mô tả</h2>
+            <span th:text="${room.mota}"></span>
         </div>
-        <div class="col-md-4 text-end">
-            <button class="btn" disabled="" th:text="#{body.SoldOut}">
-
-            </button>
-            <button class="btn btn-outline-secondary" th:text="#{body.FindAvailableDate}">
-
-            </button>
-        </div>
-    </div>
-
-    <div class="comments">
-        <h2 th:text="#{body.comment}"></h2>
-        <div th:each="comment : ${room.comments}">
-            <div class="comment">
-                <p><strong th:text="${comment.username}"></strong> <span th:text="${comment.rating}"></span> <i
-                        class="fas fa-star"></i> <text th:text="#{body.date}"></text>: <span
-                        th:text="${#dates.format(comment.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
-                <p th:text="${comment.content}"></p>
-
-                <hr>
-
-
+        <div class="row rate-info">
+            <div class="col-md-8">
+                <h6 th:text="#{body.StandardRate}"></h6>
+                <p class="text-success">
+                    <i class="fas fa-check-circle"></i>
+                    <text th:text="#{body.FreeCancellation}"></text>
+                </p>
+                <p class="text-success">
+                    <i class="fas fa-check-circle"></i>
+                    <text th:text="#{body.BookNowPayLater}"></text>
+                </p>
+                <a href="#" th:text="#{body.LessInfo}"></a>
+            </div>
+            <div class="col-md-4 text-end">
+                <p th:text="${room.gia}"></p>
+                <p>
+                    <text th:text="#{body.CostFor}"></text>
+                    1
+                    <text th:text="#{body.guests}"></text>,
+                    2
+                    <text th:text="#{body.night}"></text>
+                </p>
+                <p class="text-success">
+                    <i class="fas fa-check-circle"></i>
+                    <a th:href="'/room/room-details/' + ${room.id}" class="btn btn-success" th:text="#{body.BookNow}"></a>
+                </p>
             </div>
         </div>
-    </div>
-    <div class="add-comment">
-        <h2 th:text="#{body.addComment}"></h2>
-        <form th:action="@{/comments/add}" method="post">
-            <input type="hidden" name="roomId" th:value="${room.id}"/>
-            <div class="form-group">
-                <label for="content" th:text="#{body.content}"></label>
-                <textarea name="content" id="content" required></textarea>
+
+        <div class="comments">
+            <h2 th:text="#{body.comment}"></h2>
+            <div th:each="comment : ${room.comments}">
+                <div class="comment">
+                    <p><strong th:text="${comment.username}"></strong> <span th:text="${comment.rating}"></span> <i class="fas fa-star"></i> <text th:text="#{body.date}"></text>: <span th:text="${#dates.format(comment.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+                    <p th:text="${comment.content}"></p>
+                    <hr>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="rating" th:text="#{body.ratting}"></label>
-                <select name="rating" id="rating">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-            </div>
-            <button type="submit" class="cmtbutton" th:text="#{body.submit}"></button>
-        </form>
+        </div>
+        <div class="add-comment">
+            <h2 th:text="#{body.addComment}"></h2>
+            <form th:action="@{/comments/add}" method="post">
+                <input type="hidden" name="roomId" th:value="${room.id}"/>
+                <div class="form-group">
+                    <label for="content" th:text="#{body.content}"></label>
+                    <textarea name="content" id="content" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="rating" th:text="#{body.ratting}"></label>
+                    <div class="row">
+                        <select name="rating" id="rating" class="col-3">
+                            <option value="1">⭐</option>
+                            <option value="2">⭐⭐</option>
+                            <option value="3">⭐⭐⭐</option>
+                            <option value="4">⭐⭐⭐⭐</option>
+                            <option value="5">⭐⭐⭐⭐⭐</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="text-center mt-5">
+                    <button style="width: 100px" type="submit" class="cmtbutton" th:text="#{body.submit}"></button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+<div th:replace="/access/error :: footer"></div>
 </body>
 </html>

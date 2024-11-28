@@ -89,7 +89,7 @@
 </style>
 <body >
 
-<div th:replace="/access/navadmin :: html"></div>
+<div th:replace="access/navadmin :: html"></div>
 <div ng-controller="RoomController">
     <h1>{{ isEditing ? 'Edit Room' : 'Add Room' }}</h1>
    <form ng-submit="isEditing ? saveUpdatedRoom() : addRoom()" class="room-form">
@@ -127,10 +127,13 @@
 
     <div class="form-row">
         <div class="form-group">
-            <label>Image:</label>
-            <input type="file" file-model="room.img" ng-required="!isEditing" />
-            <img ng-if="isEditing" ng-src="{{ room.img }}" alt="Room Image" style="height: 100px; width: 100px;" />
-        </div>
+
+        <label>Image:</label>
+        <input type="file" file-model="room.img" ng-required="!isEditing" />
+        <img ng-if="isEditing" ng-src="{{ room.img }}" alt="Room Image" style="height: 100px; width: 100px;" />
+    </div>
+
+           
  <div class="form-group">
     <label>Additional Images:</label>
     <input type="file" file-model="room.images" multiple />
@@ -213,7 +216,7 @@ angular.module('app', [])
     $scope.isEditing = false
   
         $scope.loadRoomsByStatus = function(status) {
-            $http.get(`http://localhost:8081/api/status/${status}`)
+            $http.get(`/api/status/${status}`)
                 .then(function(response) {
                     $scope.rooms = response.data; // Assign fetched rooms to scope
                 }, function(error) {
@@ -221,7 +224,9 @@ angular.module('app', [])
                 });
         }; 
         $scope.loadRoomsByStatus($scope.selectedStatus);
-        $http.get('http://localhost:8081/api/user-info')
+
+        $http.get('/api/user-info')
+
         .then(function(response) {
             // Kiểm tra dữ liệu trả về từ API
             console.log(response.data);
@@ -237,7 +242,7 @@ angular.module('app', [])
 
 
     // Fetch hotels info
-    $http.get('http://localhost:8081/api/hotels')
+    $http.get('/api/hotels')
         .then(function(response) {
             $scope.hotels = response.data;
         }, function(error) {
@@ -252,7 +257,10 @@ angular.module('app', [])
     };
     $scope.saveUpdatedRoom = function() {
         var formData = new FormData();
-        formData.append('hotelid',$scope.room.hotelId);
+
+        formData.append('hotelid', $scope.room.hotelId);
+
+
         formData.append('sophong', $scope.room.sophong);
         formData.append('roomtypeid', $scope.room.roomTypeId);
         formData.append('gia', $scope.room.gia);
@@ -260,7 +268,9 @@ angular.module('app', [])
         formData.append('status', $scope.room.status);
 
         // Truyền chỉ id của user vào formData
-         formData.append('staffid', $scope.user.id);
+
+        formData.append('staffid', $scope.user.id);
+
 
         // Thêm img nếu có
         if ($scope.room.img) {
@@ -281,6 +291,7 @@ angular.module('app', [])
             alert('Room updated successfully!');
             $scope.loadRoomsByStatus($scope.selectedStatus); // Làm mới danh sách phòng
             $scope.resetForm(); // Reset form sau khi cập nhật
+
         }, function(error) {
             console.error('Error updating room:', error);
             let errorMessage = 'Error updating room: ';
@@ -332,7 +343,9 @@ angular.module('app', [])
     };
 
     
-    $http.get('http://localhost:8081/api/roomtypes')
+
+    $http.get('/api/roomtypes')
+
     .then(function(response) {
         $scope.roomTypes = response.data;
     }, function(error) {

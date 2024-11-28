@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Revenue and Room Count Charts</title>
+    <title>Thống kê người dùng</title>
+    <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .chart-container {
@@ -18,20 +19,70 @@
             height: 500px;
             
         }
+        .container {
+    max-width: 800px; /* Set a maximum width for the container */
+    margin-left:500px; /* Center align the container */
+    padding: 20px; /* Add padding */
+}
+
+.form-container {
+    width: 100%;
+    margin: 0 auto;
+    background-color: #f9f9f9; /* Light background for contrast */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 20px; /* Internal padding */
+    margin-left:110px
+}
+
+select {
+    width: 45%; /* Adjust width of select elements */
+    padding: 10px; /* Add padding */
+    margin: 10px 2.5%; /* Spacing between selects */
+    border: 1px solid #c09b5a; /* Border color */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+}
+
+select:focus {
+    border-color: #a67b47; /* Darker shade on focus */
+    outline: none; /* Remove default outline */
+}
+
+h3 {
+    color: #c09b5a; /* Primary color for headings */
+    text-align: center; /* Center the heading */
+    margin-bottom: 20px; /* Space below heading */
+}
+
+.user-stat {
+    background-color: #ffffff; /* White background for user stats */
+    border: 1px solid #c09b5a; /* Border color */
+    border-radius: 4px; /* Rounded corners */
+    padding: 10px; /* Padding inside user stat */
+    margin: 10px 0; /* Margin between user stats */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.user-stat p {
+    margin: 0; /* Remove default paragraph margin */
+    color: #333; /* Darker text color for readability */
+}
     </style>
 </head>
 <body>
-  <div th:replace="/layout/menudoc :: html"></div>
+  <div th:replace="layout/menudoc :: html"></div>
   <div class="container">
-    <div  style="width: 80%; margin-left: auto;">
+   <h3>Thống kê người đặt phòng nhiều nhất theo tháng trong năm</h3>
+    <div class="form-container">
         <select ng-model="selectedYear" ng-change="getTopUsersData(selectedYear, selectedMonth)" ng-options="year for year in years">
             <option value="">Chọn năm</option>
         </select>
         <select ng-model="selectedMonth" ng-change="getTopUsersData(selectedYear, selectedMonth)" ng-options="month for month in months">
             <option value="">Chọn tháng</option>
         </select>
-        <h3>Thống kê người đặt phòng nhiều nhất theo tháng trong năm</h3>
-        <div ng-repeat="user in topUsers">
+       
+        <div ng-repeat="user in topUsers" class="user-stat">
             <p>Email: {{ user.userEmail }} - Tháng: {{ user.month }} - Năm: {{ user.year }} - Số lượng đặt phòng: {{ user.bookingCount }}</p>
         </div>
     </div>

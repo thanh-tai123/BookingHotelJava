@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +14,14 @@ import org.springframework.stereotype.Service;
 import com.poly.dto.RegisterDto;
 import com.poly.entity.User;
 import com.poly.repository.UserRepo;
+import com.poly.serviceRepository.UserServiceRepository;
 import com.poly.util.EmailUtil;
 import com.poly.util.OtpUtil;
 
 import jakarta.mail.MessagingException;
 
 @Service
-public class UserService {
+public class UserService implements UserServiceRepository{
 	 @Autowired
 	  private OtpUtil otpUtil;
     @Autowired
@@ -28,6 +30,8 @@ public class UserService {
     private EmailUtil emailUtil;
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
+	@Autowired
+    private AwsS3Service awsS3Service;
     public User findByName(String name) {
         return userRepository.findByName(name);
     }
@@ -54,6 +58,7 @@ public class UserService {
 		    Account.setName(registerDto.getName());
 		    Account.setEmail(registerDto.getEmail());
 		    Account.setPhone(registerDto.getPhone());
+		   
 		    Account.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 		    Account.setOtp(otp);
 		    Account.setOtpGeneratedTime(LocalDateTime.now());
@@ -116,5 +121,11 @@ public class UserService {
 		        user.setPassword(passwordEncoder.encode(newPassword));
 		        userRepository.save(user);
 		    }
+
+			public List<User> getAllUsers() {
+				// TODO Auto-generated method stub
+				
+				return userRepository.findAll();
+			}
 
 }

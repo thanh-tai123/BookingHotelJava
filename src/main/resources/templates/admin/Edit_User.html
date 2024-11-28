@@ -4,16 +4,128 @@
     <meta charset="UTF-8">
     <title>Insert title here</title>
     <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-container {
+            display: flex;
+            height: 100vh;
+            margin-left: 250px; /* Đảm bảo không che menu */
+            justify-content: center;
+            align-items: center;
+        }
+
+        form {
+            max-width: 700px;
+            width: 100%;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-weight: bold;
+            color: #c09b5a;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            padding: 10px;
+        }
+
+        .form-control:focus {
+            border-color: #c09b5a;
+            box-shadow: 0 0 5px rgba(192, 155, 90, 0.5);
+        }
+
+        .btn-primary {
+            color: white !important;
+            background-color: #c09b5a !important;
+            border: 1px solid #c09b5a !important;
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 8px 20px;
+            transition: all 0.3s ease !important;
+        }
+
+        .btn-primary:hover {
+            background-color: white !important;
+            color: #c09b5a !important;
+            border: 1px solid #c09b5a !important;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d !important;
+            border: 1px solid #6c757d !important;
+            border-radius: 5px;
+            padding: 8px 20px;
+        }
+
+        .btn-secondary:hover {
+            background-color: white !important;
+            color: #c09b5a !important;
+            font-weight: bold;
+            border: 1px solid #c09b5a !important;
+        }
+
+        .checkbox-group {
+            margin-top: 10px;
+        }
+
+        .checkbox-group input {
+            margin-right: 8px;
+        }
+
+        .checkbox-group span {
+            font-size: 16px;
+            color: #555;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                margin-left: 0;
+                padding: 10px;
+            }
+
+            form {
+                padding: 15px;
+            }
+        }
+
+        h2 {
+            color: #c09b5a;
+        }
+    </style>
 </head>
 <body>
 
-<div th:replace="~{/layout/menudoc :: html}"></div>
-<br>
 
-<div>
+<div th:replace="layout/menudoc :: html"></div>
 
+
+
+<div class="main-container">
     <form th:action="@{/admin/save}" method="post" style="max-width:700px; margin: 0 auto" th:object="${user}"
           enctype="multipart/form-data">
+        <h2>Chỉnh sửa vai trò [[${user.name}]]</h2>
         <input type="hidden" th:field="*{id}">
         <div class="border border-secondary rounded p-3">
 
@@ -58,7 +170,6 @@
             </div>
         </div>
     </form>
-
 </div>
 
 </body>

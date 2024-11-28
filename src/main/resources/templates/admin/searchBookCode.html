@@ -35,7 +35,7 @@
 
         button {
             padding: 10px 15px;
-            background-color: #5cb85c;
+            background-color: #c09b5a;
             color: white;
             border: none;
             border-radius: 4px;
@@ -43,7 +43,10 @@
         }
 
         button:hover {
-            background-color: #4cae4c;
+            background-color: white;
+            color: #c09b5a;
+           
+            border:1px solid #c09b5a;
         }
 
         h2, h3 {
@@ -84,18 +87,10 @@
     </style>
 </head>
 <body>
-<div th:replace="/access/navadmin :: html"></div>
-<h1>Nhập BookCode</h1>
-<form action="#" th:action="@{/search/admin/book}" method="post">
-    <label for="bookCode">BookCode:</label>
-    <input type="text" id="bookCode" name="bookCode" th:value="${bookCode}" required />
-    <button type="submit">Tìm kiếm</button>
-</form>
-<h1>Thông Tin Book</h1>
 
-<div th:if="${error}">
-    <p th:text="${error}"></p>
-</div>
+<div th:replace="access/navadmin :: html"></div>
+
+<div class="container">
 
 <div>
     <h2>Book Code: <span th:text="${book.bookCode}"></span></h2>
@@ -125,6 +120,7 @@
             <th>Người cập nhật</th>
             <th>Thời gian cập nhật</th>
             <th>Hành động</th>
+            <th></th>
         </tr>
     </thead>
     <tbody th:with="content='Chi tiết đặt phòng:\n'">
@@ -197,6 +193,6 @@
     
     <button type="submit">Gửi Email</button>
 </form>
-
+</div>
 </body>
 </html>
