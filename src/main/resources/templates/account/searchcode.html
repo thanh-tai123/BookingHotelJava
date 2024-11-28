@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Nhập BookCode</title>
+    <title>NHẬP BOOKCODE</title>
     <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
     <style>
 
@@ -88,7 +88,7 @@
 </head>
 <body>
 
-<div th:replace="access/nav :: html"></div>
+<div th:replace="~{access/nav :: html}"></div>
 
 <div class="container">
     <h1>Nhập BookCode</h1>
@@ -101,6 +101,6 @@
     <p th:text="${error}"></p>
 </div>
 </div>
-<div th:replace="access/error :: footer"></div>
+<div th:replace="~{access/error :: footer}"></div>
 </body>
 </html>

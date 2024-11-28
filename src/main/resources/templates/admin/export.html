@@ -118,7 +118,7 @@
 </head>
 <body>
 
-<div th:replace="access/nav :: html"></div>
+<div th:replace="~{access/navadmin :: html}"></div>
 
 
 <h2>Danh sách khách hàng đã đặt phòng</h2>
@@ -166,6 +166,6 @@
 </div>
 <a href="/search/export" class="btn btn-primary">Xuất sang file Excel</a>
 
-<div th:replace="/access/error :: footer"></div>
+<div th:replace="~{access/error :: footer}"></div>
 </body>
 </html>

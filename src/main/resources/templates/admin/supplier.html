@@ -89,7 +89,7 @@
 </style>
 <body >
 
-<div th:replace="access/navadmin :: html"></div>
+<div th:replace="~{access/navadmin :: html}"></div>
 <div ng-controller="RoomController">
     <h1>{{ isEditing ? 'Edit Room' : 'Add Room' }}</h1>
    <form ng-submit="isEditing ? saveUpdatedRoom() : addRoom()" class="room-form">

@@ -248,7 +248,7 @@
     </style>
 </head>
 <body>
-<div th:replace="access/nav1 :: html"></div>
+<div th:replace="~{access/nav1 :: html}"></div>
 <div class="container ">
     <div class="row room-info" style="margin-top: 200px">
         <div class="col-md-4">
@@ -459,6 +459,6 @@
         </div>
     </div>
 </div>
-<div th:replace="access/error :: footer"></div>
+<div th:replace="~{access/error :: footer}"></div>
 </body>
 </html>
