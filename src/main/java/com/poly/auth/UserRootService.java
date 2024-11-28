@@ -23,16 +23,6 @@ public class UserRootService implements UserDetailsService {
   public UserRootService(UserRepo userRepo) {
     this.userRepo = userRepo;
   }
-
-//  public UserDetails loadUserByUsername(String email)
-//      throws UsernameNotFoundException {
-//    User user = userRepo.findByEmail(email)
-//        .orElseThrow(() ->
-//            new UsernameNotFoundException("User not found with email : " + email)
-//        );
-//
-//    return UserRoot.create(user);
-//  }
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 	    User user = userRepo.findByEmail(email).orElseThrow(() ->
 	        new UsernameNotFoundException("User not found with email: " + email)

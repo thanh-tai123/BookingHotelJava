@@ -86,11 +86,11 @@ public class EmailController {
 
 	    private String getSuccessResponse() {
 	        return "<h1>Mail của bạn đã được gửi đi</h1>" +
-	                "<p>Chuyển hướng trong 4 giây...</p>" +
+	                "<p>Chuyển hướng trong 3 giây...</p>" +
 	                "<script>" +
 	                "setTimeout(function() {" +
-	                "  window.location.href = 'http://localhost:8081/room';" +
-	                "}, 4000);" +
+	                "  window.location.href = 'http://polyhotelbooking.online/room';" +
+	                "}, 3000);" +
 	                "</script>";
 	    }
 	    private String getLimitReachedResponse() {
@@ -98,7 +98,7 @@ public class EmailController {
 	                "<p>Chuyển hướng trong 3 giây...</p>" +
 	                "<script>" +
 	                "setTimeout(function() {" +
-	                "  window.location.href = 'http://localhost:8081/room';" +
+	                "  window.location.href = 'http://polyhotelbooking.online/room';" +
 	                "}, 3000);" +
 	                "</script>";
 	    }
