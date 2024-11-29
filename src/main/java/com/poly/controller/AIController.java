@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AIController {
 	@RequestMapping("/chatai")
 	public String index() {
-		return "redirect:/page/index.html";
+		return "pagetem/index";
 	}
-
+//	@RequestMapping("/chatai")
+//	public String index() {
+//		return "redirect:/page/index.html";
+//	}
 }
