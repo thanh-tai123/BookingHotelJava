@@ -310,6 +310,8 @@ public class RoomService implements RoomServiceRepository{
         }
         return roomStatusCount;
     }
-
+    public List<Room> getRoomStatuTrue() {
+        return roomRepository.findByStatus(RoomStatus.TRUE);
+    }
 
 }

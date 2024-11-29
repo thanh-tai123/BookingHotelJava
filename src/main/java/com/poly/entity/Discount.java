@@ -3,7 +3,7 @@ package com.poly.entity;
 import java.util.Date;
 import java.util.Set;
 
-
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -26,13 +26,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Discount {
-	 @Id
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    private int id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+
 	    
 	    private float discountRate; // tỷ lệ giảm giá (15% sẽ là 0.15)
-	    
+	    @DateTimeFormat(pattern = "yyyy-MM-dd")
 	    private Date startDate;
+
+	    @DateTimeFormat(pattern = "yyyy-MM-dd")
 	    private Date endDate;
 	    
 	    @ManyToOne

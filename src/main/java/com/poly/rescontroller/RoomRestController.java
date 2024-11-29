@@ -178,4 +178,9 @@ public class RoomRestController {
     public List<RoomStatisticsDTO> getRoomTypeCounts() {
         return roomService.getRoomStatistics();
     }
+    
+    @GetMapping("/rooms")
+    public List<Room> getRooms() {
+        return roomService.getRoomStatuTrue();
+    }
 }

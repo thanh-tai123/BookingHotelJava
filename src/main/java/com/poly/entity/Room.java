@@ -38,8 +38,9 @@ import lombok.ToString;
 public class Room {
 		@Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    private int id;
+	    private Integer id;
 		 private String roomCode;
+		 
 		  @ManyToOne
 		    @JoinColumn(name = "hotelid", nullable = false)
 		    @JsonBackReference
