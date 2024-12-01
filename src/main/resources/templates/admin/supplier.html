@@ -364,7 +364,7 @@ angular.module('app', [])
    
 
     $scope.addRoom = function() {
-        if (!$scope.room.staffid) {
+        if (!$scope.user.id) {
             alert('User info not loaded yet.');
             return;
         }
