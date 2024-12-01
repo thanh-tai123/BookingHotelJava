@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.poly.dto.UserDTO;
 import com.poly.entity.User;
 import com.poly.repository.UserRepo;
 
@@ -19,14 +20,19 @@ public class UserRestController {
     private UserRepo userRepository;
 
     @GetMapping("/user-info")
-    public User getUserInfo(@AuthenticationPrincipal Object principal) {
+    public UserDTO getUserInfo(@AuthenticationPrincipal Object principal) {
         if (principal instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) principal;
-            return userRepository.findByEmail(userDetails.getUsername()).orElse(null);
+            return userRepository.findByEmail(userDetails.getUsername())
+                .map(user -> new UserDTO(user.getId(),user.getEmail(), user.getName()))
+                .orElse(null);
         } else if (principal instanceof OidcUser) {
             OidcUser oidcUser = (OidcUser) principal;
-            return userRepository.findByEmail(oidcUser.getEmail()).orElse(null);
+            return userRepository.findByEmail(oidcUser.getEmail())
+                .map(user -> new UserDTO(user.getId(),user.getEmail(), user.getName()))
+                .orElse(null);
         }
-        return null; // Hoặc xử lý khi không tìm thấy người dùng
+        return null;
     }
+
 }
