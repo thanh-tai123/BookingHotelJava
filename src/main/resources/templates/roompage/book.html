@@ -189,6 +189,257 @@
             transform: scale(1.5); /* Tăng kích thước bằng cách scale */
             cursor: pointer; /* Thay đổi con trỏ khi hover */
         }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+.chatbot-toggler {
+  position: fixed;
+  bottom: 30px;
+  right: 35px;
+  outline: none;
+  border: none;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #e87e41;
+  transition: all 0.2s ease;
+}
+body.show-chatbot .chatbot-toggler {
+  transform: rotate(90deg);
+}
+.chatbot-toggler span {
+  color: #fff;
+  position: absolute;
+}
+.chatbot-toggler span:last-child,
+body.show-chatbot .chatbot-toggler span:first-child  {
+  opacity: 0;
+}
+body.show-chatbot .chatbot-toggler span:last-child {
+  opacity: 1;
+}
+.chatbot {
+  position: fixed;
+  right: 35px;
+  bottom: 90px;
+  width: 410px;
+  background: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.5);
+  transform-origin: bottom right;
+  box-shadow: 0 0 128px 0 rgba(0,0,0,0.1),
+              0 32px 64px -48px rgba(0,0,0,0.5);
+  transition: all 0.1s ease;
+}
+body.show-chatbot .chatbot {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+.chatbot header {
+  padding: 12px 0;
+  position: relative;
+  text-align: center;
+  color: #fff;
+  background: #e87e41;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.chatbot header span {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  display: none;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+header h2 {
+  font-size: 1.4rem;
+}
+.chatbot .chatbox {
+  overflow-y: auto;
+  height: 450px;
+  padding: 30px 20px 100px;
+}
+.chatbot :where(.chatbox, textarea)::-webkit-scrollbar {
+  width: 6px;
+}
+.chatbot :where(.chatbox, textarea)::-webkit-scrollbar-track {
+  background: #fff;
+  border-radius: 25px;
+}
+.chatbot :where(.chatbox, textarea)::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 25px;
+}
+.chatbox .chat {
+  display: flex;
+  list-style: none;
+}
+.chatbox .outgoing {
+  margin: 20px 0;
+  justify-content: flex-end;
+}
+.chatbox .incoming span {
+  width: 32px;
+  height: 32px;
+  color: #fff;
+  cursor: default;
+  text-align: center;
+  line-height: 32px;
+  align-self: flex-end;
+  border-radius: 4px;
+  margin: 0 10px 7px 0;
+}
+.chatbox .chat div {
+  /* white-space: pre-wrap; */
+  border-radius: 10px 10px 0 10px;
+  padding: 12px;
+  margin: 0px;
+  max-width: 75%;
+  color: #fff;
+  font-size: 0.95rem;
+  background: #e87e41;
+}
+.chatbox .chat ul {
+  margin: 0px 0px 0px 25px;
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  /* text-align: justify; */
+}
+.chatbox .chat ol li {
+  margin: 0px;
+  padding: 0px;
+}
+.chatbox .chat p {
+  margin: 0px;
+  padding: 0px;
+}
+.chatbox .chat ol {
+  margin: 0px 0px 0px 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  /* text-align: justify; */
+}
+.chatbox .chat div img {
+ height: 125px;
+ width: 200px;
+ margin: 3px;
+ border-radius: 5px;
+ box-shadow: 5px;
+  /* text-align: justify; */
+}
+.chatbox .incoming div {
+  border-radius: 10px 10px 10px 0;
+
+}
+.chatbox .incoming ol li {
+  margin: 0px;
+  padding: 3px;
+}
+.chatbox .incoming ol {
+  padding: 0px;
+}
+.chatbox .incoming table {
+  border-collapse: collapse; /* Ensures no double borders */
+  width: 100%; /* Optional: full width of the container */
+  margin: 25px 0; /* Optional: spacing around the table */
+  font-size: 1em; /* Font size for the table content */
+  font-family: Arial, sans-serif; /* Font family for the table content */
+  border: 1px solid #ddd; /* Border around the entire table */
+}
+.chatbox .incoming table th,td {
+  border: 1px solid #ddd; /* Border for table cells */
+  padding: 12px 15px; /* Padding inside each cell */
+  text-align: left; /* Align text to the left */
+}
+.chatbox .incoming table th {
+  background-color: #f2f2f2; /* Background color for header cells */
+  font-weight: bold; /* Bold text for headers */
+}
+
+.chatbox .incoming table tr:nth-child(even) {
+  background-color: #f9f9f9; /* Alternating background color for rows */
+}
+.chatbox .chat div.error {
+  color: #721c24;
+  background: #f8d7da;
+}
+.chatbox .incoming div {
+  color: #000;
+  background: #f2f2f2;
+}
+.chatbot .chat-input {
+  display: flex;
+  gap: 5px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+  padding: 3px 20px;
+  border-top: 1px solid #ddd;
+}
+.chat-input textarea {
+  height: 55px;
+  width: 100%;
+  border: none;
+  outline: none;
+  resize: none;
+  max-height: 180px;
+  padding: 15px 15px 15px 0;
+  font-size: 0.95rem;
+}
+.chat-input span {
+  align-self: flex-end;
+  color: #e87e41;
+  cursor: pointer;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  visibility: hidden;
+  font-size: 1.35rem;
+}
+.chat-input textarea:valid ~ span {
+  visibility: visible;
+}
+
+@media (max-width: 490px) {
+  .chatbot-toggler {
+    right: 20px;
+    bottom: 20px;
+  }
+  .chatbot {
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    border-radius: 0;
+    width: 100%;
+  }
+  .chatbot .chatbox {
+    height: 90%;
+    padding: 25px 15px 100px;
+  }
+  .chatbot .chat-input {
+    padding: 5px 15px;
+  }
+  .chatbot header span {
+    display: block;
+  }
+}
     </style>
 </head>
 <div th:replace="~{access/nav :: html}"></div>
@@ -482,11 +733,11 @@
 
                 // Check if dates are in the past
                 if (checkinDate < today || checkoutDate < today) {
-                    alert("Check-in and check-out dates cannot be in the past.");
+                    alert("Ngày đặt không được đặt trong quá khứ.");
                     return false;
                 }
                 if (checkoutDate <= checkinDate) {
-                    alert("Check-out date cannot be earlier or same than check-in date.");
+                    alert("Ngày ra không được nhỏ hơn ngày vào.");
                     return false;
                 }
 
@@ -525,7 +776,7 @@
 
                 // Check if any rooms are selected
                 if ($scope.selectedRooms.length === 0) {
-                    alert('Please select at least one room to book.');
+                    alert('Hãy chọn ít nhất phòng muốn đặt.');
                     return; // Exit the function if no rooms are selected
                 }
 

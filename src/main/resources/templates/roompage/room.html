@@ -4,13 +4,38 @@
 
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet"/>
-
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet"/>
-
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400;500;600;700&display=swap">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="../static/CSS/common.css"/>
     <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
+   <link rel="stylesheet"
+	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.2/sockjs.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="https://kit.fontawesome.com/1dc96c44e9.js"
+	crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css"
+	rel="stylesheet" />
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+   
     <style>
         /* Thêm khoảng cách và căn chỉnh cho form */
         .search-form {
@@ -111,10 +136,14 @@
             font-size: 1rem;
             border-radius: 5px;
             cursor: pointer;
+              text-decoration: none; 
         }
 
         .btn-custom:hover {
-            background-color: #a48c4a;
+            background-color: white;
+            color: #c09b5a;
+
+            border:1px solid #c09b5a;
         }
 
         .container {
@@ -162,7 +191,265 @@
             font-size: 16px;
             align-self: end;
         }
+/* Import Google font - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+.chatbot-toggler {
+  position: fixed;
+  bottom: 30px;
+  right: 35px;
+  outline: none;
+  border: none;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #e87e41;
+  transition: all 0.2s ease;
+}
+body.show-chatbot .chatbot-toggler {
+  transform: rotate(90deg);
+}
+.chatbot-toggler span {
+  color: #fff;
+  position: absolute;
+}
+.chatbot-toggler span:last-child,
+body.show-chatbot .chatbot-toggler span:first-child  {
+  opacity: 0;
+}
+body.show-chatbot .chatbot-toggler span:last-child {
+  opacity: 1;
+}
+.chatbot {
+  position: fixed;
+  right: 35px;
+  bottom: 90px;
+  width: 410px;
+  background: #c09b5a;
+  border-radius: 15px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.5);
+  transform-origin: bottom right;
+  box-shadow: 0 0 128px 0 rgba(0,0,0,0.1),
+              0 32px 64px -48px rgba(0,0,0,0.5);
+  transition: all 0.1s ease;
+  z-index: 100 !important;
+}
+body.show-chatbot .chatbot {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+.chatbot header {
+  padding: 12px 0;
+  position: relative;
+  text-align: center;
+  color: #fff;
+  background: #e87e41;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  height:50px;
+   font-family: 'Arial', sans-serif;
+  
+}
+.chatbot header span {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  display: none;
+  cursor: pointer;
+  transform: translateY(-50%);
+   font-family: 'Arial', sans-serif;
+  
+}
+header h2 {
+  font-size: 1.4rem;
+   font-family: 'Arial', sans-serif;
+  
+}
+.chatbot .chatbox {
+  overflow-y: auto;
+  height: 415px;
+  padding: 30px 20px 100px;
+}
+.chatbot :where(.chatbox, textarea)::-webkit-scrollbar {
+  width: 6px;
+}
+.chatbot :where(.chatbox, textarea)::-webkit-scrollbar-track {
+  background: #fff;
+  border-radius: 25px;
+}
+.chatbot :where(.chatbox, textarea)::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 25px;
+}
+.chatbox .chat {
+  display: flex;
+  list-style: none;
+}
+.chatbox .outgoing {
+  margin: 20px 0;
+  justify-content: flex-end;
+}
+.chatbox .incoming span {
+  width: 32px;
+  height: 32px;
+  color: #fff;
+  cursor: default;
+  text-align: center;
+  line-height: 32px;
+  align-self: flex-end;
+  border-radius: 4px;
+  margin: 0 10px 7px 0;
+}
+.chatbox .chat div {
+  /* white-space: pre-wrap; */
+  border-radius: 10px 10px 0 10px;
+  padding: 12px;
+  margin: 0px;
+  max-width: 75%;
+  color: #fff;
+  font-size: 0.95rem;
+  background: #e87e41;
+}
+.chatbox .chat ul {
+  margin: 0px 0px 0px 25px;
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  /* text-align: justify; */
+}
+.chatbox .chat ol li {
+  margin: 0px;
+  padding: 0px;
+}
+.chatbox .chat p {
+  margin: 0px;
+  padding: 0px;
+}
+.chatbox .chat ol {
+  margin: 0px 0px 0px 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  /* text-align: justify; */
+}
+.chatbox .chat div img {
+ height: 125px;
+ width: 200px;
+ margin: 3px;
+ border-radius: 5px;
+ box-shadow: 5px;
+  /* text-align: justify; */
+}
+.chatbox .incoming div {
+  border-radius: 10px 10px 10px 0;
 
+}
+.chatbox .incoming ol li {
+  margin: 0px;
+  padding: 3px;
+}
+.chatbox .incoming ol {
+  padding: 0px;
+}
+.chatbox .incoming table {
+  border-collapse: collapse; /* Ensures no double borders */
+  width: 100%; /* Optional: full width of the container */
+  margin: 25px 0; /* Optional: spacing around the table */
+  font-size: 1em; /* Font size for the table content */
+  font-family: Arial, sans-serif; /* Font family for the table content */
+  border: 1px solid #ddd; /* Border around the entire table */
+}
+.chatbox .incoming table th,td {
+  border: 1px solid #ddd; /* Border for table cells */
+  padding: 12px 15px; /* Padding inside each cell */
+  text-align: left; /* Align text to the left */
+}
+.chatbox .incoming table th {
+  background-color: #f2f2f2; /* Background color for header cells */
+  font-weight: bold; /* Bold text for headers */
+}
+
+.chatbox .incoming table tr:nth-child(even) {
+  background-color: #f9f9f9; /* Alternating background color for rows */
+}
+.chatbox .chat div.error {
+  color: #721c24;
+  background: #f8d7da;
+}
+.chatbox .incoming div {
+  color: #000;
+  background: #f2f2f2;
+}
+.chatbot .chat-input {
+  display: flex;
+  gap: 5px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+  padding: 3px 20px;
+  border-top: 1px solid #ddd;
+}
+.chat-input textarea {
+  height: 55px;
+  width: 100%;
+  border: none;
+  outline: none;
+  resize: none;
+  max-height: 180px;
+  padding: 15px 15px 15px 0;
+  font-size: 0.95rem;
+}
+.chat-input span {
+  align-self: flex-end;
+  color: #e87e41;
+  cursor: pointer;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  visibility: hidden;
+  font-size: 1.35rem;
+}
+.chat-input textarea:valid ~ span {
+  visibility: visible;
+}
+
+@media (max-width: 490px) {
+  .chatbot-toggler {
+    right: 20px;
+    bottom: 20px;
+  }
+  .chatbot {
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    border-radius: 0;
+    width: 100%;
+  }
+  .chatbot .chatbox {
+    height: 90%;
+    padding: 25px 15px 100px;
+  }
+  .chatbot .chat-input {
+    padding: 5px 15px;
+  }
+  .chatbot header span {
+    display: block;
+  }
+}
     </style>
 </head>
 <body>
@@ -313,14 +600,299 @@
             </ul>
         </nav>
     </div>
-    <df-messenger
+   <!--  <df-messenger
             intent="WELCOME"
             chat-title="poly-hotel"
             agent-id="727e90a7-b57e-43ee-8135-68ed31b0c060"
             language-code="en"
-    ></df-messenger>
-
+    ></df-messenger> -->
+<button class="chatbot-toggler">
+        <span class="material-symbols-rounded">Chat</span> 
+        <span class="material-symbols-outlined">X</span>
+    </button>
+    <div class="chatbot">
+        <header>
+            <h3>LAVELA HOTEL</h3>
+            <span class="close-btn material-symbols-outlined">close</span>
+        </header>
+        <ul class="chatbox">
+            <li class="chat incoming">
+                <span style="display: inline-block; border-radius: 50%; overflow: hidden;">
+                    <img th:src="@{/images/logola.jpg}" alt="icon" style="width:60; height:60">
+                </span>
+                <div>Xin chào, mình là LAVELA AI, mình có thể giúp gì cho bạn không?</div>
+            </li>
+        </ul>
+        <div class="chat-input">
+            <textarea placeholder="Nhập câu hỏi ở đây..." spellcheck="false" required></textarea>
+            <span id="send-btn" class="material-symbols-rounded">send</span>
+        </div>
+    </div>
 </div>
 <div th:replace="~{access/error :: footer}"></div>
+<script>
+
+
+const chatbotToggler = document.querySelector(".chatbot-toggler");
+const closeBtn = document.querySelector(".close-btn");
+const chatbox = document.querySelector(".chatbox");
+const chatInput = document.querySelector(".chat-input textarea");
+const sendChatBtn = document.querySelector(".chat-input span");
+var eR = false;
+let userMessage = null; // Variable to store user's message
+const API_KEY = "PASTE-YOUR-API-KEY"; // Paste your API key here
+const inputInitHeight = chatInput.scrollHeight;
+
+const createChatLi = (message, className) => {
+    const chatLi = document.createElement("li");
+    chatLi.classList.add("chat", className);
+    let chatContent = className === "outgoing"
+        ? `<div></div>`
+        : `<span><img src="/images/logola.jpg" alt="icon" width="30" height="30"></span><div></div>`;
+    chatLi.innerHTML = chatContent;
+    chatLi.querySelector("div").textContent = message;
+    return chatLi;
+}
+
+
+const generateResponse = (chatElement, userMessage) => {
+	const API_URL = "http://polyhotelbooking.online/chat-ai";
+
+    const messageElement = chatElement.querySelector("div");
+
+    // Tạo URL với tham số message
+    const urlWithParams = `${API_URL}?message=${encodeURIComponent(userMessage)}`;
+
+    // Định nghĩa các tùy chọn yêu cầu
+    const requestOptions = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    };
+
+    // Gửi yêu cầu GET đến API và xử lý phản hồi theo kiểu stream
+    fetch(urlWithParams, requestOptions)
+        .then(response => {
+            // Kiểm tra phản hồi có trạng thái thành công (status code từ 200-299)
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            // Kiểm tra xem phản hồi có body không
+            if (!response.body) {
+                throw new Error("No response body");
+            }
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder("utf-8");
+
+            let result = '';
+
+            // Hàm xử lý từng phần dữ liệu stream
+            const processStream = ({ done, value }) => {
+                if (done) {
+                    console.log("Finished streaming.");
+                    //sendMessage(result, '123');  // Gửi toàn bộ kết quả cuối cùng sau khi stream xong
+
+                    // Thêm thuộc tính target="_blank" cho tất cả các liên kết trong nội dung
+                    const links = messageElement.querySelectorAll('a');
+                    links.forEach(link => {
+                        link.setAttribute('target', '_blank');
+                    });
+
+                    // Thêm lớp 'zoomable' vào tất cả các thẻ <img> và bọc chúng trong thẻ <a> để kích hoạt phóng to
+                    const images = messageElement.querySelectorAll('img');
+                    images.forEach(img => {
+                        const imgSrc = img.src;
+                        // Tạo thẻ <a> bao quanh thẻ <img>
+                        const wrapper = document.createElement('a');
+                        wrapper.href = imgSrc;
+                        wrapper.classList.add('image-popup');
+                        // Chèn thẻ <img> vào trong thẻ <a>
+                        img.parentNode.insertBefore(wrapper, img);
+                        wrapper.appendChild(img);
+                    });
+
+                    // Khởi tạo Magnific Popup cho các thẻ <a> đã được tạo ở trên
+                    $('.image-popup').magnificPopup({
+                        type: 'image',
+                        closeOnContentClick: true,
+                        mainClass: 'mfp-img-mobile',
+                        image: {
+                            verticalFit: true
+                        }
+                    });
+
+                    return;
+                }
+
+                // Giải mã phần dữ liệu nhận được và cập nhật giao diện
+                const chunk = decoder.decode(value, { stream: true });
+                result += chunk;
+
+                const htmlContent = marked.parse(result);
+                messageElement.innerHTML = htmlContent;  // Cập nhật nội dung từng phần
+                chatbox.scrollTo(0, chatbox.scrollHeight);
+                // Đọc phần tiếp theo của stream
+                return reader.read().then(processStream);
+            };
+
+            // Bắt đầu đọc dữ liệu stream
+            return reader.read().then(processStream);
+        })
+        .catch(error => {
+            // Xử lý lỗi và hiển thị thông báo
+            console.error("Error occurred:", error); // Ghi log chi tiết lỗi ra console
+            messageElement.classList.add("error");
+
+            // Hiển thị thông báo lỗi tùy theo lỗi cụ thể
+            if (error.message.includes("Failed to fetch")) {
+                messageElement.textContent = "Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối mạng hoặc thử lại sau.";
+            } else if (error.message.includes("HTTP error")) {
+                messageElement.textContent = "OOps! Có lỗi xảy ra. Vui lòng thử lại.";
+            } else {
+                messageElement.textContent = "Oops! Có lỗi xảy ra. Vui lòng thử lại.";
+            }
+        })
+        .finally(() => {
+            // Cuộn xuống cuối cùng của chatbox
+            chatbox.scrollTo(0, chatbox.scrollHeight);
+        });
+};
+
+
+
+const handleChat = () => {
+    userMessage = chatInput.value.trim(); // Get user entered message and remove extra whitespace
+    if (!userMessage) return;
+
+    // Clear the input textarea and set its height to default
+    chatInput.value = "";
+    chatInput.style.height = `${inputInitHeight}px`;
+
+    // Append the user's message to the chatbox
+    chatbox.appendChild(createChatLi(userMessage, "outgoing"));
+    chatbox.scrollTo(0, chatbox.scrollHeight);
+    if (eR == false) {
+        setTimeout(() => {
+            // Display "Thinking..." message while waiting for the response
+            const incomingChatLi = createChatLi("Đang soạn...", "incoming");
+            //sendMessageUser(userMessage);
+            chatbox.appendChild(incomingChatLi);
+            chatbox.scrollTo(0, chatbox.scrollHeight);
+            generateResponse(incomingChatLi, userMessage);
+        }, 600);
+    } else {
+        //sendMessageUser(userMessage);
+    }
+}
+
+chatInput.addEventListener("input", () => {
+    // Adjust the height of the input textarea based on its content
+    chatInput.style.height = `${inputInitHeight}px`;
+    chatInput.style.height = `${chatInput.scrollHeight}px`;
+});
+
+chatInput.addEventListener("keydown", (e) => {
+    // If Enter key is pressed without Shift key and the window 
+    // width is greater than 800px, handle the chat
+    if (e.key === "Enter" && !e.shiftKey && window.innerWidth > 800) {
+        e.preventDefault();
+        handleChat();
+    }
+});
+
+function convertTextToLink(text) {
+    // Biểu thức chính quy để tìm URL, bao gồm các ký tự Unicode
+    const urlPattern = /(\b(https?|ftp|file):\/\/[^\s<>"']+)/ig;
+
+    return text.replace(urlPattern, function (url) {
+        return `<a href="${url}" target="_blank">Tại đây</a>`;
+    });
+}
+
+sendChatBtn.addEventListener("click", handleChat);
+closeBtn.addEventListener("click", () => document.body.classList.remove("show-chatbot"));
+chatbotToggler.addEventListener("click", () => document.body.classList.toggle("show-chatbot"));
+
+var stompClient = null;
+
+// function connect() {
+//     // Khởi tạo SockJS với URL server Spring Boot
+//     // Tạo đối tượng SockJS để kết nối server qua http://localhost:8080/ws
+//     var socket = new SockJS('http://' + ip + ':' + port + '/ws');
+//     // Tạo đối tượng STOMP từ SockJS
+//     stompClient = Stomp.over(socket);
+//     // Tạo kết nối từ stompClient đến server 
+//     stompClient.connect({}, function (frame) {
+//         // Hiển thị thông tin kết nối trong bảng điều khiển Console
+//         console.log('Connected: ' + frame);
+//         // Đăng ký để nhận tin nhắn từ server
+//         stompClient.subscribe('/topic/public', function (messageOutput) {
+//             showMessage(JSON.parse(messageOutput.body));
+//         });
+//     }, function (error) {
+//         // Hiển thị lỗi trong bảng điều khiển nếu có
+//         alert("Có lỗi kết nối!");
+//         console.error('Connection error: ', error);
+//     });
+// }
+
+function disconnect() {
+    if (stompClient !== null) {
+        stompClient.disconnect(function () {
+            alert("Đã ngắt kết nối!");
+            console.log("Disconnected");
+        });
+    }
+}
+
+function sendMessage(AiResponse, id) {
+    if (stompClient && stompClient.connected) {
+        stompClient.send("/app/chat.sendMessage", {}, JSON.stringify({
+            'id': id,
+            'content': AiResponse,
+            'sender': 'ChatBot',
+            'timestamp': new Date()
+        }));
+    } else {
+        alert("Lỗi gửi tin nhắn!");
+        console.error('Connection not established. Message not sent.');
+    }
+}
+
+function sendMessageUser(userMessage) {
+    if (stompClient && stompClient.connected) {
+        stompClient.send("/app/chat.sendMessage", {}, JSON.stringify({
+            'content': userMessage,
+            'sender': 'User',
+            'timestamp': new Date()
+        }));
+    } else {
+        alert("Lỗi gửi tin nhắn!");
+        console.error('Connection not established. Message not sent.');
+    }
+}
+
+function showMessage(message) {
+    if (message.sender == 'Employee') {
+        if (message.responding == true) {
+            eR = true;
+            const incomingChatLi = createChatLi(message.content, "incoming");
+            chatbox.appendChild(incomingChatLi);
+            chatbox.scrollTo(0, chatbox.scrollHeight);
+        } else {
+            eR = false;
+        }
+    }
+}
+
+window.onload = function () {
+    connect();
+};
+
+
+</script>
 </body>
 </html>
