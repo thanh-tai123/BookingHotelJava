@@ -54,18 +54,22 @@ public class BookingService implements BookingServiceRepository{
             try {
                 Room room = roomRepository.findById(roomId)
                     .orElseThrow(() -> new RuntimeException("Room not found with id " + roomId));
+                float currentPrice = room.getCurrentPrice(new Date());
                 
+                // Kiểm tra và chọn giá phù hợp
+                float priceToUse = (currentPrice != room.getGia()) ? currentPrice : room.getGia();
                 BookDetail bookDetail = new BookDetail();
                 bookDetail.setBookid(savedBook.getId());
 //                bookDetail.setBooklist(savedBook.getId());
                 bookDetail.setRoom(room);
-                bookDetail.setPrice(room.getGia());
+                bookDetail.setPrice(priceToUse);
+//                bookDetail.setPrice(room.getCurrentPrice(new Date()));
                 bookDetail.setCheckin(request.getCheckin());
                 bookDetail.setCheckout(request.getCheckout());
 
                 long differenceInMillis = request.getCheckout().getTime() - request.getCheckin().getTime();
                 long daysBetween = differenceInMillis / (1000 * 60 * 60 * 24); 
-                float calculatedTotal = daysBetween * room.getGia();
+                float calculatedTotal = daysBetween * priceToUse;
                 bookDetail.setTotal(calculatedTotal);
                 bookDetail.setAdult(request.getAdult());
                 bookDetail.setChildren(request.getChildren());
@@ -94,17 +98,21 @@ public class BookingService implements BookingServiceRepository{
         for (Integer roomId : request.getRoomid()) {
             Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new RuntimeException("Room not found with id " + roomId));
-
+            float currentPrice = room.getCurrentPrice(new Date());
+            
+            // Kiểm tra và chọn giá phù hợp
+            float priceToUse = (currentPrice != room.getGia()) ? currentPrice : room.getGia();
             BookDetail bookDetail = new BookDetail();
             bookDetail.setBookid(savedBook.getId());
             bookDetail.setRoom(room);
-            bookDetail.setPrice(room.getGia());
+            bookDetail.setPrice(priceToUse);
+//            bookDetail.setPrice(room.getCurrentPrice(new Date()));
             bookDetail.setCheckin(request.getCheckin());
             bookDetail.setCheckout(request.getCheckout());
 
             long differenceInMillis = request.getCheckout().getTime() - request.getCheckin().getTime();
             long daysBetween = differenceInMillis / (1000 * 60 * 60 * 24);
-            float calculatedTotal = daysBetween * room.getGia();
+            float calculatedTotal = daysBetween * priceToUse;
             bookDetail.setTotal(calculatedTotal);
             totalAmount += calculatedTotal;
             bookDetail.setAdult(request.getAdult());

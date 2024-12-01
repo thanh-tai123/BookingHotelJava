@@ -242,7 +242,7 @@ public class AdminController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping("/show-add-chinhanh")
     public String showAddChinhanh() {
-        return "admin/add_chinhanh";
+        return "admin/add_ChiNhanh";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -294,4 +294,6 @@ public class AdminController {
     public String RoomPerBranch() {
        return "dashboard/tableroomperbranch";
     }
+    
+   
 }

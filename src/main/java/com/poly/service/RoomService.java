@@ -210,6 +210,7 @@ public class RoomService implements RoomServiceRepository{
                 .img(room.getImg())
                 .sophong(room.getSophong())
                 .gia(room.getGia())
+                .gia(room.getCurrentPrice(new Date()))
                 .mota(room.getMota())
                 .status(room.getStatus())
                 .note(room.getNote())
@@ -248,6 +249,7 @@ public class RoomService implements RoomServiceRepository{
                         .img(room.getImg())
                         .sophong(room.getSophong())
                         .gia(room.getGia())
+                        .gia(room.getCurrentPrice(new Date()))
                         .mota(room.getMota())
                         .status(room.getStatus())
                         .note(room.getNote())
@@ -308,6 +310,8 @@ public class RoomService implements RoomServiceRepository{
         }
         return roomStatusCount;
     }
-
+    public List<Room> getRoomStatuTrue() {
+        return roomRepository.findByStatus(RoomStatus.TRUE);
+    }
 
 }
