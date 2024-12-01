@@ -29,6 +29,7 @@ public class DiscountController {
 	    private RoomService roomService;
 	    @Autowired
 	    private RoomRepository roomRepository;
+	    @PreAuthorize("hasAuthority('ADMIN')")
 	    @GetMapping
 	    public String listDiscounts(Model model) {
 	        List<Discount> discounts = discountService.getAllDiscounts();

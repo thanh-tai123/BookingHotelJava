@@ -85,7 +85,7 @@ public class RoomController {
 		model.addAttribute("hasPrevious", page.hasPrevious());
 		model.addAttribute("hasNext", page.hasNext());
 
-		return "room/room";
+		return "roompage/room";
 	}
 
 
@@ -131,7 +131,7 @@ public class RoomController {
 		model.addAttribute("hasPrevious", page.hasPrevious());
 		model.addAttribute("hasNext", page.hasNext());
 
-		return "room/room";
+		return "roompage/room";
 	}
 
 
@@ -160,7 +160,7 @@ public class RoomController {
 		model.addAttribute("roomImgs", roomImg);
 		model.addAttribute("currentPrice", currentPrice);
 
-		return "room/roomdetailversion"; // The name of your Thymeleaf template
+		return "roompage/roomdetailversion"; // The name of your Thymeleaf template
 	}
 	private Integer getCurrentUserId() {
 		// Implement this method to get the current user's ID
@@ -178,7 +178,7 @@ public class RoomController {
 	@GetMapping("/room-details/{roomId}")
 	public String showRoomDetails(@PathVariable Integer roomId, Model model) {
 		model.addAttribute("roomId", roomId);
-		return "room/book";
+		return "roompage/book";
 	}
 	@RequestMapping("displaypayment")
 	public String display(Model model) {
@@ -251,7 +251,7 @@ public class RoomController {
 	    model.addAttribute("hasPrevious", page.hasPrevious());
 	    model.addAttribute("hasNext", page.hasNext());
 
-	    return "room/room";
+	    return "roompage/room";
 	}
 
 
