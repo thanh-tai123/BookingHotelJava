@@ -6,6 +6,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -36,6 +37,7 @@ public class BookDetail {
 //    private Integer roomid;
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
+    @JsonIgnore
     @JoinColumn(name = "roomid", referencedColumnName = "id", nullable = false)
     private Room room;
     private Float price;

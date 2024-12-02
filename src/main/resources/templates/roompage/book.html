@@ -442,7 +442,7 @@ header h2 {
 }
     </style>
 </head>
-<div th:replace="~{access/nav :: html}"></div>
+<div th:replace="~{access/nav1 :: html}"></div>
 
 <!-- Date Range Picker -->
 <!--   Check-in:
@@ -549,24 +549,24 @@ header h2 {
             <div class="col-md-4">
                 <ul class="booked-dates">
                     <li ng-repeat="booking in bookedDates | filter: isFutureCheckout" ng-if="$index % 3 === 0">
-                        NGÀY NHẬN PHÒNG: {{booking.checkin}} <br>
-                        NGÀY TRẢ PHÒNG: {{booking.checkout}}
+                        NGÀY NHẬN PHÒNG: {{booking.checkin | date:'dd-MM-yyyy'}} <br>
+                        NGÀY TRẢ PHÒNG: {{booking.checkout | date:'dd-MM-yyyy'}}
                     </li>
                 </ul>
             </div>
             <div class="col-md-4">
                 <ul class="booked-dates">
                     <li ng-repeat="booking in bookedDates | filter: isFutureCheckout" ng-if="$index % 3 === 1">
-                        NGÀY NHẬN PHÒNG: {{booking.checkin}} <br>
-                        NGÀY TRẢ PHÒNG: {{booking.checkout}}
+                        NGÀY NHẬN PHÒNG: {{booking.checkin | date:'dd-MM-yyyy'}} <br>
+                        NGÀY TRẢ PHÒNG: {{booking.checkout | date:'dd-MM-yyyy'}}
                     </li>
                 </ul>
             </div>
             <div class="col-md-4">
                 <ul class="booked-dates">
                     <li ng-repeat="booking in bookedDates | filter: isFutureCheckout" ng-if="$index % 3 === 2">
-                        NGÀY NHẬN PHÒNG: {{booking.checkin}} <br>
-                        NGÀY TRẢ PHÒNG: {{booking.checkout}}
+                        NGÀY NHẬN PHÒNG: {{booking.checkin | date:'dd-MM-yyyy'}} <br>
+                        NGÀY TRẢ PHÒNG: {{booking.checkout | date:'dd-MM-yyyy'}}
                     </li>
                 </ul>
             </div>
@@ -717,14 +717,15 @@ header h2 {
                     url: `/api/get-bookings?roomId=${roomId}`
                 }).then(function successCallback(response) {
                     $scope.bookedDates = response.data; // Assign booked dates to scope
-                    $scope.bookedDates.sort(function(a, b) {
-                        // So sánh checkin ngày
+                    /* $scope.bookedDates.sort(function(a, b) {
+                        // Compare check-in dates
                         return new Date(a.checkin) - new Date(b.checkin);
-                    });
+                    }); */
                 }, function errorCallback(response) {
-                    console.error('Error fetching booked dates:', response);
+                    console.error('Error fetching booked dates:', response.status, response.data);
                 });
             };
+
 
             $scope.validateBookingDates = function(checkin, checkout) {
                 const today = new Date();

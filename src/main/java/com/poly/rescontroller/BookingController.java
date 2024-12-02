@@ -3,6 +3,7 @@ package com.poly.rescontroller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.poly.dto.BookDetailDateDTO;
 import com.poly.dto.BookingRequest;
 import com.poly.dto.BookingResponse;
 import com.poly.dto.RoomRequest;
 import com.poly.entity.BookDetail;
 import com.poly.entity.MailInfo;
 import com.poly.entity.Room;
+import com.poly.repository.BookDetailRepository;
 import com.poly.service.BookDetailService;
 import com.poly.service.BookingService;
 import com.poly.service.UserService;
@@ -35,6 +38,8 @@ public class BookingController {
 
     @Autowired 
     private BookingService bookingService;
+    @Autowired 
+    private BookDetailRepository bookDetailRepository;
     @Autowired
     private BookDetailService bookdetail;
     @PostMapping("/book-room")
@@ -50,8 +55,9 @@ public class BookingController {
 //    }
 
     @GetMapping("/get-bookings")
-    public List<BookDetail> getBookings(@RequestParam("roomId") Room roomId) {
+    public List<BookDetailDateDTO> getBookings(@RequestParam("roomId") Room roomId) {
         return bookdetail.getBookingsByRoomid(roomId);
     }
+
 }
 

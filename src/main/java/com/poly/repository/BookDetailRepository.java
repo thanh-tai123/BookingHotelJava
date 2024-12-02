@@ -26,7 +26,9 @@ public interface BookDetailRepository extends JpaRepository<BookDetail, Integer>
 	    +"GROUP BY YEAR(b.checkout), MONTH(b.checkout)")
 	    List<Object[]> findMonthlyRoomCountByYear(@Param("year") Integer year);
 	    List<BookDetail> findByBook_BookCode(String bookCode);
-	    List<BookDetail> findByRoom(Room room);
+	    @Query("SELECT bd FROM BookDetail bd JOIN FETCH bd.room WHERE bd.room = :room")
+	    List<BookDetail> findByRoom(@Param("room") Room room);
+
 	    List<BookDetail> findAllByCheckinLessThanEqualAndCheckoutGreaterThanEqual(Date checkout, Date checkin);
 	    
 	    @Query("SELECT b.user.email, COUNT(bd.id) " +

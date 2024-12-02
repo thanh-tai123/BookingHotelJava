@@ -1,5 +1,6 @@
 package com.poly.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,10 +9,13 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.poly.dto.BookDetailDateDTO;
 import com.poly.entity.BookDetail;
 import com.poly.entity.Room;
 import com.poly.repository.BookDetailRepository;
 import com.poly.serviceRepository.BookDetailServiceRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class BookDetailService implements BookDetailServiceRepository{
@@ -50,9 +54,13 @@ public class BookDetailService implements BookDetailServiceRepository{
     }
 
     
-    public List<BookDetail> getBookingsByRoomid(Room room) {
-        return bookDetailRepository.findByRoom(room);
+    public List<BookDetailDateDTO> getBookingsByRoomid(Room room) {
+        List<BookDetail> bookings = bookDetailRepository.findByRoom(room);
+        return bookings.stream()
+                       .map(b -> new BookDetailDateDTO(b.getCheckin(), b.getCheckout()))
+                       .collect(Collectors.toList());
     }
+
     
     public List<Map<String, Object>> getRevenueByBranchAndYear(Integer year) {
         return bookDetailRepository.findRevenueByBranchAndYear(year);
