@@ -136,7 +136,7 @@ public class BookController {
             return "admin/searchcode";
         }
         model.addAttribute("bookCode", bookCode);
-        return "/admin/searchBookCode"; // Tên của view hiển thị thông tin Book
+        return "admin/searchBookCode"; // Tên của view hiển thị thông tin Book
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -152,7 +152,7 @@ public class BookController {
             return "admin/searchcode";
         }
         model.addAttribute("bookCode", bookCode);
-        return "/admin/searchBookCode"; // Tên của view hiển thị thông tin Book
+        return "admin/searchBookCode"; // Tên của view hiển thị thông tin Book
     }
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/admin/updateAllStatuses")
