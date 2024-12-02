@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ import com.poly.repository.BookDetailRepository;
 import com.poly.repository.BookRepository;
 import com.poly.repository.ProductRepo;
 import com.poly.service.BookingService;
+import com.poly.serviceRepository.MailerService;
 
 @Controller
 @RequestMapping("/search")
@@ -40,6 +42,8 @@ public class BookController {
     private BookDetailRepository bookDetailRepository;
     @Autowired
     private BookingService bookService;
+    @Autowired
+	MailerService mailer;
 //    @GetMapping("")
 //    public String searchBooking(@RequestParam(required = false) String bookCode, Model model) {
 //        if (bookCode == null || bookCode.isEmpty()) {
@@ -150,27 +154,76 @@ public class BookController {
         model.addAttribute("bookCode", bookCode);
         return "/admin/searchBookCode"; // Tên của view hiển thị thông tin Book
     }
-
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/admin/updateStatus")
-    public String updateStatus(@RequestParam("detailId") Integer detailId,
-                               @RequestParam("status") String status,
-                               @RequestParam("bookCode") String bookCode,
-                               @AuthenticationPrincipal UserDetails currentUser, // Lấy thông tin người dùng hiện tại
-                               Model model) {
-        Optional<BookDetail> optionalBookDetail = bookDetailRepository.findById(detailId);
-        if (optionalBookDetail.isPresent()) {
-            BookDetail bookDetail = optionalBookDetail.get();
-            bookDetail.setBookDetailStatus(status);
-            bookDetail.setUpdatedBy(currentUser.getUsername()); // Lưu người cập nhật
-            bookDetail.setUpdatedAt(new Date()); // Lưu thời gian cập nhật
-            bookDetailRepository.save(bookDetail);
-            model.addAttribute("message", "Trạng thái phòng đã được cập nhật");
-        } else {
-            model.addAttribute("error", "Không tìm thấy chi tiết đặt phòng");
+    @PostMapping("/admin/updateAllStatuses")
+    public String updateAllStatuses(@RequestParam Map<String, String> allParams,
+                                     @RequestParam("bookCode") String bookCode,
+                                     @AuthenticationPrincipal UserDetails currentUser,
+                                     Model model) {
+        StringBuilder emailContent = new StringBuilder(); // To accumulate email content
+        String userEmail = ""; // Variable to store user email
+
+        // Lặp qua từng phòng và cập nhật trạng thái
+        for (String key : allParams.keySet()) {
+            if (key.startsWith("roomStatus[")) {
+                Integer detailId = Integer.parseInt(key.substring(11, key.length() - 1));
+                String status = allParams.get(key);
+                String paymentStatus = allParams.get("paymentStatus[" + detailId + "]");
+
+                Optional<BookDetail> optionalBookDetail = bookDetailRepository.findById(detailId);
+                if (optionalBookDetail.isPresent()) {
+                    BookDetail bookDetail = optionalBookDetail.get();
+                    
+                    // Get user email if not already set
+                    if (userEmail.isEmpty()) {
+                        userEmail = bookDetail.getBook().getUser().getEmail();
+                    }
+
+                    bookDetail.setBookDetailStatus(status);
+                    bookDetail.setPaymentStatus(paymentStatus);
+                    bookDetail.setUpdatedBy(currentUser.getUsername());
+                    bookDetail.setUpdatedAt(new Date());
+                    bookDetailRepository.save(bookDetail);
+
+                    // Append details to email content
+                    emailContent.append("Chi tiết phòng đã đặt:\n")
+                            .append("Số phòng: ").append(bookDetail.getRoom().getSophong()).append("\n")
+                            .append("Tổng: ").append(bookDetail.getTotal()).append("\n")
+                            .append("Giá: ").append(bookDetail.getPrice()).append("\n")
+                            .append("Checkin: ").append(bookDetail.getCheckin()).append("\n")
+                            .append("Checkout: ").append(bookDetail.getCheckout()).append("\n")
+                            .append("Người lớn: ").append(bookDetail.getAdult()).append("\n")
+                            .append("Trẻ em: ").append(bookDetail.getChildren()).append("\n")
+                            .append("Phương thức thanh toán: ").append(bookDetail.getPaymentMethod()).append("\n")
+                            .append("Trạng thái thanh toán: ").append(paymentStatus).append("\n")
+                            .append("Trạng thái phòng: ").append(status).append("\n")
+                            .append("Người cập nhật: ").append(currentUser.getUsername()).append("\n")
+                            .append("Thời gian cập nhật: ").append(bookDetail.getUpdatedAt()).append("\n\n");
+                }
+            }
         }
-        return "redirect:/search/admin/getbook?bookCode=" + bookCode;// Truyền bookCode trong URL redirect
+
+        // Gửi email một lần cho tất cả các phòng
+        if (emailContent.length() > 0) {
+            String finalEmailContent = "Thông tin cập nhật cho Book Code: " + bookCode + "\n\n" + emailContent.toString();
+            try {
+                mailer.sendEmail(
+                    userEmail, // Email người dùng
+                    "", // CC (có thể để trống)
+                    "Thông tin cập nhật đặt phòng", // Tiêu đề
+                    finalEmailContent // Nội dung
+                );
+                model.addAttribute("message", "Trạng thái đã được cập nhật và email đã gửi thành công.");
+            } catch (Exception e) {
+                model.addAttribute("error", "Trạng thái đã được cập nhật nhưng không thể gửi email: " + e.getMessage());
+            }
+        } else {
+            model.addAttribute("message", "Không có thay đổi nào để cập nhật.");
+        }
+
+        return "redirect:/search/admin/getbook?bookCode=" + bookCode;
     }
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/book-details")
     public String getBookDetails(Model model) {

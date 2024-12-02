@@ -1,7 +1,9 @@
 package com.poly.service;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,6 +27,7 @@ import com.poly.repository.BookRepository;
 import com.poly.repository.RoomRepository;
 import com.poly.repository.UserRepo;
 import com.poly.serviceRepository.BookingServiceRepository;
+import com.poly.serviceRepository.MailerService;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 @Service
@@ -40,7 +43,11 @@ public class BookingService implements BookingServiceRepository{
     private RoomRepository roomRepository;
     @Autowired
     private UserService userService;
+    
+    @Autowired
+	MailerService mailer;
     public void bookRoom(BookingRequest request) {
+    	  SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         User user = userRepository.findById(request.getUserid())
             .orElseThrow(() -> new RuntimeException("User not found with id " + request.getUserid()));
 
@@ -50,25 +57,29 @@ public class BookingService implements BookingServiceRepository{
         book.generateBookCode();
         Book savedBook = bookRepository.save(book);
 
+        StringBuilder emailContent = new StringBuilder();
+        emailContent.append("Xin chào ").append(user.getName()).append(",\n\n");
+        emailContent.append("Bạn đã đặt phòng thành công. Chi tiết đặt phòng như sau:\n");
+        emailContent.append("Mã đặt phòng: ").append(book.getBookCode()).append("\n");
+        emailContent.append("Ngày tạo: ").append(dateFormatter.format(new Date())).append("\n\n");
+        emailContent.append("Chi tiết phòng:\n");	
+
         for (Integer roomId : request.getRoomid()) {
             try {
                 Room room = roomRepository.findById(roomId)
                     .orElseThrow(() -> new RuntimeException("Room not found with id " + roomId));
                 float currentPrice = room.getCurrentPrice(new Date());
-                
-                // Kiểm tra và chọn giá phù hợp
                 float priceToUse = (currentPrice != room.getGia()) ? currentPrice : room.getGia();
+
                 BookDetail bookDetail = new BookDetail();
                 bookDetail.setBookid(savedBook.getId());
-//                bookDetail.setBooklist(savedBook.getId());
                 bookDetail.setRoom(room);
                 bookDetail.setPrice(priceToUse);
-//                bookDetail.setPrice(room.getCurrentPrice(new Date()));
                 bookDetail.setCheckin(request.getCheckin());
                 bookDetail.setCheckout(request.getCheckout());
 
                 long differenceInMillis = request.getCheckout().getTime() - request.getCheckin().getTime();
-                long daysBetween = differenceInMillis / (1000 * 60 * 60 * 24); 
+                long daysBetween = differenceInMillis / (1000 * 60 * 60 * 24);
                 float calculatedTotal = daysBetween * priceToUse;
                 bookDetail.setTotal(calculatedTotal);
                 bookDetail.setAdult(request.getAdult());
@@ -77,14 +88,39 @@ public class BookingService implements BookingServiceRepository{
                 bookDetail.setPaymentStatus(request.getPaymentStatus());
                 bookDetail.setBookDetailStatus(request.getBookDetailStatus());
                 bookDetailRepository.save(bookDetail);
+
+                // Thêm thông tin phòng vào email
+                emailContent.append("- Phòng: ").append(room.getSophong())
+                    .append(", Giá: ").append(priceToUse)
+                    .append(", Tổng tiền: ").append(calculatedTotal)
+                    .append(", Checkin: ").append(dateFormatter.format(request.getCheckin()))
+                    .append(", Checkout: ").append(dateFormatter.format(request.getCheckout()))
+                    .append("\n");
             } catch (Exception e) {
                 System.out.println("Error saving BookDetail for roomId " + roomId + ": " + e.getMessage());
             }
         }
 
+        emailContent.append("\nCảm ơn bạn đã sử dụng dịch vụ của chúng tôi.\nTrân trọng,\nĐội ngũ khách sạn.");
+
+        // Gửi email
+        try {
+            mailer.sendEmail(
+                user.getEmail(), // Người nhận
+                "", // CC (nếu có)
+                "Thông tin đặt phòng của bạn", // Tiêu đề email
+                emailContent.toString() // Nội dung email
+            );
+            System.out.println("Email đã được gửi thành công.");
+        } catch (Exception e) {
+            System.out.println("Không thể gửi email: " + e.getMessage());
+        }
     }
+
     
     public Book PaybookRoom(BookingRequest request) {
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
         User user = userRepository.findById(request.getUserid())
             .orElseThrow(() -> new RuntimeException("User not found with id " + request.getUserid()));
 
@@ -95,6 +131,13 @@ public class BookingService implements BookingServiceRepository{
         Book savedBook = bookRepository.save(book);
 
         float totalAmount = 0;
+        StringBuilder emailContent = new StringBuilder();
+        emailContent.append("Xin chào ").append(user.getName()).append(",\n\n");
+        emailContent.append("Bạn đã thanh toán bằng chuyển khoản. Chi tiết thanh toán như sau:\n");
+        emailContent.append("Mã đặt phòng: ").append(book.getBookCode()).append("\n");
+        emailContent.append("Ngày tạo: ").append(dateFormatter.format(new Date())).append("\n\n");
+        emailContent.append("Chi tiết phòng:\n");
+
         for (Integer roomId : request.getRoomid()) {
             Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new RuntimeException("Room not found with id " + roomId));
@@ -106,7 +149,6 @@ public class BookingService implements BookingServiceRepository{
             bookDetail.setBookid(savedBook.getId());
             bookDetail.setRoom(room);
             bookDetail.setPrice(priceToUse);
-//            bookDetail.setPrice(room.getCurrentPrice(new Date()));
             bookDetail.setCheckin(request.getCheckin());
             bookDetail.setCheckout(request.getCheckout());
 
@@ -121,10 +163,35 @@ public class BookingService implements BookingServiceRepository{
             bookDetail.setPaymentStatus(request.getPaymentStatus());
 
             bookDetailRepository.save(bookDetail);
+
+            // Thêm thông tin chi tiết phòng vào nội dung email
+            emailContent.append("- Phòng: ").append(room.getSophong())
+                .append(", Giá: ").append(priceToUse)
+                .append(", Tổng tiền: ").append(calculatedTotal)
+                .append(", Checkin: ").append(dateFormatter.format(request.getCheckin()))
+                .append(", Checkout: ").append(dateFormatter.format(request.getCheckout()))
+                .append("\n");
+        }
+
+        emailContent.append("\nTổng thanh toán: ").append(totalAmount).append(" VND\n");
+        emailContent.append("Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.\nTrân trọng,\nĐội ngũ khách sạn.");
+
+        // Gửi email
+        try {
+            mailer.sendEmail(
+                user.getEmail(), // Người nhận
+                "", // CC (nếu có)
+                "Xác nhận thanh toán đặt phòng", // Tiêu đề email
+                emailContent.toString() // Nội dung email
+            );
+            System.out.println("Email đã được gửi thành công.");
+        } catch (Exception e) {
+            System.out.println("Không thể gửi email: " + e.getMessage());
         }
 
         return savedBook;
     }
+
 //    public BookingResponse bookRoom(BookingRequest request) {
 //        User user = userRepository.findById(request.getUserid())
 //            .orElseThrow(() -> new RuntimeException("User not found with id " + request.getUserid()));
