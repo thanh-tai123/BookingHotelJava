@@ -268,7 +268,10 @@ public class RoomController {
 	}
 
 
-
+	@GetMapping("/profile")
+	public String roomProfile() {
+		return "profile";
+	}
 
 
 
