@@ -46,7 +46,7 @@ public class BookingController {
     public ResponseEntity<?> bookRoom(@RequestBody BookingRequest request) {
         bookingService.bookRoom(request);
       
-        return ResponseEntity.ok("Room booked successfully");
+        return ResponseEntity.ok("Đặt phòng thành công! Hãy kiểm tra Email");
     }
 //    @PostMapping("/book-room")
 //    public ResponseEntity<BookingResponse> bookRoom(@RequestBody BookingRequest request) {

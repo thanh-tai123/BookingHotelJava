@@ -230,18 +230,13 @@ public class RoomService implements RoomServiceRepository{
         return null;
     }
     public List<RoomDTO> getAvailableRooms(Date checkin, Date checkout, RoomStatus status) {
-        // Tìm các booking có xung đột với checkin và checkout
-        List<BookDetail> conflictingBookings = bookDetailRepository.findAllByCheckinLessThanEqualAndCheckoutGreaterThanEqual(checkout, checkin);
-
-        // Lấy danh sách các phòng bận
+    	List<BookDetail> conflictingBookings = bookDetailRepository.findAllByCheckoutGreaterThanEqualAndCheckinLessThan(checkin, checkout);
         List<Integer> busyRoomIds = conflictingBookings.stream()
                 .map(bookDetail -> bookDetail.getRoom().getId())
                 .collect(Collectors.toList());
 
-        // Lọc các phòng trống
         List<Room> availableRooms = roomRepository.findAvailableRoomsExcludingIds(busyRoomIds, status);
 
-        // Chuyển đổi sang RoomDTO
         return availableRooms.stream()
                 .map(room -> RoomDTO.builder()
                         .id(room.getId())
@@ -253,13 +248,11 @@ public class RoomService implements RoomServiceRepository{
                         .mota(room.getMota())
                         .status(room.getStatus())
                         .note(room.getNote())
-                        // Thêm thông tin khách sạn
                         .hotelid(HotelDTO.builder()
                                 .id(room.getHotel().getId())
                                 .chinhanh(room.getHotel().getChinhanh())
                                 .diachi(room.getHotel().getDiachi())
                                 .build())
-                        // Thêm thông tin loại phòng
                         .roomType(RoomTypeDTO.builder()
                                 .id(room.getRoomtype().getId())
                                 .name(room.getRoomtype().getName())
@@ -268,6 +261,8 @@ public class RoomService implements RoomServiceRepository{
                         .build())
                 .collect(Collectors.toList());
     }
+
+
     public List<Room> findByRoomType(String roomtype) {
         return roomRepository.findByRoomtype_Name(roomtype);
     }
