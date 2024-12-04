@@ -24,6 +24,9 @@ import com.poly.util._enum.RoomStatus;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -85,16 +88,16 @@ public class AdminController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping("/{id}")
     public String detail(@PathVariable int id, Model model) {
-    	  Room room = roomRepo.findById(id)
-  	            .orElseThrow(() -> new IllegalArgumentException("Invalid room Id:" + id));
-  	  
-  	    List<RoomTypeByService> services = room.getRoomtype().getServices();
-  	  
-  	    List<RoomImages> roomImg = room.getRoomImages();
-  	   
-  	    model.addAttribute("room", room);
-  	    model.addAttribute("services", services);
-  	    model.addAttribute("roomImgs", roomImg);
+        Room room = roomRepo.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid room Id:" + id));
+
+        List<RoomTypeByService> services = room.getRoomtype().getServices();
+
+        List<RoomImages> roomImg = room.getRoomImages();
+
+        model.addAttribute("room", room);
+        model.addAttribute("services", services);
+        model.addAttribute("roomImgs", roomImg);
         return "admin/roomdetail";
     }
 
@@ -140,34 +143,81 @@ public class AdminController {
     }
 
 
+//    @PreAuthorize("hasAuthority('ADMIN')")
+//    @GetMapping("")
+//    public String getUsers(Model model) {
+//        // Giả sử bạn có danh sách người dùng từ service
+//        List<User> users = userService.getAllUsers();
+//
+//        // Tính tổng số người dùng
+//        int totalUsers = users.size();
+//
+//        // Tính số tài khoản Google và Local
+//        long googleAccounts = users.stream().filter(u -> u.getAuthType() == AuthTypeEnum.GOOGLE).count();
+//        long localAccounts = users.stream().filter(u -> u.getAuthType() == AuthTypeEnum.LOCAL).count();
+//
+//        // Tính số vai trò (tính duy nhất)
+//        Set<String> roles = users.stream()
+//                                 .flatMap(u -> Arrays.stream(u.getRoleString().split(", ")))
+//                                 .collect(Collectors.toSet());
+//
+//        // Gửi dữ liệu sang giao diện
+//        model.addAttribute("users", users);
+//        model.addAttribute("totalUsers", totalUsers);
+//        model.addAttribute("googleAccounts", googleAccounts);
+//        model.addAttribute("localAccounts", localAccounts);
+//        model.addAttribute("totalRoles", roles.size());
+//
+//        return "admin/index";
+//    }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @RequestMapping("")
-    public String getUsers(Model model) {
-        // Giả sử bạn có danh sách người dùng từ service
-        List<User> users = userService.getAllUsers();
+    @GetMapping("")
+    public String getUsers(@RequestParam(value = "page", defaultValue = "0") int page, Model model) {
+        // Tạo Pageable với số trang và kích thước trang
+        Pageable pageable = PageRequest.of(page, 10); // 10 là số người dùng mỗi trang
 
-        // Tính tổng số người dùng
-        int totalUsers = users.size();
+        // Lấy danh sách người dùng phân trang
+        Page<User> usersPage = userRepo.findAll(pageable);
 
-        // Tính số tài khoản Google và Local
-        long googleAccounts = users.stream().filter(u -> u.getAuthType() == AuthTypeEnum.GOOGLE).count();
-        long localAccounts = users.stream().filter(u -> u.getAuthType() == AuthTypeEnum.LOCAL).count();
+        // Thống kê số lượng người dùng
+        model.addAttribute("googleAccounts", usersPage.getContent().stream().filter(u -> u.getAuthType() == AuthTypeEnum.GOOGLE).count());
+        model.addAttribute("localAccounts", usersPage.getContent().stream().filter(u -> u.getAuthType() == AuthTypeEnum.LOCAL).count());
 
-        // Tính số vai trò (tính duy nhất)
-        Set<String> roles = users.stream()
-                                 .flatMap(u -> Arrays.stream(u.getRoleString().split(", ")))
-                                 .collect(Collectors.toSet());
-
-        // Gửi dữ liệu sang giao diện
-        model.addAttribute("users", users);
-        model.addAttribute("totalUsers", totalUsers);
-        model.addAttribute("googleAccounts", googleAccounts);
-        model.addAttribute("localAccounts", localAccounts);
+        // Tính tổng số vai trò
+        Set<String> roles = usersPage.getContent().stream()
+                .flatMap(u -> Arrays.stream(u.getRoleString().split(", ")))
+                .collect(Collectors.toSet());
         model.addAttribute("totalRoles", roles.size());
+
+        model.addAttribute("txtemail", "");
+
+        // Thêm thông tin phân trang vào model
+        model.addAttribute("users", usersPage.getContent());
+        model.addAttribute("totalUsers", usersPage.getTotalElements());
+        model.addAttribute("totalPages", usersPage.getTotalPages());
+        model.addAttribute("currentPage", page);
 
         return "admin/index";
     }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/user-search-email")
+    public String searchUserByEmail(@RequestParam("email") String email, Model model) {
+        // Tìm kiếm user theo email
+        List<User> users = userRepo.findByEmailContainingIgnoreCase(email);
+
+        // Kiểm tra danh sách user
+        if (users.isEmpty()) {
+            model.addAttribute("message", "Không tìm thấy người dùng với email: " + email);
+        }
+        model.addAttribute("txtemail", email);
+
+        // Gửi dữ liệu sang giao diện
+        model.addAttribute("users", users);
+        return "admin/index"; // Tùy thuộc vào tên template bạn sử dụng
+    }
+
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping("/edit/{id}")
@@ -277,23 +327,26 @@ public class AdminController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping("/userbybook")
     public String userbybook() {
-       return "dashboard/userbybook";
+        return "dashboard/userbybook";
     }
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping("/compare")
     public String compare() {
-       return "dashboard/compare";
+        return "dashboard/compare";
     }
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping("/branch")
     public String branch() {
-       return "dashboard/branch";
+        return "dashboard/branch";
     }
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping("/search/room-per-branch")
     public String RoomPerBranch() {
-       return "dashboard/tableroomperbranch";
+        return "dashboard/tableroomperbranch";
     }
-    
-   
+
+
 }
