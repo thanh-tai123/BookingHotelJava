@@ -91,7 +91,7 @@
             <a th:href="@{/supplier}">Trang Staff</a>
         </td>
         <th:block th:if="${user.image != null}">
-            <td><img th:src="${user.image}" alt="Embedded Image" width="100" height="100"></td>
+            <td><img th:src="${user.image}" alt="Embedded Image" style="width:100px; height:100px"></td>
         </th:block>
         <th:block th:unless="${user.image != null}">
             <td><i class="fa-solid fa-user fa-2xl"></i></td>

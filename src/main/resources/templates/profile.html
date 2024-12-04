@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" >
 
 <head>
   <meta charset="UTF-8">
@@ -8,21 +8,23 @@
   <title>3D Responsive Touch Slider</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.2/css/swiper.min.css">
   <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
-
+ <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
 </head>
 
 <body>
 <!-- Video Background -->
 <video autoplay loop muted playsinline id="live-wallpaper">
-  <source src="hotel2.mp4" type="video/mp4">
+  <source th:src="@{/video/hotel2.mp4}" type="video/mp4">
   Your browser does not support the video tag.
 </video>
+
+
 
 <div class="swiper-container">
   <div class="swiper-wrapper">
     <div class="swiper-slide">
       <div class="imgBx">
-        <img src="https://lavelasaigon.com/wp-content/uploads/2024/05/DSC00485-560x660.png" alt="">
+        <img src="https://hotel-img-asm.s3.amazonaws.com/TAI.jpg" alt="">
       </div>
       <div class="details">
         <h3>Nguyễn Thành Tài<br>
@@ -43,7 +45,7 @@
 
     <div class="swiper-slide">
       <div class="imgBx">
-        <img src="https://github.com/Dev-Jeromebaek/awesome-web-styling/blob/master/slider/3d-responsive-touch-slider/image/img2.jpg" alt="">
+        <img src="https://hotel-img-asm.s3.amazonaws.com/THU.jpg" alt="">
       </div>
       <div class="details">
         <h3>Phan Hoàng Anh Thư<br> <span class="view-detail"
@@ -60,7 +62,7 @@
     </div>
     <div class="swiper-slide">
       <div class="imgBx">
-        <img src="https://github.com/Dev-Jeromebaek/awesome-web-styling/blob/master/slider/3d-responsive-touch-slider/image/img3.jpg" alt="">
+        <img src="https://hotel-img-asm.s3.amazonaws.com/TAN.jpg" alt="">
       </div>
       <div class="details">
         <h3>Nguyễn Nhựt Tân<br><span class="view-detail"
@@ -77,7 +79,7 @@
     </div>
     <div class="swiper-slide">
       <div class="imgBx">
-        <img src="./image/img4.jpg" alt="">
+        <img src="https://hotel-img-asm.s3.amazonaws.com/QDUY.jpg" alt="">
       </div>
       <div class="details">
         <h3>Đinh Quốc Duy<br><span class="view-detail"
@@ -94,7 +96,7 @@
     </div>
     <div class="swiper-slide">
       <div class="imgBx">
-        <img src="./image/img5.jpg" alt="">
+        <img src="https://hotel-img-asm.s3.amazonaws.com/VY.jpg" alt="">
       </div>
       <div class="details">
         <h3>Trịnh Tuấn Vỹ<br><span class="view-detail"
@@ -111,7 +113,7 @@
     </div>
     <div class="swiper-slide">
       <div class="imgBx">
-        <img src="./image/img6.jpg" alt="">
+        <img src="https://hotel-img-asm.s3.amazonaws.com/KIEN.jpg" alt="">
       </div>
       <div class="details">
         <h3>Lê Nguyễn Trung Kiên<br><span class="view-detail"
@@ -128,7 +130,7 @@
     </div>
     <div class="swiper-slide">
       <div class="imgBx">
-        <img src="./image/img7.jpg" alt="">
+        <img src="https://hotel-img-asm.s3.amazonaws.com/NDUY.jpg" alt="">
       </div>
       <div class="details">
         <h3>Trần Nhật Duy<br><span class="view-detail"
