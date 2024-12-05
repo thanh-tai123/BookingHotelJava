@@ -3,7 +3,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>XÁC THỰC TÀI KHOẢN</title>
+<title>XÃC THá»°C TÃI KHOáº¢N</title>
  <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
 </head>
 <style>  body, html {
@@ -125,7 +125,7 @@ img{width: 300px;
                 <form th:action="@{/account/verify-account}" method="post">
 
                     <label for="email" class="form-label" th:text="#{forgotPassword.EmailAddress}"></label>
-                    <input type="text" name="email" th:value="${email}">
+                    <input type="text" name="email" th:value="${email}" readonly>
 
                     <label >OTP:</label>
                     <input input type="text" name="otp">
@@ -134,7 +134,7 @@ img{width: 300px;
 
 
 
-                    <button type="submit" class="btn-login"  >Verify</button>
+                    <button type="submit" class="btn-login"  >XÁC THỰC</button>
 
                 </form>
                  </div>

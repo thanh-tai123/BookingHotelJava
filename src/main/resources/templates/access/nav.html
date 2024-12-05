@@ -474,13 +474,14 @@
                                th:text="#{navbar.phong_va_suites}"></a></li>
                     </ul>
                 </li>
+                                 <li class="nav-item">
+                    <a class="nav-link" th:href="@{/room/restaurant}" th:text="#{navbar.nhahang}">TRA CỨU
+                        NHA</a>
+                </li>
+                
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/search/bookcode}" th:text="#{navbar.tra_cuu_phong}">TRA CỨU
                         PHÒNG</a>
-                </li>
-                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/room/restaurant}" th:text="#{navbar.nhahang}">TRA CỨU
-                        NHA</a>
                 </li>
                 <li class="nav-item" th:if="${session.userRoles != null && session.userRoles.contains('ADMIN')}">
                     <a class="nav-link" th:text="'ADMIN'"  th:href="@{/admin}">ADMIN</a>
