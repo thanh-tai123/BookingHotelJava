@@ -213,10 +213,25 @@ public class AdminController {
         }
         model.addAttribute("txtemail", email);
 
-        // Gửi dữ liệu sang giao diện
+        // Đặt giá trị phân trang tạm thời (vì tìm kiếm không cần phân trang)
         model.addAttribute("users", users);
-        return "admin/index"; // Tùy thuộc vào tên template bạn sử dụng
+        model.addAttribute("totalUsers", users.size());
+        model.addAttribute("totalPages", 1); // Chỉ 1 trang kết quả
+        model.addAttribute("currentPage", 0); // Trang đầu tiên
+
+        // Thống kê số lượng loại tài khoản
+        model.addAttribute("googleAccounts", users.stream().filter(u -> u.getAuthType() == AuthTypeEnum.GOOGLE).count());
+        model.addAttribute("localAccounts", users.stream().filter(u -> u.getAuthType() == AuthTypeEnum.LOCAL).count());
+
+        // Tính tổng số vai trò
+        Set<String> roles = users.stream()
+                .flatMap(u -> Arrays.stream(u.getRoleString().split(", ")))
+                .collect(Collectors.toSet());
+        model.addAttribute("totalRoles", roles.size());
+
+        return "admin/index";
     }
+
 
 
     @PreAuthorize("hasAuthority('ADMIN')")

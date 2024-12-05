@@ -32,11 +32,12 @@ public class UserRootService implements UserDetailsService {
 	        throw new UsernameNotFoundException("User account is not activated: " + email);
 	    }
 	    HttpSession session = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getSession();
+        session.setAttribute("userName", user.getName());
         session.setAttribute("userEmail", user.getEmail());
-        
         String roles = user.getRoles().stream()
                 .map(Role::getName) // Assuming Role class has a getName method
                 .collect(Collectors.joining(","));
+        
             session.setAttribute("userRoles", roles);
             session.setAttribute("userImage", user.getImage());
 	    return UserRoot.create(user); // Giả sử UserRoot.create trả về UserDetails

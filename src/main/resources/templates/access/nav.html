@@ -24,6 +24,7 @@
             width: 100%;
             z-index: 1000;
             height: 110px;
+           
         }
 
         .navbar.scrolled {
@@ -477,14 +478,19 @@
                     <a class="nav-link" th:href="@{/search/bookcode}" th:text="#{navbar.tra_cuu_phong}">TRA CỨU
                         PHÒNG</a>
                 </li>
+                 <li class="nav-item">
+                    <a class="nav-link" th:href="@{/room/restaurant}" th:text="#{navbar.nhahang}">TRA CỨU
+                        NHA</a>
+                </li>
                 <li class="nav-item" th:if="${session.userRoles != null && session.userRoles.contains('ADMIN')}">
                     <a class="nav-link" th:text="'ADMIN'"  th:href="@{/admin}">ADMIN</a>
                 </li>
                 <li class="nav-item dropdown" th:if="${session.userEmail != null}">
                     <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <img class="user-image" th:src="@{${session.userImage}}" />
-                        <span th:text="${session.userEmail}">Email</span>
+                      <!--   <img class="user-image" th:src="@{${session.userImage}}" /> -->
+                      
+                        <span th:text="${session.userName}">Email</span>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li>
@@ -538,7 +544,7 @@
                 <img src="https://images.squarespace-cdn.com/content/v1/5aadf482aa49a1d810879b88/1626698419120-J7CH9BPMB2YI728SLFPN/1.jpg" alt="Hotel Lobby 2">
             </div>
             <div class="slide">
-                <img src="https://lavelasaigon.com/wp-content/uploads/2022/10/aaron-huber-oMOx_wV6mLQ-unsplash-1.png" alt="Hotel Lobby 3">
+                <img src="https://lavelasaigon.com/wp-content/uploads/2022/10/4-1.png" alt="Hotel Lobby 3">
             </div>
             <div class="slide">
                 <img src="https://lavelasaigon.com/wp-content/uploads/2022/10/banner-offers.png" alt="Hotel Lobby 3">

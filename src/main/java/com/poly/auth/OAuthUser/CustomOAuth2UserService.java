@@ -60,8 +60,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .build());
         }
         HttpSession session = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getSession();
+        session.setAttribute("userName", user.getName());
         session.setAttribute("userEmail", user.getEmail());
-        
         String roles = user.getRoles().stream()
                 .map(Role::getName) // Assuming Role class has a getName method
                 .collect(Collectors.joining(","));

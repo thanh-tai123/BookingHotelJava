@@ -541,8 +541,8 @@
                 <li class="nav-item dropdown" th:if="${session.userEmail != null}">
                     <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <img class="user-image" th:src="@{${session.userImage}}" />
-                        <span th:text="${session.userEmail}">Email</span>
+                       <!--  <img class="user-image" th:src="@{${session.userImage}}" /> -->
+                        <span th:text="${session.userName}">Email</span>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li>

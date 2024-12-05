@@ -464,7 +464,7 @@
         <div class="col-md-4">
             <div class="login-container">
                 <section>
-                    <h2 class="text" id="text">Đăng nhập</h2>
+                    <h2 class="text" id="text" th:text=#{login.signIn}>Đăng nhập</h2>
                 </section>
 
                 <script>
@@ -502,43 +502,43 @@
 
                 <form action="/account/login-check" method="post">
                     <div class="mb-3">
-                        <label for="email" class="form-label">Tên đăng nhập</label>
+                        <label for="email" class="form-label" th:text=#{login.username}>Tên đăng nhập</label>
                         <input type="text" class="form-control" name="email" required>
                     </div>
                     <div class="mb-3">
-                        <label for="password" class="form-label">Mật khẩu</label>
+                        <label for="password" class="form-label" th:text=#{login.passWord}>Mật khẩu</label>
                         <input type="password" class="form-control" name="password" required>
 
                     </div>
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="remember-me">
-                            <label class="form-check-label" for="remember-me">Ghi nhớ</label>
+                            <input class="form-check-input" type="checkbox" id="remember-me" >
+                            <label class="form-check-label" for="remember-me" th:text=#{login.remember}>Ghi nhớ</label>
                         </div>
-                        <a href="/account/forgot-password" class="forgot-password">Quên mật khẩu?</a>
+                        <a href="/account/forgot-password" class="forgot-password" th:text=#{login.forgotPassword}>Quên mật khẩu?</a>
                     </div>
 
                     <div class="d-grid">
-                        <input type="submit" class="btn-login" value="Đăng nhập" style="background-color: #c09b5a; margin-left:125px">
+                        <button type="submit" class="btn-login"  style="background-color: #c09b5a; margin-left:125px" th:text=#{login.login}></button>
                     </div>
                     <p>
                   <div th:if="${error}" class="alert alert-danger text-center">
 					    <p th:text="${error}"></p>
 					</div>
                     <div class="text-center mt-3">
-                        <p>Hoặc đăng nhập bằng</p>
+                        <p th:text=#{login.orLogInBy}>Hoặc đăng nhập bằng</p>
                         <div class="d-flex justify-content-center mt-3">
-                            <a href="/oauth2/authorization/google" class="btn-google">
+                            <a href="/oauth2/authorization/google" class="btn-google" th:text=#{login.signInWithGoogle}>
                                 <i class="fab fa-google"></i> Đăng nhập bằng Google
                             </a>
                         </div>
                     </div>
                     <div class="text-start mt-4" style="margin-left:135px">
-                        <span>Bạn chưa có tài khoản?</span>
-                        <a href="/account/register">Đăng ký</a>
+                        <span th:text=#{login.YouDontHaveAccount}>Bạn chưa có tài khoản?</span>
+                        <a href="/account/register" th:text=#{login.register}>Đăng ký</a>
                     </div>
                     <div class="text-center mt-2">
-                        <a href="/account/regenerate-otp">Xác thực tài khoản</a>
+                        <a href="/account/regenerate-otp" th:text="#{login.veryfi}">Xác thực tài khoản</a>
                     </div>
                 </form>
             </div>

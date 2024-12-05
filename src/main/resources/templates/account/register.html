@@ -329,7 +329,7 @@
         <!-- Đăng kí Form -->
         <div class="col-md-4">
             <div class="login-container">
-                <h2 class="bounce-effect" style="margin-left: 40%">Đăng kí</h2>
+                <h2 class="bounce-effect" style="margin-left: 36%" th:text=#{register.register}> Đăng kí</h2>
                 <form th:action="@{/account/handle-register}" method="post">
                     <div class="mb-3">
                         <label for="name" th:text="#{register.username}"></label>
@@ -346,10 +346,10 @@
                         <div id="passwordStrengthBar" style="height: 5px; background-color: lightgray; margin-top: 5px; border-radius: 5px; overflow: hidden;">
                             <div id="passwordStrengthIndicator" style="height: 100%; width: 0%; background-color: red; transition: width 0.3s ease;"></div>
                         </div>
-
+                        <small id="passwordStrengthText" class="form-text" style="color: white;"></small>
                     </div>
                     <div class="mb-3">
-                        <label for="confirmPassword">XÁC NHẬN MẬT KHẨU</label>
+                        <label for="confirmPassword" th:text="#{register.confirmpass}">XÁC NHẬN MẬT KHẨU</label>
                         <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
                         <span id="confirmPasswordMessage" style="display: none; color: red;"></span> <!-- Thông báo lỗi -->
                     </div>
@@ -360,12 +360,16 @@
                         <label for="phone" th:text="#{register.phone}"></label>
                         <input type="text" class="form-control" name="phone" required>
                     </div>
-                  
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="remember-me">
+                            <label class="form-check-label" for="remember-me" th:text="#{login.remember}"></label>
+                        </div>
+                    </div>
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary btn-login" style="color: white"  th:text="#{register.register}" ></button>
                     </div>
-                    <p>
-                        <div th:if="${errorMessage}" class="alert alert-danger text-center">
+                    <div th:if="${errorMessage}" class="alert alert-danger text-center">
 						    <p th:text="${errorMessage}"></p>
 						</div>
                     <div class="text-center mt-3" style="color: white">
@@ -510,4 +514,3 @@
 </div>
 </body>
 </html>
-

@@ -222,7 +222,7 @@
 <div class="content">
     <div class="table-container">
         <label>THÔNG TIN NGƯỜI DÙNG</label>
-        <form th:action="@{admin/user-search-email}" method="get" class="search-form">
+        <form th:action="@{/admin/user-search-email}" method="get" class="search-form">
             <input type="text" name="email" placeholder="Nhập email người dùng" class="search-input"/>
             <button type="submit" class="search-button">Tìm kiếm</button>
         </form>
@@ -298,7 +298,7 @@
         <p><strong>Tổng số người dùng:</strong> <span th:text="${totalUsers}"></span></p>
         <p><strong>Số tài khoản Google:</strong> <span th:text="${googleAccounts}"></span></p>
         <p><strong>Số tài khoản Local:</strong> <span th:text="${localAccounts}"></span></p>
-        <p><strong>Tổng số vai trò:</strong> <span th:text="${roles}"></span></p>
+        <p><strong>Tổng số vai trò:</strong> <span th:text="${totalRoles}"></span></p>
     </div>
 </div>
 

@@ -470,11 +470,11 @@
             <span th:text="${comment.adminResponse}"></span></p>
                   
                     <div >
-                <form th:action="@{/comments/delete/{id}(id=${comment.id})}" method="post" style="display:inline;">
+                <form th:action="@{/comments/delete/{id}(id=${comment.id})}" method="post" style="display:inline;" th:if="${session.userRoles != null && session.userRoles.contains('ADMIN')}">
                   <input type="hidden" name="roomId" th:value="${room.id}" />
                     <button type="submit" class="btn btn-danger" style="background-color: #FF0000" >XÓA</button>
                 </form>
-                <form th:action="@{/comments/respond}" method="post" style="display:inline;">
+                <form th:action="@{/comments/respond}" method="post" style="display:inline;" th:if="${session.userRoles != null && (session.userRoles.contains('ADMIN') or session.userRoles.contains('STAFF'))}">
                   <input type="hidden" name="roomId" th:value="${room.id}" />
                     <input type="hidden" name="commentId" th:value="${comment.id}" />
                     <textarea name="adminResponse" placeholder="HÃY PHẢN HỒI KHÁCH HÀNG..."></textarea>
