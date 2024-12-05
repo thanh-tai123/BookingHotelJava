@@ -83,7 +83,33 @@ public class EmailController {
 	            return "<h1>Không thể gửi mail: " + e.getMessage() + "</h1>";
 	        }
 	    }
+	 @ResponseBody
+	  @PostMapping("/share")
+	    public String shareRoom(@RequestParam String email,
+	                            @RequestParam String message,
+	                            @RequestParam String roomCode,
+	                            @RequestParam String roomId,
+	                            @RequestParam String senderToFriend,
+	                            Model model) {
+	        try {
+	            // Nội dung email
+	            String subject = "Thông tin phòng: " + roomCode;
+	            String body = "Thông tin phòng: " + roomCode + "\n" + message +"\n" +"Link website http://polyhotelbooking.online/room/"
+	            + roomId + "\n" + "\n"+"Người gửi: "+senderToFriend;
 
+	            // Gửi email
+	            mailer.sendEmailToFriend(email, subject, body);
+
+	            // Gửi thông báo thành công
+	            model.addAttribute("successMessage", "Email đã được gửi thành công!");
+	            return getSuccessResponse();
+	        } catch (Exception e) {
+	            // Gửi thông báo lỗi
+	            model.addAttribute("errorMessage", "Đã xảy ra lỗi khi gửi email: " + e.getMessage());
+	            return "<h1>Không thể gửi mail: " + e.getMessage() + "</h1>";
+	        }
+	         // Tên template Thymeleaf của trang hiện tại
+	    }
 	    private String getSuccessResponse() {
 	        return "<h1>Mail của bạn đã được gửi đi</h1>" +
 	                "<p>Chuyển hướng trong 3 giây...</p>" +

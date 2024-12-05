@@ -448,7 +448,22 @@ header h2 {
   .chatbot header span {
     display: block;
   }
-}
+  }
+#loadingIndicator {
+        display: none; /* Ẩn mặc định */
+        background-color: #f9f4e6; /* Nền nhẹ để nổi bật */
+        color: #c09b5a; /* Màu chữ */
+        border: 1px solid #c09b5a; /* Đường viền cùng màu */
+        padding: 20px; /* Khoảng cách bên trong */
+        border-radius: 5px; /* Bo góc */
+        text-align: center; /* Căn giữa nội dung */
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+        position: fixed; /* Đặt cố định trên màn hình */
+        top: 50%; /* Căn giữa theo chiều dọc */
+        left: 50%; /* Căn giữa theo chiều ngang */
+        transform: translate(-50%, -50%); /* Điều chỉnh vị trí */
+        z-index: 1000; /* Đảm bảo hiển thị trên các phần tử khác */
+    }
     </style>
 </head>
 <div th:replace="~{access/nav1 :: html}"></div>
@@ -511,7 +526,8 @@ header h2 {
                 <div class="row">
                     <li ng-repeat="room in availableRooms" class="room-item col-md-6 mb-4">
                         <div class="room-box d-flex align-items-center">
-    <img ng-src="{{room.img}}" class="room-image" alt="Room Image" style="height:210px; width:210px">
+                       
+    <img ng-src="{{room.img}}" class="room-image" alt="Room Image" style="height:210px; width:210px" >
     <div class="room-info d-flex flex-grow-1 align-items-center">
         <p><strong>MÃ PHÒNG:</strong> {{room.roomCode}}</p>
         <p><strong>SỐ PHÒNG:</strong> {{room.sophong}}</p>
@@ -551,7 +567,11 @@ header h2 {
             <p><strong>SỐ NGÀY </strong> {{stayDuration}} days</p>
         </div>
         <button ng-click="bookRoom()" class="book-button">Book</button>
-
+		<div id="loadingIndicator" style="display: none;">
+    <p>Đang xử lý, vui lòng đợi...</p>
+    <p>Chúng tôi đang gửi mail thông tin đặt phòng cho bạn</p>
+    <!-- You can add a spinner or any other visual indicator here -->
+</div>
         <!-- List of Booked Dates -->
         <h2>LỊCH ĐÃ ĐẶT TRƯỚC </h2>
         <div class="row">
@@ -582,6 +602,8 @@ header h2 {
         </div>
 
     </div>
+    
+    
 </div>
 <script>
 
@@ -780,9 +802,13 @@ header h2 {
             // Function to book room
             $scope.bookRoom = function() {
                 // Validate booking dates
-                if (!$scope.validateBookingDates($scope.booking.checkin, $scope.booking.checkout)) {
-                    return;
-                }
+                document.getElementById("loadingIndicator").style.display = "block";
+
+    // Validate booking dates
+    if (!$scope.validateBookingDates($scope.booking.checkin, $scope.booking.checkout)) {
+        document.getElementById("loadingIndicator").style.display = "none"; // Hide loading if validation fails
+        return;
+    }
 
                 // Check if any rooms are selected
                 if ($scope.selectedRooms.length === 0) {

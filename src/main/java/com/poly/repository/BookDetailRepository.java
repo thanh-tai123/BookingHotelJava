@@ -29,8 +29,12 @@ public interface BookDetailRepository extends JpaRepository<BookDetail, Integer>
 	    @Query("SELECT bd FROM BookDetail bd JOIN FETCH bd.room WHERE bd.room = :room")
 	    List<BookDetail> findByRoom(@Param("room") Room room);
 
-	    List<BookDetail> findAllByCheckinLessThanEqualAndCheckoutGreaterThanEqual(Date checkout, Date checkin);
-	    
+//	    @Query("SELECT b FROM BookDetail b WHERE b.checkout >= :checkin AND b.checkin < :checkout")
+//	    List<BookDetail> findAllByCheckoutGreaterThanEqualAndCheckinLessThan(@Param("checkin") Date checkin, @Param("checkout") Date checkout);
+	    @Query("SELECT b FROM BookDetail b WHERE b.checkout > :checkin AND b.checkin < :checkout")
+	    List<BookDetail> findAllConflictingBookings(@Param("checkin") Date checkin, @Param("checkout") Date checkout);
+
+
 	    @Query("SELECT b.user.email, COUNT(bd.id) " +
 	            "FROM BookDetail bd " +
 	            "JOIN bd.book b " +

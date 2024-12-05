@@ -12,4 +12,5 @@ public interface MailerService {
 	void queue(MailInfo mail);
 	void queue(String to, String subject, String body);
 	void sendEmail(String to, String cc, String subject, String body);
+	void sendEmailToFriend(String toEmail, String subject, String body);
 }

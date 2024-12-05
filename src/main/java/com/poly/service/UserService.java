@@ -38,7 +38,7 @@ public class UserService implements UserServiceRepository{
    
     public String getUserEmailById(Long userId) {
         User user = userRepository.findById(userId)
-            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+            .orElseThrow(() -> new IllegalArgumentException("KHÔNG TÌM THẤY NGƯỜI DÙNG"));
         return user.getEmail();
     }
 
@@ -47,11 +47,14 @@ public class UserService implements UserServiceRepository{
 		  return userRepository.findById(id);
 	}
 	  public String register(RegisterDto registerDto) {
+		  if (userRepository.findByEmail(registerDto.getEmail()).isPresent()) {
+		        throw new IllegalArgumentException("EMAIL NÀY ĐÃ TỒN TẠI. VUI LÒNG CHỌN EMAIL KHÁC.");
+		    }
 		    String otp = otpUtil.generateOtp();
 		    try {
 		      emailUtil.sendOtpEmail(registerDto.getEmail(), otp);
 		    } catch (MessagingException e) {
-		      throw new RuntimeException("Unable to send otp please try again");
+		      throw new RuntimeException("KHÔNG THỂ GỬI OTP, HÃY THỬ LẠI");
 		    }
 		    User Account = new User();
 		    Account.generateUserCode();
@@ -63,45 +66,45 @@ public class UserService implements UserServiceRepository{
 		    Account.setOtp(otp);
 		    Account.setOtpGeneratedTime(LocalDateTime.now());
 		    userRepository.save(Account);
-		    return "Account registration successful";
+		    return "ĐĂNG KÍ THÀNH CÔNG";
 		  }
 	  public String verifyAccount(String email, String otp) {
 		    User Account =userRepository.findByEmail(email)
-		        .orElseThrow(() -> new RuntimeException("Account not found with this email: " + email));
+		        .orElseThrow(() -> new RuntimeException("KHÔNG TÌM THẤY TÀI KHOẢN VỚI : " + email));
 		    if (Account.getOtp().equals(otp) && Duration.between(Account.getOtpGeneratedTime(),
 		        LocalDateTime.now()).getSeconds() < (1 * 180)) {
 		      Account.setActivated(true);
 		      userRepository.save(Account);
-		      return "OTP verified you can <a href=\"/account/login\">login</a>";
+		      return "OTP CÓ THỂ XÁC THỰC <a href=\"/account/login\">login</a>";
 		    }
-		    return "Please regenerate otp and try again" ;
+		    return "OTP ĐÃ HẾT HẠN, HÃY VÀO TRANG ĐĂNG NHẬP VÀ CHỌN XÁC THỰC TÀI KHOẢN ĐỂ TẠO OTP MỚI" ;
 		  }
 	  public String regenerateOtp(String email) {
 		    User Account = userRepository.findByEmail(email)
-		        .orElseThrow(() -> new RuntimeException("Account not found with this email: " + email));
+		        .orElseThrow(() -> new RuntimeException("KHÔNG TÌM THẤY TÀI KHOẢN VỚI: " + email));
 		    String otp = otpUtil.generateOtp();
 		    try {
 		      emailUtil.sendOtpEmail(email, otp);
 		    } catch (MessagingException e) {
-		      throw new RuntimeException("Unable to send otp please try again");
+		      throw new RuntimeException("KHÔNG THỂ GỬI OTP, HÃY THỬ LẠI");
 		    }
 		    Account.setOtp(otp);
 		    Account.setOtpGeneratedTime(LocalDateTime.now());
 		    userRepository.save(Account);
-		    return "Email sent... please verify account within 3 minute <a href=\"/account/login\">login</a>";
+		    return "EMAIL ĐÃ ĐƯỢC GỬI... XIN VUI LÒNG VÀO EMAIL ĐỂ XÁC THỰC <a href=\"/account/login\">login</a>";
 		  }
 	  
 	  
 	  public String forgotPassword(String email) {
 			User Account = userRepository.findByEmail(email)
 					.orElseThrow(
-							()-> new RuntimeException("Account not found with this email: "+email));
+							()-> new RuntimeException("KHÔNG TÌM THẤY TÀI KHOẢN VỚI: "+email));
 					try {
 						emailUtil.sendSetPasswordEmail(email);
 					} catch (Exception e) {
-					throw new RuntimeException("Unable to send password");
+					throw new RuntimeException("KHÔNG THỂ GỬI EMAIL");
 					}
-					return "Please check your email to set new password" + "return <a href=\"/account/login\">login</a>";
+					return "VUI LÒNG KIỂM TRA EMAIL ĐỂ TẠO LẠI MẬT KHẨU" + "return <a href=\"/account/login\">login</a>";
 		}
 		public String setPassword(String email, String newPassword) {
 			User Account =userRepository.findByEmail(email)
@@ -109,7 +112,7 @@ public class UserService implements UserServiceRepository{
 							()-> new RuntimeException("Account not found with this email: "+email));
 					Account.setPassword(passwordEncoder.encode(newPassword));
 					userRepository.save(Account);
-					return "New Passoword is successfully" + "return <a href=\"/account/login\">login</a>";
+					return "ĐỔI MẬT KHẨU THÀNH CÔNG" + "return <a href=\"/account/login\">login</a>";
 		}
 
 		

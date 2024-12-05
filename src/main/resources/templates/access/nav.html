@@ -439,6 +439,8 @@
         .active {
             background-color: #717171;
         }
+       
+
     </style>
 </head>
 <body>
@@ -475,7 +477,6 @@
                     <a class="nav-link" th:href="@{/search/bookcode}" th:text="#{navbar.tra_cuu_phong}">TRA CỨU
                         PHÒNG</a>
                 </li>
-               
                 <li class="nav-item" th:if="${session.userRoles != null && session.userRoles.contains('ADMIN')}">
                     <a class="nav-link" th:text="'ADMIN'"  th:href="@{/admin}">ADMIN</a>
                 </li>
@@ -526,6 +527,7 @@
         </div>
     </div>
 </nav>
+
 <div class="hero-section">
     <div class="slider">
         <div class="slides">

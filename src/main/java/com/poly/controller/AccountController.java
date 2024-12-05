@@ -156,7 +156,7 @@ public class AccountController {
 
     @RequestMapping("/login/failure")
     public String handleLoginFailure(Model model) {
-        model.addAttribute("error", "Email or password is not true");
+        model.addAttribute("error", "EMAIL VÀ MẬT KHẨU KHÔNG KHỚP");
         return "account/login";
     }
 
@@ -168,9 +168,14 @@ public class AccountController {
 //		return "redirect:login";
 //	}
     @PostMapping("/handle-register")
-    public String register(@ModelAttribute RegisterDto registerDto) {
-        userService.register(registerDto);
-        return "redirect:/account/login"; // Sau khi đăng ký, chuyển hướng người dùng đến trang đăng nhập
+    public String register(@ModelAttribute RegisterDto registerDto, Model model) {
+        try {
+            userService.register(registerDto);
+            return "redirect:/account/login"; // Redirect to login after successful registration
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "account/register"; // Return to the registration page with the error message
+        }
     }
 
     @GetMapping("/verify-account")
@@ -212,9 +217,15 @@ public class AccountController {
 	    	return "account/set-password";
 	    }
 	    @PostMapping("/forgot-password")
-	    public ResponseEntity<String> forgotPassword(@RequestParam String email){
-	    	return new ResponseEntity<>(userService.forgotPassword(email),HttpStatus.OK);
+	    public ResponseEntity<String> forgotPassword(@RequestParam String email) {
+	        try {
+	            String responseMessage = userService.forgotPassword(email);
+	            return new ResponseEntity<>(responseMessage, HttpStatus.OK);
+	        } catch (RuntimeException e) {
+	            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+	        }
 	    }
+
 	    @PostMapping("/set-password")
 	    public ResponseEntity<String> setPassword(@RequestParam String email, @RequestParam String newPassword){
 	    	return new ResponseEntity<>(userService.setPassword(email, newPassword),HttpStatus.OK);

@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +20,7 @@ import com.poly.entity.Comment;
 import com.poly.entity.Room;
 import com.poly.repository.CommentRepository;
 import com.poly.repository.RoomRepository;
+import com.poly.service.CommentService;
 
 @Controller
 @RequestMapping("/comments")
@@ -29,7 +31,8 @@ public class CommentController {
 
     @Autowired
     private CommentRepository commentRepository;
-
+    @Autowired
+    private CommentService commentService;
     @Autowired
     private RoomRepository roomRepository;
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
@@ -48,5 +51,17 @@ public class CommentController {
         comment.setCreatedAt(new Date());
         commentRepository.save(comment);
         return "redirect:/room/" + roomId;
+    }
+    
+    @PostMapping("/delete/{id}")
+    public String deleteComment(@PathVariable int id,@RequestParam int roomId) {
+        commentService.deleteComment(id);
+        return "redirect:/room/" + roomId; // Redirect back to the room details page
+    }
+
+    @PostMapping("/respond")
+    public String respondToComment(@RequestParam int commentId, @RequestParam String adminResponse, @RequestParam int roomId) {
+        commentService.respondToComment(commentId, adminResponse);
+        return "redirect:/room/" +roomId; // Redirect back to the room details page
     }
 }
