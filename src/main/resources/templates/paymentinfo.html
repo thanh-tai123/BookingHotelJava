@@ -1,19 +1,96 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Kết quả thanh toán</title>
+    <title>CỔNG THANH TOÁN</title>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+ <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #c09b5a; /* Màu nền nhẹ hơn */
+            display: flex;
+            justify-content: center; /* Căn giữa theo chiều ngang */
+            align-items: center; /* Căn giữa theo chiều dọc */
+            height: 100vh; /* Chiều cao 100% của viewport */
+        }
+
+        .payment-result {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 10px; /* Bo tròn góc nhiều hơn */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Đổ bóng mạnh hơn */
+            padding: 30px; /* Tăng khoảng cách bên trong */
+            width: 90%;
+            max-width: 450px; /* Tăng chiều rộng tối đa */
+            text-align: center;
+            transition: transform 0.2s; /* Hiệu ứng khi hover */
+        }
+
+        .payment-result:hover {
+            transform: scale(1.02); /* Phóng to nhẹ khi hover */
+        }
+
+        .payment-result h1 {
+            font-size: 1.8em; /* Tăng kích thước tiêu đề */
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .payment-info p {
+            font-size: 1em;
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.5; /* Tăng khoảng cách giữa các dòng */
+        }
+
+        .qrcode-container {
+            margin-bottom: 20px;
+        }
+
+        .payment-info a {
+            color: #d35400;
+            text-decoration: none;
+            border-bottom: 1px solid #d35400;
+            transition: color 0.3s, border-color 0.3s; /* Hiệu ứng chuyển màu */
+        }
+
+        .payment-info a:hover {
+            color: #e74c3c;
+            border-bottom: 1px solid #e74c3c;
+        }
+
+        /* Thêm một số kiểu cho nút quay lại */
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #d35400;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .back-link:hover {
+            background-color: #e74c3c; /* Màu nền khi hover */
+        }
+    </style>
+
 </head>
 <body>
-    <h1>Kết quả thanh toán</h1>
-    <div>
-        <p>Thanh toán thành công!</p>
-        <p>Liên kết thanh toán: <a th:href="${paymentUrl}" th:text="${paymentUrl}"></a></p>
-        <div>
-           <canvas id="qrcode"></canvas>
-           
+
+    <div class="payment-result">
+        <h1>Kết quả thanh toán</h1>
+        <p>Thực hiện thanh toán!</p>
+        <div class="qrcode-container">
+            <canvas id="qrcode"></canvas>
         </div>
-        Quay về trang thông tin <a th:href="@{/account/info}"> Tại đây</a>
+        <p>Sau khi thanh toán hãy liên hệ với <a th:href="@{https://www.facebook.com/profile.php?id=100067861744623}">nhân viên của chúng tôi</a> để xác nhận đơn thanh toán</p>
+        <p>Hoặc liên hệ số điện thoại 0357184576 (NGUYEN THANH TAI)</p>
+        <p>Đội ngũ khách sạn LAVELA HOTEL xin cảm ơn!</p>
+        <a class="back-link" th:href="@{/account/info}">Quay về trang thông tin của bạn Tại đây</a>
     </div>
      <script th:inline="javascript">
     var qr = new QRious({
@@ -21,6 +98,7 @@
         value: /*[[${qrCodeUrl}]]*/,
         size: 200 
     });
+    <!--  <p>Liên kết thanh toán: <a th:href="${paymentUrl}" th:text="${paymentUrl}"></a></p> -->
 </script>
 </body>
 </html>
