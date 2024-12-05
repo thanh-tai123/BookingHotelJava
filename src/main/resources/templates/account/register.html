@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
- <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
+    <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
     <title>ĐĂNG KÍ</title>
 
     <style>
@@ -309,82 +309,184 @@
                 transform: scale(1.3) translateY(-90px) rotate(360deg);
             }
         }
+        #passwordStrengthBar {
+            display: none;
+        }
+        #passwordStrengthText {
+            display: none;
+        }
     </style>
 </head>
 <body>
 <div class="bg">
-        <div class="row">
-            <!-- Logo -->
-            <div class="col-md-1">
-                <a href="/room">
-                    <img alt="Hotel logo" src="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" height="100" width="100" />
-                </a>
-            </div>
-            <!-- Đăng kí Form -->
-            <div class="col-md-4">
-                <div class="login-container">
-                    <h2 class="bounce-effect" style="margin-left: 40%">Đăng kí</h2>
-                    <form th:action="@{/account/handle-register}" method="post">
-                        <div class="mb-3">
-                            <label for="name" th:text="#{register.username}"></label>
-                            <input type="text" class="form-control" name="name" required>
+    <div class="row">
+        <!-- Logo -->
+        <div class="col-md-1">
+            <a href="/room">
+                <img alt="Hotel logo" src="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" height="100" width="100" />
+            </a>
+        </div>
+        <!-- Đăng kí Form -->
+        <div class="col-md-4">
+            <div class="login-container">
+                <h2 class="bounce-effect" style="margin-left: 40%">Đăng kí</h2>
+                <form th:action="@{/account/handle-register}" method="post">
+                    <div class="mb-3">
+                        <label for="name" th:text="#{register.username}"></label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" th:text="#{register.email}"></label>
+                        <input type="text" class="form-control" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" th:text="#{register.password}"></label>
+                        <input type="password" class="form-control" name="password" id="password" required>
+                        <!-- Thanh hiển thị độ mạnh -->
+                        <div id="passwordStrengthBar" style="height: 5px; background-color: lightgray; margin-top: 5px; border-radius: 5px; overflow: hidden;">
+                            <div id="passwordStrengthIndicator" style="height: 100%; width: 0%; background-color: red; transition: width 0.3s ease;"></div>
                         </div>
-                        <div class="mb-3">
-                            <label for="email" th:text="#{register.email}"></label>
-                            <input type="text" class="form-control" name="email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" th:text="#{register.password}"></label>
-                            <input type="password" class="form-control" name="password" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="phone" th:text="#{register.phone}"></label>
-                            <input type="text" class="form-control" name="phone" required>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="remember-me">
-                                <label class="form-check-label" for="remember-me" th:text="#{login.remember}"></label>
-                            </div>
-                        </div>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary btn-login" style="color: white" th:text="#{register.register}"></button>
-                        </div>
-                        <div class="text-center mt-3" style="color: white">
-                            <span th:text="#{login.YouDontHaveAccount}"></span>
-                            <a href="/account/login" th:text="#{login.login}" style="color: wheat; text-decoration: none;"></a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <!-- Hình ảnh và chào mừng -->
-            <div class="col-md-6">
-                <div class="hero-section">
-                    <img src="https://lavelasaigon.com/wp-content/uploads/2022/10/room-banner.png" alt="Room Banner">
-                    <div class="welcome-text">
-                        <h1 class="tada-effect">Welcome to<br>La Vela Sai Gon Hotel</h1>
+                        <small id="passwordStrengthText" class="form-text" style="color: white;"></small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword">XÁC NHẬN MẬT KHẨU</label>
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                        <span id="confirmPasswordMessage" style="display: none; color: red;"></span> <!-- Thông báo lỗi -->
                     </div>
 
-                    <div class="overlay">
-                        <div class="wrapper">
-                            <h3> <span>Cảm ơn quý khách đã tin dùng web</span></h3>
-                            <div class="box">
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                            </div>
+
+
+                    <div class="mb-3">
+                        <label for="phone" th:text="#{register.phone}"></label>
+                        <input type="text" class="form-control" name="phone" required>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="remember-me">
+                            <label class="form-check-label" for="remember-me" th:text="#{login.remember}"></label>
+                        </div>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-login" style="color: white"  th:text="#{register.register}" ></button>
+                    </div>
+                    <div class="text-center mt-3" style="color: white">
+                        <span th:text="#{login.YouDontHaveAccount}"></span>
+                        <a href="/account/login" th:text="#{login.login}" style="color: wheat; text-decoration: none;"></a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Hình ảnh và chào mừng -->
+        <div class="col-md-6">
+            <div class="hero-section">
+                <img src="https://lavelasaigon.com/wp-content/uploads/2022/10/room-banner.png" alt="Room Banner">
+                <div class="welcome-text">
+                    <h1 class="tada-effect">Welcome to<br>La Vela Sai Gon Hotel</h1>
+                </div>
+
+                <div class="overlay">
+                    <div class="wrapper">
+                        <h3> <span>Cảm ơn quý khách đã tin dùng web</span></h3>
+                        <div class="box">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <script>
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const confirmPasswordMessage = document.getElementById('confirmPasswordMessage');
+
+        confirmPasswordInput.addEventListener('input', function () {
+            const password = passwordInput.value;
+            const confirmPassword = this.value;
+
+            if (confirmPassword.length > 0) {
+                if (confirmPassword === password) {
+                    confirmPasswordMessage.style.display = 'block';
+                    confirmPasswordMessage.textContent = 'Mật khẩu khớp!';
+                    confirmPasswordMessage.style.color = 'green';
+                } else {
+                    confirmPasswordMessage.style.display = 'block';
+                    confirmPasswordMessage.textContent = 'Mật khẩu không khớp!';
+                    confirmPasswordMessage.style.color = 'red';
+                }
+            } else {
+                confirmPasswordMessage.style.display = 'none';
+            }
+        });
+
+        document.querySelector('form').addEventListener('submit', function (event) {
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+
+            if (password !== confirmPassword) {
+                event.preventDefault(); // Ngăn gửi form
+                alert('Mật khẩu xác nhận không khớp! Vui lòng kiểm tra lại.');
+            }
+        });
+    </script>
+
+    <script>
+        document.getElementById('password').addEventListener('input', function () {
+            const password = this.value;
+            const strengthBar = document.getElementById('passwordStrengthIndicator');
+            const strengthText = document.getElementById('passwordStrengthText');
+            const strengthContainer = document.getElementById('passwordStrengthBar');
+
+            if (password.length > 0) {
+                strengthContainer.style.display = 'block';
+                strengthText.style.display = 'block';
+            } else {
+                strengthContainer.style.display = 'none';
+                strengthText.style.display = 'none';
+            }
+
+            const strength = calculatePasswordStrength(password);
+
+            strengthBar.style.width = `${strength.score * 25}%`;
+            strengthBar.style.backgroundColor = strength.color;
+
+            strengthText.textContent = strength.message;
+            strengthText.style.color = strength.color;
+        });
+
+        function calculatePasswordStrength(password) {
+            const hasUpperCase = /[A-Z]/.test(password);
+            const hasLowerCase = /[a-z]/.test(password);
+            const hasNumber = /\d/.test(password);
+            const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+            // Tính điểm độ mạnh
+            const score = [hasUpperCase, hasLowerCase, hasNumber, hasSpecialChar].filter(Boolean).length;
+
+            if (password.length < 8) {
+                return { score: 1, color: 'red', message: 'Mật khẩu quá ngắn (ít nhất 8 ký tự)' };
+            } else if (score === 1) {
+                return { score: 1, color: 'red', message: 'Mật khẩu yếu (thêm chữ hoa, số, ký tự đặc biệt)' };
+            } else if (score === 2) {
+                return { score: 2, color: 'orange', message: 'Mật khẩu trung bình (thêm chữ hoa hoặc ký tự đặc biệt)' };
+            } else if (score === 3) {
+                return { score: 3, color: 'yellow', message: 'Mật khẩu khá mạnh (thêm ký tự đặc biệt để mạnh hơn)' };
+            } else {
+                return { score: 4, color: 'green', message: 'Mật khẩu mạnh!' };
+            }
+        }
+    </script>
+
+
     <script>
         // Mảng các ảnh nền sẽ thay đổi
         const images = [
