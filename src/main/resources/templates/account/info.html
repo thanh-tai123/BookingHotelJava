@@ -9,7 +9,7 @@
     <style>
 
 
-        h1, h2 { 
+        h1, h2 {
 
             color: #333;
         }
@@ -26,7 +26,7 @@
             padding: 10px;
             text-align: left;
             border-bottom: 1px solid #c09b5a;
-            
+
         }
 
         th {
@@ -41,100 +41,134 @@
             border-radius: 8px;
             margin-bottom: 15px;
         }
-        button{
-         background-color:#c09b5a;
+
+        button {
+            background-color: #c09b5a;
             color: white;
-             border: 1px solid grey;
+            border: 1px solid grey;
             border-radius: 5px;
             cursor: pointer;
         }
-         button:hover {
+
+        button:hover {
             background-color: white;
             color: #c09b5a;
-           
-            border:1px solid #c09b5a;
+
+            border: 1px solid #c09b5a;
         }
+
+        /* Style riêng cho các thẻ <a> trong phân trang */
+        .pagination-link {
+            display: inline-block;
+            padding: 8px 16px;
+            margin: 0 5px;
+            background-color: #c09b5a;
+            color: white;
+            border: 1px solid grey;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Thay đổi màu khi hover */
+        .pagination-link:hover {
+            background-color: white;
+            color: #c09b5a;
+
+            border: 1px solid #c09b5a;
+        }
+
+        /* Ẩn liên kết không hợp lệ nếu điều kiện không thỏa mãn */
+        .pagination-link[th:if] {
+            visibility: hidden;
+        }
+
     </style>
 </head>
 <body>
 
 <div th:replace="~{access/nav :: html}"></div>
 <div class="container">
-<h1>THÔNG TIN CỦA BẠN</h1>
 
-<table>
-    <thead>
+    <h1>THÔNG TIN CỦA BẠN</h1>
 
-    <tr>
-        <th>Code</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Phone</th>
-        <th>Role</th>
-        <th th:if="${user.roleString.contains('ADMIN')}">Admin</th>
-        <th th:if="${user.roleString.contains('SUPPLIER')}">Staff</th>
-        <th>Img</th>
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td th:text="${user.userCode}"></td>
-        <td th:text="${user.name}"></td>
-        <td th:text="${user.email}"></td>
-        <td th:text="${user.phone}"></td>
-        <td th:text="${user.roleString}"></td>
-        <td th:if="${user.roleString.contains('ADMIN')}">
-            <a th:href="@{/admin}">TRANG ADMIN</a>
-        </td>
-        <td th:if="${user.roleString.contains('STAFF')}">
-            <a th:href="@{/supplier}">TRANG STAFF</a>
-        </td>
-        <th:block th:if="${user.image != null}">
-            <td><img th:src="${user.image}" alt="Embedded Image" style="width:100px; height:100px"></td>
-        </th:block>
-        <th:block th:unless="${user.image != null}">
-            <td><i class="fa-solid fa-user fa-2xl"></i></td>
-        </th:block>
+    <table>
+        <thead>
 
-        <td><a th:href="@{/account/user-edit}"><i class="fa-regular fa-pen-to-square fa-xl"></i></a></td>
-    </tr>
-
-    </tbody>
-</table>
-
-<h2>MÃ PHÒNG BẠN ĐÃ ĐẶT</h2>
-<table>
-    <thead>
 
         <tr>
-            <th>Book Code</th>
-            <th th:text="#{code.createDate}"></th>
-            <th th:text="#{admin.Action}"></th>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Role</th>
+            <th th:if="${user.roleString.contains('ADMIN')}">Admin</th>
+            <th th:if="${user.roleString.contains('STAFF')}">Staff</th>
+            <th>Img</th>
+            <th>Action</th>
         </tr>
-    </thead>
-    <tbody>
-        <tr th:each="book : ${books}">
-            <td class="book-code" th:text="${book.bookCode}"></td>
-            <td th:text="${#dates.format(book.createDate, 'yyyy-MM-dd HH:mm')}">[Create Date]</td>
-            <td>
-                <!-- Form Gửi Email cho từng cuốn sách -->
-                <form th:action="@{/mailer/send}" method="post">
-                    <input type="hidden" name="txtTo" th:value="${user.email}"/>
-                    <input type="hidden" name="txtCC" th:value="${user.email}"/>
-                    <input type="hidden" name="txtSubject" value="Thông tin phòng đã đặt"/>
-                    
-                    <!-- Nội dung email sẽ chứa thông tin của cuốn sách hiện tại -->
-                    <input type="hidden" name="txtContent" 
-       th:value="'Bạn đã đặt 1 phòng khách sạn với ' + ${book.bookCode} + ' - Book Code: ' + ${book.bookCode} + ' - Created Date: ' + ${#dates.format(book.createDate, 'yyyy-MM-dd HH:mm')}"/>
-                    <button type="submit" th:text="#{admin.sendEmail}"></button>
-                </form>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${user.userCode}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.phone}"></td>
+            <td th:text="${user.roleString}"></td>
+            <td th:if="${user.roleString.contains('ADMIN')}">
+                <a th:href="@{/admin}">TRANG ADMIN</a>
             </td>
+            <td th:if="${user.roleString.contains('STAFF')}">
+                <a th:href="@{/supplier}">TRANG STAFF</a>
+            </td>
+            <th:block th:if="${user.image != null}">
+                <td><img th:src="${user.image}" alt="Embedded Image" width="100" height="100"></td>
+            </th:block>
+            <th:block th:unless="${user.image != null}">
+                <td><i class="fa-solid fa-user fa-2xl"></i></td>
+            </th:block>
+
+            <td><a th:href="@{/account/user-edit}"><i class="fa-regular fa-pen-to-square fa-xl"></i></a></td>
         </tr>
+
         </tbody>
+    </table>
+
+    <div>
+        <h2>MÃ PHÒNG BẠN ĐÃ ĐẶT</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Book Code</th>
+                <th>Create Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="book : ${books}">
+                <td class="book-code" th:text="${book.bookCode}"></td>
+                <td th:text="${#dates.format(book.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+            </tr>
+            </tbody>
         </table>
 
-     
+        <!-- Phân trang -->
+        <div style="text-align: center; margin-top: 20px;">
+            <a th:if="${currentPage > 0}"
+               th:href="@{/account/info(page=${currentPage - 1})}"
+               class="pagination-link">Previous</a>
+
+            <span>Page <span th:text="${currentPage + 1}"></span> of <span th:text="${totalPages}"></span></span>
+
+            <a th:if="${currentPage < totalPages - 1}"
+               th:href="@{/account/info(page=${currentPage + 1})}"
+               class="pagination-link">Next</a>
+        </div>
+
+    </div>
+
+
 </div>
 <div th:replace="~{access/error :: footer}"></div>
 

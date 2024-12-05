@@ -1,5 +1,138 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f4e8;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+    h2 {
+        color: #c09b5a;
+        text-align: center;
+        padding-top: 20px;
+    }
+
+    input[type="text"] {
+        padding: 8px;
+        border: 1px solid #c09b5a;
+        border-radius: 4px;
+        width: 200px;
+        margin-right: 10px;
+    }
+
+    button {
+        padding: 8px 16px;
+        background-color: #6B8E23;
+        border: none;
+        color: white;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    button:hover {
+        background-color: #b38a48;
+    }
+
+    select {
+        padding: 8px;
+        border: 1px solid #c09b5a;
+        border-radius: 4px;
+        background-color: white;
+    }
+
+    table {
+        width: 100%;
+        margin: 20px auto;
+        border-collapse: collapse;
+    }
+
+    table th, table td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ccc;
+    }
+
+    table th {
+        background-color: #c09b5a;
+        color: white;
+    }
+
+    #pagination {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    #pagination button {
+        padding: 8px 16px;
+        background: linear-gradient(135deg, #c09b5a, #e3c27d);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin: 0 5px;
+    }
+
+    #pagination button:hover {
+        background-color: #b38a48;
+    }
+
+    #emailSuggestions {
+        border: 1px solid #6B8E23;
+        border-radius: 4px;
+        max-height: 150px;
+        overflow-y: auto;
+        position: absolute;
+        background-color: white;
+        width: 200px;
+        z-index: 10;
+    }
+
+    #emailSuggestions li {
+        padding: 8px;
+        cursor: pointer;
+    }
+
+    #emailSuggestions li:hover {
+        background-color: #f0e6d2;
+    }
+
+    .btn-primary {
+        background-color: #c09b5a;
+        color: white;
+        padding: 8px 16px;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
+
+    .btn-primary:hover {
+        background-color: #b38a48;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .btn-primary {
+        background-color: #AFEEEE;
+        color: white;
+        padding: 8px 16px;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s, transform 0.2s; /* Added transition for scaling effect */
+    }
+
+    .btn-primary:hover {
+        background-color: #b38a48;
+        transform: scale(1.05); /* Slightly enlarges the button when hovered */
+    }
+</style>
 <head>
     <title>Xuất file Excel</title>
     <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
@@ -69,7 +202,7 @@
                 // Lọc email theo tìm kiếm
                 const filteredEmails = Array.from(new Set(
                     originalBookDetails
-                        .map(detail => detail[1]) // Assuming email is the second element in each detail
+                        .map(detail => detail[0]) // Assuming email is the second element in each detail
                         .filter(email => email.toLowerCase().includes(searchValue))
                 ));
 
@@ -98,7 +231,7 @@
             if (searchValue === "@all") {
                 bookDetails = [...originalBookDetails];
             } else if (searchValue) {
-                bookDetails = originalBookDetails.filter(detail => detail[1].toLowerCase().includes(searchValue));
+                bookDetails = originalBookDetails.filter(detail => detail[0].toLowerCase().includes(searchValue));
             } else {
                 bookDetails = [...originalBookDetails];
             }
@@ -139,11 +272,11 @@
 <table>
     <thead>
     <tr>
-      
+
         <th>Email</th>
         <th>Ngày vào</th>
         <th>Ngày ra</th>
-       
+
         <th>Giá</th>
         <th>Tổng</th>
         <th>Phương thức thanh toán</th>
@@ -164,7 +297,7 @@
     <span id="pageNumber"></span>
     <button onclick="nextPage()">Trang sau</button>
 </div>
-<a href="/search/export" class="btn btn-primary">Xuất sang file Excel</a>
+<a href="/search/export" class="btn-primary">Xuất sang file Excel</a>
 
 <div th:replace="~{access/error :: footer}"></div>
 </body>

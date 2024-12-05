@@ -267,8 +267,17 @@ public class RoomController {
 		return "roomTypeChart";
 	}
 
+//Nhahang
+	@GetMapping("/restaurant")
+	public String getRestaurant(Model model) {
 
+		return "restaurant";
+	}
 
+	@GetMapping("/profile")
+	public String roomProfile() {
+		return "profile";
+	}
 
 
 

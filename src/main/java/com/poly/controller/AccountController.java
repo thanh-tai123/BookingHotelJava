@@ -70,40 +70,76 @@ public class AccountController {
 //		return "info";
 //	}
 
-    @RequestMapping("/info")
-    public String info(Model model, Authentication auth) {
-        UserRoot userRoot = (UserRoot) auth.getPrincipal();
+//    @RequestMapping("/info")
+//    public String info(Model model, Authentication auth) {
+//        UserRoot userRoot = (UserRoot) auth.getPrincipal();
+//
+//        // Fetch the user
+//        Optional<User> optionalUser = userService.findById(userRoot.getUser().getId());
+//
+//        if (optionalUser.isPresent()) {
+//            User user = optionalUser.get();
+//            model.addAttribute("user", user);
+//
+//            // Fetch the books associated with the user
+//            List<Book> books = user.getBooks(); // Assuming getBooks() is defined
+//            books.sort(Comparator.comparing(Book::getCreateDate).reversed());
+//            model.addAttribute("books", books);
+//            model.addAttribute("books", books);
+//
+//            // Fetch detailed information for each book
+//            List<BookDetail> allBookDetails = new ArrayList<>();
+//            for (Book book : books) {
+//                List<BookDetail> details = bookDetailRepository.findByBook_BookCode(book.getBookCode());
+//                allBookDetails.addAll(details);
+//            }
+//            model.addAttribute("bookDetails", allBookDetails); // Add all book details to the model
+//
+//        } else {
+//            // Handle the case where user is not found
+//            model.addAttribute("error", "User not found");
+//        }
+//
+//        return "account/info";
+//    }
 
-        // Fetch the user
-        Optional<User> optionalUser = userService.findById(userRoot.getUser().getId());
+	@GetMapping("/info")
+	public String info(
+			Model model,
+			Authentication auth,
+			@RequestParam(name = "page", defaultValue = "0") int page,
+			@RequestParam(name = "size", defaultValue = "5") int size) {
 
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            model.addAttribute("user", user);
+		UserRoot userRoot = (UserRoot) auth.getPrincipal();
 
-            // Fetch the books associated with the user
-            List<Book> books = user.getBooks(); // Assuming getBooks() is defined
-            books.sort(Comparator.comparing(Book::getCreateDate).reversed());
-            model.addAttribute("books", books);
-            model.addAttribute("books", books);
+		Optional<User> optionalUser = userService.findById(userRoot.getUser().getId());
+		if (optionalUser.isPresent()) {
+			User user = optionalUser.get();
+			model.addAttribute("user", user);
 
-            // Fetch detailed information for each book
-            List<BookDetail> allBookDetails = new ArrayList<>();
-            for (Book book : books) {
-                List<BookDetail> details = bookDetailRepository.findByBook_BookCode(book.getBookCode());
-                allBookDetails.addAll(details);
-            }
-            model.addAttribute("bookDetails", allBookDetails); // Add all book details to the model
+			// Fetch the books associated with the user and sort by date
+			List<Book> books = user.getBooks();
+			books.sort(Comparator.comparing(Book::getCreateDate).reversed());
 
-        } else {
-            // Handle the case where user is not found
-            model.addAttribute("error", "User not found");
-        }
+			// Phân trang
+			int totalPages = (int) Math.ceil((double) books.size() / size);
+			int fromIndex = page * size;
+			int toIndex = Math.min(fromIndex + size, books.size());
 
-        return "account/info";
-    }
+			List<Book> paginatedBooks = books.subList(fromIndex, toIndex);
+			model.addAttribute("books", paginatedBooks);
+			model.addAttribute("currentPage", page);
+			model.addAttribute("totalPages", totalPages);
+		} else {
+			model.addAttribute("error", "User not found");
+		}
 
-    @RequestMapping("/register")
+		return "account/info";
+	}
+
+
+
+	@RequestMapping("/register")
     public String register() {
         return "account/register";
     }
