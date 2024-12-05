@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Restaurant Page</title>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 40px 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 16px;
+            color: #666;
+        }
+
+        @keyframes borderAnimation {
+            0% {
+                border-color: #c09b5a; /* Màu vàng nhạt */
+                box-shadow: 0 0 10px rgba(192, 155, 90, 0.7);
+            }
+            25% {
+                border-color: #a28b5e; /* Màu vàng đậm hơn */
+                box-shadow: 0 0 20px rgba(162, 139, 94, 0.7);
+            }
+            50% {
+                border-color: #8c7a44; /* Màu vàng sậm */
+                box-shadow: 0 0 30px rgba(140, 122, 68, 0.7);
+            }
+            75% {
+                border-color: #d4af37; /* Màu vàng đồng */
+                box-shadow: 0 0 40px rgba(212, 175, 55, 0.7);
+            }
+            100% {
+                border-color: #c09b5a; /* Trở lại màu vàng nhạt */
+                box-shadow: 0 0 10px rgba(192, 155, 90, 0.7);
+            }
+        }
+
+
+        /* Áp dụng hiệu ứng cho restaurant-card */
+        .restaurant-card {
+            width: 100%;
+            margin: 20px 0;
+            border: 3px solid #ff0000; /* Màu khởi tạo */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+            animation: borderAnimation 3s infinite; /* Chạy vòng lặp với thời gian 3s */
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            position: relative;
+            background-color: white;
+            overflow: hidden;
+        }
+
+
+        .restaurant-card img {
+            width: 80%;
+            height: 100%;
+        }
+
+        .restaurant-info {
+            padding: 20px;
+            width: 80%;
+        }
+
+        .restaurant-info h5 {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .restaurant-info p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .restaurant-info .btn:hover {
+            background-color: #c49b2e;
+        }
+
+        .hero-section {
+            position: relative;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-section img {
+            width: 100%;
+            height: 100vh;
+        }
+
+        .hero-section .hero-text {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            font-weight: bold;
+        }
+        .image-carousel {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            overflow: hidden;
+
+        }
+
+        .carousel {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .carousel-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            animation: splitReveal 6s infinite;
+        }
+
+        .carousel-image:nth-child(1) {
+            animation-delay: 0s;
+        }
+        .carousel-image:nth-child(2) {
+            animation-delay: 2s;
+        }
+        .carousel-image:nth-child(3) {
+            animation-delay: 4s;
+        }
+
+        @keyframes splitReveal {
+            0% {
+                clip-path: inset(0);
+                opacity: 1;
+            }
+            50% {
+                clip-path: inset(50%);
+                opacity: 0;
+            }
+            100% {
+                clip-path: inset(0);
+                opacity: 1;
+            }
+        }
+
+
+
+
+        .hero-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 50px; /* Kích thước chữ lớn */
+            font-weight: bold;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Bóng chữ */
+        }
+
+    </style>
+
+</head>
+<div th:replace="~{access/nav1 :: html}"></div>
+<body>
+
+<div id="heroCarousel" class="carousel slide" style="height: 700px;" data-bs-ride="carousel" data-bs-interval="2000">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="hero-section">
+                <img alt="Hotel Lobby" src="https://lavelasaigon.com/wp-content/uploads/2022/10/banner-dinning.png">
+                <div class="hero-text">
+                    NHÀ HÀNG & BAR
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="hero-section">
+                <img alt="Restaurant Interior" src="https://lavelasaigon.com/wp-content/uploads/2022/10/z3872598742924_a62f0ef6f2d493b6ade8c90071e41db9.jpg">
+                <div class="hero-text">
+                    Khám Phá Hương Vị Mới
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="hero-section">
+                <img alt="Bar Interior" src="https://lavelasaigon.com/wp-content/uploads/2022/10/4-1.png">
+                <div class="hero-text">
+                    Thưởng Thức Cocktail Đặc Biệt
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+
+
+    <div class="section-title">
+        KHÁM PHÁ NHỮNG HƯƠNG VỊ TINH TẾ
+    </div>
+
+    <div class="section-subtitle">
+        Hãy lên sàng tham gia một hành trình khám phá ẩm thực, với nhà hàng Herb mang đậm hương vị của đầu bếp khách mời từ châu Á, nhà hàng Mermaid mang đến một sự kết hợp hoàn hảo của ẩm thực Á và Âu, và nhà hàng La Vela với buffet hải sản thượng hạng.
+    </div>
+    <div class="restaurant-card">
+        <div class="image-carousel">
+            <img alt="Interior of Herb & Spices Restaurant" class="carousel-image" src="https://lavelasaigon.com/wp-content/uploads/2022/10/jay-blacks-CO2RRmlhTIU-unsplash-1.png" />
+            <img alt="Interior of Herb & Spices Restaurant" class="carousel-image" src="https://lavelasaigon.com/wp-content/uploads/2022/10/4.png" />
+            <img alt="Interior of Herb & Spices Restaurant" class="carousel-image" src="https://lavelasaigon.com/wp-content/uploads/2022/10/ricardo-gomez-angel-Aj776u9A3J0-unsplash-1.png  " />
+        </div>
+        <div class="restaurant-info">
+            <h5>Nhà Hàng Herb & Spices</h5>
+            <p>Lấy cảm hứng từ ẩm thực truyền thống châu Á kết hợp với những tinh túy của ẩm thực đương đại, Herb & Spices mang đến cho thực khách những trải nghiệm ẩm thực hoàn hảo và tinh tế. Thưởng thức Buffet Dim Sum hảo hạng.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <i class="bx bx-time" style="color: #c09b5a;"></i> 11:00 - 22:00
+                </div>
+                <div class="col-md-6">
+                    <i class="bx bx-map-pin" style="color: #c09b5a;"></i> 25th Floor
+                </div>
+                <div class="col-md-6">
+                    <i class="bx bx-phone" style="color: #c09b5a;"></i> 0286 222 2020
+                </div>
+                <div class="col-md-6">
+                    <i class="bx bxl-facebook-circle facebook" style="color: #c09b5a;"></i> @HerbSpicesRestaurant
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="restaurant-card">
+
+
+
+        <div class="restaurant-info">
+            <h5>Nhà Hàng Mermaid</h5>
+            <p>Thực buffet hải sản hảo hạng, nơi bạn sẽ có những trải nghiệm ẩm thực tuyệt vời với các loại nguyên liệu tươi sống. Nhà hàng với các món ăn Á Âu kết hợp cùng các loại hải sản phong phú - một địa điểm lý tưởng để thưởng thức những bữa ăn đẳng cấp.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <i class="bx bx-time" style="color: #c09b5a;"></i> 18:00 - 22:00
+                </div>
+                <div class="col-md-6">
+                    <i class="bx bx-map-pin" style="color: #c09b5a;"></i> 25th Floor
+                </div>
+                <div class="col-md-6">
+                    <i class="bx bx-phone" style="color: #c09b5a;"></i> 0286 222 2021
+                </div>
+                <div class="col-md-6">
+                    <i class="bx bxl-facebook-circle facebook" style="color: #c09b5a;"></i> @MermaidRestaurant
+                </div>
+            </div>
+        </div>
+        <div class="image-carousel">
+            <img alt="Seafood Dinner Buffet" class="carousel-image"  src="https://lavelasaigon.com/wp-content/uploads/2022/10/DSC07635-copy.jpg" />
+            <img alt="Seafood Dinner Buffet" class="carousel-image"  src="https://lavelasaigon.com/wp-content/uploads/2022/10/z3872598742924_a62f0ef6f2d493b6ade8c90071e41db9.jpg" />
+            <img alt="Seafood Dinner Buffet" class="carousel-image"  src="https://lavelasaigon.com/wp-content/uploads/2022/12/BF-TOI-MORE-SEAFOOD-700x620.png" />
+
+
+        </div>
+
+    </div>
+
+    <div class="restaurant-card">
+        <div class="image-carousel">
+            <img alt="Seafood Dinner Buffet" class="carousel-image"  src="https://lavelasaigon.com/wp-content/uploads/2022/10/3-1.png" />
+            <img alt="Seafood Dinner Buffet" class="carousel-image"  src="https://lavelasaigon.com/wp-content/uploads/2022/10/skyone2.png" />
+            <img alt="Seafood Dinner Buffet" class="carousel-image"  src="https://lavelasaigon.com/wp-content/uploads/2022/10/Rectangle-296-700x620.png" />
+
+
+        </div>
+        <div class="restaurant-info">
+            <h5>Sky One Bar & Lounge</h5>
+            <p>Sky One Bar & Lounge là quầy bar trên tầng 27 bên cạnh hồ bơi vô cực lớn nhất của thành phố. Đây là nơi mà quý khách sẽ được ngắm nhìn toàn cảnh hoàng hôn của thành phố và tận hưởng làn gió mát từ trên cao.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <i class="bx bx-time" style="color: #c09b5a;"></i> 06:00 - 23:00
+                </div>
+                <div class="col-md-6">
+                    <i class="bx bx-map-pin" style="color: #c09b5a;"></i> Rooftop
+                </div>
+                <div class="col-md-6">
+                    <i class="bx bx-phone" style="color: #c09b5a;"></i> 0286 222 080
+                </div>
+                <div class="col-md-6">
+                    <i class="bx bxl-facebook-circle facebook" style="color: #c09b5a;"></i> @SkyOneBar&Lounge
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="restaurant-card">
+        <div class="restaurant-info">
+            <h5>Thực đơn tại phòng</h5>
+            <p>Chúng tôi cung cấp dịch vụ ăn uống tại phòng với mong muốn mang lại cảm giác thư thái tuyệt đối cho quý khách. Tận hưởng cảm giác yên bình trong khi chờ đợi những món ăn hảo hạng được chuyển đến tận phòng của bạn.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <i class="bx bx-time" style="color: #c09b5a;"></i> 24/24
+                </div>
+                <div class="col-md-6">
+                    <i class="bx bx-map-pin" style="color: #c09b5a;"></i> In Room Dinning
+                </div>
+                <div class="col-md-6">
+                    <i class="bx bx-phone" style="color: #c09b5a;"></i> 02836 222 280
+                </div>
+                <div class="col-md-6">
+                    <i class="bx bxl-facebook-circle facebook" style="color: #c09b5a;"></i> @LaVelaSaigonHotel
+                </div>
+            </div>
+        </div>
+        <div class="image-carousel">
+            <img alt="Seafood Dinner Buffet" class="carousel-image"  src="https://lavelasaigon.com/wp-content/uploads/2022/10/5-1.png" />
+            <img alt="Seafood Dinner Buffet" class="carousel-image"  src="https://lavelasaigon.com/wp-content/uploads/2022/10/2-2.png" />
+            <img alt="Seafood Dinner Buffet" class="carousel-image"  src="https://lavelasaigon.com/wp-content/uploads/2022/10/1-2.png" />
+
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+<div th:replace="~{access/error :: footer}"></div>
+</html>
+
+

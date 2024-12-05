@@ -268,6 +268,12 @@ public class RoomController {
 	}
 
 
+	@GetMapping("/restaurant")
+	public String getRestaurant(Model model) {
+
+		return "restaurant";
+	}
+
 
 
 
