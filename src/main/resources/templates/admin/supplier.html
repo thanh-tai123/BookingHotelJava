@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book</title>
+    <title>NHẬP PHÒNG</title>
     <!-- Include AngularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
     <!-- Include the AngularJS controller script -->
@@ -86,12 +86,57 @@
 .rooms-table tr:hover {
     background-color: #f1f1f1; /* Màu nền khi hover */
 }
+h1, h2{
+color: #c09b5a;
+margin-left:690px;
+
+}
+/* Basic styles for the select box */
+.status-select {
+    width: 200px; /* Set width */
+    padding: 10px; /* Padding for better appearance */
+    border: 1px solid #ccc; /* Border style */
+    border-radius: 4px; /* Rounded corners */
+    background-color: white; /* Background color */
+    font-size: 16px; /* Font size */
+}
+
+/* Custom styles for options */
+.status-pending {
+    /* Light red background */
+     background-color: #fff3cd;
+    color: #721c24; /* Dark red text */
+}
+
+.status-cancel {
+    /* Light yellow background */
+    color: #856404; /* Dark yellow text */
+     background-color: #f8d7da;
+}
+
+.status-confirmed {
+    background-color: #d4edda; /* Light green background */
+    color: #155724; /* Dark green text */
+}
+
+/* Style for select when focused */
+.status-select:focus {
+    border-color: #80bdff; /* Change border color on focus */
+    outline: none; /* Remove outline */
+    box-shadow: 0 0 5px rgba(0, 123, 255, .25); /* Add shadow */
+}
+.rooms-table thead th {
+    background-color: #b5904e; /* Ensure this is applied */
+}
+
+
+
 </style>
 <body >
 
 <div th:replace="~{access/navadmin :: html}"></div>
-<div ng-controller="RoomController">
-    <h1>{{ isEditing ? 'Edit Room' : 'Add Room' }}</h1>
+<div ng-controller="RoomController" style="margin-top:30px">
+    <h1 style="color: #c09b5a">{{ isEditing ? 'SỬA PHÒNG' : 'THÊM PHÒNG' }}</h1>
    <form ng-submit="isEditing ? saveUpdatedRoom() : addRoom()" class="room-form">
    
 
@@ -99,88 +144,88 @@
         <div class="form-group">
            
             <input value="{{user.id}}" ng-model="user.id" type="hidden">
-    <label>Name:</label>
+    <label>TÊN:</label>
     <input value="{{user.name}}" disabled />
             
             <input type="hidden" ng-model="room.status" ng-required="true" />
         </div>
         
         <div class="form-group">
-         <label>Hotel Branch:</label>
+         <label>CHI NHÁNH:</label>
             <select ng-model="selectedHotel" ng-options="hotel.chinhanh for hotel in hotels" ng-change="updateHotelDetails()">
-                <option value="">Select a branch</option>
+                <option value="">CHỌN CHI NHÁNH</option>
             </select>
-           <p ng-if="isEditing">Selected Hotel: {{ room.hotelid.chinhanh }}</p>
-             <p ng-if="isEditing">Selected Hotel: {{ room.hotelid.id }}</p>
+           <p ng-if="isEditing">CHI NHÁNH: {{ room.hotelid.chinhanh }}</p>
+           
         </div>
 
         <div class="form-group">
            
-             <label>Room Type:</label>
+             <label>KIỂU PHÒNG:</label>
             <select ng-model="selectedRoomType" ng-options="roomtype as roomtype.name for roomtype in roomTypes" ng-change="updateRoomTypeDetails()">
-                <option value="">Select a Room Type</option>
+                <option value="">CHỌN KIỂU PHÒNG</option>
             </select>
-            <p ng-if="isEditing">Selected Room Type: {{ room.roomType.name }}</p>
-            <p ng-if="isEditing">Selected Room Type: {{ room.roomType.id }}</p>
+            <p ng-if="isEditing">KIỂU PHÒNG: {{ room.roomType.name }}</p>
+           
         </div>
     </div>
 
     <div class="form-row">
         <div class="form-group">
 
-        <label>Image:</label>
+        <label>HÌNH CHÍNH:</label>
         <input type="file" file-model="room.img" ng-required="!isEditing" />
         <img ng-if="isEditing" ng-src="{{ room.img }}" alt="Room Image" style="height: 100px; width: 100px;" />
     </div>
 
            
  <div class="form-group">
-    <label>Additional Images:</label>
+    <label>HÌNH PHỤ:</label>
     <input type="file" file-model="room.images" multiple />
    
 </div>
         <div class="form-group">
-        <label>Room Number:</label>
+        <label>SỐ PHÒNG:</label>
             <input type="number" ng-model="room.sophong" required />
           
         </div>
 
         <div class="form-group">
-               <label>Price:</label>
+               <label>GIÁ:</label>
             <input type="number" ng-model="room.gia" required />
         </div>
     </div>
 
     <div class="form-row">
         <div class="form-group">
-            <label>Description:</label>
+            <label>MÔ TẢ:</label>
             <input type="text" ng-model="room.mota" required />
         </div>
     </div>
 
-    <button type="submit">{{ isEditing ? 'Update Room' : 'Add Room' }}</button>
+    <button type="submit" class="btn btn-success">{{ isEditing ? 'CẬP NHẬT PHÒNG' : 'THÊM PHÒNG' }}</button>
 </form>
-   <h2>Rooms List</h2>
-<label for="statusSelect">Filter by Status:</label>
-<select id="statusSelect" ng-model="selectedStatus" ng-change="loadRoomsByStatus(selectedStatus)">
-    <option value="FALSE">Not Confirm</option>
-    <option value="CANCEL">Cancelled</option>
-      <option value="TRUE">Confirm</option>
+   <h2 style="color: #c09b5a">DANH SÁCH PHÒNG</h2>
+<label for="statusSelect">LỌC THEO TRẠNG THÁI PHÒNG:</label>
+<select id="statusSelect" ng-model="selectedStatus" ng-change="loadRoomsByStatus(selectedStatus)" class="status-select">
+    <option value="FALSE" class="status-pending">CHƯA XÁC NHẬN</option>
+    <option value="CANCEL" class="status-cancel">HỦY</option>
+    <option value="TRUE" class="status-confirmed">XÁC NHẬN</option>
 </select>
 
 <table class="rooms-table">
     <thead>
-        <tr>
-          <th>Room Code</th>
-            <th>Room Number</th>
-            <th>Image</th>
-            <th>Room Type</th>
-            <th>Hotel Name</th>
-            <th>Price</th>
-            <th>Status</th>
-            <th>Description</th>
-             <th>Note</th>
-            <th>Actions</th>
+        <tr  >
+          <th>MÃ PHÒNG</th>
+            <th>SỐ PHÒNG</th>
+            <th>HÌNH</th>
+            <th>KIỂU PHÒNG</th>
+            <th>CHI NHÁNH</th>
+            <th>GIÁ</th>
+            <th>TRẠNG THÁI</th>
+            <th>MÔ TẢ</th>
+             <th>GHI CHÚ</th>
+            <th>HÀNG ĐỘNG</th>
         </tr>
     </thead>
     <tbody>
@@ -195,8 +240,8 @@
             <td>{{ room.mota }}</td>
               <td>{{ room.note }}</td>
             <td>
-                <button ng-click="editRoom(room)">Edit</button>
-                <button ng-click="deleteRoom(room.id)">Delete</button>
+                <button ng-click="editRoom(room)" class="btn btn-primary">SỬA</button>
+                <button ng-click="deleteRoom(room.id)" class="btn btn-danger">XÓA</button>
             </td>
         </tr>
     </tbody>

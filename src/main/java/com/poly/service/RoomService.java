@@ -70,9 +70,26 @@ public class RoomService implements RoomServiceRepository{
 
             // Cập nhật hình ảnh chính của phòng nếu có
             room.setImg(awsS3Service.saveImageToS3(images.get(0)));
-            // Cập nhật các thông tin khác của phòng
 
-   
+            // Xóa các hình ảnh bổ sung cũ trong cơ sở dữ liệu
+            List<RoomImages> oldRoomImages = new ArrayList<>(room.getRoomImages());
+            for (RoomImages oldImage : oldRoomImages) {
+                awsS3Service.deleteImageFromS3(oldImage.getImagePath()); // Xóa ảnh cũ trong S3
+                room.getRoomImages().remove(oldImage); // Xóa ảnh cũ khỏi danh sách
+            }
+
+            // Cập nhật các hình ảnh bổ sung mới
+            if (images != null && !images.isEmpty()) {
+                for (int i = 1; i < images.size(); i++) { // Bắt đầu từ 1 để bỏ qua ảnh chính
+                    String imageUrl = awsS3Service.saveImageToS3(images.get(i));
+                    RoomImages roomImage = new RoomImages();
+                    roomImage.setRoom(room);
+                    roomImage.setImagePath(imageUrl);
+                    room.getRoomImages().add(roomImage); // Thêm ảnh mới vào danh sách
+                }
+            }
+
+            // Cập nhật các thông tin khác của phòng
             room.setHotel(hotel);
             room.setSophong(roomRequest.getSophong());
             room.setGia(roomRequest.getGia());
@@ -81,33 +98,13 @@ public class RoomService implements RoomServiceRepository{
             room.setUser(user);
             room.setRoomtype(roomtype);
 
-
-            // Cập nhật các hình ảnh bổ sung của phòng nếu có
-            if (images != null && !images.isEmpty()) {
-                // Xóa các hình ảnh bổ sung cũ từ S3
-                for (RoomImages roomImage : room.getRoomImages()) {
-                    awsS3Service.deleteImageFromS3(roomImage.getImagePath());
-                }
-                // Xóa các hình ảnh bổ sung cũ khỏi phòng
-                room.getRoomImages().clear();
-
-                // Lưu các hình ảnh bổ sung mới lên S3 và thêm vào danh sách hình ảnh bổ sung của phòng
-
-          
-
-            // Lưu các thông tin đã cập nhật của phòng vào cơ sở dữ liệu
-           
-          
-            roomRepository.save(room);
-        } 
-        }catch (Exception e) {
-           
-
+            roomRepository.save(room); // Lưu phòng vào cơ sở dữ liệu
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Error updating room: " + e.getMessage());
         }
-    
     }
+
 
 
     // Xóa phòng
@@ -230,7 +227,7 @@ public class RoomService implements RoomServiceRepository{
         return null;
     }
     public List<RoomDTO> getAvailableRooms(Date checkin, Date checkout, RoomStatus status) {
-    	List<BookDetail> conflictingBookings = bookDetailRepository.findAllByCheckoutGreaterThanEqualAndCheckinLessThan(checkin, checkout);
+    	List<BookDetail> conflictingBookings = bookDetailRepository.findAllConflictingBookings(checkin, checkout);
         List<Integer> busyRoomIds = conflictingBookings.stream()
                 .map(bookDetail -> bookDetail.getRoom().getId())
                 .collect(Collectors.toList());

@@ -41,4 +41,6 @@ public class Comment {
 	    private String content;
 	    private int rating; // số sao
 	    private Date createdAt;
+	    @Column(columnDefinition = "nvarchar(MAX)") // Admin response
+	    private String adminResponse;
 }

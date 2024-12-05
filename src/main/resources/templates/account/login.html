@@ -521,6 +521,10 @@
                     <div class="d-grid">
                         <input type="submit" class="btn-login" value="Đăng nhập" style="background-color: #c09b5a; margin-left:125px">
                     </div>
+                    <p>
+                  <div th:if="${error}" class="alert alert-danger text-center">
+					    <p th:text="${error}"></p>
+					</div>
                     <div class="text-center mt-3">
                         <p>Hoặc đăng nhập bằng</p>
                         <div class="d-flex justify-content-center mt-3">

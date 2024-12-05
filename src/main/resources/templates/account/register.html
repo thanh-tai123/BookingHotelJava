@@ -350,6 +350,11 @@
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary btn-login" style="color: white" th:text="#{register.register}"></button>
                         </div>
+                        <p>
+                        <div th:if="${errorMessage}" class="alert alert-danger text-center">
+						    <p th:text="${errorMessage}"></p>
+						</div>
+                        
                         <div class="text-center mt-3" style="color: white">
                             <span th:text="#{login.YouDontHaveAccount}"></span>
                             <a href="/account/login" th:text="#{login.login}" style="color: wheat; text-decoration: none;"></a>

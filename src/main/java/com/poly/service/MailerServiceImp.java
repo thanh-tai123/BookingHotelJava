@@ -96,5 +96,12 @@ public class MailerServiceImp implements MailerService {
         message.setText(body);
         sender.send(message);
     }
-	
+	 public void sendEmailToFriend(String toEmail, String subject, String body) {
+	        SimpleMailMessage message = new SimpleMailMessage();
+	        message.setTo(toEmail);
+	        message.setSubject(subject);
+	        message.setText(body);
+	      
+	       sender.send(message);
+	    }
 }

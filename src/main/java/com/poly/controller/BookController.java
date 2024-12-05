@@ -116,7 +116,7 @@ public class BookController {
 
 
     /* -----ADMIN, STAFF UPDATE BOOKDETAILSTATUS */
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF')")
     @GetMapping("/admin/bookcode")
     public String showAdminBookForm(Model model) {
        
@@ -139,7 +139,7 @@ public class BookController {
         return "admin/searchBookCode"; // Tên của view hiển thị thông tin Book
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF')")
     @PostMapping("/admin/book")
     public String getAdminBookInfo(@RequestParam("bookCode") String bookCode, Model model) {
         Book book = bookRepository.findByBookCode(bookCode);
