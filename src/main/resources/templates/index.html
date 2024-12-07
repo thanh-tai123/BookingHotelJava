@@ -9,6 +9,9 @@
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&amp;family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -68,6 +71,44 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+        .owl-carousel .item {
+            background: white;
+
+            text-align: center;
+            color: white;
+            border-radius: 20px;
+            height: 300px; /* Chiều cao của item */
+        }
+        .img1 {
+            width: 100%; /* Đảm bảo ảnh chiếm toàn bộ chiều rộng của item */
+            height: 100%; /* Đảm bảo tỉ lệ ảnh không bị méo */
+            border-radius: 5px; /* Bo góc cho ảnh */
+        }
+
+
+        .video-container {
+            position: relative;
+            max-width: 100%; /* Đảm bảo video chiếm 100% chiều rộng */
+            overflow: hidden; /* Ẩn phần video vượt quá kích thước */
+        }
+        .video-container video {
+            width: 100%; /* Video chiếm 100% chiều rộng */
+            height: 400px; /* Đặt chiều cao video */
+            border-radius: 10px; /* Bo tròn góc */
+        }
+        .btn-custom {
+            background-color: #ff4b5c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        .btn-custom:hover {
+            background-color: #ff2a3b;
+        }
+        .text-highlight {
+            color: #ff4b5c;
+        }
     </style>
 </head>
 <body>
@@ -197,7 +238,59 @@
         </div>
     </div>
 </section>
+
+
 <div class="parallax"></div>
+
+<div class="container mt-5">
+    <div class="row align-items-center">
+        <div class="col-md-6 video-container">
+           
+   
+    <iframe src="https://player.vimeo.com/video/246941769" width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen=""></iframe>
+    
+
+
+        </div>
+        <div class="col-md-6">
+            <p class="text-highlight">
+                Khám phá địa điểm của chúng tôi
+            </p>
+            <h2>
+                20 Năm Kinh Nghiệm Khách sạn và Resort
+            </h2>
+            <p>
+                Lorem ipsum viverra feugiat. Pellen tesque libero ut justo, ultrices in ligula. Semper at tempufddfel.
+            </p>
+            <ul class="list-unstyled">
+                <li>
+                    <i class="fas fa-check text-highlight"></i>
+                    Chúng tôi làm những điều tốt nhất cho mọi khách hàng
+                </li>
+                <li>
+                    <i class="fas fa-check text-highlight"></i>
+                    Theo dõi các khách sạn nghỉ dưỡng sang trọng của chúng tôi
+                </li>
+                <li>
+                    <i class="fas fa-check text-highlight"></i>
+                    Khách sạn sang trọng và khu nghỉ dưỡng tốt nhất
+                </li>
+                <li>
+                    <i class="fas fa-check text-highlight"></i>
+                    Phòng đôi và phòng gia đình
+                </li>
+                <li>
+                    <i class="fas fa-check text-highlight"></i>
+                    Tận hưởng trải nghiệm sang trọng
+                </li>
+            </ul>
+            <button class="btn btn-custom">
+                Kiểm tra tất cả
+            </button>
+        </div>
+    </div>
+</div>
+
 <section class="special-offers">
     <div class="container">
         <h2>
@@ -235,10 +328,50 @@
                     <img alt="Image of a couple enjoying a summer vacation" class="card-img-top" height="400" src="https://storage.googleapis.com/a1aa/image/KR5ue9CD7DWGPi6fgfpM4OWKu8y5NMQgCZeRl6KoLVn3dtaOB.jpg" width="400"/>
                     <div class="card-body">
                         <h5 class="card-title">
-                            Kỳ nghỉ hè
+                            LA VELA SAIGON HOTEL
                         </h5>
                         <p class="card-text">
-                           Hãy đặt kỳ nghỉ hè của bạn ngay bây giờ và tận hưởng những lợi ích giảm giá độc quyền. Ưu đãi chỉ có giá trị trong một thời gian giới hạn.
+                            Bạn đang tìm kiếm một kỳ nghỉ dưỡng hoàn hảo với ưu đãi đặc biệt? Đừng bỏ lỡ cơ hội nhận 10% OFF khi đặt phòng trực tiếp.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img alt="Image of a couple enjoying a summer vacation" class="card-img-top" height="400" src="https://lavelasaigon.com/wp-content/uploads/2024/11/z6068070232489_c557e0030af0d3314f0b32966637af03-560x660.jpg" width="400"/>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            KỲ NGHỈ HÈ THỬ GIẢN VỚI NHIỀU TẬN HƯỞNG
+                        </h5>
+                        <p class="card-text">
+                            Hãy đặt kỳ nghỉ hè của bạn ngay bây giờ và tận hưởng những lợi ích giảm giá độc quyền của La Vela Saigon. Ưu đãi chỉ có giá trị trong một thời gian giới hạn trên website của La Vela Saigon.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img alt="Image of a couple enjoying a summer vacation" class="card-img-top"   src="https://lavelasaigon.com/wp-content/uploads/2024/11/z6027165449882_5aa26489404558a9596dc62f453d9488-560x660.jpg"
+                   width="400" height="400" />
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            MÓN MỚI KHUẤY ĐỘNG DỊP LỄ CUỐI NĂM – CUA NÂU NA UY
+                        </h5>
+                        <p class="card-text">
+                            Để ăn mừng thật lớn những ngày lễ cuối năm, La Vela Saigon Hotel sẽ bổ sung thêm gương mặt mới – Cua Nâu Na Uy – loại cua cao cấp từ vùng biển Bắc Đại
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img alt="Image of a couple enjoying a summer vacation" class="card-img-top" height="400" src="https://lavelasaigon.com/wp-content/uploads/2024/11/z6020555103217_18e20f50decae081d544bd6b18700734-560x660.jpg" width="400"/>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            CHÚC MỪNG NGÀY NHÀ GIÁO VIỆT NAM
+                        </h5>
+                        <p class="card-text">
+                            Tận hưởng ngày lễ trọn vẹn tại La Vela Saigon, cùng thưởng thức bữa tiệc ẩm thực đỉnh cao với hơn 100 món ăn từ Á đến Âu trong không gian sang trọng.
                         </p>
                     </div>
                 </div>
@@ -246,6 +379,7 @@
         </div>
     </div>
 </section>
+
 <section class="content-section">
     <div class="container">
         <h2>
@@ -255,22 +389,50 @@
             #lavelasaigon
         </p>
         <p>
-            Follow us on Instagram and share your moments with us. Use the hashtag #lavelasaigon to be featured on our page.
+            Theo dõi chúng tôi trên Instagram và chia sẻ những khoảnh khắc của bạn với chúng tôi. Sử dụng hashtag #lavelasaigon để được giới thiệu trên trang của chúng tôi.
         </p>
-        <div class="row">
-            <div class="col-md-4">
-                <img alt="Image of a luxurious hotel lobby" class="img-fluid" height="300" src="https://lavelasaigon.com/wp-content/uploads/2022/10/slider-3.png" width="400"/>
-            </div>
-            <div class="col-md-4">
-                <img alt="Image of a hotel dining area" class="img-fluid" height="300" src="https://lavelasaigon.com/wp-content/uploads/2022/10/slider-2.png" width="400"/>
-            </div>
-            <div class="col-md-4">
-                <img alt="Image of a couple enjoying wine" class="img-fluid" height="300" src="https://lavelasaigon.com/wp-content/uploads/2022/10/slider-1.png" width="400"/>
-            </div>
+<!--        <div class="row">-->
+<!--            <div class="col-md-4">-->
+<!--                <img alt="Image of a luxurious hotel lobby" class="img-fluid" height="300" src="https://lavelasaigon.com/wp-content/uploads/2022/10/slider-3.png" width="400"/>-->
+<!--            </div>-->
+<!--            <div class="col-md-4">-->
+<!--                <img alt="Image of a hotel dining area" class="img-fluid" height="300" src="https://lavelasaigon.com/wp-content/uploads/2022/10/slider-2.png" width="400"/>-->
+<!--            </div>-->
+<!--            <div class="col-md-4">-->
+<!--                <img alt="Image of a couple enjoying wine" class="img-fluid" height="300" src="https://lavelasaigon.com/wp-content/uploads/2022/10/slider-1.png" width="400"/>-->
+<!--            </div>-->
+<!--        </div>-->
+        <div class="  owl-carousel owl-theme">
+            <div class="item"><img class="img1" src="https://lavelasaigon.com/wp-content/uploads/2022/10/slider-3.png" alt="Image 1"></div>
+            <div class="item"><img  class="img1" src="https://lavelasaigon.com/wp-content/uploads/2022/10/slider-2.png"></div>
+            <div class="item"><img  class="img1"src="https://lavelasaigon.com/wp-content/uploads/2022/10/slider-1.png" alt="Image 3"></div>
+            <div class="item"><img class="img1" src="https://lavelasaigon.com/wp-content/uploads/2022/10/slider-3.png" alt="Image 1"></div>
+            <div class="item"><img  class="img1" src="https://lavelasaigon.com/wp-content/uploads/2022/10/slider-2.png"></div>
+            <div class="item"><img  class="img1"src="https://lavelasaigon.com/wp-content/uploads/2022/10/slider-1.png" alt="Image 3"></div>
+            <div class="item"><img class="img1" src="https://lavelasaigon.com/wp-content/uploads/2022/10/slider-3.png" alt="Image 1"></div>
+            <div class="item"><img  class="img1" src="https://lavelasaigon.com/wp-content/uploads/2022/10/slider-2.png"></div>
+            <div class="item"><img  class="img1"src="https://lavelasaigon.com/wp-content/uploads/2022/10/slider-1.png" alt="Image 3"></div>
+
         </div>
     </div>
 </section>
+
 <script crossorigin="anonymous" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+3i5q5YlF0x4l+2n5D5e5z5e5z5e5" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var owl = $('.owl-carousel');
+        owl.owlCarousel({
+            items: 3,
+            loop: true,
+            margin: 10,
+            autoplay: true,
+            autoplayTimeout: 1000,
+            autoplayHoverPause: true
+        });
+    });
 </script>
 <div th:replace="~{access/error :: footer}"></div>
 </body>
