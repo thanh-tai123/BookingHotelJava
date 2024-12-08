@@ -88,7 +88,7 @@ public class RoomRestController {
     public ResponseEntity<String> addRoom(@ModelAttribute RoomRequest roomRequest, 
                                           @RequestParam("images") List<MultipartFile> images) {
         roomService.addRoom(roomRequest, images);
-        return ResponseEntity.ok("{\"message\":\"Room added successfully\"}");
+        return ResponseEntity.ok("{\"message\":\"Thêm phòng thành công\"}");
     }
 
 //    @PostMapping("/temp-book-room")
@@ -147,7 +147,7 @@ public class RoomRestController {
             roomService.updateRoom(roomId, roomRequest, images);
 
             // Trả về JSON xác nhận cập nhật thành công
-            return ResponseEntity.ok(Map.of("message", "Room updated successfully"));
+            return ResponseEntity.ok(Map.of("message", "Cập nhật thành công"));
         } catch (Exception e) {
             // Ghi lại chi tiết lỗi
             e.printStackTrace();
@@ -163,13 +163,13 @@ public class RoomRestController {
         try {
             boolean deleted = roomService.deleteRoom(id);
             if (deleted) {
-                return ResponseEntity.ok(Collections.singletonMap("message", "Room deleted successfully!")); // Trả về JSON
+                return ResponseEntity.ok(Collections.singletonMap("message", "Xóa thành công!")); // Trả về JSON
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("message", "Room not found"));
             }
         } catch (Exception e) {
            // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("message", "Error deleting room: " + e.getMessage()));
-        	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("message", "Error deleting room: You have not permission"));
+        	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("message", "Không thể xóa: Bạn không có quyền"));
         }
     }
     

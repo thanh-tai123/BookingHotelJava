@@ -50,6 +50,10 @@ public class UserService implements UserServiceRepository{
 		  if (userRepository.findByEmail(registerDto.getEmail()).isPresent()) {
 		        throw new IllegalArgumentException("EMAIL NÀY ĐÃ TỒN TẠI. VUI LÒNG CHỌN EMAIL KHÁC.");
 		    }
+		  String phone = registerDto.getPhone();
+		    if (!phone.matches("0\\d{9}")) { // Số điện thoại bắt đầu bằng 0 và có tổng cộng 10 chữ số
+		        throw new IllegalArgumentException("SỐ ĐIỆN THOẠI KHÔNG HỢP LỆ. VUI LÒNG NHẬP LẠI.");
+		    }
 		    String otp = otpUtil.generateOtp();
 		    try {
 		      emailUtil.sendOtpEmail(registerDto.getEmail(), otp);
@@ -82,6 +86,9 @@ public class UserService implements UserServiceRepository{
 	  public String regenerateOtp(String email) {
 		    User Account = userRepository.findByEmail(email)
 		        .orElseThrow(() -> new RuntimeException("KHÔNG TÌM THẤY TÀI KHOẢN VỚI: " + email));
+		    if (Boolean.TRUE.equals(Account.getActivated())) {
+		    	 throw new IllegalArgumentException("EMAIL ĐÃ ĐƯỢC XÁC THỰC. KHÔNG CẦN GỬI OTP.");
+		    }
 		    String otp = otpUtil.generateOtp();
 		    try {
 		      emailUtil.sendOtpEmail(email, otp);

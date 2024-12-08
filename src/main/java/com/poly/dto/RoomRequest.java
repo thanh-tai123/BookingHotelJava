@@ -39,7 +39,8 @@ public class RoomRequest {
 
     @Size(max = 255, message = "Description cannot be longer than 255 characters")
     private String mota;
-
+   
+    private String address;
     @NotNull(message = "Status is required")
     private RoomStatus status = RoomStatus.FALSE;
 

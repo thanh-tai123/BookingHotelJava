@@ -102,7 +102,7 @@
         <tr>
             <th scope="col">ID</th>
             <th scope="col">Chi Nhánh</th>
-            <th scope="col">Địa Chỉ</th>
+            <th scope="col">MÔ TẢ</th>
             <th scope="col">Hành Động</th>
         </tr>
         </thead>
@@ -110,7 +110,7 @@
         <tr th:each="hotel : ${hotels}">
             <td th:text="${hotel.id}"></td>
             <td th:text="${hotel.chinhanh}"></td>
-            <td th:text="${hotel.diachi}"></td>
+            <td th:text="${hotel.mota}"></td>
             <td>
                 <a th:href="@{'/admin/show-edit-chinhanh/' + ${hotel.id}}" class="btn btn-sm btn-custom">
                     <i class="fas fa-edit"></i> Chỉnh sửa

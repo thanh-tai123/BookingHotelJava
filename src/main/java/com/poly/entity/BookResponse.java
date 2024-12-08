@@ -3,7 +3,7 @@ package com.poly.entity;
 public class BookResponse {
 	  public BookResponse(Room room) {
 		  this.roomId = room.getId();
-	        this.roomType = room.getKieuphong();
+//	        this.roomType = room.getKieuphong();
 	        this.roomPrice = room.getGia();
 	        this.roomDescription = room.getMota();
 	}

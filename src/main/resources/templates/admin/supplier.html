@@ -6,7 +6,11 @@
     <title>NHẬP PHÒNG</title>
     <!-- Include AngularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-    <!-- Include the AngularJS controller script -->
+   <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<!-- AngularJS -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<!-- Your custom script -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"> <!-- Include the AngularJS controller script -->
     <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
 </head>
 <style>
@@ -197,6 +201,10 @@ margin-left:690px;
     </div>
 
     <div class="form-row">
+     <div class="form-group">
+            <label>ĐỊA CHỈ:</label>
+            <input type="text" ng-model="room.address" required />
+        </div>
         <div class="form-group">
             <label>MÔ TẢ:</label>
             <input type="text" ng-model="room.mota" required />
@@ -221,6 +229,7 @@ margin-left:690px;
             <th>HÌNH</th>
             <th>KIỂU PHÒNG</th>
             <th>CHI NHÁNH</th>
+             <th>ĐỊA CHỈ</th>
             <th>GIÁ</th>
             <th>TRẠNG THÁI</th>
             <th>MÔ TẢ</th>
@@ -235,6 +244,7 @@ margin-left:690px;
             <td><img ng-src="{{ room.img }}" alt="Room Image" style="height: 100px;width: 100px"/></td>
             <td>{{ room.roomType.name }}</td>
             <td>{{ room.hotelid.chinhanh }}</td>
+             <td>{{ room.address }}</td>
             <td>${{ room.gia }}</td>
             <td>{{ room.status }}</td>
             <td>{{ room.mota }}</td>
@@ -311,7 +321,7 @@ angular.module('app', [])
         formData.append('gia', $scope.room.gia);
         formData.append('mota', $scope.room.mota);
         formData.append('status', $scope.room.status);
-
+        formData.append('address', $scope.room.address);
         // Truyền chỉ id của user vào formData
 
         formData.append('staffid', $scope.user.id);
@@ -333,7 +343,7 @@ angular.module('app', [])
             headers: { 'Content-Type': undefined },
             transformRequest: angular.identity
         }).then(function(response) {
-            alert('Room updated successfully!');
+            alert('Cập nhật thành công!');
             $scope.loadRoomsByStatus($scope.selectedStatus); // Làm mới danh sách phòng
             $scope.resetForm(); // Reset form sau khi cập nhật
 
@@ -420,6 +430,7 @@ angular.module('app', [])
         formData.append('roomtypeid', $scope.room.roomTypeId);
         formData.append('gia', $scope.room.gia);
         formData.append('mota', $scope.room.mota);
+        formData.append('address', $scope.room.address);
         formData.append('status', $scope.room.status);
         formData.append('note', $scope.room.note || '');
         formData.append('staffid', $scope.user.id);
