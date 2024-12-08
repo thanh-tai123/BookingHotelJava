@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chi Nhánh Hotel</title>
+    <title>CHI NHÁNH</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
     <style>
@@ -92,18 +92,18 @@
 <div class="content">
     <div class="add-icon">
         <a th:href="@{/admin/show-add-chinhanh}" class="btn btn-sm btn-custom">
-            <i class="fas fa-plus-circle"></i> Thêm Chi Nhánh
+            <i class="fas fa-plus-circle"></i> THÊM CHI NHÁNH
         </a>
     </div>
 
-    <h2 class="mb-4 font-weight-bold text-center">Danh Sách Chi Nhánh</h2>
+    <h2 class="mb-4 font-weight-bold text-center">DANH SÁCH CHI NHÁNH</h2>
     <table class="table table-bordered">
         <thead>
         <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Chi Nhánh</th>
+            <th scope="col">STT</th>
+            <th scope="col">CHI NHÁNH</th>
             <th scope="col">MÔ TẢ</th>
-            <th scope="col">Hành Động</th>
+            <th scope="col">HÀNH ĐỘNG</th>
         </tr>
         </thead>
         <tbody>
@@ -113,7 +113,7 @@
             <td th:text="${hotel.mota}"></td>
             <td>
                 <a th:href="@{'/admin/show-edit-chinhanh/' + ${hotel.id}}" class="btn btn-sm btn-custom">
-                    <i class="fas fa-edit"></i> Chỉnh sửa
+                    <i class="fas fa-edit"></i> SỬA
                 </a>
             </td>
         </tr>

@@ -79,7 +79,7 @@ public class UserService implements UserServiceRepository{
 		        LocalDateTime.now()).getSeconds() < (1 * 180)) {
 		      Account.setActivated(true);
 		      userRepository.save(Account);
-		      return "OTP CÓ THỂ XÁC THỰC <a href=\"/account/login\">login</a>";
+		      return "OTP CÓ THỂ XÁC THỰC";
 		    }
 		    return "OTP ĐÃ HẾT HẠN, HÃY VÀO TRANG ĐĂNG NHẬP VÀ CHỌN XÁC THỰC TÀI KHOẢN ĐỂ TẠO OTP MỚI" ;
 		  }
@@ -98,7 +98,7 @@ public class UserService implements UserServiceRepository{
 		    Account.setOtp(otp);
 		    Account.setOtpGeneratedTime(LocalDateTime.now());
 		    userRepository.save(Account);
-		    return "EMAIL ĐÃ ĐƯỢC GỬI... XIN VUI LÒNG VÀO EMAIL ĐỂ XÁC THỰC <a href=\"/account/login\">login</a>";
+		    return "EMAIL ĐÃ ĐƯỢC GỬI... XIN VUI LÒNG VÀO EMAIL ĐỂ XÁC THỰC ";
 		  }
 	  
 	  

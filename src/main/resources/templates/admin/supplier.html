@@ -212,7 +212,9 @@ margin-left:690px;
     </div>
 
     <button type="submit" class="btn btn-success">{{ isEditing ? 'CẬP NHẬT PHÒNG' : 'THÊM PHÒNG' }}</button>
+    
 </form>
+
    <h2 style="color: #c09b5a">DANH SÁCH PHÒNG</h2>
 <label for="statusSelect">LỌC THEO TRẠNG THÁI PHÒNG:</label>
 <select id="statusSelect" ng-model="selectedStatus" ng-change="loadRoomsByStatus(selectedStatus)" class="status-select">
@@ -269,7 +271,7 @@ angular.module('app', [])
     $scope.selectedHotel = null;
     $scope.selectedStatus = 'FALSE';
     $scope.isEditing = false
-  
+    $scope.isLoading = false;
         $scope.loadRoomsByStatus = function(status) {
             $http.get(`/api/status/${status}`)
                 .then(function(response) {
@@ -338,7 +340,7 @@ angular.module('app', [])
                 formData.append('images', $scope.room.images[i]);
             }
         }
-
+        $scope.isLoading = true;
         $http.put(`/api/update-room/${$scope.room.id}`, formData, {
             headers: { 'Content-Type': undefined },
             transformRequest: angular.identity

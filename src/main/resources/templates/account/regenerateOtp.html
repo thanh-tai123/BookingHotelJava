@@ -3,7 +3,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>XÁC THỰC TÀI KHOẢN</title>
+<title>XÁC THỰC TÀI KHOẢN EMAIL</title>
  <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
 </head>
 <style>  body, html {
@@ -117,11 +117,13 @@ img{width: 300px;
 
 <div class="bg">
 
+          
     <div class="row">
+    
         <div class="col-md-1"></div>
         <div class="col-md-3">
             <div class="login-container">
-                <h3 >NHẬP EMAIL ĐỂ XÁC THỰC LẠI</h3>
+                <h3 >NHẬP LẠI EMAIL ĐỂ XÁC THỰC</h3>
                 <form th:action="@{/account/regenerate-otp}" method="post">
 
                     <label for="email" class="form-label" th:text="#{forgotPassword.EmailAddress}"></label>
@@ -137,6 +139,11 @@ img{width: 300px;
                     <button type="submit" class="btn-login"  >GỬI</button>
 
                 </form>
+                <div th:if="${error}" >
+    <h5 th:text="${error}" ></h5> <!-- Hiển thị thông báo lỗi -->
+
+  
+</div>
                  </div>
         </div>
 

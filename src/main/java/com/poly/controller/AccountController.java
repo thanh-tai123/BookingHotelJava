@@ -213,10 +213,10 @@ public class AccountController {
 	        try{
 	        	String result = userService.regenerateOtp(email);
 	        	 model.addAttribute("error", result);
-	        	return "access/error";
+	        	return "account/regenerateOtp";
 	        }catch (IllegalArgumentException e) {
 	            model.addAttribute("error", e.getMessage());
-	            return "access/error"; // Return to the registration page with the error message
+	            return "account/regenerateOtp"; // Return to the registration page with the error message
 	        }
 	    }
 	    @RequestMapping("/forgot-password")

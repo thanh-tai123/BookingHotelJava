@@ -196,26 +196,26 @@
 
 <!-- Nội dung chính -->
 <div class="main-content" ng-controller="RoomTypeController">
-    <h2>{{ roomType.id ? 'Update Room Type' : 'Add Room Type' }}</h2>
+    <h2>{{ roomType.id ? 'CẬP NHẬT KIỂU PHÒNG' : 'THÊM KIỂU PHÒNG' }}</h2>
     <form ng-submit="roomType.id ? updateRoomType() : addRoomType()">
-        <label>Room Type Name:</label>
+        <label>TÊN KIỂU PHÒNG:</label>
         <input type="text" ng-model="roomType.name" required/>
 
-        <label>Description:</label>
+        <label>MÔ TẢ:</label>
 
         <input type="text" ng-model="roomType.description" required/>
 
-        <button type="submit">{{ roomType.id ? 'Update Room Type' : 'Add Room Type' }}</button>
+        <button type="submit">{{ roomType.id ? 'CẬP NHẬT KIỂU PHÒNG' : 'THÊM KIỂU PHÒNG' }}</button>
     </form>
 
 
-    <h3>Room Types List</h3>
+    <h3>DANH SÁCH KIỂU PHÒNG</h3>
     <table>
         <thead>
         <tr>
-            <th class="text-center">Name</th>
-            <th class="text-center">Description</th>
-            <th class="text-center">Actions</th>
+            <th class="text-center">TÊN</th>
+            <th class="text-center">MÔ TẢ</th>
+            <th class="text-center">HÀNG ĐỘNG</th>
 
         </tr>
         </thead>
@@ -225,8 +225,8 @@
             <td class="text-center">{{ type.name }}</td>
             <td class="text-center">{{ type.description }}</td>
             <td class="action-buttons text-center">
-                <button ng-click="editRoomType(type)">Edit</button>
-                <button ng-click="deleteRoomType(type.id)">Delete</button>
+                <button ng-click="editRoomType(type)">SỬA</button>
+                <button ng-click="deleteRoomType(type.id)">XÓA</button>
 
             </td>
         </tr>
@@ -238,7 +238,7 @@
 <script>
     var app = angular.module('app', []);
     app.controller('RoomTypeController', function ($scope, $http) {
-    	$scope.baseUrl = 'https://polyhotelbooking.online/api'; 
+    
         $scope.roomType = {
             id: null,
             name: '',
@@ -248,7 +248,7 @@
 
 
         $scope.loadRoomTypes = function () {
-            $http.get($scope.baseUrl + 'api/roomtypes')
+            $http.get('/api/roomtypes')
                 .then(function (response) {
                     $scope.roomTypes = response.data;
                 }, function (error) {
@@ -258,7 +258,7 @@
 
 
         $scope.addRoomType = function () {
-            $http.post($scope.baseUrl +'/api/add/roomtype', $scope.roomType, {
+            $http.post('/api/add/roomtype', $scope.roomType, {
                 headers: {
                     'Content-Type': 'application/json' // Đặt tiêu đề Content-Type
                 }
@@ -279,7 +279,7 @@
         };
 
         $scope.updateRoomType = function () {
-            $http.put($scope.baseUrl + '/api/update/roomtype/' + $scope.roomType.id, $scope.roomType)
+            $http.put('/api/update/roomtype/' + $scope.roomType.id, $scope.roomType)
                 .then(function (response) {
                     const index = $scope.roomTypes.findIndex(type => type.id === $scope.roomType.id);
                     if (index !== -1) {
@@ -292,7 +292,7 @@
         };
 
         $scope.deleteRoomType = function (id) {
-            $http.delete($scope.baseUrl + '/api/delete/roomtype/' + id)
+            $http.delete('/api/delete/roomtype/' + id)
                 .then(function () {
                     $scope.roomTypes = $scope.roomTypes.filter(type => type.id !== id); // Xóa khỏi danh sách
                 }, function (error) {
