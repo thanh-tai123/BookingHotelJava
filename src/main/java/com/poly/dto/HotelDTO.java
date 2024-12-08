@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class HotelDTO {
 	private Integer id;
     private String chinhanh;
-    private String diachi;
+//    private String diachi;
+    private String mota;
 }

@@ -50,6 +50,10 @@ public class UserService implements UserServiceRepository{
 		  if (userRepository.findByEmail(registerDto.getEmail()).isPresent()) {
 		        throw new IllegalArgumentException("EMAIL NÀY ĐÃ TỒN TẠI. VUI LÒNG CHỌN EMAIL KHÁC.");
 		    }
+		  String phone = registerDto.getPhone();
+		    if (!phone.matches("0\\d{9}")) { // Số điện thoại bắt đầu bằng 0 và có tổng cộng 10 chữ số
+		        throw new IllegalArgumentException("SỐ ĐIỆN THOẠI KHÔNG HỢP LỆ. VUI LÒNG NHẬP LẠI.");
+		    }
 		    String otp = otpUtil.generateOtp();
 		    try {
 		      emailUtil.sendOtpEmail(registerDto.getEmail(), otp);
@@ -75,13 +79,16 @@ public class UserService implements UserServiceRepository{
 		        LocalDateTime.now()).getSeconds() < (1 * 180)) {
 		      Account.setActivated(true);
 		      userRepository.save(Account);
-		      return "OTP CÓ THỂ XÁC THỰC <a href=\"/account/login\">login</a>";
+		      return "OTP CÓ THỂ XÁC THỰC";
 		    }
 		    return "OTP ĐÃ HẾT HẠN, HÃY VÀO TRANG ĐĂNG NHẬP VÀ CHỌN XÁC THỰC TÀI KHOẢN ĐỂ TẠO OTP MỚI" ;
 		  }
 	  public String regenerateOtp(String email) {
 		    User Account = userRepository.findByEmail(email)
 		        .orElseThrow(() -> new RuntimeException("KHÔNG TÌM THẤY TÀI KHOẢN VỚI: " + email));
+		    if (Boolean.TRUE.equals(Account.getActivated())) {
+		    	 throw new IllegalArgumentException("EMAIL ĐÃ ĐƯỢC XÁC THỰC. KHÔNG CẦN GỬI OTP.");
+		    }
 		    String otp = otpUtil.generateOtp();
 		    try {
 		      emailUtil.sendOtpEmail(email, otp);
@@ -91,7 +98,7 @@ public class UserService implements UserServiceRepository{
 		    Account.setOtp(otp);
 		    Account.setOtpGeneratedTime(LocalDateTime.now());
 		    userRepository.save(Account);
-		    return "EMAIL ĐÃ ĐƯỢC GỬI... XIN VUI LÒNG VÀO EMAIL ĐỂ XÁC THỰC <a href=\"/account/login\">login</a>";
+		    return "EMAIL ĐÃ ĐƯỢC GỬI... XIN VUI LÒNG VÀO EMAIL ĐỂ XÁC THỰC ";
 		  }
 	  
 	  

@@ -18,6 +18,7 @@ public class RoomDTO {
     private int roomtypeid;
     private String img;
     private int sophong;
+    private String address;
     private String kieuphong;
     private RoomTypeDTO roomType;
     private float gia;

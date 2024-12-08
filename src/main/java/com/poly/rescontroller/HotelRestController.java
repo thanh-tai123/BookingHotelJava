@@ -21,7 +21,7 @@ public class HotelRestController {
     @GetMapping("/hotels")
     public List<HotelDTO> getAllHotels() {
         return hotelRepository.findAll().stream()
-            .map(hotel -> new HotelDTO(hotel.getId(), hotel.getChinhanh() ,hotel.getDiachi()))
+            .map(hotel -> new HotelDTO(hotel.getId(), hotel.getChinhanh() ,hotel.getMota()))
             .collect(Collectors.toList());
     }
 }

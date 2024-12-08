@@ -11,6 +11,8 @@ import com.poly.repository.UserRepo;
 import com.poly.service.AwsS3Service;
 import com.poly.service.UserService;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
@@ -200,11 +202,22 @@ public class AccountController {
 	    public String showRegenerateOtpForm() {
 	        return "account/regenerateOtp";
 	    }
-
+	  
+//	    @PostMapping("/regenerate-otp")
+//	    public ResponseEntity<String> regenerateOtp(@RequestParam String email) {
+//	        String result = userService.regenerateOtp(email);
+//	        return new ResponseEntity<>(result, HttpStatus.OK);
+//	    }
 	    @PostMapping("/regenerate-otp")
-	    public ResponseEntity<String> regenerateOtp(@RequestParam String email) {
-	        String result = userService.regenerateOtp(email);
-	        return new ResponseEntity<>(result, HttpStatus.OK);
+	    public String regenerateOtp(@RequestParam String email, Model model) {
+	        try{
+	        	String result = userService.regenerateOtp(email);
+	        	 model.addAttribute("error", result);
+	        	return "account/regenerateOtp";
+	        }catch (IllegalArgumentException e) {
+	            model.addAttribute("error", e.getMessage());
+	            return "account/regenerateOtp"; // Return to the registration page with the error message
+	        }
 	    }
 	    @RequestMapping("/forgot-password")
 	    public String showForgotForm() {

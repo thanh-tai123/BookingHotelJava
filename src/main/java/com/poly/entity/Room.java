@@ -50,9 +50,9 @@ public class Room {
 		    @JsonBackReference
 		    private RoomType roomtype;
 	    private String img;
-//	    private String diachi;
+	    private String address;
 	    private int sophong;
-	    private String kieuphong;
+//	    private String kieuphong;
 	    private float gia;
 	    private String mota;
 	    @Builder.Default

@@ -22,7 +22,8 @@ public class Hotel {
 	    private int id;
 
         private String chinhanh;
-		private String diachi;
+//		private String diachi;
+		private String mota;
 	    @OneToMany(mappedBy = "hotel")
 	    @JsonManagedReference
 	    private List<Room> rooms;

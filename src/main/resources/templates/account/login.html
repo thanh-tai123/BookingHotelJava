@@ -546,7 +546,7 @@
                     </div>
 
                     <div class="d-grid">
-                        <button type="submit" class="btn-login"  style="background-color: #c09b5a; margin-left:125px" th:text=#{login.login}></button>
+                        <button type="submit" class="btn-login"  style="background-color: #c09b5a; margin-left:110px" th:text=#{login.login}></button>
                     </div>
                     <p>
                   <div th:if="${error}" class="alert alert-danger text-center">
@@ -559,14 +559,14 @@
                                <i class="fab fa-google"></i> GOOGLE
                             </a>
                         </div>
-                         <div class="d-flex justify-content-center mt-3">
+                       <!--   <div class="d-flex justify-content-center mt-3">
                             <a href="/oauth2/authorization/facebook" class="btn-facebook" >
                                 <i class="fab fa-facebook"></i> FACEBOOK
                             </a>
                            
-                        </div>
+                        </div> -->
                     </div>
-                    <div class="text-start mt-4" style="margin-left:115px">
+                    <div class="text-start mt-4" style="margin-left:95px">
                         <span th:text=#{login.YouDontHaveAccount}>Bạn chưa có tài khoản?</span>
                         <a href="/account/register" th:text=#{login.register}>Đăng ký</a>
                     </div>

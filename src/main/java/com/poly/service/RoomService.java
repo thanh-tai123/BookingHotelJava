@@ -58,6 +58,14 @@ public class RoomService implements RoomServiceRepository{
     public void updateRoom(int roomId, RoomRequest roomRequest, List<MultipartFile> images) {
         try {
             // Lấy thông tin phòng, khách sạn, loại phòng, và người dùng từ cơ sở dữ liệu
+        	  if (roomRequest.getGia() <= 0 || roomRequest.getGia() >= 10000000) {
+        	        throw new RuntimeException("Giá phải lớn hơn 0 và nhỏ hơn 10,000,000");
+        	    }
+
+        	    // Kiểm tra tính hợp lệ của sophong
+        	    if (roomRequest.getSophong() <= 0) {
+        	        throw new RuntimeException("Số phòng phải lớn hơn 0");
+        	    }
             Room room = roomRepository.findById(roomId)
                     .orElseThrow(() -> new RuntimeException("Room not found"));
 
@@ -93,6 +101,7 @@ public class RoomService implements RoomServiceRepository{
             room.setHotel(hotel);
             room.setSophong(roomRequest.getSophong());
             room.setGia(roomRequest.getGia());
+            room.setAddress(roomRequest.getAddress());
             room.setMota(roomRequest.getMota());
             room.setStatus(RoomStatus.FALSE);
             room.setUser(user);
@@ -119,6 +128,14 @@ public class RoomService implements RoomServiceRepository{
 //        return roomRepository.findByStatus(status);
 //    }
     public void addRoom(RoomRequest roomRequest, List<MultipartFile> images) {
+    	  if (roomRequest.getGia() <= 0 || roomRequest.getGia() >= 10000000) {
+    	        throw new RuntimeException("Giá phải lớn hơn 0 và nhỏ hơn 10,000,000");
+    	    }
+
+    	    // Kiểm tra tính hợp lệ của sophong
+    	    if (roomRequest.getSophong() <= 0) {
+    	        throw new RuntimeException("Số phòng phải lớn hơn 0");
+    	    }
         Hotel hotel = hotelRepository.findById(roomRequest.getHotelid())
                 .orElseThrow(() -> new RuntimeException("Hotel not found"));
         RoomType roomtype = roomtypeRepository.findById(roomRequest.getRoomtypeid())
@@ -134,6 +151,7 @@ public class RoomService implements RoomServiceRepository{
         room.setSophong(roomRequest.getSophong());
         room.setGia(roomRequest.getGia());
         room.setMota(roomRequest.getMota());
+        room.setAddress(roomRequest.getAddress());
         room.setStatus(roomRequest.getStatus());
         room.setUser(user);
         room.setRoomtype(roomtype);
@@ -163,7 +181,7 @@ public class RoomService implements RoomServiceRepository{
             roomDTO.setMota(room.getMota());
             roomDTO.setStatus(room.getStatus());
             roomDTO.setNote(room.getNote());
-           
+           roomDTO.setAddress(room.getAddress());
 
             // Fetch hotel details
             Hotel hotel = room.getHotel();
@@ -171,7 +189,7 @@ public class RoomService implements RoomServiceRepository{
                 HotelDTO hotelDTO = new HotelDTO();
                 hotelDTO.setId(hotel.getId());
                 hotelDTO.setChinhanh(hotel.getChinhanh());
-                hotelDTO.setDiachi(hotel.getDiachi());
+                hotelDTO.setMota(hotelDTO.getMota());
                 roomDTO.setHotelid(hotelDTO); // Set the hotel details in RoomDTO
             }
             
@@ -209,12 +227,13 @@ public class RoomService implements RoomServiceRepository{
                 .gia(room.getGia())
                 .gia(room.getCurrentPrice(new Date()))
                 .mota(room.getMota())
+                .address(room.getAddress())
                 .status(room.getStatus())
                 .note(room.getNote())
                 .hotelid(HotelDTO.builder()
                         .id(room.getHotel().getId())
                         .chinhanh(room.getHotel().getChinhanh())
-                        .diachi(room.getHotel().getDiachi())
+                        .mota(room.getHotel().getMota())
                         .build())
                 .roomType(RoomTypeDTO.builder()
                         .id(room.getRoomtype().getId())
@@ -243,12 +262,13 @@ public class RoomService implements RoomServiceRepository{
                         .gia(room.getGia())
                         .gia(room.getCurrentPrice(new Date()))
                         .mota(room.getMota())
+                        .address(room.getAddress())
                         .status(room.getStatus())
                         .note(room.getNote())
                         .hotelid(HotelDTO.builder()
                                 .id(room.getHotel().getId())
                                 .chinhanh(room.getHotel().getChinhanh())
-                                .diachi(room.getHotel().getDiachi())
+                                .mota(room.getHotel().getMota())
                                 .build())
                         .roomType(RoomTypeDTO.builder()
                                 .id(room.getRoomtype().getId())

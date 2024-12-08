@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Service Management</title>
+    <title>QUẢN LÍ DỊCH VỤ</title>
 
      <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
 
@@ -192,26 +192,26 @@
 
 <!-- Nội dung chính -->
 <div class="main-content" ng-controller="ServiceController">
-    <h2>{{ service.id ? 'Update Service' : 'Add Service' }}</h2>
+    <h2>{{ service.id ? 'CẬP NHẬT DỊCH VỤ' : 'THÊM DỊCH VỤ' }}</h2>
     <form ng-submit="service.id ? updateService() : addService()">
-        <label>Service Name:</label>
+        <label>TÊN DỊCH VỤ</label>
         <input type="text" ng-model="service.name" required/>
 
-        <label>Description:</label>
+        <label>MÔ TẢ:</label>
         <input type="text" ng-model="service.description" required/>
 
 
-        <button type="submit">{{ service.id ? 'Update Service' : 'Add Service' }}</button>
+        <button type="submit">{{ service.id ? 'CẬP NHẬT DỊCH VỤ' : 'THÊM DỊCH VỤ' }}</button>
     </form>
 
 
-    <h3>Service List</h3>
+    <h3>DANH SÁCH DỊCH VỤ</h3>
     <table>
         <thead>
         <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Actions</th>
+            <th>TÊN</th>
+            <th>MÔ TẢ</th>
+            <th>HÀNH ĐỘNG</th>
         </tr>
         </thead>
         <tbody>
@@ -219,8 +219,8 @@
             <td>{{ service.name }}</td>
             <td>{{ service.description }}</td>
             <td class="action-buttons">
-                <button ng-click="editService(service)">Edit</button>
-                <button ng-click="deleteService(service.id)">Delete</button>
+                <button ng-click="editService(service)" >SỬA</button>
+                <button ng-click="deleteService(service.id)">XÓA</button>
             </td>
         </tr>
         </tbody>
@@ -232,7 +232,7 @@
 
 
     app.controller('ServiceController', function ($scope, $http) {
-
+    	
         $scope.service = {
             id: null,
             name: '',
