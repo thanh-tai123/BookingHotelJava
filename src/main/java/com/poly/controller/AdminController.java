@@ -234,7 +234,7 @@ public class AdminController {
 
 
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('SUPERADMIN')")
     @RequestMapping("/edit/{id}")
     public String showEditRoleUser(@PathVariable(name = "id") Long id, Model model, RedirectAttributes redirectAttributes) {
         User user = this.userRepo.findById(id).get();
@@ -246,7 +246,7 @@ public class AdminController {
 
         return "admin/Edit_User";
     }
-
+    @PreAuthorize("hasAuthority('SUPERADMIN')")
     @PostMapping("/save")
     public String saveUser(@ModelAttribute(name = "user") User user, RedirectAttributes redirectAttributes
     ) {
@@ -296,7 +296,7 @@ public class AdminController {
     }
 
     //Them chi nhanh
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('SUPERADMIN')")
     @RequestMapping("/show-chinhanh")
     public String showChinhanh(Model model) {
         List<Hotel> hotels = this.hotelService.getAllHotels();
@@ -304,20 +304,20 @@ public class AdminController {
         return "admin/chi_nhanh_hotel";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('SUPERADMIN')")
     @RequestMapping("/show-add-chinhanh")
     public String showAddChinhanh() {
         return "admin/add_ChiNhanh";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('SUPERADMIN')")
     @RequestMapping("/save-chinhanh")
     public String saveChiNhanh(@ModelAttribute Hotel hotel, Model model) {
         this.hotelService.saveHotel(hotel);
         return "redirect:/admin/show-chinhanh";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('SUPERADMIN')")
     @RequestMapping("/show-edit-chinhanh/{id}")
     public String showEditChiNhanh(@PathVariable(name = "id") Integer id,
                                    Model model) {
@@ -326,7 +326,7 @@ public class AdminController {
         return "admin/Edit_ChiNhanh_Hotel";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('SUPERADMIN')")
     @RequestMapping("/update-chinhanh")
     public String updateChiNhanh(@ModelAttribute Hotel hotel, Model model) {
         this.hotelService.updateHotel(hotel);

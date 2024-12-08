@@ -1,13 +1,50 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>LỖI QUYỀN</title>
+    <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        h1 {
+            margin-top: 20px;
+            font-size: 2.5em;
+            color: #dc3545; /* Màu đỏ */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        p {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+        .container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 90%;
+            max-width: 600px;
+        }
+    </style>
 </head>
 <body>
 
-<div th:replace="access/nav :: html"></div>
 
-you have not permission
+<div class="container">
+    <h1>BẠN KHÔNG CÓ QUYỀN CHỈNH SỬA</h1>
+    <p>Vui lòng liên hệ với quản trị viên nếu bạn cần hỗ trợ.</p>
+    <a th:href=@{/}>TRỞ VỀ TRANG CHỦ</a>
+</div>
+
 </body>
 </html>
