@@ -232,7 +232,7 @@
 
 
     app.controller('ServiceController', function ($scope, $http) {
-
+    	$scope.baseUrl = 'https://polyhotelbooking.online/api'; 
         $scope.service = {
             id: null,
             name: '',
@@ -241,7 +241,7 @@
         $scope.services = [];
 
         $scope.loadServices = function () {
-            $http.get('/api/services')
+            $http.get($scope.baseUrl +'/api/services')
                 .then(function (response) {
                     $scope.services = response.data;
                 }, function (error) {
@@ -250,7 +250,7 @@
         };
 
         $scope.addService = function () {
-            $http.post('/api/add/services', $scope.service)
+            $http.post($scope.baseUrl +'/api/add/services', $scope.service)
                 .then(function (response) {
                     $scope.services.push(response.data);
                     $scope.clearForm();
@@ -264,7 +264,7 @@
         };
 
         $scope.updateService = function () {
-            $http.put('/api/update/services/' + $scope.service.id, $scope.service)
+            $http.put($scope.baseUrl +'/api/update/services/' + $scope.service.id, $scope.service)
                 .then(function (response) {
                     const index = $scope.services.findIndex(s => s.id === $scope.service.id);
                     if (index !== -1) {
@@ -277,7 +277,7 @@
         };
 
         $scope.deleteService = function (id) {
-            $http.delete('/api/delete/services/' + id)
+            $http.delete($scope.baseUrl +'/api/delete/services/' + id)
                 .then(function () {
                     $scope.services = $scope.services.filter(s => s.id !== id);
                 }, function (error) {

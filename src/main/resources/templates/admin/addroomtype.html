@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Book</title>
+   
     <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 
-    <title>Room Types</title>
+    <title>KIỂU PHÒNG</title>
 
     <style>
         /* Đặt lại bố cục cho body */
@@ -238,7 +238,7 @@
 <script>
     var app = angular.module('app', []);
     app.controller('RoomTypeController', function ($scope, $http) {
-
+    	$scope.baseUrl = 'https://polyhotelbooking.online/api'; 
         $scope.roomType = {
             id: null,
             name: '',
@@ -248,7 +248,7 @@
 
 
         $scope.loadRoomTypes = function () {
-            $http.get('/api/roomtypes')
+            $http.get($scope.baseUrl + 'api/roomtypes')
                 .then(function (response) {
                     $scope.roomTypes = response.data;
                 }, function (error) {
@@ -258,7 +258,7 @@
 
 
         $scope.addRoomType = function () {
-            $http.post('/api/add/roomtype', $scope.roomType, {
+            $http.post($scope.baseUrl +'/api/add/roomtype', $scope.roomType, {
                 headers: {
                     'Content-Type': 'application/json' // Đặt tiêu đề Content-Type
                 }
@@ -279,7 +279,7 @@
         };
 
         $scope.updateRoomType = function () {
-            $http.put('/api/update/roomtype/' + $scope.roomType.id, $scope.roomType)
+            $http.put($scope.baseUrl + '/api/update/roomtype/' + $scope.roomType.id, $scope.roomType)
                 .then(function (response) {
                     const index = $scope.roomTypes.findIndex(type => type.id === $scope.roomType.id);
                     if (index !== -1) {
@@ -292,7 +292,7 @@
         };
 
         $scope.deleteRoomType = function (id) {
-            $http.delete('/api/delete/roomtype/' + id)
+            $http.delete($scope.baseUrl + '/api/delete/roomtype/' + id)
                 .then(function () {
                     $scope.roomTypes = $scope.roomTypes.filter(type => type.id !== id); // Xóa khỏi danh sách
                 }, function (error) {
