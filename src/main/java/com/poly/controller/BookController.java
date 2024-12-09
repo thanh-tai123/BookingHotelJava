@@ -202,7 +202,7 @@ public class BookController {
                 }
             }
         }
-
+        
         // Gửi email một lần cho tất cả các phòng
         if (emailContent.length() > 0) {
             String finalEmailContent = "Thông tin cập nhật cho Book Code: " + bookCode + "\n\n" + emailContent.toString();

@@ -80,6 +80,9 @@ public class BookingService implements BookingServiceRepository{
 
                 long differenceInMillis = request.getCheckout().getTime() - request.getCheckin().getTime();
                 long daysBetween = differenceInMillis / (1000 * 60 * 60 * 24);
+                if (daysBetween > 7) {
+                    throw new IllegalArgumentException("Thời gian đặt phòng không được vượt quá 7 ngày.");
+                }
                 float calculatedTotal = daysBetween * priceToUse;
                 bookDetail.setTotal(calculatedTotal);
                 bookDetail.setAdult(request.getAdult());
@@ -101,7 +104,7 @@ public class BookingService implements BookingServiceRepository{
             }
         }
 
-        emailContent.append("\nCảm ơn bạn đã sử dụng dịch vụ của chúng tôi.\nTrân trọng,\nĐội ngũ khách sạn.");
+        emailContent.append("\nCảm ơn bạn đã sử dụng dịch vụ của chúng tôi.\nNếu có bất kì vấn đề gì hãy gọi 0357184576 \nTrân trọng,\nĐội ngũ khách sạn.");
 
         // Gửi email
         try {

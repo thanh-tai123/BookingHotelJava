@@ -464,6 +464,19 @@ header h2 {
         transform: translate(-50%, -50%); /* Điều chỉnh vị trí */
         z-index: 1000; /* Đảm bảo hiển thị trên các phần tử khác */
     }
+    input[type="date"] {
+    background-color: #333; /* Màu nền tùy chỉnh */
+    color: white; /* Màu chữ */
+    border: 1px solid #d4af37; /* Đường viền */
+    border-radius: 5px; /* Bo góc */
+    padding: 10px; /* Khoảng cách bên trong */
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    background-color: #d4af37; /* Màu cho biểu tượng lịch (chỉ áp dụng cho Chrome) */
+    border-radius: 5px;
+    padding: 5px; /* Khoảng cách cho biểu tượng */
+}
     </style>
 </head>
 <div th:replace="~{access/nav1 :: html}"></div>
@@ -842,6 +855,12 @@ header h2 {
                 // Calculate total amount
                 const timeDifference = checkoutDate.getTime() - checkinDate.getTime();
                 const daysBetween = timeDifference / (1000 * 3600 * 24);
+                if (daysBetween > 7) {
+                    alert("Khoảng thời gian đặt phòng không được vượt quá 7 ngày.");
+                    $scope.totalAmount = 0;
+                    document.getElementById("loadingIndicator").style.display = "none"; // Ẩn loading
+                    return; // Thoát khỏi hàm
+                }
                 const totalAmount = daysBetween * $scope.roomDetails.gia; // This can be adjusted based on selected rooms
                 $scope.totalAmount = totalAmount;
 
@@ -921,9 +940,9 @@ header h2 {
                     });
             }
             $scope.isFutureCheckout = function(booking) {
-                const today = new Date();
-                const checkoutDate = new Date(booking.checkout);
-                return checkoutDate >= today;
+                var now = new Date();
+                var checkoutDate = new Date(booking.checkout);
+                return booking.bookDetailStatus !== 'cancel' && checkoutDate > now;
             };
 
             $scope.loadBookedDates();

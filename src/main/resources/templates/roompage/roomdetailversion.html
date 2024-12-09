@@ -413,13 +413,7 @@
             <div class="col-md-4 text-end">
                 <p th:text="'GIÁ GỐC: ' + ${room.gia}"></p>
                   <p th:text="'GIÁ HIỆN TẠI: ' + ${currentPrice}"></p>
-                <p>
-                    <text th:text="#{body.CostFor}"></text>
-                    1
-                    <text th:text="#{body.guests}"></text>,
-                    2
-                    <text th:text="#{body.night}"></text>
-                </p>
+               
                 <p class="text-success">
                     <i class="fas fa-check-circle"></i>
                     <a th:href="'/room/room-details/' + ${room.id}" class="btn btn-success" th:text="#{body.BookNow}"></a>

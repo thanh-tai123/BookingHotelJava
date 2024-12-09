@@ -31,7 +31,7 @@ public interface BookDetailRepository extends JpaRepository<BookDetail, Integer>
 
 //	    @Query("SELECT b FROM BookDetail b WHERE b.checkout >= :checkin AND b.checkin < :checkout")
 //	    List<BookDetail> findAllByCheckoutGreaterThanEqualAndCheckinLessThan(@Param("checkin") Date checkin, @Param("checkout") Date checkout);
-	    @Query("SELECT b FROM BookDetail b WHERE b.checkout > :checkin AND b.checkin < :checkout")
+	    @Query("SELECT b FROM BookDetail b WHERE b.checkout > :checkin AND b.checkin < :checkout AND b.bookDetailStatus NOT IN ('cancel', 'checkout')")
 	    List<BookDetail> findAllConflictingBookings(@Param("checkin") Date checkin, @Param("checkout") Date checkout);
 
 

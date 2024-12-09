@@ -161,7 +161,7 @@
             background-color: #a48c4a;
         }
 
-        .custom-footer {
+        /* .custom-footer {
             background-color: black;
             padding: 20px;
             color: white;
@@ -184,8 +184,26 @@
 
         .custom-footer-logos a {
             margin: 0 15px;
-        }
+        } */
+.footer {
+  
+    color: white;
+    padding: 50px 0;
+    transition: background-color 0.3s ease;
+}
 
+
+
+.footer a {
+    color: white;
+    transition: color 0.3s ease, transform 0.2s ease; /* Thêm transition cho màu và transform */
+}
+
+.footer a:hover {
+    color: #d4af37;
+    text-decoration: none;
+    transform: scale(1.1); /* Tăng cỡ liên kết khi hover */
+}
         body {
             font-family: Arial, sans-serif;
         }
