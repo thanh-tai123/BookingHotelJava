@@ -842,6 +842,12 @@ header h2 {
                 // Calculate total amount
                 const timeDifference = checkoutDate.getTime() - checkinDate.getTime();
                 const daysBetween = timeDifference / (1000 * 3600 * 24);
+                if (daysBetween > 7) {
+                    alert("Khoảng thời gian đặt phòng không được vượt quá 7 ngày.");
+                    $scope.totalAmount = 0;
+                    document.getElementById("loadingIndicator").style.display = "none"; // Ẩn loading
+                    return; // Thoát khỏi hàm
+                }
                 const totalAmount = daysBetween * $scope.roomDetails.gia; // This can be adjusted based on selected rooms
                 $scope.totalAmount = totalAmount;
 

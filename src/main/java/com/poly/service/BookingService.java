@@ -80,6 +80,9 @@ public class BookingService implements BookingServiceRepository{
 
                 long differenceInMillis = request.getCheckout().getTime() - request.getCheckin().getTime();
                 long daysBetween = differenceInMillis / (1000 * 60 * 60 * 24);
+                if (daysBetween > 7) {
+                    throw new IllegalArgumentException("Thời gian đặt phòng không được vượt quá 7 ngày.");
+                }
                 float calculatedTotal = daysBetween * priceToUse;
                 bookDetail.setTotal(calculatedTotal);
                 bookDetail.setAdult(request.getAdult());
