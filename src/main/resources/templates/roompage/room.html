@@ -449,6 +449,18 @@ header h2 {
   .chatbot header span {
     display: block;
   }
+}input[type="date"] {
+    background-color: #333; /* Màu nền tùy chỉnh */
+    color: white; /* Màu chữ */
+    border: 1px solid #d4af37; /* Đường viền */
+    border-radius: 5px; /* Bo góc */
+    padding: 10px; /* Khoảng cách bên trong */
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    background-color: #d4af37; /* Màu cho biểu tượng lịch (chỉ áp dụng cho Chrome) */
+    border-radius: 5px;
+    padding: 5px; /* Khoảng cách cho biểu tượng */
 }
     </style>
 </head>
