@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
+<head>
+    <title>Nhập BookCode</title>
+     <style>
+        
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        form {
+            background: #fff;
+           
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #c09b5a;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            
+        }
+
+        button:hover {
+            background-color: white;
+            color: #c09b5a;
+           
+            border:1px solid #c09b5a;
+        }
+
+        h2, h3 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+          
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+         .notpayment {
+        color: red;
+        
+    }
+      .status-select-pay {
+        color: red;
+       
+    }
+    .paid {
+        color: green;
+    }
+    .notcheckin {
+        color: orange;
+    }
+    .check-in {
+        color: blue;
+    }
+    .checkout {
+        color: purple;
+    }
+    .cancel {
+        color: red;
+    }
+    .horizontal-info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+}
+
+.horizontal-info-table th, .horizontal-info-table td{
+    border: 1px solid #dddddd;
+    padding: 8px 12px;
+    text-align: center;
+}
+
+.horizontal-info-table th {
+    background-color: #d9b44a;
+    font-weight: bold;
+}
+.table thead th{
+background-color: #d9b44a;
+ padding: 8px 12px;
+    text-align: center;
+}
+.table td{
+  border: 1px solid #dddddd;
+    padding: 8px 12px;
+    text-align: center;
+}
+
+
+    </style>
+</head>
+<body>
+
+<div th:replace="~{access/navadmin :: html}"></div>
+
+<div class="container">
+
+<div>
+   <h2>Book Code: <span th:text="${book.bookCode}"></span></h2>
+<h3>Thông tin chi tiết:</h3>
+<table class="horizontal-info-table">
+    <tr>
+        <th>Mã khách hàng</th>
+        <th>Ngày tạo</th>
+        <th>Người dùng</th>
+        <th>Email</th>
+    </tr>
+    <tr>
+        <td><span th:text="${book.user.userCode}"></span></td>
+        <td><span th:text="${#dates.format(book.createDate, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
+        <td><span th:text="${book.user.name}"></span></td>
+        <td><span name="txtTo" th:text="${book.user.email}"></span></td>
+    </tr>
+</table>
+
+
+    <h3>Chi tiết Book:</h3>
+    <form th:action="@{/search/admin/updateAllStatuses}" method="post">
+        <table class="table">
+            <thead >
+                <tr>
+                    <th>Số phòng</th>
+                    <th>Kiểu phòng</th>
+                    <th>Tổng</th>
+                    <th>Giá</th>
+                    <th>Checkin</th>
+                    <th>Checkout</th>
+                    <th>Người lớn</th>
+                    <th>Trẻ em</th>
+                    <th>Phương thức thanh toán</th>
+                    <th>Trạng thái thanh toán</th>
+                    <th>Trạng thái phòng</th>
+                  
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="detail : ${bookDetails}">
+                    <td th:text="${detail.room.sophong}"></td>
+                    <td th:text="${detail.room.roomtype.name}"></td>
+                    <td th:text="${detail.total}"></td>
+                    <td th:text="${detail.price}"></td>
+                    <td th:text="${#dates.format(detail.checkin, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td th:text="${#dates.format(detail.checkout, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td th:text="${detail.adult}"></td>
+                    <td th:text="${detail.children}"></td>
+                    <td th:text="${detail.paymentMethod}"></td>
+                   <td>
+    					<select th:name="'paymentStatus[' + ${detail.id} + ']'" >
+      					  <option value="notpayment" th:selected="${detail.paymentStatus == 'notpayment'}" class="notpayment">Not Payment</option>
+       					 <option value="paid" th:selected="${detail.paymentStatus == 'paid'}" class="paid">Paid</option>
+   						 </select>
+				   </td>
+					<td>
+			   			 <select th:name="'roomStatus[' + ${detail.id} + ']'">
+			        <option value="notcheckin" th:selected="${detail.bookDetailStatus == 'notcheckin'}" class="notcheckin">Not Checkin</option>
+			        <option value="check-in" th:selected="${detail.bookDetailStatus == 'check-in'}" class="check-in">Check-in</option>
+			        <option value="checkout" th:selected="${detail.bookDetailStatus == 'checkout'}" class="checkout">Checkout</option>
+			        <option value="cancel" th:selected="${detail.bookDetailStatus == 'cancel'}" class="cancel">Cancel</option>
+			    </select>
+				</td>
+                </tr>
+            </tbody>
+        </table>
+        <input type="hidden" name="bookCode" th:value="${book.bookCode}" />
+        <button type="submit">Cập nhật tất cả</button>
+    </form>
+</div>
+
+
+
+</div>
+<div th:replace="~{access/error :: footer}"></div>
+</body>
+</html>

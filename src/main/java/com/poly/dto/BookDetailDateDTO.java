@@ -20,4 +20,5 @@ public class BookDetailDateDTO {
     private Date checkin;
 	  
     private Date checkout;
+    private String bookDetailStatus;
 }

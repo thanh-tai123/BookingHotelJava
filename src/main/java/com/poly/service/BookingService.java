@@ -101,7 +101,7 @@ public class BookingService implements BookingServiceRepository{
             }
         }
 
-        emailContent.append("\nCảm ơn bạn đã sử dụng dịch vụ của chúng tôi.\nTrân trọng,\nĐội ngũ khách sạn.");
+        emailContent.append("\nCảm ơn bạn đã sử dụng dịch vụ của chúng tôi.\nNếu có bất kì vấn đề gì hãy gọi 0357184576 \nTrân trọng,\nĐội ngũ khách sạn.");
 
         // Gửi email
         try {

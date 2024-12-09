@@ -921,9 +921,9 @@ header h2 {
                     });
             }
             $scope.isFutureCheckout = function(booking) {
-                const today = new Date();
-                const checkoutDate = new Date(booking.checkout);
-                return checkoutDate >= today;
+                var now = new Date();
+                var checkoutDate = new Date(booking.checkout);
+                return booking.bookDetailStatus !== 'cancel' && checkoutDate > now;
             };
 
             $scope.loadBookedDates();

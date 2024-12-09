@@ -1,6 +1,7 @@
 package com.poly.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,9 +58,11 @@ public class BookDetailService implements BookDetailServiceRepository{
     public List<BookDetailDateDTO> getBookingsByRoomid(Room room) {
         List<BookDetail> bookings = bookDetailRepository.findByRoom(room);
         return bookings.stream()
-                       .map(b -> new BookDetailDateDTO(b.getCheckin(), b.getCheckout()))
+                       .filter(b -> !"cancel".equals(b.getBookDetailStatus()) && b.getCheckout().after(new Date()))
+                       .map(b -> new BookDetailDateDTO(b.getCheckin(), b.getCheckout(), b.getBookDetailStatus()))
                        .collect(Collectors.toList());
     }
+
 
     
     public List<Map<String, Object>> getRevenueByBranchAndYear(Integer year) {
