@@ -138,6 +138,9 @@ img{width: 300px;
 
                 </form>
                  </div>
+                 <div th:if="${error}" class="alert alert-danger text-center">
+					    <p th:text="${error}"></p>
+					</div>
         </div>
 
 

@@ -59,7 +59,7 @@ public class BookingService implements BookingServiceRepository{
 
         StringBuilder emailContent = new StringBuilder();
         emailContent.append("Xin chào ").append(user.getName()).append(",\n\n");
-        emailContent.append("Bạn đã đặt phòng thành công. Chi tiết đặt phòng như sau:\n");
+        emailContent.append("Bạn đã thanh toán bằng tiền mặt. Chi tiết đặt phòng như sau:\n");
         emailContent.append("Mã đặt phòng: ").append(book.getBookCode()).append("\n");
         emailContent.append("Ngày tạo: ").append(dateFormatter.format(new Date())).append("\n\n");
         emailContent.append("Chi tiết phòng:\n");	
@@ -164,7 +164,7 @@ public class BookingService implements BookingServiceRepository{
             bookDetail.setChildren(request.getChildren());
             bookDetail.setPaymentMethod(request.getPaymentMethod());
             bookDetail.setPaymentStatus(request.getPaymentStatus());
-
+            bookDetail.setBookDetailStatus(request.getBookDetailStatus());
             bookDetailRepository.save(bookDetail);
 
             // Thêm thông tin chi tiết phòng vào nội dung email

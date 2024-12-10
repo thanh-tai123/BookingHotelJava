@@ -316,18 +316,13 @@ angular.module('app', [])
         var formData = new FormData();
 
         formData.append('hotelid', $scope.room.hotelId);
-
-
         formData.append('sophong', $scope.room.sophong);
         formData.append('roomtypeid', $scope.room.roomTypeId);
         formData.append('gia', $scope.room.gia);
         formData.append('mota', $scope.room.mota);
         formData.append('status', $scope.room.status);
         formData.append('address', $scope.room.address);
-        // Truyền chỉ id của user vào formData
-
         formData.append('staffid', $scope.user.id);
-
 
         // Thêm img nếu có
         if ($scope.room.img) {
@@ -335,11 +330,12 @@ angular.module('app', [])
         }
 
         // Thêm nhiều hình ảnh bổ sung nếu có
-        if ($scope.room.images) {
+        if ($scope.room.images && $scope.room.images.length > 0) {
             for (var i = 0; i < $scope.room.images.length; i++) {
                 formData.append('images', $scope.room.images[i]);
             }
         }
+
         $scope.isLoading = true;
         $http.put(`/api/update-room/${$scope.room.id}`, formData, {
             headers: { 'Content-Type': undefined },
@@ -348,7 +344,6 @@ angular.module('app', [])
             alert('Cập nhật thành công!');
             $scope.loadRoomsByStatus($scope.selectedStatus); // Làm mới danh sách phòng
             $scope.resetForm(); // Reset form sau khi cập nhật
-
         }, function(error) {
             console.error('Error updating room:', error);
             let errorMessage = 'Error updating room: ';
@@ -360,8 +355,11 @@ angular.module('app', [])
                 errorMessage += error.data.message || 'Unknown error';
             }
             alert(errorMessage);
+        }).finally(function() {
+            $scope.isLoading = false; // Dừng hiển thị trạng thái loading
         });
     };
+
 
 
 

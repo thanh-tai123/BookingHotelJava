@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -193,11 +194,20 @@ public class AccountController {
 //	    }
 
 	    @PostMapping("/verify-account")
-	    public ResponseEntity<String> verifyAccount(@RequestParam String email, @RequestParam String otp) {
-	        String result = userService.verifyAccount(email, otp);
+	    public String verifyAccount(@RequestParam String email, @RequestParam String otp, Model model) {
+	      try { 
+	    	  String result = userService.verifyAccount(email, otp);
+	    	  model.addAttribute("error",result);
+	    	  return "account/login";
+	      }
+	      catch (IllegalArgumentException e) {
+	            model.addAttribute("error", e.getMessage());
+	            return "account/verifyAccount"; // Return to the registration page with the error message
+	        }
+	      }
 	       
-	        return new ResponseEntity<>(result, HttpStatus.OK);
-	    }
+	       
+	    
 	    @GetMapping("/regenerate-otp")
 	    public String showRegenerateOtpForm() {
 	        return "account/regenerateOtp";
@@ -213,7 +223,7 @@ public class AccountController {
 	        try{
 	        	String result = userService.regenerateOtp(email);
 	        	 model.addAttribute("error", result);
-	        	return "account/regenerateOtp";
+	        	return "account/login";
 	        }catch (IllegalArgumentException e) {
 	            model.addAttribute("error", e.getMessage());
 	            return "account/regenerateOtp"; // Return to the registration page with the error message
@@ -225,23 +235,57 @@ public class AccountController {
 	    }
 	
 	    @RequestMapping("/set-password")
-	    public String showSetPasswordForm(@RequestParam String email,Model model) {
-	    	 model.addAttribute("email", email);
+	    public String showSetPasswordForm(@RequestParam String token,Model model) {
+	    	 model.addAttribute("token", token);
 	    	return "account/set-password";
 	    }
 	    @PostMapping("/forgot-password")
-	    public ResponseEntity<String> forgotPassword(@RequestParam String email) {
+	    public String forgotPassword(@RequestParam String email, Model model) {
 	        try {
 	            String responseMessage = userService.forgotPassword(email);
-	            return new ResponseEntity<>(responseMessage, HttpStatus.OK);
-	        } catch (RuntimeException e) {
-	            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+	            model.addAttribute("error",responseMessage);
+	            return "account/login";
+	        } catch (IllegalArgumentException e) {
+	            model.addAttribute("error", e.getMessage());
+	            return "account/forgot-password"; // Return to the registration page with the error message
 	        }
 	    }
 
 	    @PostMapping("/set-password")
-	    public ResponseEntity<String> setPassword(@RequestParam String email, @RequestParam String newPassword){
-	    	return new ResponseEntity<>(userService.setPassword(email, newPassword),HttpStatus.OK);
+	    public String setPassword(
+	            @RequestParam String token, 
+	            @RequestParam String newPassword, 
+	            @RequestParam String confirmPassword, 
+	            Model model) {
+	        // Find the user by the reset token
+	        User account = userRepo.findByResetToken(token)
+	                .orElseThrow(() -> new RuntimeException("MÃ TOKEN KHÔNG HỢP LỆ"));
+
+	        // Check if the token is expired
+	        if (account.getTokenExpiration().isBefore(LocalDateTime.now())) {
+	            throw new RuntimeException("MÃ TOKEN ĐÃ HẾT HẠN");
+	        }
+
+	        try {
+	            // Validate the password confirmation
+	            if (!newPassword.equals(confirmPassword)) {
+	                throw new IllegalArgumentException("MẬT KHẨU KHÔNG KHỚP");
+	            }
+
+	            // Update the user's password
+	            String result = userService.setPassword(account.getEmail(), newPassword);
+	            model.addAttribute("error", result);
+	            
+	            // Optionally clear the token after use
+	            account.setResetToken(null);
+	            account.setTokenExpiration(null);
+	            userRepo.save(account);
+
+	            return "account/login"; // Redirect to login or success page
+	        } catch (IllegalArgumentException e) {
+	            model.addAttribute("error", e.getMessage());
+	            return "account/set-password"; // Return to the form with the error message
+	        }
 	    }
 	    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
 	    @GetMapping("/change-password")

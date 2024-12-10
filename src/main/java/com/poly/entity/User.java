@@ -38,7 +38,8 @@ public class User {
     private Boolean activated;
     private LocalDateTime otpGeneratedTime;
     private String otp;
-
+    private String resetToken;
+    private LocalDateTime tokenExpiration;
     @JsonIgnore
     private String password;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
