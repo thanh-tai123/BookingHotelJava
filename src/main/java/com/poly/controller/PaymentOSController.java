@@ -69,7 +69,7 @@ public class PaymentOSController {
 	            // Tạo liên kết thanh toán nếu phương thức thanh toán là 'transfer'
 	            if (request.getPaymentMethod().equalsIgnoreCase("transfer")) {
 	                final PayOS payOS = new PayOS(clientId, apiKey, checksumKey);
-	                String domain = "http://localhost:3000";
+	                String domain = "http://polyhotelbooking.online/";
 	                Long orderCode = System.currentTimeMillis() / 1000;
 	                ItemData itemData = ItemData
 	                        .builder()
