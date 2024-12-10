@@ -57,18 +57,17 @@ public class RoomService implements RoomServiceRepository{
 
     public void updateRoom(int roomId, RoomRequest roomRequest, List<MultipartFile> images) {
         try {
-            // Lấy thông tin phòng, khách sạn, loại phòng, và người dùng từ cơ sở dữ liệu
-        	  if (roomRequest.getGia() <= 0 || roomRequest.getGia() >= 10000000) {
-        	        throw new RuntimeException("Giá phải lớn hơn 0 và nhỏ hơn 10,000,000");
-        	    }
+            // Kiểm tra tính hợp lệ của giá và số phòng
+            if (roomRequest.getGia() <= 0 || roomRequest.getGia() >= 10000000) {
+                throw new RuntimeException("Giá phải lớn hơn 0 và nhỏ hơn 10,000,000");
+            }
+            if (roomRequest.getSophong() <= 0) {
+                throw new RuntimeException("Số phòng phải lớn hơn 0");
+            }
 
-        	    // Kiểm tra tính hợp lệ của sophong
-        	    if (roomRequest.getSophong() <= 0) {
-        	        throw new RuntimeException("Số phòng phải lớn hơn 0");
-        	    }
+            // Lấy thông tin phòng, khách sạn, loại phòng, và người dùng từ cơ sở dữ liệu
             Room room = roomRepository.findById(roomId)
                     .orElseThrow(() -> new RuntimeException("Room not found"));
-
             Hotel hotel = hotelRepository.findById(roomRequest.getHotelid())
                     .orElseThrow(() -> new RuntimeException("Hotel not found"));
             RoomType roomtype = roomtypeRepository.findById(roomRequest.getRoomtypeid())
@@ -77,23 +76,34 @@ public class RoomService implements RoomServiceRepository{
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
             // Cập nhật hình ảnh chính của phòng nếu có
-            room.setImg(awsS3Service.saveImageToS3(images.get(0)));
-
-            // Xóa các hình ảnh bổ sung cũ trong cơ sở dữ liệu
-            List<RoomImages> oldRoomImages = new ArrayList<>(room.getRoomImages());
-            for (RoomImages oldImage : oldRoomImages) {
-                awsS3Service.deleteImageFromS3(oldImage.getImagePath()); // Xóa ảnh cũ trong S3
-                room.getRoomImages().remove(oldImage); // Xóa ảnh cũ khỏi danh sách
+            if (images != null && !images.isEmpty()) {
+                String mainImageUrl = awsS3Service.saveImageToS3(images.get(0));
+                room.setImg(mainImageUrl);
             }
 
-            // Cập nhật các hình ảnh bổ sung mới
-            if (images != null && !images.isEmpty()) {
+            // Cập nhật các hình ảnh bổ sung
+            if (images != null && images.size() > 1) {
+                // Lấy danh sách các RoomImages cũ
+                List<RoomImages> oldRoomImages = new ArrayList<>(room.getRoomImages());
+
+                // Cập nhật các hình ảnh bổ sung mới
                 for (int i = 1; i < images.size(); i++) { // Bắt đầu từ 1 để bỏ qua ảnh chính
                     String imageUrl = awsS3Service.saveImageToS3(images.get(i));
-                    RoomImages roomImage = new RoomImages();
-                    roomImage.setRoom(room);
-                    roomImage.setImagePath(imageUrl);
-                    room.getRoomImages().add(roomImage); // Thêm ảnh mới vào danh sách
+                    if (i - 1 < oldRoomImages.size()) {
+                        // Nếu còn ảnh cũ trong danh sách, cập nhật ảnh cũ
+                        oldRoomImages.get(i - 1).setImagePath(imageUrl);
+                    } else {
+                        // Nếu không còn ảnh cũ, thêm ảnh mới
+                        RoomImages roomImage = new RoomImages();
+                        roomImage.setRoom(room);
+                        roomImage.setImagePath(imageUrl);
+                        room.getRoomImages().add(roomImage);
+                    }
+                }
+
+                // Xóa các ảnh cũ còn dư thừa (nếu có)
+                for (int i = images.size() - 1; i < oldRoomImages.size(); i++) {
+                    room.getRoomImages().remove(oldRoomImages.get(i));
                 }
             }
 
@@ -113,6 +123,7 @@ public class RoomService implements RoomServiceRepository{
             throw new RuntimeException("Error updating room: " + e.getMessage());
         }
     }
+
 
 
 

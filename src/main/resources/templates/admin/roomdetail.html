@@ -409,17 +409,17 @@
             <form id="confirmForm" th:action="@{/admin/confirm}" method="post" style="display:none;">
                 <input type="hidden" name="id" th:value="${room.id}"/>
                 <textarea id="confirmNote" name="note" placeholder="Enter note for confirmation"></textarea>
-                <button type="submit" class="btn">Submit Confirmation</button>
+                <button type="submit" class="btn">Xác nhận đồng ý</button>
             </form>
-            <button type="button" class="btn" onclick="showTextarea('confirmForm')" style="background-color: #c09b5a; color:white" >Confirm</button>
+            <button type="button" class="btn" onclick="showTextarea('confirmForm')" style="background-color: #c09b5a; color:white" >Đồng ý</button>
 
             <!-- Form for Cancel action -->
             <form id="cancelForm" th:action="@{/admin/cancel}" method="post" style="display:none;">
                 <input type="hidden" name="id" th:value="${room.id}"/>
                 <textarea id="cancelNote" name="note" placeholder="Enter note for cancellation"></textarea>
-                <button type="submit" class="btn btn-outline-secondary">Submit Cancellation</button>
+                <button type="submit" class="btn btn-outline-secondary">Xác nhận hủy</button>
             </form>
-            <button type="button" class="btn btn-outline-secondary" onclick="showTextarea('cancelForm')" style="background-color: #c09b5a; color:white">Cancel</button>
+            <button type="button" class="btn btn-outline-secondary" onclick="showTextarea('cancelForm')" style="background-color: #c09b5a; color:white">Hủy</button>
         </div>
     </div>
 </div>
