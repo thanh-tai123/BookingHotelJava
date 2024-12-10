@@ -46,7 +46,7 @@ public class EmailUtil {
 	    mimeMessageHelper.setTo(email);
 	    mimeMessageHelper.setSubject("Xác Nhận Đổi Mật Khẩu");
 	    String emailBody = 
-	    	    "<div><a href='http://localhost:8081/account/set-password?token=" + token + "' target='_blank'>Nhấp vào link để đổi mật khẩu</a></div>";
+	    	    "<div><a href='http://polyhotelbooking.online/account/set-password?token=" + token + "' target='_blank'>Nhấp vào link để đổi mật khẩu</a></div>";
 	    emailBody = emailBody.replace("TOKEN_VALUE", token);
 	    mimeMessageHelper.setText(emailBody, true);
 
