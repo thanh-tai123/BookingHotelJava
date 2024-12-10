@@ -577,7 +577,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         <!--    <p><strong>Total:</strong> ${{ total }}</p>-->
         <p><strong>TỔNG </strong> ${{ totalAmount }}</p>
         <div class="stay-duration">
-            <p><strong>SỐ ĐÊM </strong> {{stayDuration}} đem</p>
+            <p><strong>SỐ ĐÊM </strong> {{stayDuration}} đêm</p>
         </div>
         <button ng-click="bookRoom()" class="book-button">Book</button>
 		<div id="loadingIndicator" style="display: none;">
@@ -908,6 +908,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     }, function errorCallback(response) {
                         console.error('Error booking room:', response);
                         alert('Error booking room: ' + response.data);
+                    }).finally(function() {
+                        document.getElementById("loadingIndicator").style.display = "none"; // Ẩn loading sau khi hoàn tất
                     });
                 }
             };
