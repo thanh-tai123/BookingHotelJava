@@ -20,5 +20,5 @@ public interface UserRepo extends JpaRepository<User, Long> {
 
   // Tìm kiếm user theo email (không phân biệt chữ hoa, chữ thường)
   List<User> findByEmailContainingIgnoreCase(String email);
-
+  Optional<User> findByResetToken(String token);
 }

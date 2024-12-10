@@ -568,8 +568,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             <div class="input-group">
                 <label for="paymentMethod">PHƯƠNG THỨC THANH TOÁN</label>
                 <select id="paymentMethod" ng-model="booking.paymentMethod" class="payment-select">
-                    <option value="cash">Cash</option>
-                    <option value="transfer">Bank Transfer</option>
+                    <option value="cash">TIỀN MẶT</option>
+                    <option value="transfer">CHUYỂN KHOẢN</option>
                 </select>
             </div>
         </div>
@@ -577,7 +577,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         <!--    <p><strong>Total:</strong> ${{ total }}</p>-->
         <p><strong>TỔNG </strong> ${{ totalAmount }}</p>
         <div class="stay-duration">
-            <p><strong>SỐ NGÀY </strong> {{stayDuration}} days</p>
+            <p><strong>SỐ ĐÊM </strong> {{stayDuration}} đem</p>
         </div>
         <button ng-click="bookRoom()" class="book-button">Book</button>
 		<div id="loadingIndicator" style="display: none;">

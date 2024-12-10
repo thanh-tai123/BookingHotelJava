@@ -111,7 +111,16 @@
                 padding: 15px;
             }
         }
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Create three equal columns */
+    gap: 10px; /* Add space between the grid items */
+}
 
+.form-check {
+    margin-bottom: 10px;
+    margin-left:70px /* Add some space between rows (if needed) */
+}
     </style>
 </head>
 <body>
@@ -131,28 +140,27 @@
             <div class="form-group">
                 <label for="name" th:text="#{admin.name}">Tên phòng:</label>
                 <input type="text" id="name" class="form-control" th:field="*{name}" required minlength="2"
-                       maxlength="50">
+                       maxlength="50" readonly>
             </div>
 
             <div class="form-group">
                 <label for="description" th:text="#{admin.description}">Mô tả:</label>
                 <input type="text" id="description" class="form-control" th:field="*{description}" required
-                       minlength="2" maxlength="200">
+                       minlength="2" maxlength="200" readonly>
             </div>
 
-            <div class="form-group">
-                <label th:text="#{admin.services}">Dịch vụ:</label>
-                <div class="checkbox-group">
-                    <th:block th:each="service : ${services}">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="serviceIds" th:value="${service.id}"
-                                   th:checked="${selectedServices.contains(service.id)}">
-                            <span th:text="${service.name}"></span>
-                        </div>
-                    </th:block>
-                </div>
+           <div class="form-group">
+    <label th:text="#{admin.services}">Dịch vụ:</label>
+    <div class="checkbox-group">
+        <th:block th:each="service : ${services}">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="serviceIds" th:value="${service.id}"
+                       th:checked="${selectedServices.contains(service.id)}">
+                <span th:text="${service.name}"></span>
             </div>
-
+        </th:block>
+    </div>
+</div>
             <div class="text-center">
                 <input type="submit" th:value="#{admin.save}" class="btn btn-custom m-3">
                 <input type="button" th:value="#{admin.cancel}" class="btn btn-secondary" id="buttonCancel">

@@ -99,7 +99,7 @@
     .notcheckin {
         color: orange;
     }
-    .check-in {
+    .check-in, .return{
         color: blue;
     }
     .checkout {
@@ -197,8 +197,9 @@ background-color: #d9b44a;
                     <td th:text="${detail.paymentMethod}"></td>
                    <td>
     					<select th:name="'paymentStatus[' + ${detail.id} + ']'" >
-      					  <option value="notpayment" th:selected="${detail.paymentStatus == 'notpayment'}" class="notpayment">Not Payment</option>
-       					 <option value="paid" th:selected="${detail.paymentStatus == 'paid'}" class="paid">Paid</option>
+      					  <option value="notpayment" th:selected="${detail.paymentStatus == 'notpayment'}" class="notpayment">Chưa thanh toán</option>
+       					 <option value="paid" th:selected="${detail.paymentStatus == 'paid'}" class="paid">Đã thanh toán</option>
+       					  <option value="return" th:selected="${detail.paymentStatus == 'return'}" class="return">Hoàn trả</option>
    						 </select>
 				   </td>
 					<td>

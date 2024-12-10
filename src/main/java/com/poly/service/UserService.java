@@ -6,6 +6,7 @@ import java.time.temporal.Temporal;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -78,6 +79,8 @@ public class UserService implements UserServiceRepository{
 		    if (Account.getOtp().equals(otp) && Duration.between(Account.getOtpGeneratedTime(),
 		        LocalDateTime.now()).getSeconds() < (1 * 180)) {
 		      Account.setActivated(true);
+		      Account.setOtp(null);
+		      Account.setOtpGeneratedTime(null);
 		      userRepository.save(Account);
 		      return "OTP CÓ THỂ XÁC THỰC";
 		    }
@@ -103,23 +106,29 @@ public class UserService implements UserServiceRepository{
 	  
 	  
 	  public String forgotPassword(String email) {
-			User Account = userRepository.findByEmail(email)
-					.orElseThrow(
-							()-> new RuntimeException("KHÔNG TÌM THẤY TÀI KHOẢN VỚI: "+email));
-					try {
-						emailUtil.sendSetPasswordEmail(email);
-					} catch (Exception e) {
-					throw new RuntimeException("KHÔNG THỂ GỬI EMAIL");
-					}
-					return "VUI LÒNG KIỂM TRA EMAIL ĐỂ TẠO LẠI MẬT KHẨU" + "return <a href=\"/account/login\">login</a>";
+		    User account = userRepository.findByEmail(email)
+		            .orElseThrow(() -> new RuntimeException("KHÔNG TÌM THẤY TÀI KHOẢN VỚI: " + email));
+		    
+		  
+		    String token = UUID.randomUUID().toString();
+		    account.setResetToken(token);
+		    account.setTokenExpiration(LocalDateTime.now().plusHours(1)); // Set expiration time
+		    userRepository.save(account);
+
+		    try {
+		        emailUtil.sendSetPasswordEmail(email, token);
+		    } catch (Exception e) {
+		        throw new RuntimeException("KHÔNG THỂ GỬI EMAIL");
+		    }
+		    return "VUI LÒNG KIỂM TRA EMAIL";
 		}
 		public String setPassword(String email, String newPassword) {
 			User Account =userRepository.findByEmail(email)
 					.orElseThrow(
-							()-> new RuntimeException("Account not found with this email: "+email));
+							()-> new RuntimeException("KHÔNG TÌM THẤY TÀI KHOẢN VỚI: "+email));
 					Account.setPassword(passwordEncoder.encode(newPassword));
 					userRepository.save(Account);
-					return "ĐỔI MẬT KHẨU THÀNH CÔNG" + "return <a href=\"/account/login\">login</a>";
+					return "ĐỔI MẬT KHẨU THÀNH CÔNG";
 		}
 
 		

@@ -27,17 +27,29 @@ public class EmailUtil {
 
 	    javaMailSender.send(mimeMessage);
   }
-  public void sendSetPasswordEmail(String email) throws MessagingException {
-	  MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+//  public void sendSetPasswordEmail(String email) throws MessagingException {
+//	  MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+//	    MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+//	    mimeMessageHelper.setTo(email);
+//	    mimeMessageHelper.setSubject("Verify OTP");
+//	    String emailBody = 
+//	                       "<div><a href='http://localhost:8081/account/set-password?email=EMAIL_VALUE' target='_blank'>Nhấp vào link để đổi mật khẩu</a></div>";
+//
+//	    emailBody = emailBody.replace("EMAIL_VALUE", email);
+//	    mimeMessageHelper.setText(emailBody, true);
+//
+//	    javaMailSender.send(mimeMessage);
+//  }
+  public void sendSetPasswordEmail(String email, String token) throws MessagingException {
+	    MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 	    MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
 	    mimeMessageHelper.setTo(email);
-	    mimeMessageHelper.setSubject("Verify OTP");
+	    mimeMessageHelper.setSubject("Xác Nhận Đổi Mật Khẩu");
 	    String emailBody = 
-	                       "<div><a href='http://polyhotelbooking.online/account/set-password?email=EMAIL_VALUE' target='_blank'>Nhấp vào link để đổi mật khẩu</a></div>";
-
-	    emailBody = emailBody.replace("EMAIL_VALUE", email);
+	    	    "<div><a href='http://localhost:8081/account/set-password?token=" + token + "' target='_blank'>Nhấp vào link để đổi mật khẩu</a></div>";
+	    emailBody = emailBody.replace("TOKEN_VALUE", token);
 	    mimeMessageHelper.setText(emailBody, true);
 
 	    javaMailSender.send(mimeMessage);
-  }
+	}
 }
