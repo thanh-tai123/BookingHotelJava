@@ -31,7 +31,7 @@ public class Discount {
 	private Integer id;
 
 	    
-	    private float discountRate; // tỷ lệ giảm giá (15% sẽ là 0.15)
+	    private int discountRate; // tỷ lệ giảm giá (15% sẽ là 0.15)
 	    @DateTimeFormat(pattern = "yyyy-MM-dd")
 	    private Date startDate;
 

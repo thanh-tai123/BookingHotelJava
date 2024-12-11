@@ -190,8 +190,8 @@ background-color: #d9b44a;
                     <td th:text="${detail.room.roomtype.name}"></td>
                     <td th:text="${detail.total}"></td>
                     <td th:text="${detail.price}"></td>
-                    <td th:text="${#dates.format(detail.checkin, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                    <td th:text="${#dates.format(detail.checkout, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td th:text="${#dates.format(detail.checkin, 'dd-MM-yyyy')}"></td>
+                    <td th:text="${#dates.format(detail.checkout, 'dd-MM-yyyy')}"></td>
                     <td th:text="${detail.adult}"></td>
                     <td th:text="${detail.children}"></td>
                     <td th:text="${detail.paymentMethod}"></td>

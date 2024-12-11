@@ -516,7 +516,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
             <!-- Bộ lọc giá -->
             <div class="form-group mb-3">
-                <label for="priceRange">Khoảng giá:</label>
+                <label for="priceRange" th:text="#{body.price}">:</label>
                 <select id="priceRange" name="priceRange" class="form-control">
                     <option value="Tất cả" th:text="#{body.all}"></option>
                     <option th:each="price : ${priceRanges}"
@@ -556,7 +556,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                      -->
 
                     <p class="card-text fas fa-eye"> <span th:text="${visitCounts[r.id] != null ? visitCounts[r.id] : 0}">0</span></p> <!-- Kiểm tra giá trị visitCounts[r.id] -->
-
+					<p class="card-text" style="margin-left:300px; margin-top:-30px">
+    <i class="fas fa-door-closed" style="margin-right: 5px;"><span th:text="${r.sophong}"></span></i>
+    
+</p>
                     <h5 class="card-title" th:text="${r.roomtype.name}"></h5>
                     <h5 class="card-title" th:text="${r.hotel.chinhanh}"></h5>
                     <p class="card-text" th:text="${r.mota}"></p>

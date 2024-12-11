@@ -58,10 +58,11 @@ public class BookDetailService implements BookDetailServiceRepository{
     public List<BookDetailDateDTO> getBookingsByRoomid(Room room) {
         List<BookDetail> bookings = bookDetailRepository.findByRoom(room);
         return bookings.stream()
-                       .filter(b -> !"cancel".equals(b.getBookDetailStatus()) && b.getCheckout().after(new Date()))
+                       .filter(b -> !"cancel".equals(b.getBookDetailStatus()) && !"checkout".equals(b.getBookDetailStatus()) && b.getCheckout().after(new Date()))
                        .map(b -> new BookDetailDateDTO(b.getCheckin(), b.getCheckout(), b.getBookDetailStatus()))
                        .collect(Collectors.toList());
     }
+
 
 
     

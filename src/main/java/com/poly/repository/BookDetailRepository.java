@@ -38,7 +38,7 @@ public interface BookDetailRepository extends JpaRepository<BookDetail, Integer>
 	    @Query("SELECT b.user.email, COUNT(bd.id) " +
 	            "FROM BookDetail bd " +
 	            "JOIN bd.book b " +
-	            "WHERE YEAR(bd.checkout) = :year AND MONTH(bd.checkout) = :month " +
+	            "WHERE YEAR(bd.checkout) = :year AND MONTH(bd.checkout) = :month AND bd.bookDetailStatus = 'checkout'" +
 	            "GROUP BY b.user.email " +
 	            "ORDER BY COUNT(bd.id) DESC")
 	     List<Object[]> findTopUsersByMonthAndYear(@Param("year") int year, @Param("month") int month);

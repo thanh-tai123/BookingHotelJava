@@ -92,7 +92,7 @@ public class Room {
 		 public float getCurrentPrice(Date date) {
 		        for (Discount discount : discounts) {
 		            if (date.compareTo(discount.getStartDate()) >= 0 && date.compareTo(discount.getEndDate()) <= 0) {
-		                return gia * (1 - discount.getDiscountRate());
+		                return (gia * (100 - discount.getDiscountRate()))/100;
 		            }
 		        }
 		        return gia;
