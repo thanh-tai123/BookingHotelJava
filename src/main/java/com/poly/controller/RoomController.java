@@ -105,7 +105,7 @@ public class RoomController {
 		// Lấy danh sách phòng trống với phân trang
 		Page<Room> page = roomRepo.findAvailableRooms(hotelId, checkin, checkout, RoomStatus.TRUE, pageable);
 		List<Room> availableRooms = page.getContent();
-
+		List<String> priceRanges = Arrays.asList("1000-5000", "5000-10000", "10000-20000");
 		// Tính số lượt xem cho từng phòng
 		Map<Integer, Integer> visitCounts = new HashMap<>();
 		for (Room room : availableRooms) {
@@ -123,6 +123,7 @@ public class RoomController {
 		model.addAttribute("checkin", checkin);
 		model.addAttribute("checkout", checkout);
 		model.addAttribute("rooms", availableRooms);
+		model.addAttribute("priceRanges", priceRanges);
 		model.addAttribute("visitCounts", visitCounts);
 		model.addAttribute("currentPage", pageNum);
 		model.addAttribute("totalPages", page.getTotalPages());

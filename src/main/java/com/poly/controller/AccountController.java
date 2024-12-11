@@ -56,6 +56,7 @@ public class AccountController {
 
     @RequestMapping("/login")
     public String login() {
+    	
         return "account/login";
     }
     @RequestMapping("/homepage")

@@ -94,6 +94,7 @@ public class BookingService implements BookingServiceRepository{
 
                 // Thêm thông tin phòng vào email
                 emailContent.append("- Phòng: ").append(room.getSophong())
+                	.append(", Địa chỉ: ").append(room.getAddress())
                     .append(", Giá: ").append(priceToUse)
                     .append(", Tổng tiền: ").append(calculatedTotal)
                     .append(", Checkin: ").append(dateFormatter.format(request.getCheckin()))
@@ -104,7 +105,7 @@ public class BookingService implements BookingServiceRepository{
             }
         }
 
-        emailContent.append("\nCảm ơn bạn đã sử dụng dịch vụ của chúng tôi.\nNếu có bất kì vấn đề gì hãy gọi 0357184576 \nTrân trọng,\nĐội ngũ khách sạn.");
+        emailContent.append("\nCảm ơn bạn đã sử dụng dịch vụ của chúng tôi.\nNếu có bất kỳ vấn đề gì hãy gọi 0357184576 \nTrân trọng,\nĐội ngũ khách sạn.");
 
         // Gửi email
         try {
