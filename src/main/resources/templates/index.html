@@ -114,6 +114,63 @@
         .text-highlight {
             color: #ff4b5c;
         }
+        .container-hn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px;
+          
+        }
+        .content {
+            display: flex;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 1200px;
+              border:2px solid #d4af37;
+        }
+        .text-section {
+            padding: 40px;
+            max-width: 50%;
+        }
+        .text-section h2 {
+            margin-top: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .text-section p {
+            line-height: 1.6;
+            margin: 20px 0;
+        }
+        .text-section .info {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .text-section .info img {
+            margin-right: 10px;
+        }
+        .text-section .info span {
+            font-size: 14px;
+            color: #555;
+        }
+        .text-section .button {
+            display: inline-block;
+            background-color: #d4a253;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .image-section {
+            flex: 1;
+        }
+        .image-section img {
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
 <body>
@@ -135,10 +192,10 @@
         <div class="col-md-6 image-container">
             <div class="row">
                 <div class="col-6">
-                    <img alt="A person wearing a crown and a white robe, lying on a bed with a tray of food and drink" height="400" src="https://lavelasaigon.com/wp-content/uploads/2024/05/DSC00485-560x660.png" width="300"/>
+                    <img alt="A person wearing a crown and a white robe, lying on a bed with a tray of food and drink" style="height:350px" src="https://lavelasaigon.com/wp-content/uploads/2022/11/Rectangle-319-560x660.png" width="300"/>
                 </div>
                 <div class="col-6">
-                    <img alt="A person wearing a crown and a white robe, lying on a bed" height="400" src="https://lavelasaigon.com/wp-content/uploads/2024/05/z5628971543272_f3b935daa8027653cbd9e49128704bdd-560x660.jpg" width="300"/>
+                    <img alt="A person wearing a crown and a white robe, lying on a bed" style="height:350px" src="https://lavelasaigon.com/wp-content/uploads/2024/05/z5628971543272_f3b935daa8027653cbd9e49128704bdd-560x660.jpg" width="300"/>
                 </div>
             </div>
         </div>
@@ -164,7 +221,7 @@
                 Thư Giãn &amp; Sang Trọng
             </p>
             <p class="content">
-                Chào mừng bạn đến với dịch vụ 5 sao sang trọng tại La Vela Sài Gòn. Thiết kế hiện đại kết hợp cùng phong cách cổ điển sẽ mang lại trải nghiệm tuyệt vời cho những ai có niềm đam mê du lịch. Tạo ra một phong cách sống hoàn toàn mới với dịch vụ của chúng tôi: từ phòng nghỉ tiện nghi đến bữa tiệc thịnh soạn. Dịch vụ ẩm thực phong phú với các nhà hàng và quán bar; phòng gym; và hồ bơi vô cực trên cao lớn nhất thành phố cùng tầm nhìn tuyệt đẹp. Một kì nghỉ dưỡng thư thái đang chờ đón bạn!
+               La Vela Saigon - khách sạn với thiết kế mang tính biểu tượng cùng 280 phòng bao gồm phòng tiêu chuẩn, phòng suite, phòng tổng thống. Màu sắc nhẹ nhàng, nội thất sang trọng trong mỗi phòng tạo nên một không gian thư giãn tuyệt vời cho du khách sau một ngày khám phá thành phố cùng nhịp sống sôi động nơi đây.
             </p>
         </div>
     </div>
@@ -307,7 +364,8 @@
                     <img alt="Image of a seafood dish with a 10% off offer" class="card-img-top" height="400" src="https://storage.googleapis.com/a1aa/image/Db5gZfPtj4XzG6jwtcedGZ6WQp5f2aDTQOAxgjvo7aYguWNnA.jpg" width="400"/>
                     <div class="card-body">
                         <h5 class="card-title">
-                            Ocean's Bounty: Giảm 10% 
+                         
+                            OCEAN'S BOUNTY: GIẢM 10%
                         </h5>
                         <p class="card-text">
                           Tận hưởng giảm giá 10% cho các món hải sản đặc biệt của chúng tôi. Ưu đãi chỉ có giá trị trong một thời gian giới hạn.
@@ -320,7 +378,7 @@
                     <img alt="Image of a gift box with a special offer" class="card-img-top" height="400" src="https://storage.googleapis.com/a1aa/image/Tf7B0LmvcA2dOCgZIglHb8ZiLxf3HfnEQE8qOQT52oPnuWNnA.jpg" width="400"/>
                     <div class="card-body">
                         <h5 class="card-title">
-                            Quà tặng đặt biệt
+                            QUÀ TẶNG ĐẶT BIỆT
                         </h5>
                         <p class="card-text">
                            Nhận gói quà tặng đặc biệt khi đặt phòng từ 3 đêm trở lên. Ưu đãi có hiệu lực cho đến khi hết hàng.
@@ -384,7 +442,67 @@
         </div>
     </div>
 </section>
-
+<section>
+ <div class="container-hn">
+        <div class="content">
+            <div class="text-section">
+                <h2>SẢNH SATURN</h2>
+                <p>Saturn là không gian trang nhã cho tiệc cưới, tiệc chiều đãi, hội nghị và sự kiện công ty đầy cảm hứng với hệ thống loa led âm trần hiện đại, chuyên nghiệp tại thành phố Hồ Chí Minh. Một môi trường chào đón đặc biệt, độc quyền có thể lên đến 350 khách dự tiệc – đó là những gì chúng tôi muốn cung cấp cho bạn. Đội ngũ tận tâm của chúng tôi luôn sẵn sàng phục vụ bạn để đảm bảo các sự kiện của bạn sẽ diễn ra hoàn hảo.</p>
+                <div class="info">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/marker.png" style="width:16px; height:16px" alt="location icon"/>
+                    <span>Tầng 5</span>
+                </div>
+                <div class="info">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/phone.png" style="width:16px; height:16px" alt="phone icon"/>
+                    <span>(+84)911 282 045 | (+84)911 35 2131</span>
+                </div>
+                <div class="info">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/email.png" style="width:16px; height:16px" alt="email icon"/>
+                    <span>sales.event1@lavelasaigon.com</span>
+                </div>
+                <div class="info">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/email.png" style="width:16px; height:16px" alt="email icon"/>
+                    <span>sales.event2@lavelasaigon.com</span>
+                </div>
+                <a href="#" class="button">Xem Thêm</a>
+            </div>
+            <div class="image-section">
+                <img src="https://lavelasaigon.com/wp-content/uploads/2022/10/z3721160219655_0cf767561c06c3d70649988bde8edc9c-765x580.jpg" alt="Sảnh Saturn">
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+ <div class="container-hn">
+        <div class="content">
+        <div class="image-section">
+                <img src="https://lavelasaigon.com/wp-content/uploads/2022/12/z3721840547599_b6eb6cb17267d4e05abbaae21f68902f-820x580.jpg" alt="Sảnh Saturn">
+            </div>
+            <div class="text-section">
+                <h2>KHÔNG GIAN VÔ CỰC</h2>
+               <p>Sky One Bar có thể được chuyển đổi thành một không gian hội họp với bầu không khí thoáng mát, phù hợp nhất cho các cuộc hẹn kinh doanh, đàm phán, ăn uống, hội nghị cũng như tiệc cocktail và các sự kiện riêng tư.</p>
+                <div class="info">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/marker.png" style="width:16px; height:16px" alt="location icon"/>
+                    <span>Rooftop</span>
+                </div>
+                <div class="info">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/phone.png" style="width:16px; height:16px" alt="phone icon"/>
+                    <span>(+84)911 282 045 | (+84)911 35 2131</span>
+                </div>
+                <div class="info">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/email.png" style="width:16px; height:16px" alt="email icon"/>
+                    <span>sales.event1@lavelasaigon.com</span>
+                </div>
+                <div class="info">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/email.png" style="width:16px; height:16px" alt="email icon"/>
+                    <span>sales.event2@lavelasaigon.com</span>
+                </div>
+                <a href="#" class="button">Xem Thêm</a>
+            </div>
+            
+        </div>
+    </div>
+</section>
 <section class="content-section">
     <div class="container">
         <h2>
@@ -411,12 +529,12 @@
             <div class="item"><img class="img1" src="https://lavelasaigon.com/wp-content/uploads/2022/10/slider-3.png" alt="Image 1"></div>
             <div class="item"><img  class="img1" src="https://lavelasaigon.com/wp-content/uploads/2022/10/slider-2.png"></div>
             <div class="item"><img  class="img1"src="https://lavelasaigon.com/wp-content/uploads/2022/10/slider-1.png" alt="Image 3"></div>
+            <div class="item"><img class="img1" src="https://lavelasaigon.com/wp-content/uploads/2022/10/Rectangle-296-820x580.png" alt="Image 1"></div>
+            <div class="item"><img  class="img1" src="https://lavelasaigon.com/wp-content/uploads/2022/10/banner-meeting-event.png"></div>
+            <div class="item"><img  class="img1"src="https://lavelasaigon.com/wp-content/uploads/2022/10/3.png" alt="Image 3"></div>
             <div class="item"><img class="img1" src="https://lavelasaigon.com/wp-content/uploads/2022/10/slider-3.png" alt="Image 1"></div>
             <div class="item"><img  class="img1" src="https://lavelasaigon.com/wp-content/uploads/2022/10/slider-2.png"></div>
-            <div class="item"><img  class="img1"src="https://lavelasaigon.com/wp-content/uploads/2022/10/slider-1.png" alt="Image 3"></div>
-            <div class="item"><img class="img1" src="https://lavelasaigon.com/wp-content/uploads/2022/10/slider-3.png" alt="Image 1"></div>
-            <div class="item"><img  class="img1" src="https://lavelasaigon.com/wp-content/uploads/2022/10/slider-2.png"></div>
-            <div class="item"><img  class="img1"src="https://lavelasaigon.com/wp-content/uploads/2022/10/slider-1.png" alt="Image 3"></div>
+            <div class="item"><img  class="img1"src="https://lavelasaigon.com/wp-content/uploads/2022/10/banner-meeting-event.png" alt="Image 3"></div>
 
         </div>
     </div>
