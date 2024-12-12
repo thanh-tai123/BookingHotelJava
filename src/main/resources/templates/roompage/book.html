@@ -867,8 +867,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                 // Proceed with booking based on payment method
                 if (bookingData.paymentMethod === 'cash') {
                     // Save booking directly for cash payments
-                    bookingData.paymentStatus = 'Not payment';
-                    bookingData.bookDetailStatus = 'NotCheckIn';
+                    bookingData.paymentStatus = 'notpayment';
+                    bookingData.bookDetailStatus = 'notcheckin';
                     $http({
                         method: 'POST',
                         url: '/api/book-room',
@@ -888,8 +888,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     });
                 } else if (bookingData.paymentMethod === 'transfer') {
                     // Save booking details in the database for bank transfer
-                    bookingData.paymentStatus = 'pending';
-                    bookingData.bookDetailStatus = 'NotCheckIn';
+                    bookingData.paymentStatus = 'notpayment';
+                    bookingData.bookDetailStatus = 'notcheckin';
                     $http({
                         method: 'POST',
                         url: '/payment/book-room',

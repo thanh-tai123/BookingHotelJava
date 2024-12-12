@@ -166,7 +166,7 @@ background-color: #d9b44a;
             <th>Trạng thái thanh toán</th>
             <th>Trạng thái phòng</th>
 
-            <th></th>
+            <th>Ghi chú</th>
 
         </tr>
         </thead>
@@ -181,12 +181,24 @@ background-color: #d9b44a;
             <td th:text="${#dates.format(detail.checkout, 'dd-MM-yyyy')}"></td>
             <td th:text="${detail.adult}"></td>
             <td th:text="${detail.children}"></td>
-            <td th:text="${detail.paymentMethod}"></td>
-            <td th:text="${detail.paymentStatus}"></td>
-            <td th:text="${detail.BookDetailStatus}"></td>
-
+            <td>
+        <span th:if="${detail.paymentMethod == 'cash'}">Tiền mặt</span>
+        <span th:if="${detail.paymentMethod == 'transfer'}">Chuyển khoản</span>
+    </td>
+    <td>
+        <span th:if="${detail.paymentStatus == 'notpayment'}">Chưa thanh toán</span>
+        <span th:if="${detail.paymentStatus == 'paid'}">Đã thanh toán</span>
+        <span th:if="${detail.paymentStatus == 'return'}">Hoàn tiền</span>
+    </td>
+            <td>
+            <span th:if="${detail.BookDetailStatus =='notcheckin'}">Not Check In</span>
+             <span th:if="${detail.BookDetailStatus =='check-in'}">Check In</span>
+              <span th:if="${detail.BookDetailStatus =='cancel'}">Cancel</span>
+            </td>
+			
             <!-- Xây dựng nội dung cho txtContent -->
             <td th:with="content=${content} + 'ID: ' + ${detail.id} + ', ID Phòng: ' + ${detail.room.id} + ', Tổng: ' + ${detail.total} + ', Giá: ' + ${detail.price} + ', Checkin: ' + ${#dates.format(detail.checkin, 'yyyy-MM-dd HH:mm:ss')} + ', Checkout: ' + ${#dates.format(detail.checkout, 'yyyy-MM-dd HH:mm:ss')} + ', Người lớn: ' + ${detail.adult} + ', Trẻ em: ' + ${detail.children} + ', Phương thức thanh toán: ' + ${detail.paymentMethod} + ', Trạng thái thanh toán: ' + ${detail.paymentStatus} + ', Trạng thái phòng: ' + ${detail.BookDetailStatus} + '\n'">
+           
             </td>
         </tr>
         </tbody>
@@ -194,7 +206,7 @@ background-color: #d9b44a;
 </div>
 
 <form th:action="@{/mailer/send}" method="post">
-    <input name="txtTo" th:value="${book.user.email}"/>
+    <input type="hidden" name="txtTo" th:value="${book.user.email}"/>
     <input type="hidden" name="txtCC" th:value="${book.user.email}"/>
     <input type="hidden" name="txtSubject" value="Thông tin phòng đã đặt"/>
 
