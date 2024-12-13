@@ -18,7 +18,7 @@ public class EmailUtil {
 	  MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 	    MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
 	    mimeMessageHelper.setTo(email);
-	    mimeMessageHelper.setSubject("Verify OTP");
+	    mimeMessageHelper.setSubject("XÁC THỰC EMAIL BẰNG OTP");
 	    String emailBody = "<div>OTP của bạn là: OTP_VALUE</div>" +
 	                       "<div><a href='http://polyhotelbooking.online/account/verify-account?email=EMAIL_VALUE&otp=OTP_VALUE'>Nhấp vào link để xác thực tài khoản</a></div>";
 	    emailBody = emailBody.replace("OTP_VALUE", otp);
@@ -44,7 +44,7 @@ public class EmailUtil {
 	    MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 	    MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
 	    mimeMessageHelper.setTo(email);
-	    mimeMessageHelper.setSubject("Xác Nhận Đổi Mật Khẩu");
+	    mimeMessageHelper.setSubject("XÁC NHẬN ĐỔI MẬT KHẨU");
 	    String emailBody = 
 	    	    "<div><a href='http://polyhotelbooking.online/account/set-password?token=" + token + "' target='_blank'>Nhấp vào link để đổi mật khẩu</a></div>";
 	    emailBody = emailBody.replace("TOKEN_VALUE", token);

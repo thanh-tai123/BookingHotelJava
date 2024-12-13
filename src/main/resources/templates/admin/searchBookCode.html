@@ -166,7 +166,7 @@ background-color: #d9b44a;
 
 
     <h3>Chi tiết Book:</h3>
-    <form th:action="@{/search/admin/updateAllStatuses}" method="post">
+    <form th:action="@{/search/admin/updateAllStatuses}" method="post" >
         <table class="table">
             <thead >
                 <tr>
@@ -181,7 +181,8 @@ background-color: #d9b44a;
                     <th>Phương thức thanh toán</th>
                     <th>Trạng thái thanh toán</th>
                     <th>Trạng thái phòng</th>
-                  
+                  	<th>Người cập nhật</th>
+                  	<th>Lần cập nhật gần nhất</th>
                 </tr>
             </thead>
             <tbody>
@@ -213,11 +214,14 @@ background-color: #d9b44a;
 			        <option value="cancel" th:selected="${detail.bookDetailStatus == 'cancel'}" class="cancel">Cancel</option>
 			    </select>
 				</td>
+				<td th:text="${detail.updatedBy}"></td>
+				<td th:text="${detail.updatedAt}"></td>
                 </tr>
             </tbody>
         </table>
         <input type="hidden" name="bookCode" th:value="${book.bookCode}" />
         <button type="submit">Cập nhật tất cả</button>
+        
     </form>
 </div>
 

@@ -479,6 +479,9 @@
 .dropdown-menu li {
     break-inside: avoid; /* Prevents breaking items in the middle */
 }
+ img:hover {
+  box-shadow: 0 0 4px 3px #d4a253;
+}
     </style>
 </head>
 <body>
@@ -514,7 +517,7 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/search/admin/bookcode}" th:text="#{navbar.tra_cuu_phong}">TRA CỨU
                         PHÒNG</a>
-                </li>
+                </li> 
                
                 <li class="nav-item" th:if="${session.userRoles != null && session.userRoles.contains('ADMIN')}">
                     <a class="nav-link" th:text="'ADMIN'"  th:href="@{/admin}">ADMIN</a>

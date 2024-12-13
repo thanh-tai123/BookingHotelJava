@@ -1,5 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+	<meta name="google-site-verification" content="sgWGrD1MKd9sIvB_TRoFJZjxmT35AI4YMdYigyYcGUU" />
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>
@@ -466,7 +467,18 @@
             background-color: #717171;
         }
        
+.dropdown-menu {
+    columns: 2; /* Create two columns */
+    column-gap: 15px; /* Gap between the columns */
+}
 
+/* Optional: To make sure the items wrap correctly */
+.dropdown-menu li {
+    break-inside: avoid; /* Prevents breaking items in the middle */
+}
+ img:hover {
+  box-shadow: 0 0 4px 3px #d4a253;
+}
     </style>
 </head>
 <body>
@@ -502,7 +514,29 @@
                     <a class="nav-link" th:href="@{/search/bookcode}" th:text="#{navbar.tra_cuu_phong}">TRA CỨU PHÒNG</a>
                 </li>
                 <li class="nav-item" th:if="${session.userRoles != null && session.userRoles.contains('ADMIN')}">
-                    <a class="nav-link" th:text="'ADMIN'" th:href="@{/admin}">ADMIN</a>
+                    <a class="nav-link" th:text="'ADMIN'"  th:href="@{/admin}">ADMIN</a>
+                    
+                    <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                    
+                        <li><a class="dropdown-item" th:href="@{/admin/confirmroom}">Xác nhận phòng</a></li>
+                        <li><a class="dropdown-item" th:href="@{/admin/add/roomtype}">Tạo kiểu phòng</a></li>
+                        <li><a class="dropdown-item" th:href="@{/admin/add/service}">Tạo dịch vụ</a></li>
+                        <li><a class="dropdown-item" th:href="@{/admin/roomtypes}">Đặt dịch vụ <br>theo kiểu phòng</a></li>
+                        <li><a class="dropdown-item" th:href="@{/supplier}">Tạo phòng</a></li>
+						<li><a class="dropdown-item"
+								th:href="@{/discounts}">Giảm giá phòng</a></li>
+                        <li><a class="dropdown-item" th:href="@{/admin/show-chinhanh}">Tạo chi nhánh mới</a></li>
+                         
+                   
+            
+             
+                 
+                      <li><a class="dropdown-item" th:href="@{/admin}">Thông tin người dùng</a></li>
+                      
+                        <li><a class="dropdown-item" th:href="@{/search/admin/bookcode}">Tra cứu phòng</a></li>
+
+                          <li><a class="dropdown-item" th:href="@{/search/book-details}">Danh sách <br>khách hàng đã đặt</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item dropdown" th:if="${session.userEmail != null}">
                     <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
