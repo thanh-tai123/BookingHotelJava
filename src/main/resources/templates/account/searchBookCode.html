@@ -4,6 +4,8 @@
 <head>
     <title>NHẬP BookCode</title>
     <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+   
     <style>
 
 
@@ -182,18 +184,25 @@ background-color: #d9b44a;
             <td th:text="${detail.adult}"></td>
             <td th:text="${detail.children}"></td>
             <td>
-        <span th:if="${detail.paymentMethod == 'cash'}">Tiền mặt</span>
-        <span th:if="${detail.paymentMethod == 'transfer'}">Chuyển khoản</span>
+       <h4><span th:if="${detail.paymentMethod == 'cash'}" class="badge badge-primary">TIỀN MẶT</span></h4> 
+        <h4><span th:if="${detail.paymentMethod == 'transfer'}" class="badge badge-info">CHUYỂN KHOẢN</span></h4> 
     </td>
     <td>
-        <span th:if="${detail.paymentStatus == 'notpayment'}">Chưa thanh toán</span>
-        <span th:if="${detail.paymentStatus == 'paid'}">Đã thanh toán</span>
-        <span th:if="${detail.paymentStatus == 'return'}">Hoàn tiền</span>
+    <h4>
+    <span th:if="${detail.paymentStatus == 'notpayment'}" class="badge badge-danger">CHƯA THANH TOÁN</span>
+        <span th:if="${detail.paymentStatus == 'paid'}" class="badge badge-success">ĐÃ THANH TOÁN</span>
+        <span th:if="${detail.paymentStatus == 'return'}" class="badge badge-secondary">HOÀN TIỀN</span>
+    </h4>
+        
     </td>
             <td>
-            <span th:if="${detail.BookDetailStatus =='notcheckin'}">Not Check In</span>
-             <span th:if="${detail.BookDetailStatus =='check-in'}">Check In</span>
-              <span th:if="${detail.BookDetailStatus =='cancel'}">Cancel</span>
+            <h4>
+             <span th:if="${detail.BookDetailStatus =='notcheckin'}" class="badge badge-warning">NOT CHECK IN</span>
+             <span th:if="${detail.BookDetailStatus =='check-in'}" class="badge badge-primary">CHECK IN</span>
+              <span th:if="${detail.BookDetailStatus =='checkout'}" class="badge badge-success">CHECK OUT</span>
+              <span th:if="${detail.BookDetailStatus =='cancel'}" class="badge badge-danger">CANCEL</span>
+            </h4>
+           
             </td>
 			
             <!-- Xây dựng nội dung cho txtContent -->

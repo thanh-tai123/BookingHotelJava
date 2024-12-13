@@ -169,7 +169,7 @@ public class BookController {
                 Integer detailId = Integer.parseInt(key.substring(11, key.length() - 1));
                 String status = allParams.get(key);
                 String paymentStatus = allParams.get("paymentStatus[" + detailId + "]");
-
+//                String paymentMethod = allParams.get("paymentMethod[" + detailId + "]");
                 Optional<BookDetail> optionalBookDetail = bookDetailRepository.findById(detailId);
                 if (optionalBookDetail.isPresent()) {
                     BookDetail bookDetail = optionalBookDetail.get();
@@ -179,12 +179,37 @@ public class BookController {
                         userEmail = bookDetail.getBook().getUser().getEmail();
                     }
 
-                    bookDetail.setBookDetailStatus(status);
+                   
                     bookDetail.setPaymentStatus(paymentStatus);
                     bookDetail.setUpdatedBy(currentUser.getUsername());
                     bookDetail.setUpdatedAt(new Date());
                     bookDetailRepository.save(bookDetail);
 
+                    String readablePaymentMethod = "";
+                    if ("cash".equals(bookDetail.getPaymentMethod())) {
+                        readablePaymentMethod = "TIỀN MẶT";
+                    } else if ("transfer".equals(bookDetail.getPaymentMethod())) {
+                        readablePaymentMethod = "CHUYỂN KHOẢN";
+                    }
+
+                    String readablePaymentStatus = "";
+                    if ("notpayment".equals(paymentStatus)) {
+                        readablePaymentStatus = "CHƯA THANH TOÁN";
+                    } else if ("paid".equals(paymentStatus)) {
+                        readablePaymentStatus = "ĐÃ THANH TOÁN";
+                    } else if ("return".equals(paymentStatus)) {
+                        readablePaymentStatus = "HOÀN TIỀN";
+                    }
+                    String readableStatus ="";
+                    if("notcheckin".equals(bookDetail.getBookDetailStatus())) {
+                    	readableStatus="NOT CHECK IN";
+                    }else if("check-in".equals(bookDetail.getBookDetailStatus())) {
+                    	readableStatus="CHECK IN";
+                    }else if("checkout".equals(bookDetail.getBookDetailStatus())) {
+                    	readableStatus="CHECK OUT";
+                    }else if("cancel".equals(bookDetail.getBookDetailStatus())) {
+                    	readableStatus="CANCEL";
+                    }
                     // Append details to email content
                     emailContent.append("Chi tiết phòng đã đặt:\n")
                             .append("Số phòng: ").append(bookDetail.getRoom().getSophong()).append("\n")
@@ -194,9 +219,9 @@ public class BookController {
                             .append("Checkout: ").append(bookDetail.getCheckout()).append("\n")
                             .append("Người lớn: ").append(bookDetail.getAdult()).append("\n")
                             .append("Trẻ em: ").append(bookDetail.getChildren()).append("\n")
-                            .append("Phương thức thanh toán: ").append(bookDetail.getPaymentMethod()).append("\n")
-                            .append("Trạng thái thanh toán: ").append(paymentStatus).append("\n")
-                            .append("Trạng thái phòng: ").append(status).append("\n")
+                            .append("Phương thức thanh toán: ").append(readablePaymentMethod).append("\n")
+                            .append("Trạng thái thanh toán: ").append(readablePaymentStatus).append("\n")
+                            .append("Trạng thái phòng: ").append(readableStatus).append("\n")
                             .append("Người cập nhật: ").append(currentUser.getUsername()).append("\n")
                             .append("Thời gian cập nhật: ").append(bookDetail.getUpdatedAt()).append("\n\n");
                 }

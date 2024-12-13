@@ -253,12 +253,12 @@
                     <img th:src="${u.image}" width="50" height="50" alt="User Image">
                 </td>
                 <td th:if="${txtemail == ''}">
-                    <a th:href="@{'admin/edit/' + ${u.id}}" title="Edit role user" class="btn btn-sm btn-primary">
+                    <a th:href="@{'/admin/edit/' + ${u.id}}" title="Edit role user" class="btn btn-sm btn-primary">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </a>
                 </td>
                 <td th:unless="${txtemail == ''}">
-                    <a th:href="@{'admin/edit/' + ${u.id}}" title="Edit role user" class="btn btn-sm btn-primary">
+                    <a th:href="@{'/admin/edit/' + ${u.id}}" title="Edit role user" class="btn btn-sm btn-primary">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </a>
                 </td>
