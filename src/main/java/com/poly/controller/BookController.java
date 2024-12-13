@@ -179,7 +179,7 @@ public class BookController {
                         userEmail = bookDetail.getBook().getUser().getEmail();
                     }
 
-                   
+                   bookDetail.setBookDetailStatus(status);
                     bookDetail.setPaymentStatus(paymentStatus);
                     bookDetail.setUpdatedBy(currentUser.getUsername());
                     bookDetail.setUpdatedAt(new Date());

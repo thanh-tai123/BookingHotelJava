@@ -166,7 +166,7 @@ background-color: #d9b44a;
 
 
     <h3>Chi tiết Book:</h3>
-    <form th:action="@{/search/admin/updateAllStatuses}" method="post">
+    <form th:action="@{/search/admin/updateAllStatuses}" method="post" >
         <table class="table">
             <thead >
                 <tr>
@@ -221,6 +221,7 @@ background-color: #d9b44a;
         </table>
         <input type="hidden" name="bookCode" th:value="${book.bookCode}" />
         <button type="submit">Cập nhật tất cả</button>
+        
     </form>
 </div>
 

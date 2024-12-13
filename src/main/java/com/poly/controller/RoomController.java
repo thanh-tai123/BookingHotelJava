@@ -175,7 +175,7 @@ public class RoomController {
 	 * // This should point to your AngularJS app's main HTML file }
 	 */
 
-	@PreAuthorize("hasAuthority('USER')")
+	@PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('STAFF') or hasAuthority('SUPERADMIN')")
 	@GetMapping("/room-details/{roomId}")
 	public String showRoomDetails(@PathVariable Integer roomId, Model model) {
 		model.addAttribute("roomId", roomId);

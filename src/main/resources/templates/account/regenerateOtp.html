@@ -139,11 +139,9 @@ img{width: 300px;
                     <button type="submit" class="btn-login"  >GỬI</button>
 
                 </form>
-                <div th:if="${error}" >
-    <h5 th:text="${error}" ></h5> <!-- Hiển thị thông báo lỗi -->
-
-  
-</div>
+                                <div th:if="${error}" class="alert alert-danger text-center">
+					    <p th:text="${error}"></p>
+					</div>
                  </div>
         </div>
 

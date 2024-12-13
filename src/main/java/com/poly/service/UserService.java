@@ -59,7 +59,7 @@ public class UserService implements UserServiceRepository{
 		    try {
 		      emailUtil.sendOtpEmail(registerDto.getEmail(), otp);
 		    } catch (MessagingException e) {
-		      throw new RuntimeException("KHÔNG THỂ GỬI OTP, HÃY THỬ LẠI");
+		      throw new IllegalArgumentException("KHÔNG THỂ GỬI OTP, HÃY THỬ LẠI");
 		    }
 		    User Account = new User();
 		    Account.generateUserCode();
@@ -75,12 +75,11 @@ public class UserService implements UserServiceRepository{
 		  }
 	  public String verifyAccount(String email, String otp) {
 		    User Account =userRepository.findByEmail(email)
-		        .orElseThrow(() -> new RuntimeException("KHÔNG TÌM THẤY TÀI KHOẢN VỚI : " + email));
+		        .orElseThrow(() -> new IllegalArgumentException("KHÔNG TÌM THẤY TÀI KHOẢN VỚI : " + email));
 		    if (Account.getOtp().equals(otp) && Duration.between(Account.getOtpGeneratedTime(),
 		        LocalDateTime.now()).getSeconds() < (1 * 180)) {
 		      Account.setActivated(true);
-		      Account.setOtp(null);
-		      Account.setOtpGeneratedTime(null);
+		    
 		      userRepository.save(Account);
 		      return "OTP CÓ THỂ XÁC THỰC";
 		    }
@@ -88,7 +87,7 @@ public class UserService implements UserServiceRepository{
 		  }
 	  public String regenerateOtp(String email) {
 		    User Account = userRepository.findByEmail(email)
-		        .orElseThrow(() -> new RuntimeException("KHÔNG TÌM THẤY TÀI KHOẢN VỚI: " + email));
+		        .orElseThrow(() -> new IllegalArgumentException("KHÔNG TÌM THẤY TÀI KHOẢN VỚI: " + email));
 		    if (Boolean.TRUE.equals(Account.getActivated())) {
 		    	 throw new IllegalArgumentException("EMAIL ĐÃ ĐƯỢC XÁC THỰC. KHÔNG CẦN GỬI OTP.");
 		    }
@@ -96,7 +95,7 @@ public class UserService implements UserServiceRepository{
 		    try {
 		      emailUtil.sendOtpEmail(email, otp);
 		    } catch (MessagingException e) {
-		      throw new RuntimeException("KHÔNG THỂ GỬI OTP, HÃY THỬ LẠI");
+		      throw new IllegalArgumentException("KHÔNG THỂ GỬI OTP, HÃY THỬ LẠI");
 		    }
 		    Account.setOtp(otp);
 		    Account.setOtpGeneratedTime(LocalDateTime.now());
@@ -107,7 +106,7 @@ public class UserService implements UserServiceRepository{
 	  
 	  public String forgotPassword(String email) {
 		    User account = userRepository.findByEmail(email)
-		            .orElseThrow(() -> new RuntimeException("KHÔNG TÌM THẤY TÀI KHOẢN VỚI: " + email));
+		            .orElseThrow(() -> new IllegalArgumentException("KHÔNG TÌM THẤY TÀI KHOẢN VỚI: " + email));
 		    
 		  
 		    String token = UUID.randomUUID().toString();
@@ -118,14 +117,14 @@ public class UserService implements UserServiceRepository{
 		    try {
 		        emailUtil.sendSetPasswordEmail(email, token);
 		    } catch (Exception e) {
-		        throw new RuntimeException("KHÔNG THỂ GỬI EMAIL");
+		        throw new IllegalArgumentException("KHÔNG THỂ GỬI EMAIL");
 		    }
 		    return "VUI LÒNG KIỂM TRA EMAIL";
 		}
 		public String setPassword(String email, String newPassword) {
 			User Account =userRepository.findByEmail(email)
 					.orElseThrow(
-							()-> new RuntimeException("KHÔNG TÌM THẤY TÀI KHOẢN VỚI: "+email));
+							()-> new IllegalArgumentException("KHÔNG TÌM THẤY TÀI KHOẢN VỚI: "+email));
 					Account.setPassword(passwordEncoder.encode(newPassword));
 					userRepository.save(Account);
 					return "ĐỔI MẬT KHẨU THÀNH CÔNG";
