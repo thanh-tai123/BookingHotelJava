@@ -19,6 +19,7 @@ public class RoomDTO {
     private String img;
     private int sophong;
     private String address;
+    private float area;
     private String kieuphong;
     private RoomTypeDTO roomType;
     private float gia;

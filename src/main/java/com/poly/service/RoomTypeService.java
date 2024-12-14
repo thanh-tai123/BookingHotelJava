@@ -40,9 +40,17 @@ public class RoomTypeService implements RoomTypeServiceRepository{
     private RoomRepository roomRepository;
 
     public RoomType createRoomType(RoomTypeDTO roomTypeDTO) {
+        String upperCaseName = roomTypeDTO.getName().toUpperCase();
+
+        // Kiểm tra nếu tên đã tồn tại
+        if (roomTypeRepository.existsByName(upperCaseName)) {
+            throw new IllegalArgumentException("Kiểu phòng " + upperCaseName + " đã tồn tại");
+        }
+
         RoomType roomType = new RoomType();
-        roomType.setName(roomTypeDTO.getName());
+        roomType.setName(upperCaseName); // Chuyển tên thành chữ in hoa
         roomType.setDescription(roomTypeDTO.getDescription());
+
         return roomTypeRepository.save(roomType);
     }
     public List<RoomTypeDTO> getAllRoomTypes() {
@@ -61,7 +69,7 @@ public class RoomTypeService implements RoomTypeServiceRepository{
         RoomType existingRoomType = roomTypeRepository.findById(id)
                 .orElseThrow();
 
-        existingRoomType.setName(roomTypeDTO.getName());
+        existingRoomType.setName(roomTypeDTO.getName().toUpperCase());
         existingRoomType.setDescription(roomTypeDTO.getDescription());
 
         RoomType updatedRoomType = roomTypeRepository.save(existingRoomType);

@@ -55,6 +55,7 @@ public class Room {
 //	    private String kieuphong;
 	    private float gia;
 	    private String mota;
+	    private float area; 
 	    @Builder.Default
 	    @Enumerated(EnumType.STRING)
 	    private RoomStatus status = RoomStatus.FALSE;

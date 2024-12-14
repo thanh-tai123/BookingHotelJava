@@ -19,8 +19,12 @@ public class ServiceService implements ServiceServiceRepository{
     private ServiceRepository serviceRepository;
 
     public Services createService(ServiceDTO serviceDTO) {
+    	 String upperCaseName = serviceDTO.getName().toUpperCase();
+    	 if(serviceRepository.existsByName(upperCaseName)){
+    		 throw new IllegalArgumentException("Dịch vụ " + upperCaseName + " đã tồn tại");
+    	 }
         Services service = new Services();
-        service.setName(serviceDTO.getName());
+        service.setName(upperCaseName);
         service.setDescription(serviceDTO.getDescription());
         return serviceRepository.save(service);
     }

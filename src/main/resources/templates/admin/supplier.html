@@ -213,6 +213,10 @@ margin-left:690px;
     </div>
 
     <div class="form-row">
+    <div class="form-group">
+            <label>DIỆN TÍCH:</label>
+            <input type="text" ng-model="room.area" required />
+        </div>
      <div class="form-group">
             <label>ĐỊA CHỈ:</label>
             <input type="text" ng-model="room.address" required />
@@ -245,7 +249,7 @@ margin-left:690px;
             <th>CHI NHÁNH</th>
              <th>ĐỊA CHỈ</th>
             <th>GIÁ</th>
-            <th>TRẠNG THÁI</th>
+            <th>DIỆN TÍCH</th>
             <th>MÔ TẢ</th>
              <th>GHI CHÚ</th>
             <th>HÀNG ĐỘNG</th>
@@ -260,7 +264,7 @@ margin-left:690px;
             <td>{{ room.hotelid.chinhanh }}</td>
              <td>{{ room.address }}</td>
             <td>${{ room.gia }}</td>
-            <td>{{ room.status }}</td>
+            <td>{{ room.area }}</td>
             <td>{{ room.mota }}</td>
               <td>{{ room.note }}</td>
             <td>
@@ -334,6 +338,7 @@ angular.module('app', [])
         formData.append('mota', $scope.room.mota);
         formData.append('status', $scope.room.status);
         formData.append('address', $scope.room.address);
+        formData.append('area', $scope.room.area);
         formData.append('staffid', $scope.user.id);
 
         // Thêm img nếu có
@@ -443,6 +448,7 @@ angular.module('app', [])
         formData.append('gia', $scope.room.gia);
         formData.append('mota', $scope.room.mota);
         formData.append('address', $scope.room.address);
+        formData.append('area', $scope.room.area);
         formData.append('status', $scope.room.status);
         formData.append('note', $scope.room.note || '');
         formData.append('staffid', $scope.user.id);

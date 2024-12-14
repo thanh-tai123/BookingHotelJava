@@ -116,7 +116,7 @@ public class RoomService implements RoomServiceRepository{
             room.setStatus(RoomStatus.FALSE);
             room.setUser(user);
             room.setRoomtype(roomtype);
-
+            room.setArea(roomRequest.getArea());
             roomRepository.save(room); // Lưu phòng vào cơ sở dữ liệu
         } catch (Exception e) {
             e.printStackTrace();
@@ -166,7 +166,7 @@ public class RoomService implements RoomServiceRepository{
         room.setStatus(roomRequest.getStatus());
         room.setUser(user);
         room.setRoomtype(roomtype);
-
+        room.setArea(roomRequest.getArea());
         // Save additional images
         for (MultipartFile img : images) {
             String imageUrl = awsS3Service.saveImageToS3(img);
@@ -193,7 +193,7 @@ public class RoomService implements RoomServiceRepository{
             roomDTO.setStatus(room.getStatus());
             roomDTO.setNote(room.getNote());
            roomDTO.setAddress(room.getAddress());
-
+           roomDTO.setArea(room.getArea());
             // Fetch hotel details
             Hotel hotel = room.getHotel();
             if (hotel != null) {
@@ -239,6 +239,7 @@ public class RoomService implements RoomServiceRepository{
                 .gia(room.getCurrentPrice(new Date()))
                 .mota(room.getMota())
                 .address(room.getAddress())
+                .area(room.getArea())
                 .status(room.getStatus())
                 .note(room.getNote())
                 .hotelid(HotelDTO.builder()
@@ -276,6 +277,7 @@ public class RoomService implements RoomServiceRepository{
                         .address(room.getAddress())
                         .status(room.getStatus())
                         .note(room.getNote())
+                        .area(room.getArea())
                         .hotelid(HotelDTO.builder()
                                 .id(room.getHotel().getId())
                                 .chinhanh(room.getHotel().getChinhanh())

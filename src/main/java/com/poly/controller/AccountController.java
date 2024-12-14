@@ -184,8 +184,7 @@ public class AccountController {
 
     @GetMapping("/verify-account")
     public String showVerifyAccountForm(@RequestParam String email, @RequestParam String otp, Model model) {
-        String result = userService.verifyAccount(email, otp);
-        model.addAttribute("email", email);
+       
         return "account/verifyAccount";
     }
 
@@ -203,7 +202,7 @@ public class AccountController {
 	      }
 	      catch (IllegalArgumentException e) {
 	            model.addAttribute("error", e.getMessage());
-	            return "account/verifyAccount"; // Return to the registration page with the error message
+	            return "account/login"; // Return to the registration page with the error message
 	        }
 	      }
 	       

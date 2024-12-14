@@ -20,7 +20,7 @@ public class EmailUtil {
 	    mimeMessageHelper.setTo(email);
 	    mimeMessageHelper.setSubject("XÁC THỰC EMAIL BẰNG OTP");
 	    String emailBody = "<div>OTP của bạn là: OTP_VALUE</div>" +
-	                       "<div><a href='http://polyhotelbooking.online/account/verify-account?email=EMAIL_VALUE&otp=OTP_VALUE'>Nhấp vào link để xác thực tài khoản</a></div>";
+	                       "<div><a href='http://localhost:8081/account/verify-account?email=EMAIL_VALUE&otp=OTP_VALUE'>Nhấp vào link để xác thực tài khoản</a></div>";
 	    emailBody = emailBody.replace("OTP_VALUE", otp);
 	    emailBody = emailBody.replace("EMAIL_VALUE", email);
 	    mimeMessageHelper.setText(emailBody, true);
