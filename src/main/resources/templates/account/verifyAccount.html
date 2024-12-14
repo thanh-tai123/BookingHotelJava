@@ -26,7 +26,7 @@
     padding: 20px;
     border-radius: 10px;
     width: 300px;
-    margin-left: 100px;
+    margin-left: 40px;
 }
 .login-container h3 {
     color: white;
@@ -118,15 +118,14 @@ img{width: 300px;
 <div class="bg">
 
     <div class="row">
-        <div class="col-md-1"></div>
+      
         <div class="col-md-3">
             <div class="login-container">
                 <h3 >XÁC THỰC TÀI KHOẢN EMAIL</h3>
                 <form th:action="@{/account/verify-account}" method="post">
 
                     <label for="email" class="form-label" th:text="#{forgotPassword.EmailAddress}"></label>
-                    <input type="text" name="email" th:value="${email}" readonly>
-
+                    <input type="text" name="email" >
                     <label >OTP:</label>
                     <input input type="text" name="otp">
 
@@ -137,10 +136,11 @@ img{width: 300px;
                     <button type="submit" class="btn-login"  >XÁC THỰC</button>
 
                 </form>
-                 </div>
-                 <div th:if="${error}" class="alert alert-danger text-center">
+                  <div th:if="${error}" class="alert alert-danger text-center">
 					    <p th:text="${error}"></p>
 					</div>
+                 </div>
+               
         </div>
 
 

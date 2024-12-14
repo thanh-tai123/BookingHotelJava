@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book</title>
+    <title>ĐẶT PHÒNG</title>
     <!-- Include jQuery -->
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -159,8 +159,9 @@
         }
 
         .room-box:hover {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Đổ bóng khi hover */
-        }
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            border:2px solid #c09b5a
+                  }
 
         .room-image {
             width: 50%; /* Hình ảnh chiếm 50% chiều rộng của box */
@@ -477,6 +478,51 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border-radius: 5px;
     padding: 5px; /* Khoảng cách cho biểu tượng */
 }
+  .total-and-duration {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f4d9; /* Chỉnh màu nền nếu cần */
+            padding: 10px;
+            border-radius: 5px; /* Tạo bo góc */
+            margin-top: 20px; /* Khoảng cách phía trên */
+        }
+
+        .total-amount,
+        .stay-duration {
+            font-size: 1.2em; /* Tăng kích thước chữ */
+            color: #333; /* Màu chữ */
+        }
+
+        .total-amount strong,
+        .stay-duration strong {
+            color: #000; /* Màu chữ đậm */
+        }
+
+        .total-amount {
+            margin-right: 20px; /* Khoảng cách giữa tổng và số đêm */
+        }
+
+        .stay-duration {
+            display: flex;
+            align-items: center;
+        }
+       a {
+    text-decoration: none; /* Bỏ gạch chân */
+    color: #007BFF; /* Màu chữ */
+    font-weight: bold; /* Đậm chữ */
+  /* Khoảng cách bên trong */
+    border: 2px solid transparent; /* Viền trong suốt */
+    border-radius: 5px; /* Bo góc */
+    transition: background-color 0.3s, border-color 0.3s; /* Hiệu ứng chuyển tiếp */
+}
+
+
+        .booknow:hover{
+         background-color: #c09b5a; /* Màu nền khi di chuột */
+    color: white;
+        }
+        
     </style>
 </head>
 <div th:replace="~{access/nav1 :: html}"></div>
@@ -546,6 +592,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         <p><strong>SỐ PHÒNG:</strong> {{room.sophong}}</p>
         <p><strong>GIÁ:</strong> ${{room.gia}}</p>
         <p><strong>KIỂU PHÒNG:</strong> {{room.roomType.name}}</p>
+        <a href="/room/room-details/{{room.id}}">XEM CHI TIẾT</a>
+        <label class="booknow" style="margin-left:80px">CLICK ĐẶT NGAY</label>
         <input type="checkbox" class="checkbox ml-3" ng-click="toggleRoomSelection(room)">
     </div>
 </div>
@@ -559,7 +607,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         <div class="user-inputs">
             <div class="input-group">
                 <label for="adultCount">NGƯỜI LỚN</label>
-                <input type="number" id="adultCount" min="1" max="2" ng-model="booking.adult" class="number-input">
+                <input type="number" id="adultCount" min="1" max="4" ng-model="booking.adult" class="number-input">
             </div>
             <div class="input-group">
                 <label for="childrenCount">TRẺ CON</label>
@@ -575,10 +623,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         </div>
 
         <!--    <p><strong>Total:</strong> ${{ total }}</p>-->
-        <p><strong>TỔNG </strong> ${{ totalAmount }}</p>
-        <div class="stay-duration">
-            <p><strong>SỐ ĐÊM </strong> {{stayDuration}} đêm</p>
-        </div>
+       <div class="total-and-duration">
+    <p class="total-amount"><strong>TỔNG </strong> {{ totalAmount }} VND</p>
+    <div class="stay-duration">
+        <p><strong>SỐ ĐÊM </strong> {{stayDuration}} ĐÊM</p>
+    </div>
+</div>
+
         <button ng-click="bookRoom()" class="book-button">Book</button>
 		<div id="loadingIndicator" style="display: none;">
     <p>Đang xử lý, vui lòng đợi...</p>
@@ -802,8 +853,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                         (checkoutDate > bookedCheckin && checkoutDate <= bookedCheckout) ||
                         (checkinDate <= bookedCheckin && checkoutDate >= bookedCheckout)) {
 
-                        alert(`The selected dates overlap with an existing booking.\nOverlapping booking:\nCheck-in: ${booking.checkin}, Check-out: ${booking.checkout}`);
-
+                    	alert(`Các ngày đã chọn bị trùng với một đặt phòng hiện có.\nĐặt phòng trùng lắp:\nNhận phòng: ${booking.checkin}, Trả phòng: ${booking.checkout}`);
                         return false;
                     }
                 }

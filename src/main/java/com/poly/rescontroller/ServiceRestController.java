@@ -3,6 +3,7 @@ package com.poly.rescontroller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,8 +37,17 @@ public class ServiceRestController {
 
     // Tạo dịch vụ mới
     @PostMapping("/add/services")
-    public Services createService(@RequestBody ServiceDTO serviceDTO) {
-        return serviceService.createService(serviceDTO);
+    public ResponseEntity<?> createService(@RequestBody ServiceDTO serviceDTO) {
+        try {
+            Services newService = serviceService.createService(serviceDTO);
+            return ResponseEntity.ok(newService);
+        } catch (IllegalArgumentException e) {
+            // Trả về phản hồi lỗi 400 nếu tên dịch vụ đã tồn tại
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            // Trả về phản hồi lỗi 500 cho các lỗi không xác định
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
+        }
     }
 
     // Cập nhật dịch vụ

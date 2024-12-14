@@ -29,7 +29,8 @@ public class RoomRequest {
     private String img;
     @NotNull(message = "Room type is required")
     private Integer roomtypeid;
-
+    @NotNull(message = "Room type is required")
+    private float area;
 
 
    

@@ -50,11 +50,18 @@ public class RoomTypeRestController {
         return roomtyepeRepository.findAll();
     }
     @PostMapping("/add/roomtype")
-    public ResponseEntity<RoomType> addRoomType(@RequestBody RoomTypeDTO roomTypeDTO) {
-        RoomType newRoomType = roomTypeService.createRoomType(roomTypeDTO);
-        return ResponseEntity.ok(newRoomType);
+    public ResponseEntity<?> addRoomType(@RequestBody RoomTypeDTO roomTypeDTO) {
+        try {
+            RoomType newRoomType = roomTypeService.createRoomType(roomTypeDTO);
+            return ResponseEntity.ok(newRoomType);
+        } catch (IllegalArgumentException e) {
+            // Trả về phản hồi lỗi 400 nếu tên đã tồn tại
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            // Trả về phản hồi lỗi 500 cho các lỗi không xác định
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
+        }
     }
-    
  // Thay đổi kiểu dữ liệu của serviceIds thành List<Integer> để nhận các ID
    
     @GetMapping("/roomtypes")

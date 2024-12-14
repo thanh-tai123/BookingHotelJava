@@ -138,10 +138,7 @@
                     <h5 class="card-title" th:text="${r.roomtype.name}"></h5>
                     <h5 class="card-title" th:text="${r.hotel.chinhanh}"></h5>
                     <p class="card-text" th:text="${r.mota}"></p>
-                    <p class="card-text">2
-                        <text th:text="#{body.people}"></text>
-                        | 45m2
-                    </p>
+                     <p class="card-text"> <text th:text="#{body.people}"></text> 2 | <text th:text="${r.area}"></text> m2</p>
                     <div class="card-icons">
                         <i class="fas fa-bed"></i>
                         <i class="fas fa-wifi"></i>

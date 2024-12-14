@@ -11,5 +11,5 @@ import com.poly.entity.RoomType;
 @Repository
 public interface RoomTypeRepository extends JpaRepository<RoomType, Integer> {
 	 
-	  
+	boolean existsByName(String name);
 }

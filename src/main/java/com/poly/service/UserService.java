@@ -74,17 +74,24 @@ public class UserService implements UserServiceRepository{
 		    return "ĐĂNG KÍ THÀNH CÔNG";
 		  }
 	  public String verifyAccount(String email, String otp) {
-		    User Account =userRepository.findByEmail(email)
-		        .orElseThrow(() -> new IllegalArgumentException("KHÔNG TÌM THẤY TÀI KHOẢN VỚI : " + email));
-		    if (Account.getOtp().equals(otp) && Duration.between(Account.getOtpGeneratedTime(),
-		        LocalDateTime.now()).getSeconds() < (1 * 180)) {
-		      Account.setActivated(true);
-		    
-		      userRepository.save(Account);
-		      return "OTP CÓ THỂ XÁC THỰC";
-		    }
-		    return "OTP ĐÃ HẾT HẠN, HÃY VÀO TRANG ĐĂNG NHẬP VÀ CHỌN XÁC THỰC TÀI KHOẢN ĐỂ TẠO OTP MỚI" ;
-		  }
+	        try {
+	            User account = userRepository.findByEmail(email)
+	                .orElseThrow(() -> new IllegalArgumentException("KHÔNG TÌM THẤY TÀI KHOẢN VỚI : " + email));
+	            
+	            if (account.getOtp().equals(otp) && Duration.between(account.getOtpGeneratedTime(), LocalDateTime.now()).getSeconds() < (1 * 180)) {
+	                account.setActivated(true);
+	                userRepository.save(account);
+	                return "XÁC THỰC TÀI KHOẢN THÀNH CÔNG, BẠN CÓ THỂ ĐĂNG NHẬP!";
+	            }
+
+	            return "OTP ĐÃ HẾT HẠN, HÃY VÀO TRANG ĐĂNG NHẬP VÀ CHỌN XÁC THỰC TÀI KHOẢN ĐỂ TẠO OTP MỚI";
+	        } catch (IllegalArgumentException e) {
+	        	 throw new IllegalArgumentException("Đã xảy ra lỗi không mong muốn. Vui lòng thử lại sau.");
+	        } catch (Exception e) {
+	         
+	            throw new IllegalArgumentException("Đã xảy ra lỗi không mong muốn. Vui lòng thử lại sau.");
+	        }
+	    }
 	  public String regenerateOtp(String email) {
 		    User Account = userRepository.findByEmail(email)
 		        .orElseThrow(() -> new IllegalArgumentException("KHÔNG TÌM THẤY TÀI KHOẢN VỚI: " + email));
