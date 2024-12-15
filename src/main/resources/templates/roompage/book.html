@@ -824,16 +824,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
             $scope.validateBookingDates = function(checkin, checkout) {
                 const today = new Date();
+                const todayStart = new Date(today.setHours(0, 0, 0, 0)); // Ngày hiện tại, đặt giờ phút giây về 0
                 const checkinDate = new Date(checkin);
                 const checkoutDate = new Date(checkout);
 
-                // Check if dates are in the past
-                if (checkinDate < today || checkoutDate < today) {
+                // Check nếu ngày vào hoặc ngày ra trong quá khứ
+                if (checkinDate < todayStart || checkoutDate < todayStart) {
                     alert("Ngày đặt không được đặt trong quá khứ.");
                     return false;
                 }
+                // Kiểm tra nếu ngày ra nhỏ hơn hoặc bằng ngày vào
                 if (checkoutDate <= checkinDate) {
-                    alert("Ngày ra không được nhỏ hơn ngày vào.");
+                    alert("Ngày ra không được nhỏ hơn hoặc bằng ngày vào.");
                     return false;
                 }
 
@@ -844,7 +846,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     alert("Số lượng người không được bằng 0.");
                     return false;
                 }
-                // Check for date overlap with existing bookings
+
+                // Check trùng lặp ngày đặt với các đặt phòng đã tồn tại
                 for (let booking of $scope.bookedDates) {
                     const bookedCheckin = new Date(booking.checkin);
                     const bookedCheckout = new Date(booking.checkout);
@@ -853,14 +856,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                         (checkoutDate > bookedCheckin && checkoutDate <= bookedCheckout) ||
                         (checkinDate <= bookedCheckin && checkoutDate >= bookedCheckout)) {
 
-                    	alert(`Các ngày đã chọn bị trùng với một đặt phòng hiện có.\nĐặt phòng trùng lắp:\nNhận phòng: ${booking.checkin}, Trả phòng: ${booking.checkout}`);
+                        alert(`Các ngày đã chọn bị trùng với một đặt phòng hiện có.\nĐặt phòng trùng lắp:\nNhận phòng: ${booking.checkin}, Trả phòng: ${booking.checkout}`);
                         return false;
                     }
                 }
 
-
                 return true;
             };
+
 
             // Function to book room
             $scope.bookRoom = function() {
