@@ -184,8 +184,8 @@ background-color: #d9b44a;
             <td th:text="${detail.adult}"></td>
             <td th:text="${detail.children}"></td>
             <td>
-       <h4><span th:if="${detail.paymentMethod == 'cash'}" class="badge badge-primary">TIỀN MẶT</span></h4> 
-        <h4><span th:if="${detail.paymentMethod == 'transfer'}" class="badge badge-info">CHUYỂN KHOẢN</span></h4> 
+       <h4><span th:if="${detail.paymentMethod == 'cash'}" class="badge badge-primary">TIỀN MẶT</span>
+        <span th:if="${detail.paymentMethod == 'transfer'}" class="badge badge-info">CHUYỂN KHOẢN</span></h4> 
     </td>
     <td>
     <h4>
