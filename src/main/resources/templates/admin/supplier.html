@@ -386,7 +386,7 @@ angular.module('app', [])
             console.log('Attempting to delete room with ID:', roomId); // Log ID
             $http.delete(`/api/delete-room/${roomId}`)
                 .then(function(response) {
-                    alert('Room deleted successfully!');
+                    alert('Xóa phòng thành công!');
                     $scope.loadRoomsByStatus($scope.selectedStatus); // Refresh the rooms list
                 }, function(error) {
                     console.error('Error deleting room:', error);
