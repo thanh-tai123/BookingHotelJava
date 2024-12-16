@@ -160,7 +160,7 @@ public class AccountController {
 
     @RequestMapping("/login/failure")
     public String handleLoginFailure(Model model) {
-        model.addAttribute("error", "EMAIL VÀ MẬT KHẨU KHÔNG KHỚP");
+        model.addAttribute("error", "EMAIL VÀ MẬT KHẨU KHÔNG KHỚP HOẶC EMAIL CHƯA XÁC THỰC");
         return "account/login";
     }
 

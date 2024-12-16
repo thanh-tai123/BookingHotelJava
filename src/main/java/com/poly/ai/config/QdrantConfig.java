@@ -15,7 +15,7 @@ public class QdrantConfig {
 	@Bean
 	public QdrantClient qdrantClient() {
 		QdrantGrpcClient.Builder grpClientBuilder = QdrantGrpcClient
-				.newBuilder("836f8b69-30ae-4463-9ca2-574ad770f616.us-east4-0.gcp.cloud.qdrant.io", 6334, true); //
+				.newBuilder("d9da0b5b-57d5-4681-9e4a-5117e4b62985.us-east4-0.gcp.cloud.qdrant.io", 6334, true); //
 		grpClientBuilder.withApiKey(""); // API KEY
 		return new QdrantClient(grpClientBuilder.build());
 	}
@@ -23,7 +23,7 @@ public class QdrantConfig {
 	// Khai báo database được sử dụng trong cơ sở dữ liệu
 	@Bean
 	public QdrantVectorStore vectorStore(EmbeddingModel embeddingModel, QdrantClient qdrantClient) {
-		return new QdrantVectorStore(qdrantClient, "leanhtu", embeddingModel, true);
+		return new QdrantVectorStore(qdrantClient, "hotel", embeddingModel, true);
 	}
 
 }

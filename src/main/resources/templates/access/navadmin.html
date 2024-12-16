@@ -482,6 +482,19 @@
  img:hover {
   box-shadow: 0 0 4px 3px #d4a253;
 }
+.navbar-brand img {
+    max-height: 50px;
+}
+.navbar-toggler {
+    border-color: rgba(0, 0, 0, 0.1);
+}
+.nav-link {
+    font-size: 14px;
+    font-weight: bold;
+}
+.dropdown-menu {
+    font-size: 14px;
+}
     </style>
 </head>
 <body>
@@ -512,10 +525,11 @@
                                th:text="#{navbar.phong_suite}"></a></li>
                         <li><a class="dropdown-item" th:href="@{/room/filter?roomtype=Double}"
                                th:text="#{navbar.phong_executive}"></a></li>
+                               <li><a class="dropdown-item" th:href="@{/room}" th:text="#{body.all}"></a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/search/admin/bookcode}" th:text="#{navbar.tra_cuu_phong}">TRA CỨU
+                    <a class="nav-link" th:href="@{/search/bookcode}" th:text="#{navbar.tra_cuu_phong}">TRA CỨU
                         PHÒNG</a>
                 </li> 
                
