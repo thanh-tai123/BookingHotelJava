@@ -174,8 +174,9 @@ public class AccountController {
     @PostMapping("/handle-register")
     public String register(@ModelAttribute RegisterDto registerDto, Model model) {
         try {
-            userService.register(registerDto);
-            return "redirect:/account/login"; // Redirect to login after successful registration
+            String result =userService.register(registerDto);
+            model.addAttribute("error",result);
+            return "account/login"; // Redirect to login after successful registration
         } catch (IllegalArgumentException e) {
             model.addAttribute("errorMessage", e.getMessage());
             return "account/register"; // Return to the registration page with the error message
