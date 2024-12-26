@@ -29,13 +29,22 @@
 
         }
 
-        th {
+   		 th {
 
             background-color: #c09b5a;
 
             color: black;
         }
+		.table {
+		  background-color: #c09b5a;
 
+            color: black;
+		}
+		table.table th{
+		  background-color: #c09b5a;
+
+            color: black;
+		}
         .imginfo {
             max-width: 150px;
             border-radius: 8px;
@@ -85,7 +94,42 @@
        /*  .pagination-link[th:if] {
             visibility: hidden;
         } */
+@media (max-width: 768px) {
+    .horizontal-info-table th, .horizontal-info-table td {
+        font-size: 12px; /* Smaller text for small screens */
+        padding: 5px; /* Adjust padding */
+    }
+}
+@media (max-width: 768px) {
+    table.table {
+        border: 0;
+    }
 
+    table.table thead {
+        display: none; /* Hide the header */
+       
+    }
+
+    table.table tr {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    table.table td {
+        display: block;
+        text-align: right; /* Align the content */
+        font-size: 12px;
+        padding: 5px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    table.table td::before {
+        content: attr(data-label); /* Add labels using `data-label` */
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+}
     </style>
 </head>
 <body>
@@ -95,8 +139,8 @@
 
     <h1>THÔNG TIN CỦA BẠN</h1>
 
-    <table>
-        <thead>
+    <table class="table">
+        <thead >
 
 
         <tr>
@@ -113,25 +157,25 @@
         </thead>
         <tbody>
         <tr>
-            <td th:text="${user.userCode}"></td>
-            <td th:text="${user.name}"></td>
-            <td th:text="${user.email}"></td>
-            <td th:text="${user.phone}"></td>
-            <td th:text="${user.roleString}"></td>
-            <td th:if="${user.roleString.contains('ADMIN')}">
+            <td data-label="Mã khách hàng" th:text="${user.userCode}"></td>
+            <td data-label="Tên" th:text="${user.name}"></td>
+            <td data-label="Email" th:text="${user.email}"></td>
+            <td data-label="Số Điện thoại" th:text="${user.phone}"></td>
+            <td data-label="Vai trò" th:text="${user.roleString}"></td>
+            <td data-label="Trang" th:if="${user.roleString.contains('ADMIN')}">
                 <a th:href="@{/admin}">TRANG ADMIN</a>
             </td>
-            <td th:if="${user.roleString.contains('STAFF')}">
+            <td data-label="Trang" th:if="${user.roleString.contains('STAFF')}">
                 <a th:href="@{/supplier}">TRANG STAFF</a>
             </td>
             <th:block th:if="${user.image != null}">
-                <td><img th:src="${user.image}" alt="Embedded Image" style="width:100px; height:100px"></td>
+                <td data-label="Hình"><img th:src="${user.image}" alt="Embedded Image" style="width:100px; height:100px"></td>
             </th:block>
             <th:block th:unless="${user.image != null}">
-                <td><i class="fa-solid fa-user fa-2xl"></i></td>
+                <td data-label="Hình"><i class="fa-solid fa-user fa-2xl"></i></td>
             </th:block>
 
-            <td><a th:href="@{/account/user-edit}"><i class="fa-regular fa-pen-to-square fa-xl"></i></a></td>
+            <td data-label="Sửa"><a th:href="@{/account/user-edit}"><i class="fa-regular fa-pen-to-square fa-xl"></i></a></td>
         </tr>
 
         </tbody>
@@ -142,7 +186,7 @@
         <p>BOOK CODE là mã hóa đơn bạn đã đặt phòng. Copy mã, đến mục TRA PHÒNG và dán vào, bạn sẽ thấy chi tiết phòng bạn đã đặt<p>
         <p>Đội ngũ khách sạn cảm ơn khách hàng đã tin tưởng!<p>
         <p>Nếu có thắc mắc hãy gọi 0357184576<p>
-        <table>
+        <table >
             <thead>
             <tr>
                 <th>BOOK CODE</th>

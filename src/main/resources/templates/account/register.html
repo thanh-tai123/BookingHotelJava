@@ -19,28 +19,36 @@
 
         .bg {
             background-image: url('https://lavelasaigon.com/wp-content/uploads/2022/10/main-banner.png');
+            height: 100vh;
 
+      width: 100%;
+        /* Full height of the viewport */
+        position: relative; /* Ensure positioning context for children */
+        overflow: hidden; /* Hide overflow if necessary */
+     
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
             display: flex;
-
+            justify-content: center;
             align-items: center;
-            height: 100vh;
         }
 
 
 
-        .login-container, .hero-section {
-            height: 100%; /* Đảm bảo cả hai đều chiếm toàn bộ chiều cao */
+
+        .login-container{
+            height: 95%; /* Đảm bảo cả hai đều chiếm toàn bộ chiều cao */
         }
 
-
+.hero-section{
+height:100%;
+}
         .login-container {
             background-color: #bfa77a;
             padding: 20px;
             border-radius: 10px;
-
+			margin-top:20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
@@ -49,6 +57,8 @@
 
         .login-container h2, .login-container label {
             color: white;
+            font-size:15px;
+              font-weight: bold;
         }
         .login-container input:hover, .login-container input:focus {
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
@@ -57,6 +67,7 @@
         .login-container input {
             margin-bottom: 15px;
             transition: box-shadow 0.3s ease;
+             height:30px;
         }
 
         .login-container .btn-login {
@@ -69,8 +80,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-left: 24%;
-            height: 50px;
+            margin-left: 16%;
+            height: 30px;
         }
 
         .login-container .btn-login:hover {
@@ -92,11 +103,11 @@
 
         .hero-section img {
             width: 90%;
-            height: 100%; /* Chiều cao khớp với container cha */
+            height: 95%; /* Chiều cao khớp với container cha */
             object-fit: cover; /* Ảnh được cắt để vừa khung mà không bị méo */
             border-radius: 10px;
             margin-left: 20px;
-
+			margin-top:20px;
         }
 
         .welcome-text {
@@ -329,7 +340,7 @@
         <!-- Đăng kí Form -->
         <div class="col-md-4">
             <div class="login-container">
-                <h2 class="bounce-effect" style="margin-left: 36%" th:text=#{register.register}> Đăng kí</h2>
+                <h2 class="bounce-effect" style="margin-left: 43%; font-size:15px" th:text=#{register.register}></h2>
                 <form th:action="@{/account/handle-register}" method="post">
                     <div class="mb-3">
                         <label for="name" th:text="#{register.username}"></label>
@@ -362,14 +373,14 @@
                     </div>
                   
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-primary btn-login" style="color: white"  th:text="#{register.register}" ></button>
+                        <button type="submit" class="btn btn-primary btn-login" style="color: white; font-size:15px;  font-weight: bold;"  th:text="#{register.register}" ></button>
                     </div>
                     <div th:if="${errorMessage}" class="alert alert-danger text-center">
 						    <p th:text="${errorMessage}"></p>
 						</div>
-                    <div class="text-center mt-3" style="color: white">
+                    <div class="text-center mt-3" style="color: white; font-size:13px; font-weight: bold;">
                         <span th:text="#{login.YouDontHaveAccount}"></span>
-                        <a href="/account/login" th:text="#{login.login}" style="color: wheat; text-decoration: none;"></a>
+                        <a href="/account/login" th:text="#{login.login}" style="color: wheat; text-decoration: none;font-size:15px"></a>
                     </div>
                 </form>
             </div>

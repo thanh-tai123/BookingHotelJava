@@ -90,13 +90,14 @@
             color: green;
             font-weight: bold;
         }
+     
     </style>
 </head>
 <body>
 <div th:replace="~{access/navadmin :: html}"></div>
 
 <div class="container">
-    <h1>Nhập BookCode</h1>
+     <h1>Nhập BookCode</h1>
     <form action="#" th:action="@{/search/admin/book}" method="post">
         <label for="bookCode">BookCode:</label>
         <input type="text" id="bookCode" name="bookCode" required />
