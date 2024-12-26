@@ -2,9 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
 <head>
-    <title>Nhập BookCode</title>
-     <style>
-        
+    <title>NHẬP BookCode</title>
+    <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+   
+    <style>
+
 
         h1 {
             color: #333;
@@ -13,7 +16,7 @@
 
         form {
             background: #fff;
-           
+            padding: 20px;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
@@ -29,7 +32,7 @@
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid #4f4c4c;
             border-radius: 4px;
         }
 
@@ -40,11 +43,10 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            
         }
 
         button:hover {
-            background-color: white;
+             background-color: white;
             color: #c09b5a;
            
             border:1px solid #c09b5a;
@@ -63,7 +65,7 @@
         }
 
         th, td {
-          
+            padding: 10px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
@@ -85,30 +87,10 @@
             color: green;
             font-weight: bold;
         }
-         .notpayment {
-        color: red;
-        
-    }
-      .status-select-pay {
-        color: red;
-       
-    }
-    .paid {
-        color: green;
-    }
-    .notcheckin {
-        color: orange;
-    }
-    .check-in, .return{
-        color: blue;
-    }
-    .checkout {
-        color: purple;
-    }
-    .cancel {
-        color: red;
-    }
-    .horizontal-info-table {
+        .container {
+            padding: 30px;
+        }
+          .horizontal-info-table {
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
@@ -138,18 +120,66 @@ background-color: #d9b44a;
 }
 
 
+.table thead th {
+    white-space: nowrap; /* Prevent header text from wrapping */
+}
+
+.table td, .table th {
+    text-align: center; /* Align text for better readability */
+}
+
+@media (max-width: 768px) {
+    .horizontal-info-table th, .horizontal-info-table td {
+        font-size: 12px; /* Smaller text for small screens */
+        padding: 5px; /* Adjust padding */
+    }
+}
+@media (max-width: 768px) {
+    table.table {
+        border: 0;
+    }
+
+    table.table thead {
+        display: none; /* Hide the header */
+    }
+
+    table.table tr {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    table.table td {
+        display: block;
+        text-align: right; /* Align the content */
+        font-size: 12px;
+        padding: 5px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    table.table td::before {
+        content: attr(data-label); /* Add labels using `data-label` */
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+}
+
     </style>
 </head>
 <body>
 
-<div th:replace="~{access/navadmin :: html}"></div>
+<div th:replace="~{access/nav :: html}"></div>
 
+
+
+
+<!-- <form th:if="${book}" th:action="@{/mailer/send}" method="post"> -->
+<!--     <div th:if="${book}"> -->
 <div class="container">
-
 <div>
-   <h2>Book Code: <span th:text="${book.bookCode}"></span></h2>
-<h3>Thông tin chi tiết:</h3>
-<table class="horizontal-info-table">
+   	<a th:href="@{/search/bookcode}">Trở lại trang tra cứu</a>
+    <h3 th:text="#{code.informationBook}"></h3>
+   <table class="horizontal-info-table">
     <tr>
         <th>Mã khách hàng</th>
         <th>Ngày tạo</th>
@@ -163,50 +193,53 @@ background-color: #d9b44a;
         <td><span name="txtTo" th:text="${book.user.email}"></span></td>
     </tr>
 </table>
-
-
+    <!--  <input type="hidden" name="txtSubject" value="Thông tin phòng đã đặt"/>
+     <input  name="txtTo" th:value="${book.user.email}"/>
+        <input name="txtCC" th:value="${book.user.email}"/> -->
     <h3>Chi tiết Book:</h3>
-    <form th:action="@{/search/admin/updateAllStatuses}" method="post" >
-        <table class="table">
-            <thead >
-                <tr>
-                    <th>Số phòng</th>
-                    <th>Kiểu phòng</th>
-                    <th>Tổng</th>
-                    <th>Giá</th>
-                    <th>Checkin</th>
-                    <th>Checkout</th>
-                    <th>Người lớn</th>
-                    <th>Trẻ em</th>
-                    <th>Phương thức thanh toán</th>
-                    <th>Trạng thái thanh toán</th>
-                    <th>Trạng thái phòng</th>
-                  	<th>Người cập nhật</th>
-                  	<th>Lần cập nhật gần nhất</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="detail : ${bookDetails}">
-                    <td th:text="${detail.room.sophong}"></td>
-                    <td th:text="${detail.room.roomtype.name}"></td>
-                    <td th:text="${detail.total}"></td>
-                    <td th:text="${detail.price}"></td>
-                    <td th:text="${#dates.format(detail.checkin, 'dd-MM-yyyy')}"></td>
-                    <td th:text="${#dates.format(detail.checkout, 'dd-MM-yyyy')}"></td>
-                    <td th:text="${detail.adult}"></td>
-                    <td th:text="${detail.children}"></td>
-                    <td>
+	<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+
+            <th>Số Phòng</th>
+            <th>Kiểu Phòng</th>
+            <th>Tổng</th>
+            <th>Giá</th>
+            <th>Checkin</th>
+            <th>Checkout</th>
+            <th>Người lớn</th>
+            <th>Trẻ em</th>
+            <th>Phương thức thanh toán</th>
+            <th>Trạng thái thanh toán</th>
+            <th>Trạng thái phòng</th>
+
+            <th>Người cập nhật</th>
+  			<th>Thời gian cập nhật</th>
+        </tr>
+        </thead>
+        <tbody th:with="content='Chi tiết đặt phòng:\n'">
+          <tr th:each="detail : ${bookDetails}">
+                    <td data-label="Số Phòng" th:text="${detail.room.sophong}"></td>
+                    <td data-label="Kiểu Phòng"  th:text="${detail.room.roomtype.name}"></td>
+                    <td data-label="Tổng" th:text="${detail.total}"></td>
+                    <td data-label="Giá" th:text="${detail.price}"></td>
+                    <td data-label="Checkin" th:text="${#dates.format(detail.checkin, 'dd-MM-yyyy')}"></td>
+                    <td data-label="Checkout" th:text="${#dates.format(detail.checkout, 'dd-MM-yyyy')}"></td>
+                    <td data-label="Người lớn" th:text="${detail.adult}"></td>
+                    <td data-label="Trẻ em" th:text="${detail.children}"></td>
+                    <td data-label="Phương thức thanh toán">
         <span th:if="${detail.paymentMethod == 'cash'}">Tiền mặt</span>
         <span th:if="${detail.paymentMethod == 'transfer'}">Chuyển khoản</span>
     </td>
-                   <td>
+                   <td data-label="Trạng thái thanh toán"> 
     					<select th:name="'paymentStatus[' + ${detail.id} + ']'" >
       					  <option value="notpayment" th:selected="${detail.paymentStatus == 'notpayment'}" class="notpayment">Chưa thanh toán</option>
        					 <option value="paid" th:selected="${detail.paymentStatus == 'paid'}" class="paid">Đã thanh toán</option>
        					  <option value="return" th:selected="${detail.paymentStatus == 'return'}" class="return">Hoàn trả</option>
    						 </select>
 				   </td>
-					<td>
+					<td data-label="Trạng thái phòng">
 			   			 <select th:name="'roomStatus[' + ${detail.id} + ']'">
 			        <option value="notcheckin" th:selected="${detail.bookDetailStatus == 'notcheckin'}" class="notcheckin">Not Checkin</option>
 			        <option value="check-in" th:selected="${detail.bookDetailStatus == 'check-in'}" class="check-in">Check-in</option>
@@ -214,20 +247,18 @@ background-color: #d9b44a;
 			        <option value="cancel" th:selected="${detail.bookDetailStatus == 'cancel'}" class="cancel">Cancel</option>
 			    </select>
 				</td>
-				<td th:text="${detail.updatedBy}"></td>
-				<td th:text="${detail.updatedAt}"></td>
+				<td data-label="Người cập nhật" th:text="${detail.updatedBy}"></td>
+				<td data-label="Thời gian cập nhật" th:text="${detail.updatedAt}"></td>
                 </tr>
-            </tbody>
-        </table>
-        <input type="hidden" name="bookCode" th:value="${book.bookCode}" />
-        <button type="submit">Cập nhật tất cả</button>
-        
-    </form>
+        </tbody>
+    </table>
+    </div>
 </div>
 
 
-
 </div>
+
 <div th:replace="~{access/error :: footer}"></div>
+
 </body>
 </html>

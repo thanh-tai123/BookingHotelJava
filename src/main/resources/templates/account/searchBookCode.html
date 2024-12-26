@@ -118,6 +118,52 @@ background-color: #d9b44a;
     padding: 8px 12px;
     text-align: center;
 }
+
+
+.table thead th {
+    white-space: nowrap; /* Prevent header text from wrapping */
+}
+
+.table td, .table th {
+    text-align: center; /* Align text for better readability */
+}
+
+@media (max-width: 768px) {
+    .horizontal-info-table th, .horizontal-info-table td {
+        font-size: 12px; /* Smaller text for small screens */
+        padding: 5px; /* Adjust padding */
+    }
+}
+@media (max-width: 768px) {
+    table.table {
+        border: 0;
+    }
+
+    table.table thead {
+        display: none; /* Hide the header */
+    }
+
+    table.table tr {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    table.table td {
+        display: block;
+        text-align: right; /* Align the content */
+        font-size: 12px;
+        padding: 5px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    table.table td::before {
+        content: attr(data-label); /* Add labels using `data-label` */
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -151,7 +197,7 @@ background-color: #d9b44a;
      <input  name="txtTo" th:value="${book.user.email}"/>
         <input name="txtCC" th:value="${book.user.email}"/> -->
     <h3>Chi tiết Book:</h3>
-
+	<div class="table-responsive">
     <table class="table">
         <thead>
         <tr>
@@ -175,19 +221,19 @@ background-color: #d9b44a;
         <tbody th:with="content='Chi tiết đặt phòng:\n'">
         <tr th:each="detail : ${bookDetails}">
 
-            <td th:text="${detail.room.sophong}"></td>
-            <td th:text="${detail.room.roomtype.name}"></td>
-            <td th:text="${detail.total}"></td>
-            <td th:text="${detail.price}"></td>
-            <td th:text="${#dates.format(detail.checkin, 'dd-MM-yyyy')}"></td>
-            <td th:text="${#dates.format(detail.checkout, 'dd-MM-yyyy')}"></td>
-            <td th:text="${detail.adult}"></td>
-            <td th:text="${detail.children}"></td>
-            <td>
+            <td data-label="Số Phòng" th:text="${detail.room.sophong}"></td>
+             <td data-label="Kiểu Phòng" th:text="${detail.room.roomtype.name}"></td>
+             <td data-label="Tổng" th:text="${detail.total}"></td>
+             <td data-label="Giá" th:text="${detail.price}"></td>
+             <td data-label="Checkin" th:text="${#dates.format(detail.checkin, 'dd-MM-yyyy')}"></td>
+    <td data-label="Checkout" th:text="${#dates.format(detail.checkout, 'dd-MM-yyyy')}"></td>
+    <td data-label="Người lớn" th:text="${detail.adult}"></td>
+    <td data-label="Trẻ em" th:text="${detail.children}"></td>
+            <td data-label="Phương thức thanh toán">
        <h4><span th:if="${detail.paymentMethod == 'cash'}" class="badge badge-primary">TIỀN MẶT</span>
         <span th:if="${detail.paymentMethod == 'transfer'}" class="badge badge-info">CHUYỂN KHOẢN</span></h4> 
     </td>
-    <td>
+    <td data-label="Trạng thái thanh toán">
     <h4>
     <span th:if="${detail.paymentStatus == 'notpayment'}" class="badge badge-danger">CHƯA THANH TOÁN</span>
         <span th:if="${detail.paymentStatus == 'paid'}" class="badge badge-success">ĐÃ THANH TOÁN</span>
@@ -195,7 +241,7 @@ background-color: #d9b44a;
     </h4>
         
     </td>
-            <td>
+            <td data-label="Trạng thái phòng"> 
             <h4>
              <span th:if="${detail.BookDetailStatus =='notcheckin'}" class="badge badge-warning">NOT CHECK IN</span>
              <span th:if="${detail.BookDetailStatus =='check-in'}" class="badge badge-primary">CHECK IN</span>
@@ -212,6 +258,7 @@ background-color: #d9b44a;
         </tr>
         </tbody>
     </table>
+    </div>
 </div>
 
 <form th:action="@{/mailer/send}" method="post">

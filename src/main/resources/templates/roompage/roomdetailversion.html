@@ -260,12 +260,17 @@
     font-weight: bold; /* Bolding cho giá hiện tại */
     color: #28a745; /* Màu xanh lá cây cho giá hiện tại */
 }
+@media (max-width:768px){
+.room-info{
+margin-left:100px;
+}
+}
     </style>
 </head>
 <body>
 <div th:replace="~{access/nav1 :: html}"></div>
 <div class="container ">
-    <div class="row room-info" style="margin-top: 200px">
+    <div class="row room-info" style="margin-top: 200px; margin-left:1px">
         <div class="col-md-4">
             <img style="height: 400px ; border-radius: 10%;" alt="Image of a deluxe twin room with city view" class="img-fluid" height="500" th:src="${room.img}" width="400" />
             <ul class="image-gallery list-inline">
@@ -389,7 +394,7 @@
             </div>
             <div class="card">
                 <div class="card-header">
-                    <h5>Dịch vụ khác</h5>
+                    Dịch vụ khác
                 </div>
                 <div class="card-body amenities">
                     <div><i  class="fas fa-check" style="font-size:24px; padding:5px" th:each="service : ${services}" th:text="${service.myService.name}"></i> </div>

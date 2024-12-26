@@ -63,7 +63,9 @@
             border-radius: 5px;
             cursor: pointer;
         }
-
+		
+		
+		
         .search-form button:hover {
             background-color: white;
             color: #c09b5a;
@@ -76,6 +78,8 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            height:40px;
+            margin-top:20px;
         }
         #filterForm button:hover{
             background-color: white;
@@ -464,6 +468,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border-radius: 5px;
     padding: 5px; /* Khoảng cách cho biểu tượng */
 }
+ @media (max-width: 576px) {
+        #filterForm {
+            padding: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+    }
     </style>
 </head>
 <body>
@@ -499,43 +512,43 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         </form>
     </div>
 
+ <div class="filter">
+    <form action="#" th:action="@{/room/filter}" method="get" id="filterForm" class="container-fluid">
 
-    <form action="#" th:action="@{/room/filter}" method="get" id="filterForm">
-
-        <div class="d-flex">
-            <div class="form-group mb-3 mx-5">
+    <div class="d-flex flex-wrap justify-content-center gap-3">
+        <div class="col-12 col-md-4 mb-3">
+            <div class="form-group">
                 <label for="roomtype" th:text="#{body.roomType}"></label>
                 <select id="roomtype" name="roomtype" class="form-control">
-
-                    <!--                 <option value="Tất cả">Tất cả</option> -->
                     <option value="" th:text="#{body.all}"></option>
                     <option th:each="roomType : ${roomTypes}"
                             th:value="${roomType.name}"
                             th:text="${roomType.name}"
-                            th:selected="${roomType.name == roomtype}"></option> <!-- Đảm bảo rằng roomtype được chọn đúng -->
+                            th:selected="${roomType.name == roomtype}"></option>
                 </select>
             </div>
-
-            <!-- Bộ lọc giá -->
-            <div class="form-group mb-3">
-                <label for="priceRange" th:text="#{body.price}">:</label>
-                <select id="priceRange" name="priceRange" class="form-control">
-                    <option value="Tất cả" th:text="#{body.all}"></option>
-                    <option th:each="price : ${priceRanges}"
-                            th:value="${price}"
-                            th:text="${price}"th:selected="${price == priceRange}"></option> <!-- Đảm bảo rằng priceRange được chọn đúng -->
-                </select>
-            </div >
-            <div class="ms-auto" style="margin-right: 157px">
-                <button  type="submit"  class="btn btn-primary ms-5 " th:text="#{body.filter}"></button>
-            </div>
-
-
         </div>
 
-        <!--         <button type="submit" class="btn btn-primary">Lọc</button> -->
-    </form>
+        <div class="col-12 col-md-4 mb-3">
+            <div class="form-group">
+                <label for="priceRange" th:text="#{body.price}">:</label>
+                <select id="priceRange" name="priceRange" class="form-control">
+                    <option value="" th:text="#{body.all}"></option>
+                    <option th:each="price : ${priceRanges}"
+                            th:value="${price}"
+                            th:text="${price}"
+                            th:selected="${price == priceRange}"></option>
+                </select>
+            </div>
+        </div>
 
+     
+            <button type="submit" class="btn btn-primary" th:text="#{body.filter}"></button>
+           
+        </div>
+   
+</form>
+</div>
 
     <!-- Hiển thị thông báo nếu không có phòng -->
     <div th:if="${message != null}">
@@ -558,7 +571,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                      -->
 
                     <p class="card-text fas fa-eye"> <span th:text="${visitCounts[r.id] != null ? visitCounts[r.id] : 0}">0</span></p> <!-- Kiểm tra giá trị visitCounts[r.id] -->
-					<p class="card-text" style="margin-left:270px; margin-top:-30px">
+					<p class="card-text" style="margin-left:230px; margin-top:-30px">
     <i class="fas fa-door-closed" style="margin-right: 5px;"><span th:text="${r.sophong}"></span></i>
     
 </p>
