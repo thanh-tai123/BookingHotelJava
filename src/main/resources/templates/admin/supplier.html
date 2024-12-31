@@ -147,6 +147,87 @@ margin-left:490px;
     font-size: 16px; /* Kích thước chữ */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Đổ bóng */
 }
+/* Responsive Design for Mobile */
+@media (max-width: 768px) {
+    .room-form {
+        max-width: 100%; /* Form chiếm toàn bộ chiều rộng màn hình */
+        padding: 15px; /* Giảm padding */
+        margin: 10px; /* Giảm margin */
+    }
+
+    .form-row {
+        flex-direction: column; /* Xếp các trường thành cột dọc */
+    }
+
+    .form-group {
+        margin-right: 0; /* Xóa khoảng cách giữa các trường */
+        margin-bottom: 10px; /* Tăng khoảng cách giữa các hàng */
+    }
+
+    .room-form button {
+        width: 100%; /* Nút bấm chiếm toàn bộ chiều rộng */
+        padding: 12px; /* Tăng padding cho dễ bấm */
+    }
+
+    h1, h2 {
+        font-size: 18px; /* Giảm kích thước chữ tiêu đề */
+        margin-left: 0; /* Căn giữa tiêu đề */
+        text-align: center; /* Căn giữa văn bản */
+    }
+
+    .rooms-table {
+        font-size: 12px; /* Giảm kích thước chữ của bảng */
+    }
+
+    .rooms-table th, .rooms-table td {
+        padding: 5px; /* Giảm padding trong ô bảng */
+    }
+
+    .loading-message {
+        font-size: 14px; /* Giảm kích thước chữ thông báo */
+        top: 50%; /* Căn chỉnh thông báo */
+    }
+
+    /* Thêm thanh cuộn cho bảng khi màn hình nhỏ */
+    .rooms-table-wrapper {
+        overflow-x: auto; /* Cho phép cuộn ngang */
+        width: 100%; /* Bảng chiếm toàn bộ chiều rộng */
+        margin-top: 20px; /* Khoảng cách giữa bảng và các phần tử khác */
+    }
+
+    .rooms-table {
+        display: block; /* Đảm bảo bảng là khối để cuộn ngang */
+        width: 100%; /* Chiếm toàn bộ chiều rộng */
+        border-collapse: collapse; /* Gộp các đường viền */
+    }
+    .rooms-table-wrapper {
+        max-height: 300px; /* Chiều cao tối đa của bảng */
+        overflow-y: auto; /* Cho phép cuộn dọc */
+        border: 1px solid #ddd; /* Viền cho bảng */
+    }
+
+    .rooms-table {
+        width: 100%; /* Bảng chiếm toàn bộ chiều rộng */
+        border-collapse: collapse; /* Gộp các đường viền */
+        text-align: left; /* Căn trái văn bản */
+    }
+
+    .rooms-table th,
+    .rooms-table td {
+        padding: 10px; /* Khoảng cách nội dung trong ô */
+        border-bottom: 1px solid #ddd; /* Đường viền dưới ô */
+        white-space: nowrap; /* Ngăn văn bản xuống dòng */
+    }
+
+    .rooms-table th {
+        background-color: #f4f4f4; /* Màu nền tiêu đề */
+        position: sticky; /* Tiêu đề cố định khi cuộn */
+        top: 0; /* Vị trí của tiêu đề */
+        z-index: 1; /* Đảm bảo tiêu đề luôn ở trên */
+    }
+
+}
+
 </style>
 <body >
 
@@ -238,6 +319,7 @@ margin-left:490px;
     <option value="CANCEL" class="status-cancel">HỦY</option>
     <option value="TRUE" class="status-confirmed">XÁC NHẬN</option>
 </select>
+    <div class="rooms-table-wrapper">
 
 <table class="rooms-table">
     <thead>
@@ -274,6 +356,7 @@ margin-left:490px;
         </tr>
     </tbody>
 </table>
+        </div>
 </div>
 
 <script>

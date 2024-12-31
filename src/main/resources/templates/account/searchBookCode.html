@@ -5,9 +5,8 @@
     <title>NHẬP BookCode</title>
     <link rel="icon" href="https://lavelasaigon.com/wp-content/uploads/2023/01/main-logo.png" type="image/png">
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-   
-    <style>
 
+    <style>
 
         h1 {
             color: #333;
@@ -46,9 +45,9 @@
         }
 
         button:hover {
-             background-color: white;
+            background-color: white;
             color: #c09b5a;
-           
+
             border:1px solid #c09b5a;
         }
 
@@ -90,79 +89,79 @@
         .container {
             padding: 30px;
         }
-          .horizontal-info-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    font-size: 16px;
-    text-align: left;
-}
+        .horizontal-info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 16px;
+            text-align: left;
+        }
 
-.horizontal-info-table th, .horizontal-info-table td{
-    border: 1px solid #dddddd;
-    padding: 8px 12px;
-    text-align: center;
-}
+        .horizontal-info-table th, .horizontal-info-table td{
+            border: 1px solid #dddddd;
+            padding: 8px 12px;
+            text-align: center;
+        }
 
-.horizontal-info-table th {
-    background-color: #d9b44a;
-    font-weight: bold;
-}
-.table thead th{
-background-color: #d9b44a;
- padding: 8px 12px;
-    text-align: center;
-}
-.table td{
-  border: 1px solid #dddddd;
-    padding: 8px 12px;
-    text-align: center;
-}
+        .horizontal-info-table th {
+            background-color: #d9b44a;
+            font-weight: bold;
+        }
+        .table thead th{
+            background-color: #d9b44a;
+            padding: 8px 12px;
+            text-align: center;
+        }
+        .table td{
+            border: 1px solid #dddddd;
+            padding: 8px 12px;
+            text-align: center;
+        }
 
 
-.table thead th {
-    white-space: nowrap; /* Prevent header text from wrapping */
-}
+        .table thead th {
+            white-space: nowrap; /* Prevent header text from wrapping */
+        }
 
-.table td, .table th {
-    text-align: center; /* Align text for better readability */
-}
+        .table td, .table th {
+            text-align: center; /* Align text for better readability */
+        }
 
-@media (max-width: 768px) {
-    .horizontal-info-table th, .horizontal-info-table td {
-        font-size: 12px; /* Smaller text for small screens */
-        padding: 5px; /* Adjust padding */
-    }
-}
-@media (max-width: 768px) {
-    table.table {
-        border: 0;
-    }
+        @media (max-width: 768px) {
+            .horizontal-info-table th, .horizontal-info-table td {
+                font-size: 12px; /* Smaller text for small screens */
+                padding: 5px; /* Adjust padding */
+            }
+        }
+        @media (max-width: 768px) {
+            table.table {
+                border: 0;
+            }
 
-    table.table thead {
-        display: none; /* Hide the header */
-    }
+            table.table thead {
+                display: none; /* Hide the header */
+            }
 
-    table.table tr {
-        display: block;
-        margin-bottom: 10px;
-    }
+            table.table tr {
+                display: block;
+                margin-bottom: 10px;
+            }
 
-    table.table td {
-        display: block;
-        text-align: right; /* Align the content */
-        font-size: 12px;
-        padding: 5px;
-        border-bottom: 1px solid #ddd;
-    }
+            table.table td {
+                display: block;
+                text-align: right; /* Align the content */
+                font-size: 12px;
+                padding: 5px;
+                border-bottom: 1px solid #ddd;
+            }
 
-    table.table td::before {
-        content: attr(data-label); /* Add labels using `data-label` */
-        float: left;
-        font-weight: bold;
-        text-transform: uppercase;
-    }
-}
+            table.table td::before {
+                content: attr(data-label); /* Add labels using `data-label` */
+                float: left;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+        }
 
     </style>
 </head>
@@ -197,7 +196,8 @@ background-color: #d9b44a;
      <input  name="txtTo" th:value="${book.user.email}"/>
         <input name="txtCC" th:value="${book.user.email}"/> -->
     <h3>Chi tiết Book:</h3>
-	<div class="table-responsive">
+    <div class="table">
+
     <table class="table">
         <thead>
         <tr>
@@ -222,26 +222,27 @@ background-color: #d9b44a;
         <tr th:each="detail : ${bookDetails}">
 
             <td data-label="Số Phòng" th:text="${detail.room.sophong}"></td>
-             <td data-label="Kiểu Phòng" th:text="${detail.room.roomtype.name}"></td>
-             <td data-label="Tổng" th:text="${detail.total}"></td>
-             <td data-label="Giá" th:text="${detail.price}"></td>
-             <td data-label="Checkin" th:text="${#dates.format(detail.checkin, 'dd-MM-yyyy')}"></td>
-    <td data-label="Checkout" th:text="${#dates.format(detail.checkout, 'dd-MM-yyyy')}"></td>
-    <td data-label="Người lớn" th:text="${detail.adult}"></td>
-    <td data-label="Trẻ em" th:text="${detail.children}"></td>
+            <td data-label="Kiểu Phòng" th:text="${detail.room.roomtype.name}"></td>
+            <td data-label="Tổng" th:text="${detail.total}"></td>
+            <td data-label="Giá" th:text="${detail.price}"></td>
+            <td data-label="Checkin" th:text="${#dates.format(detail.checkin, 'dd-MM-yyyy')}"></td>
+            <td data-label="Checkout" th:text="${#dates.format(detail.checkout, 'dd-MM-yyyy')}"></td>
+            <td data-label="Người lớn" th:text="${detail.adult}"></td>
+            <td data-label="Trẻ em" th:text="${detail.children}"></td>
             <td data-label="Phương thức thanh toán">
        <h4><span th:if="${detail.paymentMethod == 'cash'}" class="badge badge-primary">TIỀN MẶT</span>
         <span th:if="${detail.paymentMethod == 'transfer'}" class="badge badge-info">CHUYỂN KHOẢN</span></h4> 
     </td>
+
     <td data-label="Trạng thái thanh toán">
-    <h4>
-    <span th:if="${detail.paymentStatus == 'notpayment'}" class="badge badge-danger">CHƯA THANH TOÁN</span>
+    <h4 >
+        <span th:if="${detail.paymentStatus == 'notpayment'}" class="badge badge-danger">CHƯA THANH TOÁN</span>
         <span th:if="${detail.paymentStatus == 'paid'}" class="badge badge-success">ĐÃ THANH TOÁN</span>
         <span th:if="${detail.paymentStatus == 'return'}" class="badge badge-secondary">HOÀN TIỀN</span>
     </h4>
-        
+
     </td>
-            <td data-label="Trạng thái phòng"> 
+            <td data-label="Trạng thái phòng">
             <h4>
              <span th:if="${detail.BookDetailStatus =='notcheckin'}" class="badge badge-warning">NOT CHECK IN</span>
              <span th:if="${detail.BookDetailStatus =='check-in'}" class="badge badge-primary">CHECK IN</span>
