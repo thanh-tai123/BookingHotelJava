@@ -67,13 +67,27 @@
 .table-bordered tbody tr:nth-child(even) {
     background-color: #d9c18d; /* Màu tối hơn một chút */
 }
-        
+
+        .container1{
+            margin-left: 265px;
+        }
+
+        @media(max-width: 768px){
+            .container1{
+                margin-left: 0px;
+            }
+            h1{
+               margin-left: 150px;
+            }
+        }
     </style>
 
 </head>
 <body style="background-color: #f0f0f0">
 <div th:replace="layout/menudoc :: html"></div>
-<div class="container mt-5" style="margin-left:380px">
+
+<div class="container1">
+<div class="container mt-5">
     <h1 class="text-center">QUẢN LÍ GIẢM GIÁ PHÒNG</h1>
      <a href="/discounts/new" class="btn btn-primary mb-3">THÊM PHÒNG GIẢM GIÁ</a>
     <table class="table table-bordered">
@@ -103,7 +117,7 @@
         </tr>
         </tbody>
     </table>
-  
+</div>
 </div>
 </body>
 </html>
