@@ -7,6 +7,8 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+
+
         }
 
 
@@ -19,7 +21,7 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Đổ bóng đen */
             max-width: 100%; /* Chiều rộng tối đa 100% */
             width: auto; /* Chiều rộng tự động */
-			
+
             /*background-color: #f8f9fa;*/
             /*border-radius: 10px;*/
             /*padding: 15px;*/
@@ -180,6 +182,13 @@
             .row {
                 flex-direction: column;
             }
+
+
+            body{
+                margin-left: -335px;
+            }
+
+
         }
 
         .list-inline-item {
@@ -244,15 +253,25 @@
             width: 40px;
             height: 40px;
         }
-		
-		
+
+
+
+        .container1{
+            margin-left: 275px;
+        }
+
+        @media(max-width: 768px){
+            .container1{
+                margin-left: 24px;
+            }
+        }
     </style>
 </head>
 <body>
 <div th:replace="~{layout/menudoc :: html}"></div>
-
-<div class="container " style="margin-left: 400px">
-    <div class="row room-info" style="margin-top: 200px">
+<div class="container1">
+<div class="container ">
+    <div class="row room-info" style="margin-top: 20px">
         <div class="col-md-4">
             <img style="height: 400px ; border-radius: 10%;" alt="Image of a deluxe twin room with city view" class="img-fluid" height="500" th:src="${room.img}" width="400" />
             <ul class="image-gallery list-inline">
@@ -422,6 +441,7 @@
             <button type="button" class="btn btn-outline-secondary" onclick="showTextarea('cancelForm')" style="background-color: #c09b5a; color:white">Hủy</button>
         </div>
     </div>
+</div>
 </div>
 </div>
 
