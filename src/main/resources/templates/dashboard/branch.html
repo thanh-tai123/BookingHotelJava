@@ -8,19 +8,48 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* Thêm CSS nếu cần thiết */
+        
+       .container {
+    max-width: 400px; 
+    margin: auto; 
+    font-size: 0.9rem; 
+}
+h2{
+ margin-left:450px;
+}
+
+.form-group label {
+    font-size: 0.85rem; 
+     margin-left:380px;
+}
+
+.form-group input {
+    padding: 0.4rem; 
+    font-size: 0.85rem; 
+    width: 50%; 
+     margin-left:380px;
+}
+
+canvas#roomCountChart {
+    max-width: 80%; 
+    height: auto;
+    margin-left:250px; 
+}
+
+        
     </style>
 </head>
 <body>
 <div th:replace="~{layout/menudoc :: html}"></div>
-    <div class="container mt-5">
-        <h2>Doanh thu theo Chi nhánh</h2>
-        <div class="form-group">
-            <label for="year">Chọn Năm:</label>
-            <input type="number" id="year" ng-model="year" ng-change="getRevenueData(year)" min="1900" max="2100" class="form-control" required />
-        </div>
-        <canvas id="roomCountChart" width="400" height="200"></canvas>
+<div class="container mt-5">
+    <h2>Doanh thu theo Chi nhánh</h2>
+    <div class="form-group">
+        <label for="year">Chọn Năm:</label>
+        <input type="number" id="year" ng-model="year" ng-change="getRevenueData(year)" min="1900" max="2100" class="form-control" required />
     </div>
+    <canvas id="roomCountChart" width="200" height="100"></canvas>
+</div>
+
 
     <script>
         var app = angular.module('revenueApp', []);
