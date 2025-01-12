@@ -16,7 +16,7 @@ public class QdrantConfig {
 	public QdrantClient qdrantClient() {
 		QdrantGrpcClient.Builder grpClientBuilder = QdrantGrpcClient
 				.newBuilder("d9da0b5b-57d5-4681-9e4a-5117e4b62985.us-east4-0.gcp.cloud.qdrant.io", 6334, true); //
-		grpClientBuilder.withApiKey(""); // API KEY
+		grpClientBuilder.withApiKey("4TyhFBBoDaYU-pF3rK_gnSSGuka2lYuR8gHTROCLuYap7KiQjgr6LA"); // API KEY
 		return new QdrantClient(grpClientBuilder.build());
 	}
 
